@@ -1,0 +1,24 @@
+<map id="nuclear_heating::nuclear_heating_init" name="nuclear_heating::nuclear_heating_init">
+<area shape="rect" id="node1" title="Nuclear heating initialization routine." alt="" coords="5,94,167,135"/>
+<area shape="rect" id="node2" href="$namespaceerror__msg__class.html#a7e065585cc806a5c264de1f088266498" title="Converts a given integer to a string." alt="" coords="1037,43,1176,85"/>
+<area shape="rect" id="node3" href="$namespacefile__handling__class.html#aeddf55e8478d6220dc04310665427c3a" title="Shorthand for opening a new file for writing (output file)" alt="" coords="431,69,562,110"/>
+<area shape="rect" id="node5" href="$namespaceerror__msg__class.html#a2453d3b7cb363115c046840baa1dfb75" title="Raise a exception with a given error message." alt="" coords="834,102,986,143"/>
+<area shape="rect" id="node6" href="$namespacenuclear__heating.html#a5fbc945737d0f3819fc9d64fac54a7d6" title="Output the heating fractions to a debug file." alt="" coords="215,94,369,135"/>
+<area shape="rect" id="node7" href="$namespacenuclear__heating.html#a639dbc88ab46216dff0ab000dbc81e9f" title="Initialize the entrop and temperature for the heating." alt="" coords="219,237,365,278"/>
+<area shape="rect" id="node4" href="$namespacefile__handling__class.html#af02196bd5eaf70ecd5ab4cc650094d5e" title="Finds the next unused unit number." alt="" coords="638,43,769,85"/>
+<area shape="rect" id="node8" href="$namespaceerror__msg__class.html#a5bc9f3b670b725cc43276934b867d801" title="Converts a given real to a string with format &quot;(1pE10.2)&quot;." alt="" coords="422,262,571,303"/>
+<area shape="rect" id="node9" href="$namespacels__timmes__eos__module.html#a7f522fa32c0a061060a07863c7a8b05c" title=" " alt="" coords="417,327,576,369"/>
+<area shape="rect" id="node10" href="$namespacels__timmes__eos__module.html#ac68ea6710f5164f7f29454fa4ffa6dcb" title=" " alt="" coords="624,269,783,310"/>
+<area shape="rect" id="node11" href="$namespacels__timmes__eos__module.html#a6da1e3b6ba3967536745de1073565b65" title=" " alt="" coords="831,327,989,369"/>
+<area shape="rect" id="node22" href="$namespacels__timmes__eos__module.html#afd98ff063885638aaa5922c04fb9d6a9" title=" " alt="" coords="624,386,783,427"/>
+<area shape="rect" id="node12" href="$eosfxt_8f.html#a7472b49a95882a089dc0b8e75b1abbfa" title=" " alt="" coords="1078,335,1135,361"/>
+<area shape="rect" id="node13" href="$eosfxt_8f.html#a4dd7b4a9689e75b5ee0f56fcf260b461" title=" " alt="" coords="1224,284,1295,311"/>
+<area shape="rect" id="node15" href="$eosfxt_8f.html#a40e1707c6481e6f394d33c9de7744a80" title=" " alt="" coords="1229,335,1290,361"/>
+<area shape="rect" id="node16" href="$eosfxt_8f.html#ac215ef28344d8bf47b95d146f191fc74" title=" " alt="" coords="1227,385,1291,412"/>
+<area shape="rect" id="node14" href="$quadpack__module_8f90.html#aada5a652920db442d627f1ca24ff25d7" title="Further information: http://netlib.org/quadpack/index.html https://orion.math.iastate...." alt="" coords="1353,309,1391,336"/>
+<area shape="rect" id="node17" href="$eosfxt_8f.html#a5b92245336ba39f5012975d91948205f" title=" " alt="" coords="1343,385,1401,412"/>
+<area shape="rect" id="node18" href="$eosfxt_8f.html#abbb1b60c825d972dc00fe1f268f93f86" title=" " alt="" coords="1449,309,1524,336"/>
+<area shape="rect" id="node19" href="$eosfxt_8f.html#a6cbbc7f07cffb75f5efaf893d547852f" title=" " alt="" coords="1449,360,1524,387"/>
+<area shape="rect" id="node20" href="$eosfxt_8f.html#a9d9951640d440972fe5298fdd5d70c10" title=" " alt="" coords="1454,411,1519,437"/>
+<area shape="rect" id="node21" href="$eosfxt_8f.html#ae834089002139b7a18c24a337f6ff90a" title=" " alt="" coords="1454,461,1519,488"/>
+</map>

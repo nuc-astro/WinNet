@@ -1,0 +1,17 @@
+<map id="parser_module::evaluate" name="parser_module::evaluate">
+<area shape="rect" id="node1" title="Evaluate a complex string expression." alt="" coords="5,266,168,292"/>
+<area shape="rect" id="node2" href="$namespaceparser__module.html#ad50643e6694300972743edc44679fbf7" title="Function to perform a function operations." alt="" coords="225,16,362,57"/>
+<area shape="rect" id="node5" href="$namespaceparser__module.html#ae4ed3c6a08e74ffd03282ee7c30d8194" title="Evaluate a simple string expression, without brackets and functions." alt="" coords="228,168,359,209"/>
+<area shape="rect" id="node10" href="$namespaceparser__module.html#a4b73870fbca7e3195b5d1efc61c3f039" title="Function to decide whether a character is a number or not (i.e., 0&#45;9)." alt="" coords="216,266,371,292"/>
+<area shape="rect" id="node11" href="$namespaceparser__module.html#af9cbf87119ef07db357b3240c716e462" title="Function to decide whether a character is a mathematical operator or not. Functions (as e...." alt="" coords="422,316,599,343"/>
+<area shape="rect" id="node12" href="$namespaceparser__module.html#a3441e2e009e491fac044cc02bc9b144d" title="Store mathematical operators (+&#45;*/) and numbers in arrays." alt="" coords="222,393,365,434"/>
+<area shape="rect" id="node3" href="$namespaceerror__msg__class.html#a2453d3b7cb363115c046840baa1dfb75" title="Raise a exception with a given error message." alt="" coords="651,134,803,176"/>
+<area shape="rect" id="node4" href="$namespaceerror__msg__class.html#a7e065585cc806a5c264de1f088266498" title="Converts a given integer to a string." alt="" coords="851,134,989,176"/>
+<area shape="rect" id="node6" href="$namespaceparser__module.html#a2cfd49c431619a7d7ded68e9f89bee70" title="Function to decide whether a character is &quot;*&quot; or &quot;/&quot;." alt="" coords="437,69,585,110"/>
+<area shape="rect" id="node7" href="$namespaceparser__module.html#ae2806c52d9868da3855d28c188a1679e" title="Function to decide whether a character is a &quot;+&quot; or &quot;&#45;&quot;." alt="" coords="435,134,586,176"/>
+<area shape="rect" id="node8" href="$namespaceparser__module.html#a55c1c7aac46e95ec6634aa8a514a90b0" title="Function to decide whether a character is a &quot;^&quot;." alt="" coords="428,200,593,241"/>
+<area shape="rect" id="node9" href="$namespaceparser__module.html#a2040007bd269f7920bcfee6840eb41de" title="Function to perform a simple mathematical operation." alt="" coords="427,266,594,292"/>
+<area shape="rect" id="node13" href="$namespaceparser__module.html#ad490bd346a873a280de4d7d6f343d588" title="Function to define constants." alt="" coords="429,418,592,460"/>
+<area shape="rect" id="node14" href="$namespaceparser__module.html#a7d1134a2461b12dc17514a1970d6b00b" title="Function to decide whether a character can be associated with a number." alt="" coords="419,484,603,511"/>
+<area shape="rect" id="node15" href="$namespaceparser__module.html#afbaa22752e33bc2ac2a3437adb34ea52" title="Subroutine to check the parsing string for consistency and correct it." alt="" coords="438,536,583,577"/>
+</map>

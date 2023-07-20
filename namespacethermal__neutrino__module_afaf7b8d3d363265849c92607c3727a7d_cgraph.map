@@ -1,0 +1,5 @@
+<map id="thermal_neutrino_module::thermal_neutrinos" name="thermal_neutrino_module::thermal_neutrinos">
+<area shape="rect" id="node1" title="Calculates the neutrino emissivity." alt="" coords="5,5,172,47"/>
+<area shape="rect" id="node2" href="$sneut5_8f90.html#a25bf8d2fb646c098416e9fbd1738cf1c" title=" " alt="" coords="220,13,303,39"/>
+<area shape="rect" id="node3" href="$quadpack__module_8f90.html#aada5a652920db442d627f1ca24ff25d7" title="Further information: http://netlib.org/quadpack/index.html https://orion.math.iastate...." alt="" coords="351,13,389,39"/>
+</map>

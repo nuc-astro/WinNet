@@ -1,0 +1,6 @@
+<map id="screening_module::screening_kravchuk_yakovlev" name="screening_module::screening_kravchuk_yakovlev">
+<area shape="rect" id="node1" title="Screening function according to Kravchuk &amp; Yakovlev (2014)" alt="" coords="5,39,195,80"/>
+<area shape="rect" id="node2" href="$namespacescreening__module.html#ac47a2ea316ab70a8f86f5c2dad084afb" title="Free energy according to parametrization of Kravchuk and Yakovlev." alt="" coords="243,5,428,47"/>
+<area shape="rect" id="node3" href="$namespaceerror__msg__class.html#a2453d3b7cb363115c046840baa1dfb75" title="Raise a exception with a given error message." alt="" coords="259,71,411,112"/>
+<area shape="rect" id="node4" href="$namespaceerror__msg__class.html#a7e065585cc806a5c264de1f088266498" title="Converts a given integer to a string." alt="" coords="476,71,615,112"/>
+</map>

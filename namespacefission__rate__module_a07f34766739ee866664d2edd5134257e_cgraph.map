@@ -1,0 +1,6 @@
+<map id="fission_rate_module::abla_nfiss" name="fission_rate_module::abla_nfiss">
+<area shape="rect" id="node1" title="Calculates the (neutron&#45;induced) fission fragment mass distribution according to the ABLA07 model: Ke..." alt="" coords="5,27,143,69"/>
+<area shape="rect" id="node2" href="$namespacebenam__class.html#ad2f566697809a5731e560509d2ca7062" title="Finds an isotope index in the network table, given its A and Z. In case it was not found,..." alt="" coords="197,5,336,32"/>
+<area shape="rect" id="node3" href="$namespaceerror__msg__class.html#a2453d3b7cb363115c046840baa1dfb75" title="Raise a exception with a given error message." alt="" coords="191,57,343,98"/>
+<area shape="rect" id="node4" href="$namespaceerror__msg__class.html#a7e065585cc806a5c264de1f088266498" title="Converts a given integer to a string." alt="" coords="391,57,529,98"/>
+</map>

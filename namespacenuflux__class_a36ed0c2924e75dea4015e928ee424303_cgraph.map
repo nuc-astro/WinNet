@@ -1,0 +1,8 @@
+<map id="nuflux_class::readnucs" name="nuflux_class::readnucs">
+<area shape="rect" id="node1" title="Reads neutrino&#45;nuclei reaction file." alt="" coords="5,85,157,112"/>
+<area shape="rect" id="node2" href="$namespacebenam__class.html#ad20c821347dd5f7c08dff59c98e69657" title="Returns the index number of isotope &#39;name&#39;." alt="" coords="209,5,353,32"/>
+<area shape="rect" id="node3" href="$namespacebenam__class.html#aef0b2a649260779b20729f29b8ec4a67" title="Identifies the nuclide names and indices corresponding to z,n combinations (z1,n1),..." alt="" coords="215,56,348,83"/>
+<area shape="rect" id="node4" href="$namespaceerror__msg__class.html#a7e065585cc806a5c264de1f088266498" title="Converts a given integer to a string." alt="" coords="212,107,351,149"/>
+<area shape="rect" id="node5" href="$namespaceerror__msg__class.html#a339dd5b38c125b6a04653762c94a91f2" title="Write data to the standard output (usually OUT)" alt="" coords="205,173,357,214"/>
+<area shape="rect" id="node6" href="$namespaceerror__msg__class.html#af62b9a0c5997255e792b9ebd7322a6a3" title="Write the header of the standard output (usually OUT)" alt="" coords="405,173,557,214"/>
+</map>

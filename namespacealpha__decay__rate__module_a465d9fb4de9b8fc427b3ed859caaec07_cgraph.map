@@ -1,0 +1,9 @@
+<map id="alpha_decay_rate_module::count_reactions" name="alpha_decay_rate_module::count_reactions">
+<area shape="rect" id="node1" title="Count the amount of possible alpha decays." alt="" coords="5,49,177,90"/>
+<area shape="rect" id="node2" href="$namespacebenam__class.html#ad20c821347dd5f7c08dff59c98e69657" title="Returns the index number of isotope &#39;name&#39;." alt="" coords="225,5,369,32"/>
+<area shape="rect" id="node3" href="$namespacebenam__class.html#ad2f566697809a5731e560509d2ca7062" title="Finds an isotope index in the network table, given its A and Z. In case it was not found,..." alt="" coords="228,56,367,83"/>
+<area shape="rect" id="node4" href="$namespacefile__handling__class.html#aab870caaf9cbaaf635d537708efbf793" title="Same for reading (input file)" alt="" coords="232,107,363,149"/>
+<area shape="rect" id="node5" href="$namespacefile__handling__class.html#af02196bd5eaf70ecd5ab4cc650094d5e" title="Finds the next unused unit number." alt="" coords="417,78,548,119"/>
+<area shape="rect" id="node6" href="$namespaceerror__msg__class.html#a2453d3b7cb363115c046840baa1dfb75" title="Raise a exception with a given error message." alt="" coords="596,107,748,149"/>
+<area shape="rect" id="node7" href="$namespaceerror__msg__class.html#a7e065585cc806a5c264de1f088266498" title="Converts a given integer to a string." alt="" coords="796,107,935,149"/>
+</map>

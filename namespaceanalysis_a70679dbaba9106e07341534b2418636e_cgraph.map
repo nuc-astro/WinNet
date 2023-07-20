@@ -1,0 +1,9 @@
+<map id="analysis::output_snapshot" name="analysis::output_snapshot">
+<area shape="rect" id="node1" title="Output Snapshot files." alt="" coords="5,42,176,69"/>
+<area shape="rect" id="node2" href="$namespaceanalysis.html#ac9ab478bfe69283db270208a87365ee9" title="Print current snapshot." alt="" coords="224,42,352,69"/>
+<area shape="rect" id="node3" href="$namespacefile__handling__class.html#a01ba26324d7662cc0fb2e0eb306cd3e2" title="Close an external file." alt="" coords="579,5,709,47"/>
+<area shape="rect" id="node6" href="$namespacefile__handling__class.html#aeddf55e8478d6220dc04310665427c3a" title="Shorthand for opening a new file for writing (output file)" alt="" coords="400,64,531,105"/>
+<area shape="rect" id="node4" href="$namespaceerror__msg__class.html#a7e065585cc806a5c264de1f088266498" title="Converts a given integer to a string." alt="" coords="957,35,1096,76"/>
+<area shape="rect" id="node5" href="$namespaceerror__msg__class.html#a2453d3b7cb363115c046840baa1dfb75" title="Raise a exception with a given error message." alt="" coords="757,64,909,105"/>
+<area shape="rect" id="node7" href="$namespacefile__handling__class.html#af02196bd5eaf70ecd5ab4cc650094d5e" title="Finds the next unused unit number." alt="" coords="579,123,709,164"/>
+</map>

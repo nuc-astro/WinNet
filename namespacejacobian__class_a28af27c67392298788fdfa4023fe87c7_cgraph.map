@@ -1,0 +1,32 @@
+<map id="jacobian_class::calculate_reaction_rate" name="jacobian_class::calculate_reaction_rate">
+<area shape="rect" id="node1" title="Subroutine to calculate the reaction rates." alt="" coords="5,396,172,437"/>
+<area shape="rect" id="node2" href="$namespacenucstuff__class.html#a54b0d5681c0193e0b2276911713242e9" title="A helper to compute powers of temperature used in the reaction rates." alt="" coords="238,5,374,47"/>
+<area shape="rect" id="node3" href="$namespacedetailed__balance.html#a4c2ebb1580b34cd40aca41258ba5c8b7" title="Calculate the inverse rate from the forward one via detailed balance." alt="" coords="657,121,834,163"/>
+<area shape="rect" id="node4" href="$namespaceerror__msg__class.html#a2453d3b7cb363115c046840baa1dfb75" title="Raise a exception with a given error message." alt="" coords="902,348,1054,389"/>
+<area shape="rect" id="node5" href="$namespaceerror__msg__class.html#a7e065585cc806a5c264de1f088266498" title="Converts a given integer to a string." alt="" coords="1117,551,1256,592"/>
+<area shape="rect" id="node6" href="$namespacenuflux__class.html#a6002e8efbcc88144d8963d3909aa49e9" title="Calculates the cross section times the neutrino flux." alt="" coords="231,307,381,348"/>
+<area shape="rect" id="node7" href="$namespacereaclib__rate__module.html#a531d2052a5c27ee57c14c22159d1fbfe" title="Calculate a reaclib rate." alt="" coords="234,71,378,112"/>
+<area shape="rect" id="node10" href="$namespacetabulated__rate__module.html#a8cd4cb35a24c56fffef12bff3e785906" title="Calculates the tabulated rate." alt="" coords="229,428,383,469"/>
+<area shape="rect" id="node12" href="$namespacetw__rate__module.html#ae35ff1052a8049df8ab31be3f7f0b777" title="Calculate the theoretical weak rate." alt="" coords="220,500,392,541"/>
+<area shape="rect" id="node24" href="$chem__pot_8f90.html#a6e7fb350a916bae49d8520394fca6414" title="Given a temperature temp [K], density den [g/cm**3], and a composition characterized by y_e,..." alt="" coords="270,373,342,399"/>
+<area shape="rect" id="node28" href="$namespacenucstuff__class.html#a7f6b5ddec08f9564638a58091e6940d7" title="Calculates partition function." alt="" coords="237,701,375,743"/>
+<area shape="rect" id="node29" href="$namespacescreening__module.html#a849df594c989d90443acad283ef41bfb" title="This function calculates the screening coefficients hv." alt="" coords="220,767,392,794"/>
+<area shape="rect" id="node30" href="$namespacetabulated__rate__module.html#ab39e3f09d54fc4b3f8baf09c5621f303" title="Set tab_index for a given temperature." alt="" coords="229,819,383,860"/>
+<area shape="rect" id="node8" href="$namespacebenam__class.html#a2e85786a53d55231776ae950b7b27953" title="Return a string to represent a given reaction." alt="" coords="447,67,597,108"/>
+<area shape="rect" id="node9" href="$namespacebenam__class.html#afd880df70f94c289b6bda0647f4494e3" title="Getter of net_names, translating indices to a nucleus name." alt="" coords="652,70,839,97"/>
+<area shape="rect" id="node11" href="$namespacetabulated__rate__module.html#a26734ac5f0837b48d072ef67dd82d002" title="Interpolate tabulated rates from the table." alt="" coords="445,431,599,472"/>
+<area shape="rect" id="node13" href="$namespaceeffphase__class.html#aa6f8c1dc7835aa0c93be9a61c90f9a36" title=" " alt="" coords="440,659,604,686"/>
+<area shape="rect" id="node19" href="$namespacetw__rate__module.html#aae7dacb01f31b31c10189432cc750156" title="Set wk_index for given T, &#160;and &#160;The index is written into module variable wk_index." alt="" coords="447,579,597,620"/>
+<area shape="rect" id="node21" href="$namespacetw__rate__module.html#ad64c32f568ba69ca2822b1c0a2d4d911" title="Interpolation interface." alt="" coords="447,500,597,541"/>
+<area shape="rect" id="node14" href="$quadpack__module_8f90.html#ac59eaf7c56c1d421d129425895fa0107" title=" " alt="" coords="722,710,769,737"/>
+<area shape="rect" id="node18" href="$effphase__class_8f90.html#a9f43f9887f468d012dbae6ba88547dd7" title="The integrand in effective psi, eq.[16] of Langanke &amp; Pinedo (2001)" alt="" coords="721,659,770,686"/>
+<area shape="rect" id="node15" href="$quadpack__module_8f90.html#a5a75101d080f224c63adde98a0e64386" title=" " alt="" coords="953,710,1003,737"/>
+<area shape="rect" id="node16" href="$quadpack__module_8f90.html#a59164415fc33f2f3bf4ebc4ee2220f7e" title=" " alt="" coords="951,609,1005,635"/>
+<area shape="rect" id="node17" href="$quadpack__module_8f90.html#a55e08a684c5a6315fb37dd0fdc66d8e6" title=" " alt="" coords="953,659,1003,686"/>
+<area shape="rect" id="node20" href="$namespaceinter__module.html#a947ac5de821c77a2cd1cf1ea1ce43589" title="Get indices of the grid for given x&#45; and y&#45; values." alt="" coords="887,507,1069,534"/>
+<area shape="rect" id="node22" href="$namespaceinter__module.html#a63ff1c6e223efc802d231f8b0b354a22" title="Cubic interpolate on 2&#45;Dimensional grid." alt="" coords="661,507,830,534"/>
+<area shape="rect" id="node23" href="$namespaceinter__module.html#a926757c13b25424fa6d751c645dfa6dc" title="Interpolate linearly on 2 Dimensional grid." alt="" coords="665,457,826,483"/>
+<area shape="rect" id="node25" href="$namespaceerror__msg__class.html#a5bc9f3b670b725cc43276934b867d801" title="Converts a given real to a string with format &quot;(1pE10.2)&quot;." alt="" coords="447,365,597,407"/>
+<area shape="rect" id="node26" href="$namespacefile__handling__class.html#aab870caaf9cbaaf635d537708efbf793" title="Same for reading (input file)" alt="" coords="457,300,587,341"/>
+<area shape="rect" id="node27" href="$namespacefile__handling__class.html#af02196bd5eaf70ecd5ab4cc650094d5e" title="Finds the next unused unit number." alt="" coords="680,289,811,331"/>
+</map>

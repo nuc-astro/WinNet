@@ -1,0 +1,7 @@
+<map id="hdf5_module::init_track_nuclei" name="hdf5_module::init_track_nuclei">
+<area shape="rect" id="node1" title="Initialize the tracked_nuclei hdf5 group." alt="" coords="5,64,160,105"/>
+<area shape="rect" id="node2" href="$namespacehdf5__module.html#aaee7540701e1025315a58592932552cc" title="Gets a dataset name and creates it." alt="" coords="220,5,359,47"/>
+<area shape="rect" id="node3" href="$namespaceerror__msg__class.html#a2453d3b7cb363115c046840baa1dfb75" title="Raise a exception with a given error message." alt="" coords="419,64,571,105"/>
+<area shape="rect" id="node5" href="$namespacehdf5__module.html#afbf1071900336a7ed8fcb9b8980a6682" title="Create a hdf5 entry with constant values." alt="" coords="208,123,371,164"/>
+<area shape="rect" id="node4" href="$namespaceerror__msg__class.html#a7e065585cc806a5c264de1f088266498" title="Converts a given integer to a string." alt="" coords="619,64,757,105"/>
+</map>

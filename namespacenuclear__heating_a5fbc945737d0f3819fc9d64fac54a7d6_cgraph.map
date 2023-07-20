@@ -1,0 +1,7 @@
+<map id="nuclear_heating::output_debug_nufrac" name="nuclear_heating::output_debug_nufrac">
+<area shape="rect" id="node1" title="Output the heating fractions to a debug file." alt="" coords="5,35,160,76"/>
+<area shape="rect" id="node2" href="$namespacefile__handling__class.html#aeddf55e8478d6220dc04310665427c3a" title="Shorthand for opening a new file for writing (output file)" alt="" coords="208,35,339,76"/>
+<area shape="rect" id="node3" href="$namespacefile__handling__class.html#af02196bd5eaf70ecd5ab4cc650094d5e" title="Finds the next unused unit number." alt="" coords="387,5,517,47"/>
+<area shape="rect" id="node4" href="$namespaceerror__msg__class.html#a2453d3b7cb363115c046840baa1dfb75" title="Raise a exception with a given error message." alt="" coords="565,35,717,76"/>
+<area shape="rect" id="node5" href="$namespaceerror__msg__class.html#a7e065585cc806a5c264de1f088266498" title="Converts a given integer to a string." alt="" coords="765,35,904,76"/>
+</map>

@@ -1,0 +1,11 @@
+<map id="benam_class::load_network" name="benam_class::load_network">
+<area shape="rect" id="node1" title="Reads isotope names from file &#39;net_source&#39; and saves them in net_names(). Returns number of isotopes ..." alt="" coords="5,115,188,141"/>
+<area shape="rect" id="node2" href="$namespacebenam__class.html#ad20c821347dd5f7c08dff59c98e69657" title="Returns the index number of isotope &#39;name&#39;." alt="" coords="240,5,384,32"/>
+<area shape="rect" id="node3" href="$namespacefile__handling__class.html#a01ba26324d7662cc0fb2e0eb306cd3e2" title="Close an external file." alt="" coords="447,107,577,149"/>
+<area shape="rect" id="node4" href="$namespaceerror__msg__class.html#a7e065585cc806a5c264de1f088266498" title="Converts a given integer to a string." alt="" coords="836,107,975,149"/>
+<area shape="rect" id="node6" href="$namespacefile__handling__class.html#aab870caaf9cbaaf635d537708efbf793" title="Same for reading (input file)" alt="" coords="247,166,377,207"/>
+<area shape="rect" id="node8" href="$namespaceerror__msg__class.html#a339dd5b38c125b6a04653762c94a91f2" title="Write data to the standard output (usually OUT)" alt="" coords="236,290,388,331"/>
+<area shape="rect" id="node5" href="$namespaceerror__msg__class.html#a2453d3b7cb363115c046840baa1dfb75" title="Raise a exception with a given error message." alt="" coords="636,166,788,207"/>
+<area shape="rect" id="node7" href="$namespacefile__handling__class.html#af02196bd5eaf70ecd5ab4cc650094d5e" title="Finds the next unused unit number." alt="" coords="447,225,577,266"/>
+<area shape="rect" id="node9" href="$namespaceerror__msg__class.html#af62b9a0c5997255e792b9ebd7322a6a3" title="Write the header of the standard output (usually OUT)" alt="" coords="436,290,588,331"/>
+</map>

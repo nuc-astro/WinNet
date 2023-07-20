@@ -1,0 +1,10 @@
+<map id="gear_module::prepare_next_step" name="gear_module::prepare_next_step">
+<area shape="rect" id="node1" title="Stepsize and order control to pepare the next step." alt="" coords="5,74,151,115"/>
+<area shape="rect" id="node2" href="$namespacegear__module.html#aad7e30fa9fbd479f10a892a3244f0f51" title="Calculate errors (helper functions below)" alt="" coords="200,56,353,83"/>
+<area shape="rect" id="node8" href="$namespacegear__module.html#a3b2e41ef2e9550808b08d355893147da" title="Adjusts the order, if possible and necessary. This is done every qth step, or earlier in case the tim..." alt="" coords="199,107,355,133"/>
+<area shape="rect" id="node3" href="$namespacegear__module.html#a2cbafe47bb69873fc1a49f0308b10d1b" title="Calculate the errors for the current order." alt="" coords="412,5,547,32"/>
+<area shape="rect" id="node4" href="$namespacegear__module.html#ab3f9c438be424fb461b8a90dd3381ddf" title="Calculate the errors for the order (q&#45;1)" alt="" coords="403,56,556,83"/>
+<area shape="rect" id="node5" href="$namespacegear__module.html#a5aabe000afc0b33a84492e16c3edd9e0" title="Calculate the errors for the order (q+1)" alt="" coords="405,107,554,133"/>
+<area shape="rect" id="node6" href="$namespacegear__module.html#a5eb8eb2d29f325cb87a93372cdca9e7b" title="Calculate Helper function Q." alt="" coords="604,107,731,133"/>
+<area shape="rect" id="node7" href="$namespacegear__module.html#a5e0c979e530f76ee4cd8af42cf121194" title="Calculate helper function C." alt="" coords="779,107,905,133"/>
+</map>

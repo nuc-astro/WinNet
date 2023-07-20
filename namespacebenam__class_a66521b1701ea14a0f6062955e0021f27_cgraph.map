@@ -1,0 +1,7 @@
+<map id="benam_class::read_neutrino_loss" name="benam_class::read_neutrino_loss">
+<area shape="rect" id="node1" title="Read a file with neutrino loss energy." alt="" coords="5,93,220,119"/>
+<area shape="rect" id="node2" href="$namespacefile__handling__class.html#aab870caaf9cbaaf635d537708efbf793" title="Same for reading (input file)" alt="" coords="268,56,399,97"/>
+<area shape="rect" id="node4" href="$namespaceerror__msg__class.html#a2453d3b7cb363115c046840baa1dfb75" title="Raise a exception with a given error message." alt="" coords="625,64,777,105"/>
+<area shape="rect" id="node3" href="$namespacefile__handling__class.html#af02196bd5eaf70ecd5ab4cc650094d5e" title="Finds the next unused unit number." alt="" coords="447,5,577,47"/>
+<area shape="rect" id="node5" href="$namespaceerror__msg__class.html#a7e065585cc806a5c264de1f088266498" title="Converts a given integer to a string." alt="" coords="825,64,964,105"/>
+</map>

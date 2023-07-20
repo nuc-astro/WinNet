@@ -1,0 +1,4 @@
+<map id="winnse_module::wincnse_calc" name="winnse_module::wincnse_calc">
+<area shape="rect" id="node1" title="Calculates the nse coefficients C, as given in Hix,Thielemann &#39;99, Eq.25." alt="" coords="5,13,203,39"/>
+<area shape="rect" id="node2" href="$namespacenucstuff__class.html#a7f6b5ddec08f9564638a58091e6940d7" title="Calculates partition function." alt="" coords="251,5,388,47"/>
+</map>

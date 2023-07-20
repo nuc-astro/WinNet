@@ -1,0 +1,9 @@
+<map id="parser_module::store_digits_operator" name="parser_module::store_digits_operator">
+<area shape="rect" id="node1" title="Store mathematical operators (+&#45;*/) and numbers in arrays." alt="" coords="5,115,148,156"/>
+<area shape="rect" id="node2" href="$namespaceparser__module.html#ad490bd346a873a280de4d7d6f343d588" title="Function to define constants." alt="" coords="207,5,369,47"/>
+<area shape="rect" id="node3" href="$namespaceparser__module.html#af9cbf87119ef07db357b3240c716e462" title="Function to decide whether a character is a mathematical operator or not. Functions (as e...." alt="" coords="199,71,377,98"/>
+<area shape="rect" id="node4" href="$namespaceparser__module.html#a7d1134a2461b12dc17514a1970d6b00b" title="Function to decide whether a character can be associated with a number." alt="" coords="196,122,380,149"/>
+<area shape="rect" id="node5" href="$namespaceparser__module.html#afbaa22752e33bc2ac2a3437adb34ea52" title="Subroutine to check the parsing string for consistency and correct it." alt="" coords="215,173,361,215"/>
+<area shape="rect" id="node6" href="$namespaceerror__msg__class.html#a2453d3b7cb363115c046840baa1dfb75" title="Raise a exception with a given error message." alt="" coords="212,239,364,280"/>
+<area shape="rect" id="node7" href="$namespaceerror__msg__class.html#a7e065585cc806a5c264de1f088266498" title="Converts a given integer to a string." alt="" coords="428,239,567,280"/>
+</map>

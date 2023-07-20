@@ -1,0 +1,5 @@
+<map id="parameter_class::levenshteindistance" name="parameter_class::levenshteindistance">
+<area shape="rect" id="node1" title="Calculates the Levenshtein distance between two strings." alt="" coords="5,13,244,39"/>
+<area shape="rect" id="node2" href="$namespaceerror__msg__class.html#a2453d3b7cb363115c046840baa1dfb75" title="Raise a exception with a given error message." alt="" coords="292,5,444,47"/>
+<area shape="rect" id="node3" href="$namespaceerror__msg__class.html#a7e065585cc806a5c264de1f088266498" title="Converts a given integer to a string." alt="" coords="492,5,631,47"/>
+</map>

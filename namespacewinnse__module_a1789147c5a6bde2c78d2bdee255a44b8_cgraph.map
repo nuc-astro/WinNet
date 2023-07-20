@@ -1,0 +1,9 @@
+<map id="winnse_module::winnse_calc_nr" name="winnse_module::winnse_calc_nr">
+<area shape="rect" id="node1" title="Solves the nse&#45;equations using a 2&#45;dimensional newton&#45;raphson scheme." alt="" coords="5,103,164,144"/>
+<area shape="rect" id="node2" href="$namespaceerror__msg__class.html#a7e065585cc806a5c264de1f088266498" title="Converts a given integer to a string." alt="" coords="457,71,596,112"/>
+<area shape="rect" id="node3" href="$namespacewinnse__module.html#ab51d55fb32259605b02d665c4bfb979b" title="Calls screening subroutine and adds subsequent proton capture screening corrections in scrn(1:zmax)." alt="" coords="241,38,380,79"/>
+<area shape="rect" id="node4" href="$namespaceerror__msg__class.html#a5bc9f3b670b725cc43276934b867d801" title="Converts a given real to a string with format &quot;(1pE10.2)&quot;." alt="" coords="236,103,385,144"/>
+<area shape="rect" id="node5" href="$namespaceerror__msg__class.html#a2453d3b7cb363115c046840baa1dfb75" title="Raise a exception with a given error message." alt="" coords="235,168,387,210"/>
+<area shape="rect" id="node6" href="$namespacewinnse__module.html#a7f059289a0c97c6be525337bfd649af9" title="Calculates the nse coefficients C, as given in Hix,Thielemann &#39;99, Eq.25." alt="" coords="212,234,409,261"/>
+<area shape="rect" id="node7" href="$namespacenucstuff__class.html#a7f6b5ddec08f9564638a58091e6940d7" title="Calculates partition function." alt="" coords="458,227,595,268"/>
+</map>

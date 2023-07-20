@@ -1,0 +1,8 @@
+<map id="tw_rate_module::weak_inter" name="tw_rate_module::weak_inter">
+<area shape="rect" id="node1" title="Interpolation interface." alt="" coords="5,57,156,99"/>
+<area shape="rect" id="node2" href="$namespaceinter__module.html#a63ff1c6e223efc802d231f8b0b354a22" title="Cubic interpolate on 2&#45;Dimensional grid." alt="" coords="204,39,373,66"/>
+<area shape="rect" id="node4" href="$namespaceerror__msg__class.html#a2453d3b7cb363115c046840baa1dfb75" title="Raise a exception with a given error message." alt="" coords="437,91,589,132"/>
+<area shape="rect" id="node5" href="$namespaceerror__msg__class.html#a7e065585cc806a5c264de1f088266498" title="Converts a given integer to a string." alt="" coords="652,36,791,77"/>
+<area shape="rect" id="node6" href="$namespaceinter__module.html#a926757c13b25424fa6d751c645dfa6dc" title="Interpolate linearly on 2 Dimensional grid." alt="" coords="208,90,369,117"/>
+<area shape="rect" id="node3" href="$namespaceinter__module.html#a947ac5de821c77a2cd1cf1ea1ce43589" title="Get indices of the grid for given x&#45; and y&#45; values." alt="" coords="421,39,604,66"/>
+</map>

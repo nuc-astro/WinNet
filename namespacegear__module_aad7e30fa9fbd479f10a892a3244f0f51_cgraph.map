@@ -1,0 +1,8 @@
+<map id="gear_module::geterrors" name="gear_module::geterrors">
+<area shape="rect" id="node1" title="Calculate errors (helper functions below)" alt="" coords="5,56,159,83"/>
+<area shape="rect" id="node2" href="$namespacegear__module.html#a2cbafe47bb69873fc1a49f0308b10d1b" title="Calculate the errors for the current order." alt="" coords="216,5,351,32"/>
+<area shape="rect" id="node3" href="$namespacegear__module.html#ab3f9c438be424fb461b8a90dd3381ddf" title="Calculate the errors for the order (q&#45;1)" alt="" coords="207,56,360,83"/>
+<area shape="rect" id="node4" href="$namespacegear__module.html#a5aabe000afc0b33a84492e16c3edd9e0" title="Calculate the errors for the order (q+1)" alt="" coords="209,107,358,133"/>
+<area shape="rect" id="node5" href="$namespacegear__module.html#a5eb8eb2d29f325cb87a93372cdca9e7b" title="Calculate Helper function Q." alt="" coords="408,107,535,133"/>
+<area shape="rect" id="node6" href="$namespacegear__module.html#a5e0c979e530f76ee4cd8af42cf121194" title="Calculate helper function C." alt="" coords="583,107,709,133"/>
+</map>

@@ -1,0 +1,6 @@
+<map id="parameter_class::search_close_parameter" name="parameter_class::search_close_parameter">
+<area shape="rect" id="node1" title="Search for similar existing parameters." alt="" coords="5,5,168,47"/>
+<area shape="rect" id="node2" href="$namespaceparameter__class.html#accc37bb66eee84405ee5b2ff3227688a" title="Calculates the Levenshtein distance between two strings." alt="" coords="216,13,455,39"/>
+<area shape="rect" id="node3" href="$namespaceerror__msg__class.html#a2453d3b7cb363115c046840baa1dfb75" title="Raise a exception with a given error message." alt="" coords="503,5,655,47"/>
+<area shape="rect" id="node4" href="$namespaceerror__msg__class.html#a7e065585cc806a5c264de1f088266498" title="Converts a given integer to a string." alt="" coords="703,5,841,47"/>
+</map>

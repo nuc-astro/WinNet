@@ -1,0 +1,5 @@
+<map id="beta_decay_rate_module::count_reactions" name="beta_decay_rate_module::count_reactions">
+<area shape="rect" id="node1" title="Count the amount of external beta decays." alt="" coords="5,23,172,65"/>
+<area shape="rect" id="node2" href="$namespacebenam__class.html#ad20c821347dd5f7c08dff59c98e69657" title="Returns the index number of isotope &#39;name&#39;." alt="" coords="220,5,364,32"/>
+<area shape="rect" id="node3" href="$namespacebenam__class.html#ad2f566697809a5731e560509d2ca7062" title="Finds an isotope index in the network table, given its A and Z. In case it was not found,..." alt="" coords="223,56,361,83"/>
+</map>

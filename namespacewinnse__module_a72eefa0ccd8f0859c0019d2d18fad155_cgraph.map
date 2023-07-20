@@ -1,0 +1,13 @@
+<map id="winnse_module::winnse_calc_hybrid_powell" name="winnse_module::winnse_calc_hybrid_powell">
+<area shape="rect" id="node1" title="Solves the nse&#45;equations using the Powell hybrid method." alt="" coords="5,175,164,217"/>
+<area shape="rect" id="node2" href="$fsolve_8f90.html#ad671f9a8a86626f13d0db91642c1ac9e" title=" " alt="" coords="288,157,345,184"/>
+<area shape="rect" id="node11" href="$winnse__module_8f90.html#a76b0f9d4a7d2b6b5cfe01d69af969c0d" title="Determines the mass and charge conservation for the NSE calculation." alt="" coords="212,208,421,235"/>
+<area shape="rect" id="node3" href="$fsolve_8f90.html#a9d21cb00f8d0421a74dc05aebe71203a" title=" " alt="" coords="469,157,523,184"/>
+<area shape="rect" id="node4" href="$fsolve_8f90.html#ab5a1319962e4855e0a2b7a7431085275" title=" " alt="" coords="573,5,633,32"/>
+<area shape="rect" id="node5" href="$fsolve_8f90.html#a07a8827d47eead570957d377e64f7974" title=" " alt="" coords="683,56,741,83"/>
+<area shape="rect" id="node6" href="$fsolve_8f90.html#ab8444c326197a29a9f06bb863a1cee4a" title=" " alt="" coords="574,107,631,133"/>
+<area shape="rect" id="node7" href="$fsolve_8f90.html#a12e8db1e181463d5c3af21f2b1b6b5a7" title=" " alt="" coords="575,157,630,184"/>
+<area shape="rect" id="node8" href="$fsolve_8f90.html#a64d35f73f2a85378c24dd7b99ddb0c0f" title=" " alt="" coords="577,208,628,235"/>
+<area shape="rect" id="node9" href="$fsolve_8f90.html#ab7f6e61d92cfd9ea516435ad523b989b" title=" " alt="" coords="571,259,635,285"/>
+<area shape="rect" id="node10" href="$fsolve_8f90.html#a8ff726029b3ff9037b390910744ee58b" title=" " alt="" coords="573,309,632,336"/>
+</map>

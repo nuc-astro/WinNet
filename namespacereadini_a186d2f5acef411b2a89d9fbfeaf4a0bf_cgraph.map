@@ -1,0 +1,15 @@
+<map id="readini::custom_read" name="readini::custom_read">
+<area shape="rect" id="node1" title="Reads the trajectory file." alt="" coords="5,302,147,329"/>
+<area shape="rect" id="node2" href="$namespacefile__handling__class.html#a01ba26324d7662cc0fb2e0eb306cd3e2" title="Close an external file." alt="" coords="393,61,523,103"/>
+<area shape="rect" id="node3" href="$namespaceerror__msg__class.html#a7e065585cc806a5c264de1f088266498" title="Converts a given integer to a string." alt="" coords="775,61,913,103"/>
+<area shape="rect" id="node4" href="$namespaceerror__msg__class.html#a2453d3b7cb363115c046840baa1dfb75" title="Raise a exception with a given error message." alt="" coords="575,313,727,355"/>
+<area shape="rect" id="node5" href="$namespacereadini.html#aa70dcb64b33b1effcebfdff61a477cb6" title="Function to convert from a given density unit to g/ccm." alt="" coords="397,179,519,220"/>
+<area shape="rect" id="node6" href="$namespacereadini.html#a5a391d1e0a44bcc5834c46dfacbaaad6" title="Function to convert from a given distance unit to km." alt="" coords="211,229,325,271"/>
+<area shape="rect" id="node7" href="$namespacereadini.html#a9f2a1f49dc92cf959c6a9443b4f12111" title="Function to convert from a given neutrino energy unit to neutrino temperatures in MeV." alt="" coords="195,295,341,336"/>
+<area shape="rect" id="node8" href="$namespacereadini.html#a296e65cce958b5e8acf268bcaeb52c6c" title="Function to convert from a given neutrino luminosity unit to erg/s." alt="" coords="199,360,337,401"/>
+<area shape="rect" id="node9" href="$namespacereadini.html#ab76df5cb8fe1d355cc07b92510a58609" title="Function to convert from a given neutrino temperature unit to MeV." alt="" coords="389,397,527,439"/>
+<area shape="rect" id="node10" href="$namespacefile__handling__class.html#aab870caaf9cbaaf635d537708efbf793" title="Same for reading (input file)" alt="" coords="203,477,333,519"/>
+<area shape="rect" id="node12" href="$namespacereadini.html#ae01875ac008f2d4d8e4af0e2b2c67a13" title="Function to convert from a given temperature unit to GK." alt="" coords="397,580,519,621"/>
+<area shape="rect" id="node13" href="$namespacereadini.html#a5d1d1d270d692b2d720cde6b4a91ee07" title="Function to convert from a given time unit to seconds." alt="" coords="209,627,327,668"/>
+<area shape="rect" id="node11" href="$namespacefile__handling__class.html#af02196bd5eaf70ecd5ab4cc650094d5e" title="Finds the next unused unit number." alt="" coords="393,515,523,556"/>
+</map>

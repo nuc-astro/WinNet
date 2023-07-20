@@ -1,0 +1,10 @@
+<map id="beta_decay_rate_module::merge_beta_decays" name="beta_decay_rate_module::merge_beta_decays">
+<area shape="rect" id="node1" title="Merge external beta decays into the larger rate array." alt="" coords="5,133,172,174"/>
+<area shape="rect" id="node2" href="$namespacebeta__decay__rate__module.html#ad0881130a25dea6caaa0766b489ab30e" title="Convert beta_pn_type to reactionrate_type." alt="" coords="469,107,635,149"/>
+<area shape="rect" id="node3" href="$namespaceerror__msg__class.html#a2453d3b7cb363115c046840baa1dfb75" title="Raise a exception with a given error message." alt="" coords="693,122,845,163"/>
+<area shape="rect" id="node5" href="$namespacebeta__decay__rate__module.html#a85d6563db714efb3a6a49faf58fe4d15" title="Subroutine to remove weak rates from the beta decay rate array." alt="" coords="469,225,635,266"/>
+<area shape="rect" id="node6" href="$namespacebeta__decay__rate__module.html#a19fa91d401f7f165f22dada0dc5236c4" title="Remove beta decays from the rate array." alt="" coords="232,162,399,203"/>
+<area shape="rect" id="node7" href="$namespacemergesort__module.html#abf490436dad94120a2c99efc036f2b1b" title="Merges two tables of rates (of type global_class::reactionrate_type)." alt="" coords="459,5,645,32"/>
+<area shape="rect" id="node8" href="$namespacemergesort__module.html#a350624bb77af754147cd68332b16b9e5" title="Sorts chapter one of the rate array." alt="" coords="220,279,411,305"/>
+<area shape="rect" id="node4" href="$namespaceerror__msg__class.html#a7e065585cc806a5c264de1f088266498" title="Converts a given integer to a string." alt="" coords="893,166,1032,207"/>
+</map>

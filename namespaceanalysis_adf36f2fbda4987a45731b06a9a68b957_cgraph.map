@@ -1,0 +1,8 @@
+<map id="analysis::calc_av_timescales" name="analysis::calc_av_timescales">
+<area shape="rect" id="node1" title="Calculate average timescales of different classes of reactions." alt="" coords="5,13,196,39"/>
+<area shape="rect" id="node2" href="$namespacehdf5__module.html#a4d8726fd1941983a81ff0dc9f2bda0df" title="Subroutine to write the average timescales (1/s) into the hdf5." alt="" coords="244,5,384,47"/>
+<area shape="rect" id="node3" href="$namespacehdf5__module.html#a45d4d702fca9ccedbead4f7814d35950" title="Write average timescales and time into the hdf5 file." alt="" coords="432,5,563,47"/>
+<area shape="rect" id="node4" href="$namespacehdf5__module.html#a28a7b037320b89de7c8ab611e5f720d0" title="Extend a previously created 1D &#45; dataset." alt="" coords="611,5,751,47"/>
+<area shape="rect" id="node5" href="$namespaceerror__msg__class.html#a2453d3b7cb363115c046840baa1dfb75" title="Raise a exception with a given error message." alt="" coords="799,5,951,47"/>
+<area shape="rect" id="node6" href="$namespaceerror__msg__class.html#a7e065585cc806a5c264de1f088266498" title="Converts a given integer to a string." alt="" coords="999,5,1137,47"/>
+</map>

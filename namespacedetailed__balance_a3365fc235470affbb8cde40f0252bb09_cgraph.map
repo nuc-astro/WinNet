@@ -1,0 +1,24 @@
+<map id="detailed_balance::merge_inverse_rates" name="detailed_balance::merge_inverse_rates">
+<area shape="rect" id="node1" title="Delete and create new inverse rates." alt="" coords="5,464,167,506"/>
+<area shape="rect" id="node2" href="$namespacedetailed__balance.html#a6163da72c848a1fd418b8a1869a4dc1b" title="Routine to create an inverse rate, based on the forward rate." alt="" coords="228,187,389,228"/>
+<area shape="rect" id="node5" href="$namespaceerror__msg__class.html#a2453d3b7cb363115c046840baa1dfb75" title="Raise a exception with a given error message." alt="" coords="893,283,1045,324"/>
+<area shape="rect" id="node10" href="$namespacebenam__class.html#af8144ea43fb40187e32fb83da48458f1" title="Returns the 1/n! factor where n is the number of equal isotopes entering a reaction...." alt="" coords="215,650,403,677"/>
+<area shape="rect" id="node11" href="$namespacedetailed__balance.html#ae5d55a056d18ca2d155d82c63e6acf48" title="Verbose routine to output one inverse reaction of chapter 4&#45;9." alt="" coords="232,464,385,506"/>
+<area shape="rect" id="node20" href="$namespacedetailed__balance.html#a9c5618f65b75159844f8c01641995cfd" title="Write the verbose output of the reaction rates." alt="" coords="232,584,385,626"/>
+<area shape="rect" id="node3" href="$namespacenucstuff__class.html#a798cb2b4630a9e026012c858d700b3b0" title="Get the reaclib chapter based on nr. of prods. and educts." alt="" coords="687,94,817,135"/>
+<area shape="rect" id="node6" href="$namespacenucstuff__class.html#adb871d9f6d0e6ec5db0a0808201ab3db" title="Get number of products of the reaction based on the reaclib chapter." alt="" coords="687,224,817,266"/>
+<area shape="rect" id="node7" href="$namespacenucstuff__class.html#a5fa1f79d38fd5b01a5d6d797fea0132d" title="Get number of reactants of the reaction based on the reaclib chapter." alt="" coords="687,159,817,200"/>
+<area shape="rect" id="node8" href="$namespacereaclib__rate__module.html#a8e23d45ed0420de076b8f07863151a34" title="Set a flag for the reaction type." alt="" coords="470,246,609,287"/>
+<area shape="rect" id="node4" href="$namespaceerror__msg__class.html#a7e065585cc806a5c264de1f088266498" title="Converts a given integer to a string." alt="" coords="1111,254,1249,295"/>
+<area shape="rect" id="node9" href="$namespacebenam__class.html#afd880df70f94c289b6bda0647f4494e3" title="Getter of net_names, translating indices to a nucleus name." alt="" coords="876,516,1063,542"/>
+<area shape="rect" id="node12" href="$namespacebenam__class.html#ad20c821347dd5f7c08dff59c98e69657" title="Returns the index number of isotope &#39;name&#39;." alt="" coords="467,625,611,652"/>
+<area shape="rect" id="node13" href="$namespacenucstuff__class.html#a54b0d5681c0193e0b2276911713242e9" title="A helper to compute powers of temperature used in the reaction rates." alt="" coords="471,311,607,352"/>
+<area shape="rect" id="node14" href="$namespacedetailed__balance.html#a4c2ebb1580b34cd40aca41258ba5c8b7" title="Calculate the inverse rate from the forward one via detailed balance." alt="" coords="451,376,628,418"/>
+<area shape="rect" id="node15" href="$namespacereaclib__rate__module.html#a531d2052a5c27ee57c14c22159d1fbfe" title="Calculate a reaclib rate." alt="" coords="467,559,611,600"/>
+<area shape="rect" id="node17" href="$namespacefile__handling__class.html#a01ba26324d7662cc0fb2e0eb306cd3e2" title="Close an external file." alt="" coords="687,392,817,434"/>
+<area shape="rect" id="node18" href="$namespacefile__handling__class.html#aeddf55e8478d6220dc04310665427c3a" title="Shorthand for opening a new file for writing (output file)" alt="" coords="474,494,605,535"/>
+<area shape="rect" id="node16" href="$namespacebenam__class.html#a2e85786a53d55231776ae950b7b27953" title="Return a string to represent a given reaction." alt="" coords="677,575,827,616"/>
+<area shape="rect" id="node19" href="$namespacefile__handling__class.html#af02196bd5eaf70ecd5ab4cc650094d5e" title="Finds the next unused unit number." alt="" coords="687,458,817,499"/>
+<area shape="rect" id="node21" href="$namespaceerror__msg__class.html#a339dd5b38c125b6a04653762c94a91f2" title="Write data to the standard output (usually OUT)" alt="" coords="463,727,615,768"/>
+<area shape="rect" id="node22" href="$namespaceerror__msg__class.html#af62b9a0c5997255e792b9ebd7322a6a3" title="Write the header of the standard output (usually OUT)" alt="" coords="676,727,828,768"/>
+</map>

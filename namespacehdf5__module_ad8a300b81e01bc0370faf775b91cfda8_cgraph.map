@@ -1,0 +1,8 @@
+<map id="hdf5_module::extend_mainout" name="hdf5_module::extend_mainout">
+<area shape="rect" id="node1" title="Write the mainout data to the hdf5." alt="" coords="5,39,145,80"/>
+<area shape="rect" id="node2" href="$namespacehdf5__module.html#a29ddf70908c42356e1a4f48c8f094d46" title="Write the mainout data into a file." alt="" coords="193,39,324,80"/>
+<area shape="rect" id="node3" href="$namespacehdf5__module.html#a28a7b037320b89de7c8ab611e5f720d0" title="Extend a previously created 1D &#45; dataset." alt="" coords="372,5,512,47"/>
+<area shape="rect" id="node6" href="$namespacehdf5__module.html#a59c2f613eb6405d547d014f2e4ef5d1b" title="Extend a previously created 1D integer &#45; dataset." alt="" coords="372,71,512,112"/>
+<area shape="rect" id="node4" href="$namespaceerror__msg__class.html#a2453d3b7cb363115c046840baa1dfb75" title="Raise a exception with a given error message." alt="" coords="560,39,712,80"/>
+<area shape="rect" id="node5" href="$namespaceerror__msg__class.html#a7e065585cc806a5c264de1f088266498" title="Converts a given integer to a string." alt="" coords="760,39,899,80"/>
+</map>

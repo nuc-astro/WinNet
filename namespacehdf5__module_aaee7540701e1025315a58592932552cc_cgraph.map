@@ -1,0 +1,5 @@
+<map id="hdf5_module::create_1d_dataset" name="hdf5_module::create_1d_dataset">
+<area shape="rect" id="node1" title="Gets a dataset name and creates it." alt="" coords="5,5,144,47"/>
+<area shape="rect" id="node2" href="$namespaceerror__msg__class.html#a2453d3b7cb363115c046840baa1dfb75" title="Raise a exception with a given error message." alt="" coords="192,5,344,47"/>
+<area shape="rect" id="node3" href="$namespaceerror__msg__class.html#a7e065585cc806a5c264de1f088266498" title="Converts a given integer to a string." alt="" coords="392,5,531,47"/>
+</map>

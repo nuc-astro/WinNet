@@ -1,0 +1,10 @@
+<map id="detailed_balance::create_inverse_rate" name="detailed_balance::create_inverse_rate">
+<area shape="rect" id="node1" title="Routine to create an inverse rate, based on the forward rate." alt="" coords="5,100,167,141"/>
+<area shape="rect" id="node2" href="$namespacenucstuff__class.html#a798cb2b4630a9e026012c858d700b3b0" title="Get the reaclib chapter based on nr. of prods. and educts." alt="" coords="429,5,560,47"/>
+<area shape="rect" id="node5" href="$namespacenucstuff__class.html#adb871d9f6d0e6ec5db0a0808201ab3db" title="Get number of products of the reaction based on the reaclib chapter." alt="" coords="429,71,560,112"/>
+<area shape="rect" id="node6" href="$namespacenucstuff__class.html#a5fa1f79d38fd5b01a5d6d797fea0132d" title="Get number of reactants of the reaction based on the reaclib chapter." alt="" coords="429,188,560,229"/>
+<area shape="rect" id="node7" href="$namespacereaclib__rate__module.html#a8e23d45ed0420de076b8f07863151a34" title="Set a flag for the reaction type." alt="" coords="215,129,353,171"/>
+<area shape="rect" id="node3" href="$namespaceerror__msg__class.html#a7e065585cc806a5c264de1f088266498" title="Converts a given integer to a string." alt="" coords="836,99,975,140"/>
+<area shape="rect" id="node4" href="$namespaceerror__msg__class.html#a2453d3b7cb363115c046840baa1dfb75" title="Raise a exception with a given error message." alt="" coords="636,69,788,111"/>
+<area shape="rect" id="node8" href="$namespacebenam__class.html#afd880df70f94c289b6bda0647f4494e3" title="Getter of net_names, translating indices to a nucleus name." alt="" coords="401,137,588,163"/>
+</map>

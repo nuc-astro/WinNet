@@ -1,0 +1,9 @@
+<map id="parser_module::get_simple_result" name="parser_module::get_simple_result">
+<area shape="rect" id="node1" title="Evaluate a simple string expression, without brackets and functions." alt="" coords="5,136,136,177"/>
+<area shape="rect" id="node2" href="$namespaceparser__module.html#a2cfd49c431619a7d7ded68e9f89bee70" title="Function to decide whether a character is &quot;*&quot; or &quot;/&quot;." alt="" coords="193,5,341,47"/>
+<area shape="rect" id="node3" href="$namespaceparser__module.html#ae2806c52d9868da3855d28c188a1679e" title="Function to decide whether a character is a &quot;+&quot; or &quot;&#45;&quot;." alt="" coords="192,71,343,112"/>
+<area shape="rect" id="node4" href="$namespaceparser__module.html#a55c1c7aac46e95ec6634aa8a514a90b0" title="Function to decide whether a character is a &quot;^&quot;." alt="" coords="185,136,350,177"/>
+<area shape="rect" id="node5" href="$namespaceparser__module.html#a2040007bd269f7920bcfee6840eb41de" title="Function to perform a simple mathematical operation." alt="" coords="184,202,351,229"/>
+<area shape="rect" id="node6" href="$namespaceerror__msg__class.html#a2453d3b7cb363115c046840baa1dfb75" title="Raise a exception with a given error message." alt="" coords="399,220,551,261"/>
+<area shape="rect" id="node7" href="$namespaceerror__msg__class.html#a7e065585cc806a5c264de1f088266498" title="Converts a given integer to a string." alt="" coords="599,220,737,261"/>
+</map>

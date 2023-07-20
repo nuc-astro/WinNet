@@ -1,0 +1,9 @@
+<map id="parameter_class::set_param" name="parameter_class::set_param">
+<area shape="rect" id="node1" title="Sets a global parameter param_name to the value, given by its string representation param_value." alt="" coords="5,65,148,106"/>
+<area shape="rect" id="node2" href="$namespaceerror__msg__class.html#a2453d3b7cb363115c046840baa1dfb75" title="Raise a exception with a given error message." alt="" coords="693,65,845,106"/>
+<area shape="rect" id="node4" href="$namespaceparameter__class.html#a6dcc6b03adff66e992d7a0ad46ec517e" title="Converts a string to an float." alt="" coords="203,36,352,77"/>
+<area shape="rect" id="node5" href="$namespaceparameter__class.html#ad9528991ff0e7998e4556c35113bdc1b" title="Converts a string to an integer." alt="" coords="451,94,601,136"/>
+<area shape="rect" id="node6" href="$namespaceparameter__class.html#ac0277cbae2a8d4de25300cea11b59279" title="Search for similar existing parameters." alt="" coords="196,153,359,194"/>
+<area shape="rect" id="node3" href="$namespaceerror__msg__class.html#a7e065585cc806a5c264de1f088266498" title="Converts a given integer to a string." alt="" coords="893,65,1032,106"/>
+<area shape="rect" id="node7" href="$namespaceparameter__class.html#accc37bb66eee84405ee5b2ff3227688a" title="Calculates the Levenshtein distance between two strings." alt="" coords="407,160,645,187"/>
+</map>

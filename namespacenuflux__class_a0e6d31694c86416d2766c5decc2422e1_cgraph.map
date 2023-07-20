@@ -1,0 +1,7 @@
+<map id="nuflux_class::read_channels" name="nuflux_class::read_channels">
+<area shape="rect" id="node1" title="Read the channels from a file in the format of Sieverding et al 2018." alt="" coords="5,35,129,76"/>
+<area shape="rect" id="node2" href="$namespacefile__handling__class.html#aab870caaf9cbaaf635d537708efbf793" title="Same for reading (input file)" alt="" coords="177,35,308,76"/>
+<area shape="rect" id="node3" href="$namespacefile__handling__class.html#af02196bd5eaf70ecd5ab4cc650094d5e" title="Finds the next unused unit number." alt="" coords="356,5,487,47"/>
+<area shape="rect" id="node4" href="$namespaceerror__msg__class.html#a2453d3b7cb363115c046840baa1dfb75" title="Raise a exception with a given error message." alt="" coords="535,35,687,76"/>
+<area shape="rect" id="node5" href="$namespaceerror__msg__class.html#a7e065585cc806a5c264de1f088266498" title="Converts a given integer to a string." alt="" coords="735,35,873,76"/>
+</map>

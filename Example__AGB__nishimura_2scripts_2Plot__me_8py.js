@@ -1,0 +1,28 @@
+var Example__AGB__nishimura_2scripts_2Plot__me_8py =
+[
+    [ "sum_over", "Example__AGB__nishimura_2scripts_2Plot__me_8py.html#aa1ef217547e34b8cc5461e25effeaa2d", null ],
+    [ "ax", "Example__AGB__nishimura_2scripts_2Plot__me_8py.html#a470e73380846374bdcb03f7143e689a0", null ],
+    [ "ax2", "Example__AGB__nishimura_2scripts_2Plot__me_8py.html#a4bfc10f2ae8e2c4b139d97c92e2c0980", null ],
+    [ "clip_on", "Example__AGB__nishimura_2scripts_2Plot__me_8py.html#af887235a64d464aaaaff5f6fe54faadc", null ],
+    [ "color", "Example__AGB__nishimura_2scripts_2Plot__me_8py.html#a186772f722902267aea2fa01292bf197", null ],
+    [ "e0", "Example__AGB__nishimura_2scripts_2Plot__me_8py.html#ab9d662ab65e1c78cfadef88ce1fd3ec6", null ],
+    [ "e1", "Example__AGB__nishimura_2scripts_2Plot__me_8py.html#a71b2048ac827e27e8d4557cd593726aa", null ],
+    [ "elementnames", "Example__AGB__nishimura_2scripts_2Plot__me_8py.html#a9dc005f13da3b1f0d25e7e07d7a7cfd8", null ],
+    [ "fig", "Example__AGB__nishimura_2scripts_2Plot__me_8py.html#a288753fdae9323ddca5bf2c445b874ab", null ],
+    [ "fig2", "Example__AGB__nishimura_2scripts_2Plot__me_8py.html#ab1f9702378d47b2c55fbb59cb07029a0", null ],
+    [ "ha", "Example__AGB__nishimura_2scripts_2Plot__me_8py.html#ab7eb1b246fd83233a4ea399e947f24ee", null ],
+    [ "ion_name", "Example__AGB__nishimura_2scripts_2Plot__me_8py.html#ad4c04867bb54fde916e290649e0c543f", null ],
+    [ "ls", "Example__AGB__nishimura_2scripts_2Plot__me_8py.html#a68ebfb9c754341e7834cfda2f2fb7590", null ],
+    [ "lw", "Example__AGB__nishimura_2scripts_2Plot__me_8py.html#a43f45a065a70eaf6a179fde28621768b", null ],
+    [ "maxY_arg", "Example__AGB__nishimura_2scripts_2Plot__me_8py.html#ac4ddcf93a612f2e06ae1c426a3d2b825", null ],
+    [ "N", "Example__AGB__nishimura_2scripts_2Plot__me_8py.html#a80d7ed432ee31a79cb28a3aeaeecd196", null ],
+    [ "nm_overprod", "Example__AGB__nishimura_2scripts_2Plot__me_8py.html#a0e241c8346d7e1cfa5b7d8cea7e61a45", null ],
+    [ "nm_solar", "Example__AGB__nishimura_2scripts_2Plot__me_8py.html#a99760f3f49cad9bace36b126b68fe8e9", null ],
+    [ "nm_winnet", "Example__AGB__nishimura_2scripts_2Plot__me_8py.html#a6013ca95a86963d4b0b13ae0e31f4a57", null ],
+    [ "p", "Example__AGB__nishimura_2scripts_2Plot__me_8py.html#aa65b4b333a7471201ef4822a61538a19", null ],
+    [ "s", "Example__AGB__nishimura_2scripts_2Plot__me_8py.html#a6006e62b3712b4f58e5a079f4aa28f38", null ],
+    [ "True", "Example__AGB__nishimura_2scripts_2Plot__me_8py.html#a2131087de80db819ec3a85a2f49d663b", null ],
+    [ "usecols", "Example__AGB__nishimura_2scripts_2Plot__me_8py.html#a3d1e617f6b150f78359a4a6a94a393c8", null ],
+    [ "Z", "Example__AGB__nishimura_2scripts_2Plot__me_8py.html#a140599aa93cf11774e2a4c2866874615", null ],
+    [ "zorder", "Example__AGB__nishimura_2scripts_2Plot__me_8py.html#a5c43ad842488290029cb05bf760138f2", null ]
+];

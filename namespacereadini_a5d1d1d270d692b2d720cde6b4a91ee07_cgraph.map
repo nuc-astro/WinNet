@@ -1,0 +1,5 @@
+<map id="readini::time_unit_conversion" name="readini::time_unit_conversion">
+<area shape="rect" id="node1" title="Function to convert from a given time unit to seconds." alt="" coords="5,5,124,47"/>
+<area shape="rect" id="node2" href="$namespaceerror__msg__class.html#a2453d3b7cb363115c046840baa1dfb75" title="Raise a exception with a given error message." alt="" coords="172,5,324,47"/>
+<area shape="rect" id="node3" href="$namespaceerror__msg__class.html#a7e065585cc806a5c264de1f088266498" title="Converts a given integer to a string." alt="" coords="372,5,511,47"/>
+</map>

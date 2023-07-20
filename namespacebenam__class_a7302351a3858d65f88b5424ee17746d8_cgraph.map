@@ -1,0 +1,7 @@
+<map id="benam_class::read_winvn" name="benam_class::read_winvn">
+<area shape="rect" id="node1" title="Reads nuclear properties (name,a,n,z,spin,mass excess,partition functions) from file &#39;winvn&#39; and writ..." alt="" coords="5,56,176,83"/>
+<area shape="rect" id="node2" href="$namespacebenam__class.html#ad20c821347dd5f7c08dff59c98e69657" title="Returns the index number of isotope &#39;name&#39;." alt="" coords="224,5,368,32"/>
+<area shape="rect" id="node3" href="$namespaceerror__msg__class.html#a2453d3b7cb363115c046840baa1dfb75" title="Raise a exception with a given error message." alt="" coords="416,78,568,119"/>
+<area shape="rect" id="node5" href="$namespacebenam__class.html#aea8a78ad9767e22772a94d7475dedbbb" title="Checks if sunet file contains valid isotope names." alt="" coords="227,107,365,149"/>
+<area shape="rect" id="node4" href="$namespaceerror__msg__class.html#a7e065585cc806a5c264de1f088266498" title="Converts a given integer to a string." alt="" coords="616,78,755,119"/>
+</map>

@@ -1,0 +1,9 @@
+<map id="analysis::finab" name="analysis::finab">
+<area shape="rect" id="node1" title="Compute final abundances and write final output." alt="" coords="5,63,108,90"/>
+<area shape="rect" id="node2" href="$namespacefile__handling__class.html#a01ba26324d7662cc0fb2e0eb306cd3e2" title="Close an external file." alt="" coords="335,5,465,47"/>
+<area shape="rect" id="node5" href="$namespaceanalysis.html#a66afb43b197b91c6bd02c94478a5791e" title="auxiliary sorting subroutine" alt="" coords="156,63,287,90"/>
+<area shape="rect" id="node6" href="$namespacefile__handling__class.html#aeddf55e8478d6220dc04310665427c3a" title="Shorthand for opening a new file for writing (output file)" alt="" coords="156,115,287,156"/>
+<area shape="rect" id="node3" href="$namespaceerror__msg__class.html#a7e065585cc806a5c264de1f088266498" title="Converts a given integer to a string." alt="" coords="713,35,852,76"/>
+<area shape="rect" id="node4" href="$namespaceerror__msg__class.html#a2453d3b7cb363115c046840baa1dfb75" title="Raise a exception with a given error message." alt="" coords="513,64,665,105"/>
+<area shape="rect" id="node7" href="$namespacefile__handling__class.html#af02196bd5eaf70ecd5ab4cc650094d5e" title="Finds the next unused unit number." alt="" coords="335,123,465,164"/>
+</map>

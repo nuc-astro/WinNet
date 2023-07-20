@@ -1,0 +1,6 @@
+<map id="mergesort_module::mergesort_finalize" name="mergesort_module::mergesort_finalize">
+<area shape="rect" id="node1" title="Close files and finalize this module." alt="" coords="5,5,199,47"/>
+<area shape="rect" id="node2" href="$namespacefile__handling__class.html#a01ba26324d7662cc0fb2e0eb306cd3e2" title="Close an external file." alt="" coords="247,5,377,47"/>
+<area shape="rect" id="node3" href="$namespaceerror__msg__class.html#a7e065585cc806a5c264de1f088266498" title="Converts a given integer to a string." alt="" coords="625,5,764,47"/>
+<area shape="rect" id="node4" href="$namespaceerror__msg__class.html#a2453d3b7cb363115c046840baa1dfb75" title="Raise a exception with a given error message." alt="" coords="425,35,577,76"/>
+</map>

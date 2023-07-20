@@ -1,0 +1,22 @@
+<map id="readini::readini_init" name="readini::readini_init">
+<area shape="rect" id="node1" title="Initialize the readini module and open files." alt="" coords="5,623,133,650"/>
+<area shape="rect" id="node2" href="$namespacereadini.html#a178b1ed282a2b62ad03dea2ca288c285" title="Make tests to ensure the trajectory is okay." alt="" coords="185,64,319,105"/>
+<area shape="rect" id="node6" href="$namespacereadini.html#a186d2f5acef411b2a89d9fbfeaf4a0bf" title="Reads the trajectory file." alt="" coords="181,466,323,493"/>
+<area shape="rect" id="node17" href="$namespacereadini.html#a301965675d97bfd3f865e9a4e4c5a37b" title="Read in times for snapshots." alt="" coords="181,856,323,897"/>
+<area shape="rect" id="node18" href="$namespacereadini.html#aab3cbd8d739c6ab3c83677fa2b4ced04" title="Reads in nuclei that will be tracked and where the abundance will be stored in a separate file." alt="" coords="189,761,315,803"/>
+<area shape="rect" id="node3" href="$namespaceerror__msg__class.html#a5bc9f3b670b725cc43276934b867d801" title="Converts a given real to a string with format &quot;(1pE10.2)&quot;." alt="" coords="371,5,520,47"/>
+<area shape="rect" id="node4" href="$namespaceerror__msg__class.html#a2453d3b7cb363115c046840baa1dfb75" title="Raise a exception with a given error message." alt="" coords="763,552,915,593"/>
+<area shape="rect" id="node5" href="$namespaceerror__msg__class.html#a7e065585cc806a5c264de1f088266498" title="Converts a given integer to a string." alt="" coords="963,552,1101,593"/>
+<area shape="rect" id="node7" href="$namespacefile__handling__class.html#a01ba26324d7662cc0fb2e0eb306cd3e2" title="Close an external file." alt="" coords="380,903,511,944"/>
+<area shape="rect" id="node8" href="$namespacereadini.html#aa70dcb64b33b1effcebfdff61a477cb6" title="Function to convert from a given density unit to g/ccm." alt="" coords="580,173,703,215"/>
+<area shape="rect" id="node9" href="$namespacereadini.html#a5a391d1e0a44bcc5834c46dfacbaaad6" title="Function to convert from a given distance unit to km." alt="" coords="584,239,699,280"/>
+<area shape="rect" id="node10" href="$namespacereadini.html#a9f2a1f49dc92cf959c6a9443b4f12111" title="Function to convert from a given neutrino energy unit to neutrino temperatures in MeV." alt="" coords="568,304,715,345"/>
+<area shape="rect" id="node11" href="$namespacereadini.html#a296e65cce958b5e8acf268bcaeb52c6c" title="Function to convert from a given neutrino luminosity unit to erg/s." alt="" coords="376,371,515,412"/>
+<area shape="rect" id="node12" href="$namespacereadini.html#ab76df5cb8fe1d355cc07b92510a58609" title="Function to convert from a given neutrino temperature unit to MeV." alt="" coords="573,421,710,463"/>
+<area shape="rect" id="node13" href="$namespacefile__handling__class.html#aab870caaf9cbaaf635d537708efbf793" title="Same for reading (input file)" alt="" coords="380,837,511,879"/>
+<area shape="rect" id="node15" href="$namespacereadini.html#ae01875ac008f2d4d8e4af0e2b2c67a13" title="Function to convert from a given temperature unit to GK." alt="" coords="580,487,703,528"/>
+<area shape="rect" id="node16" href="$namespacereadini.html#a5d1d1d270d692b2d720cde6b4a91ee07" title="Function to convert from a given time unit to seconds." alt="" coords="582,552,701,593"/>
+<area shape="rect" id="node14" href="$namespacefile__handling__class.html#af02196bd5eaf70ecd5ab4cc650094d5e" title="Finds the next unused unit number." alt="" coords="576,771,707,812"/>
+<area shape="rect" id="node19" href="$namespacebenam__class.html#ad20c821347dd5f7c08dff59c98e69657" title="Returns the index number of isotope &#39;name&#39;." alt="" coords="373,786,517,813"/>
+<area shape="rect" id="node20" href="$namespacefile__handling__class.html#aeddf55e8478d6220dc04310665427c3a" title="Shorthand for opening a new file for writing (output file)" alt="" coords="380,720,511,761"/>
+</map>

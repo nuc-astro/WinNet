@@ -1,0 +1,7 @@
+<map id="nuflux_class::merge_neutrino_rates" name="nuflux_class::merge_neutrino_rates">
+<area shape="rect" id="node1" title="Routine to merge neutrino rates into rrate array." alt="" coords="5,31,140,72"/>
+<area shape="rect" id="node2" href="$namespaceerror__msg__class.html#a2453d3b7cb363115c046840baa1dfb75" title="Raise a exception with a given error message." alt="" coords="427,5,579,47"/>
+<area shape="rect" id="node4" href="$namespacemergesort__module.html#abf490436dad94120a2c99efc036f2b1b" title="Merges two tables of rates (of type global_class::reactionrate_type)." alt="" coords="190,38,377,65"/>
+<area shape="rect" id="node5" href="$namespacemergesort__module.html#a350624bb77af754147cd68332b16b9e5" title="Sorts chapter one of the rate array." alt="" coords="188,89,379,115"/>
+<area shape="rect" id="node3" href="$namespaceerror__msg__class.html#a7e065585cc806a5c264de1f088266498" title="Converts a given integer to a string." alt="" coords="627,5,765,47"/>
+</map>

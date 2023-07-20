@@ -1,0 +1,15 @@
+<map id="hdf5_module::init_hdf5_module" name="hdf5_module::init_hdf5_module">
+<area shape="rect" id="node1" title="Initialize the hdf5 module." alt="" coords="5,255,156,297"/>
+<area shape="rect" id="node2" href="$namespacehdf5__module.html#ac23832e14905543a503a602cd3b3910a" title="Initialize the timescales hdf5 group." alt="" coords="220,117,360,158"/>
+<area shape="rect" id="node4" href="$namespaceerror__msg__class.html#a2453d3b7cb363115c046840baa1dfb75" title="Raise a exception with a given error message." alt="" coords="635,234,787,275"/>
+<area shape="rect" id="node6" href="$namespacehdf5__module.html#aa156d83505172b391c98a12a60869ab2" title="Initialize energy generation output." alt="" coords="209,233,371,260"/>
+<area shape="rect" id="node8" href="$namespacehdf5__module.html#adcb03d9acc77a92623fb04cc70d368f8" title="Initialize the flow output." alt="" coords="431,519,580,545"/>
+<area shape="rect" id="node9" href="$namespacehdf5__module.html#ae48ccd578f598829fc412f843c0aff7d" title="Initialize the mainout hdf5 group." alt="" coords="204,183,376,209"/>
+<area shape="rect" id="node11" href="$namespacehdf5__module.html#ac4bc499f1766102e6dc6a461ee554d08" title="Initialize neutrino loss/gain output." alt="" coords="220,285,360,326"/>
+<area shape="rect" id="node12" href="$namespacehdf5__module.html#a66194278554c0d366251b3c2e15b16c2" title="Initialize the snapshot hdf5 group." alt="" coords="209,351,371,377"/>
+<area shape="rect" id="node13" href="$namespacehdf5__module.html#ab9fc032c08e349615fd44c7761a3470c" title="Initialize the tracked_nuclei hdf5 group." alt="" coords="213,402,367,443"/>
+<area shape="rect" id="node3" href="$namespacehdf5__module.html#aaee7540701e1025315a58592932552cc" title="Gets a dataset name and creates it." alt="" coords="436,234,575,275"/>
+<area shape="rect" id="node5" href="$namespaceerror__msg__class.html#a7e065585cc806a5c264de1f088266498" title="Converts a given integer to a string." alt="" coords="835,234,973,275"/>
+<area shape="rect" id="node7" href="$namespacehdf5__module.html#afbf1071900336a7ed8fcb9b8980a6682" title="Create a hdf5 entry with constant values." alt="" coords="424,402,587,443"/>
+<area shape="rect" id="node10" href="$namespacehdf5__module.html#a9f787006556041c71ebaca1ae791f925" title="Gets a dataset name and creates an integer dataset." alt="" coords="436,66,575,107"/>
+</map>

@@ -1,0 +1,4 @@
+<map id="flow_module::flowcalc" name="flow_module::flowcalc">
+<area shape="rect" id="node1" title="Flow calculation from jacobian. It is calculated with the help of the Jacobian." alt="" coords="5,5,152,32"/>
+<area shape="rect" id="node2" href="$namespaceflow__module.html#a820ea4c7e98d83f9887628e9326c2b27" title="Bring flows to correct format." alt="" coords="200,5,345,32"/>
+</map>
