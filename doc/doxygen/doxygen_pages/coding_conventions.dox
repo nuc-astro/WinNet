@@ -1,0 +1,140 @@
+/** \page coding_conventions Coding guidelines
+## Coding conventions ##
+
+* Use Fortran 90 or later. Port parts of code written in Fortran77  to Fortran90.
+* Every subroutine must be in a module.
+* Always use: `implicit none`, `intent(in)`, `intent(out)` etc.
+* When working with arrays, avoid specifying ranges, or specify ranges explicitly, i.e.:
+```
+   A(1:n)= B(1:n) + C(1:n) ! or
+   A = B + C
+```
+* Avoid implicit range specification, such as `A(:)= B(:) + C(:)`.
+* Use named loops with self-explaining names.
+* Do not use `goto`.
+* Always use `print*` instead of `write(*,*)` for console output.
+* Do not use array(:); use either array(1:n) or simply array.
+* The type `real(r_kind)` is defined in \ref macros.h. Use it everywhere instead of `real*8` or `real`.
+* Avoid long lines; line width should be no more than 78-80 characters; if line doesn't fit, wrap it with a '&' character:
+```
+   else if ((group_index.eq.4).and.&
+            ((parts(1).eq.'    n').or.&
+             (parts(2).eq.'    n'))) then
+```
+
+## Usage of git-hooks ##
+For developing it is useful to use git-hooks. These hooks can be used to test the Code prior to pushing/commiting changes. If the following shell script is saved in "winnet_path/.git/hooks/pre-commit", the automatic test cases will be executed before every commit. This will prevent you from commiting non-functioning code versions.
+
+\code{.sh}
+#!/bin/bash
+
+# If you move this script to .git/hooks/ the tests will be executed whenever commiting a new version
+
+# Tell the person whats going on
+echo "Preparing to run tests... "
+
+
+# Compile with the Makefile.example
+make -f Makefile.example clean > /dev/null 2>&1
+make -f Makefile.example -j4 > /dev/null 2>&1
+
+if [ ! -f bin/winnet ]; then
+  echo "Could not compile the run!"
+  echo "Check the code before the commit!"
+  echo "Exiting!"
+  exit 1
+fi
+
+# Get the ouput of the tests
+echo "Running tests..."
+output_tests=$(make -f Makefile.example tests) 
+last_line=$(echo "$output_tests" | grep 'tests have')
+# Check that all tests have passed
+if [[ ${last_line} = *"successfully"* ]]; then
+  :
+else
+  echo "Test failed - commit denied. Run tests and confirm they pass before pushing"
+  echo "The failing tests are:"
+  fail_tests=$(echo "$output_tests" | grep '[FAIL]')
+  echo "$fail_tests"
+  echo "Exiting!"
+  exit 1
+fi
+\endcode
+
+
+## Doxygen styling conventions ##
+
+* Doxygen compatible comment block always starts with `!>`.
+* Subsequent lines must start with two exclamation marks `!!`.
+* Description of function parameters should be in the end of lines defining those parameters, and should start with `!<`, e.g.:
+\code{.f90}
+   function foo(bar)
+   implicit none
+   integer, intent(in) :: bar !< total count of weak rates
+\endcode
+* Supply each file with a header describing what the file is about:
+\code{.f90}
+   !> @file parameter_class.f90
+   !!
+   !! @brief Module \ref parameter_class with parameters
+   !!
+\endcode
+* Example header for a module, subroutine or function:
+\code{.f90}
+   !> Brief description (optional)
+   !!
+   !! Detailed description:
+   !! \li what the function is for;
+   !! \li description of parameters [with units];
+   !! \li return value (optional)
+   !!
+   !! @author Whom Toblame
+   !! @date   22.01.03  !! either YYYY-MM-DD or DD.MM.YY
+   !!
+   function foo(bar)
+\endcode
+* supplement all subroutines with your name and the date of last modification. E.g.:
+\code{.f90}
+   !! \b Updated:
+   !!   \li 01.12.11: Christian Winteler
+   !!   \li 22.07.13: Marcella Ugliano
+   !!   \li 11.01.14: Oleg Korobkin
+\endcode
+* use `enddo`, `endif` and `endselect` instead of `end do`, `end if` and `end select`.
+* for long conditional blocks, append a comment after `endif` reminding the condition, e.g.:
+\code{.f90}
+      endif !< i>0
+   endif !< j>0
+\endcode
+* write full name in the end of a subroutine or function:
+\code{.f90}
+   end subroutine readweak
+\endcode
+* use three spaces for indentation; never use tabs
+* comments should be left aligned with the current block, i.e.:
+\code{.f90}
+		! allocate the array of weak reactions
+		allocate(weak_rate(nweak),stat=alloc_stat)
+\endcode
+rather than:
+\code{.f90}
+!----- allocate the array of weak reactions
+		allocate(weak_rate(nweak),stat=alloc_stat)
+\endcode
+* two empty lines between subroutines
+* spaces:
+    - right of equal sign, e.g. `x(k)= k + 2`
+    - no space in products or divisions: `x1*x2`
+    - spaces on both sides of + or - sign, e.g. `x + 1`
+
+
+## Pushing changes to master branch ##
+The master branch is proteced and it is not possible to push to it directly. 
+All changes in the code have to be pushed to other branches and then merged 
+to the master branch with a pull request. When creating a pull request 
+the automatic test cases will be run on a github server. Only if all tests pass, 
+it is possible to merge the pull request. The scripts to automatically run these 
+tests are located in the hidden ".github" folder.
+
+*/

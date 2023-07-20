@@ -1,0 +1,143 @@
+###############################################################################
+# Example case for a toy model of the i-process. If run with the
+# makerun.py, three different runs using different seed files will be created.
+# The runs are created to qualitatively reproduce the results of Dardelet et al. 2015:
+# https://ui.adsabs.harvard.edu/abs/2015arXiv150505500D/abstract .
+# The toy model creates the necessary amount of neutrons by removing
+# the neutron-poisson rate N13 + p -> O14 + gamma is deleted from the reaclib.
+#
+# * The network includes ~6700 nuclei
+# * The initial composition is read from a file that was created as described
+#   in Dardelet et al. 2015 with solar abundances of
+#   of Lodders (2003, https://ui.adsabs.harvard.edu/abs/2003ApJ...591.1220L/abstract).
+# * Hydrostatic temperature and density evolution.
+# * Reaction rates from the JINA Reaclib database
+#   Cyburt et al. (2010, https://ui.adsabs.harvard.edu/abs/2010ApJS..189..240C/abstract)
+#   accessed via https://reaclib.jinaweb.org/ .
+# * theoretical weak rates from Langanke & Martinez-Pinedo (2001, https://ui.adsabs.harvard.edu/abs/2001ADNDT..79....1L/abstract).
+# * Electron chemical potentials from (Timmes & Arnett 1999, https://ui.adsabs.harvard.edu/abs/1999ApJS..125..277T/abstract),
+#   accessed via Cococubed: https://cococubed.com/code_pages/chemical_potential.shtml
+# * Beta delayed fission rates from Panov et al (2005, https://ui.adsabs.harvard.edu/abs/2005NuPhA.747..633P/abstract),
+#   neutron-induced fission rates from Panov et al. (2010, https://ui.adsabs.harvard.edu/abs/2010A%26A...513A..61P/abstract),
+#   and spontaneous fission rates that were calculated using the semi-empirical formula of
+#   Khuyagbaatar (2020, https://ui.adsabs.harvard.edu/abs/2020NuPhA100221958K/abstract) together with the fission barriers of
+#   Möller et al. (2015, https://ui.adsabs.harvard.edu/abs/2015PhRvC..91b4310M/abstract).
+# * Fission fragments from Panov et al. (2001, https://ui.adsabs.harvard.edu/abs/2001NuPhA.688..587P/abstract).
+# * Screening corrections from Kravchuk & Yakovlev et al. (2014, https://ui.adsabs.harvard.edu/abs/2014PhRvC..89a5802K/abstract).
+# * no heating, no neutrinos.
+#
+# A more detailed description and a complete list of the parameters can be found in the documentation.
+# This documentation can be created by running "make doc". After this, it is located in "doc/documentation.html".
+#
+# Run this file with the help of the makerun.py via:
+# python makerun.py --many -p Example_i_process_dardelet.par -r Example_i_process_dardelet
+# and check the plotting script in the produced run folder (runs/Example_i_process_dardelet/Plot_me.py)
+
+
+###########################
+#   General input files   #
+###########################
+
+# List of all isotopes used in the network
+net_source= "@WINNET@/data/sunet_complete"
+
+# Database with the properties of all isotopes
+isotopes_file= "@WINNET@/data/winvne_v2.0.dat"
+
+# The reaclib library
+reaclib_file  = "@WINNET@/data/Example_data/Example_i_process_dardelet/modified_reaclib"
+
+
+##########################
+# Theoretical weak rates #
+##########################
+
+# Electron captures
+iwformat       = 2
+
+# Electron chemical potentials from Timmes
+chem_pot_file  = "@WINNET@/data/chem_table.dat"
+
+# Take rates form Langanke & Martinez Pinedo 2001
+weak_rates_file= "@WINNET@/data/rateseff.out"
+
+
+###########
+# Fission #
+###########
+
+# Fission fragment distributions:
+# =1: Panov
+fissflag = 1
+# Also rates from Panov:
+fission_rates = "@WINNET@/data/fissionrates_frdm"
+
+
+###########################
+#   Initial composition   #
+###########################
+
+# Read conditions from file
+read_initial_composition = yes
+# Seed files (3 different ones, run via makerun.py)
+seed_file = @WINNET@/data/Example_data/Example_i_process_dardelet/i_
+
+
+############################
+# Thermodynamic conditions #
+############################
+
+# Analytic (hydrostatic) conditions
+trajectory_mode = 'analytic'
+
+# Hydrostatic conditions
+T9_analytic  = 2.0e-1
+rho_analytic = 1.0e4
+
+
+###################################
+# Nuclear statistical equilibrium #
+###################################
+
+# Threshold temperatures, choose very high to not run into NSE
+initemp_hot  = 2.0e1
+initemp_cold = 2.0e1
+nsetemp_hot  = 2.0e1
+nsetemp_cold = 2.0e1
+
+
+########################
+# Termination settings #
+########################
+
+# termination criterion = 1, after final_time is reached;
+termination_criterion = 1
+final_time            = 1.e7
+initial_stepsize      = 1e-20
+
+
+###############
+# Other flags #
+###############
+
+# Screening corrections
+screening_mode = 1
+
+
+###########################
+#     Output Settings     #
+###########################
+
+# Create snapshots every 20 iterations
+snapshot_every     = 20
+
+# Frequency of various types of the output
+out_every        = 1
+
+
+#######################
+# Numerical parameter #
+#######################
+
+# Use gear solver
+solver = 1

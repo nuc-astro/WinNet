@@ -1,0 +1,3 @@
+### Externally used code package
+
+The code in this folder contains the Timmes Equation of State [Timmes & Swesty 2000](https://ui.adsabs.harvard.edu/abs/2000ApJS..126..501T/abstract). The EOS can be accessed at https://cococubed.com/code_pages/eos.shtml.

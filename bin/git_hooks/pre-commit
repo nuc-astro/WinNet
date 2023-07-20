@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# If you move this script to .git/hooks/ the tests will be executed whenever commiting a new version
+
+# Tell the person whats going on
+echo "Preparing to run tests... "
+
+
+# Compile with the Makefile.example
+make -f Makefile.example clean > /dev/null 2>&1
+make -f Makefile.example -j4 > /dev/null 2>&1
+
+if [ ! -f bin/winnet ]; then
+  echo "Could not compile the run!"
+  echo "Check the code before the commit!"
+  echo "Exiting!"
+  exit 1
+fi
+
+# Get the ouput of the tests
+echo "Running tests..."
+output_tests=$(make -f Makefile.example tests) 
+last_line=$(echo "$output_tests" | grep 'tests have')
+# Check that all tests have passed
+if [[ ${last_line} = *"successfully"* ]]; then
+  :
+else
+  echo "Test failed - commit denied. Run tests and confirm they pass before pushing"
+  echo "The failing tests are:"
+  fail_tests=$(echo "$output_tests" | grep '[FAIL]')
+  echo "$fail_tests"
+  echo "Exiting!"
+  exit 1
+fi

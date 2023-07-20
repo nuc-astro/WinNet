@@ -1,0 +1,258 @@
+/** \page atests Automatic testcases
+
+@tableofcontents
+
+We have conducted a series of tests in order to monitor the performance and consistency of WinNet. 
+These test cases are automated, which facilitates future development, as new implementations can 
+be tested without much effort. Besides basic input/output tests (i.e., the proper input of the initial 
+composition and the Lagrangian tracer particle), they cover a range of numerical and physical scenarios, 
+which we will present in this appendix. To check the consistency of these simple tests scenarios, 
+we compare the result with either an analytic formula or any other reference. For comparison, 
+we define the relative deviation by:
+\f[ \begin{equation}
+\Delta = \max \left( \left| \frac{Y_{\mathrm{sol,i}}-Y_{\mathrm{cal,i}}}{Y_{\mathrm{sol,i}}} \right| \right),
+\end{equation} \f]
+where \f$Y_{\mathrm{sol}}\f$ is the expected abundances value and \f$Y_{\mathrm{cal}}\f$ the calculated abundance for the individual test case. Since all test cases have to be calculated within a reasonable time, they usually involve small reaction networks with only a few considered nuclei.
+
+
+\section neutron_decay    Neutron decay
+A simple physical test case is the decay of a neutron. This test reveals that mass 
+conservation is not a sufficient convergence criteria if all involved nuclei have 
+the same mass number (i.e., decays). As a consequence, the implementation of the 
+implicit Euler shows large deviations for this simple problem. We compare both,
+the results of Gears integration method which are close to the analytic solution 
+and the results of the implicit Euler integration method with the ones of a
+previous version of WinNet.
+We choose \f$Y_n(0)=0.01\f$ and \f$Y_p(0)=0.99\f$. 
+The decay can be described by the analytical formula:
+\f[\begin{align}
+Y_n(t) &= Y_n(0) \cdot e^{-\lambda _n \cdot t} \\
+Y_p(t) &= 1- Y_n(t),
+\end{align}\f]
+where \f$\lambda _n\f$ is the decay constant of neutrons. The analytical solution 
+is compared to the numerical solution, calculated with WinNet. The sensitivity of 
+the test is set to a relative deviation $\Delta \le 5 \cdot 10^{-4}$ at any time 
+of the calculation.
+
+@image html n_p.png "Comparison WinNet - Analytic (with Gear)." width=400
+
+\section ni_decay    The decay chain of Ni56
+
+The decay of \f$^{56}\f$Ni is more complex than the decay of a neutron, since \f$^{56}\f$Co
+is included as intermediate decay product. Furthermore, the absence of neutrons and protons 
+in this calculation introduces another test as many routines rely on them 
+(e.g., within WinNet it is not possible to calculate NSE composition without neutrons and protons). 
+This test ensures that neutrons and protons are not explicitly used in parts of 
+the code where it is not necessary. The initial composition is chosen to consist of \f$^{56}\f$Ni 
+only. The solution to this problem can be calculated analytically:
+\f[\begin{align}
+Y_\mathrm{Ni}(t) &= Y_\mathrm{Ni}(0) \cdot e^{- \lambda _{\mathrm{Ni}} \cdot t} \\
+Y_\mathrm{Co}(t) &= Y_\mathrm{Co}(0) \cdot e^{- \lambda _{\mathrm{Co}} \cdot t} + Y_\mathrm{Ni}(0) \cdot \frac{\lambda _{\mathrm{Ni}}}{\lambda _{\mathrm{Co}} - \lambda _{\mathrm{Ni}}} \cdot \left( e^{-\lambda _{\mathrm{Ni}}\cdot t} - e^{-\lambda _{\mathrm{Co}}\cdot t} \right)\\
+Y_\mathrm{Fe}(t) &= Y_\mathrm{Ni}(0)+Y_\mathrm{Co}(0) - Y_\mathrm{Ni}(t) - Y_\mathrm{Co}(t),
+\end{align}\f]
+where \f$Y_\mathrm{Ni}\f$, \f$Y_\mathrm{Co}\f$, and \f$Y_\mathrm{Fe}\f$ are the abundances 
+of \f$^{56}\f$Ni, \f$^{56}\f$Co, and \f$^{56}\f$Fe, respectively, and \f$\lambda\f$ the 
+corresponding decay constants. Similar to the decay of a neutron, the deviation within 
+the implicit Euler method is larger. To test if this is a specific weakness of WinNet, 
+we performed this test in two additional nuclear reaction networks. The figure below shows 
+the time evolution of abundances for the decay of nickel, using different nuclear reaction 
+networks and different integration methods. SkyNet,
+a python decay network (blue line) and WinNet (blue diamonds) use the implicit Euler method. 
+All codes are in nearly perfect agreement. Using Gears integration method within WinNet (red diamonds) 
+and the python decay network (red dashed line) shows a better agreement with the analytic solution (black line). 
+
+@image html gear_impliciteeuler_highres.png "Result of Ni decay test for several different networks and solver" width=400
+
+
+\section n_gamma (n,gamma)(gamma,n) equilibrium 
+In a hot r-process scenario, the reaction path and the \f$\beta\f$-decay timescales 
+for each isotopic chain are determined by (\f$n,\gamma\f$)-(\f$\gamma,n\f$) equilibrium. 
+For this scenario, forward and inverse reactions are involved. The implementation 
+of the inverse reactions in WinNet involves the evaluation of the partition functions. 
+A failure of this test may indicate problems with the implementation of the partition functions. 
+We choose a constant temperature of \f$T = 8 \; \mathrm{GK}\f$ and a density of 
+\f$\rho = 10^9 \; \mathrm{g \, cm ^{-3}}\f$. We include three nuclei, \f$^{64}\f$Ni, \f$^{65}\f$Ni, 
+and neutrons and start with an initial composition consisting of \f$^{65}\f$Ni only. 
+The analytic solution of the involved nuclear reaction network
+\f[\begin{align}
+1               &= Y_\mathrm{n} + 64\cdot Y_\mathrm{^{64}Ni} + 65\cdot Y_\mathrm{^{65}Ni} \\
+\frac{28}{65}   &=  28\cdot Y_\mathrm{^{64}Ni} + 28\cdot Y_\mathrm{^{65}Ni} \\
+0               &= \dot{Y}_\mathrm{n} = \lambda _{\mathrm{dis}} \cdot Y_\mathrm{^{65}Ni} - \rho \cdot \mathrm{N}_\mathrm{A} \cdot \sigma _\mathrm{capture} \cdot Y_\mathrm{n}  Y_\mathrm{^{64}Ni}
+\end{align} \f]
+is given by
+\f[ \begin{align}
+Y_\mathrm{n} &= \frac{\lambda _{\mathrm{dis}} - \sqrt{\lambda _{\mathrm{dis}}^2 + 4\cdot \rho \, N_\mathrm{A} \, \sigma _{\mathrm{capture}}  \, \lambda _{\mathrm{dis}} \cdot 1/65  }     }{-2 \cdot \rho \, N_\mathrm{A} \, \sigma _{\mathrm{capture}}} \\
+Y_\mathrm{^{64}Ni} &= Y_\mathrm{n} \\
+Y_\mathrm{^{65}Ni} &= 1/65 - Y_\mathrm{n},
+\end{align} \f]
+where \f$\sigma _{\mathrm{capture}}\f$ is the reaction rate of 
+\f$^{64}\mathrm{Ni}( n,\gamma )^{65}\mathrm{Ni}\f$ and \f$\lambda _{\mathrm{dis}}\f$ 
+is its inverse reaction rate. This test is performed using Gears integration method, 
+which shows a good agreement with the analytic solution.
+<table>
+<caption id="multi_row"></caption>
+<tr><th>Isotope         <th> \f$Y_i\f$ WinNet           <th> \f$Y_i\f$ analytic         <th> \f$\Delta\f$
+<tr><td>  n             <td> \f$7.35175\cdot 10^{-3}\f$ <td> \f$7.35175\cdot 10^{-3}\f$ <td> \f$1.79\cdot 10^{-9}\f$
+<tr><td>  \f$^{64}\f$Ni <td> \f$7.35175\cdot 10^{-3}\f$ <td> \f$7.35175\cdot 10^{-3}\f$ <td> \f$3.17\cdot 10^{-9}\f$
+<tr><td>  \f$^{65}\f$Ni <td> \f$8.03286\cdot 10^{-3}\f$ <td> \f$8.03286\cdot 10^{-3}\f$ <td> \f$4.96\cdot 10^{-9}\f$
+</table>
+
+\section alphanetwork Alpha network
+Even with a relatively small number of nuclei, the solution of the nuclear network 
+equations cannot be calculated analytically anymore. Therefore, we test the burning 
+of carbon and oxygen with \f$Y_{^{12}\mathrm{C}}(0)=1/24\f$ and \f$Y_{^{16}\mathrm{O}}(0)=1/32\f$
+under hydrostatic conditions. We choose a temperature of \f$T=3\,\mathrm{GK}\f$ and 
+a density of \f$\rho = 10^{9}\, \mathrm{g/cm^3}\f$. The calculation involves \f$13\f$ \f$\alpha\f$-nuclei 
+from \f$^4\f$He up to \f$^{56}\f$Ni. The burning is calculated for \f$t=10^{12}\, \mathrm{s}\f$. 
+We compare the final abundances with SkyNet, where this test is adapted from. 
+The final abundances show a nearly perfect match (\f$\Delta = 8.06\cdot 10^{-4}\f$) 
+between WinNet and SkyNet (Figure below) using Gears method. 
+
+@image html alphatest.png "Abundance evolution of WinNet and Skynet" width=400
+
+
+\section bigbang Big Bang nucleosynthesis
+
+The synthesis of elements during the first minutes after the creation of our universe 
+can be calculated with a relatively small network. Following [Winteler 2013](https://edoc.unibas.ch/29895/), 
+we create a trajectory for a flat, isotropic, and homogeneous universe to describe the big bang. 
+Furthermore, we assume a freeze-out of weak reactions at \f$T=0.8\, \mathrm{MeV}\f$ and a photon to 
+baryon ratio of \f$\eta = 6.11\cdot 10^{-10}\f$ as measured by the Wilkinson Microwave Anisotropy 
+Prope (WMAP) satellite. 
+
+@image html bbn.png "Primordial nucleosynthesis" width=400
+
+Due to the fast expansion, only light nuclei are synthesized and a small nuclear reaction 
+network is sufficient to describe 
+the problem. We compare the final abundances of this calculation with the final abundances of a 
+reference calculation that has been proven to give reliable results. 
+
+
+\section nse Nuclear statistical equilibrium
+
+
+Within this test, we compare the composition of NSE with an external NSE solver. 
+We choose a temperature of \f$T=7 \; \mathrm{GK}\f$, a density of \f$\rho = 10^7\, \mathrm{g\,cm^{-3}}\f$ 
+and an electron fraction of \f$Y_e = 0.5\f$. Furthermore, we do not include screening corrections. 
+This test passes within an accuracy of \f$\Delta = 2\cdot 10^{-4}\f$.
+@image html nse.png "Results for NSE of two different codes" width=400
+
+
+
+\section neutrino_reactions Neutrino reactions
+
+We test the implementation of neutrino reactions by assuming constant electron-neutrino luminosities 
+\f$L_e=10^{52}\, \mathrm{erg \,s^{-1}}\f$, \f$\bar{L_e}=5 \cdot 10^{52}\, \mathrm{erg \,s^{-1}}\f$ 
+and electron-neutrino temperatures \f$T_e=8 \, \mathrm{MeV}\f$, \f$\bar{T_e}=10 \, \mathrm{MeV}\f$. 
+We only include neutrons and protons in this test. After a sufficient time an equilibrium value is 
+obtained, which can be calculated by
+\f[\begin{align}
+Y_p &= \left(1+\frac{\bar{L_e}\cdot E_{e}\cdot \bar{\lambda_e} (8\;\mathrm{MeV})}{L_e\cdot \bar{E_{e}} \cdot \lambda_e (10\;\mathrm{MeV})} \right) ^{-1} &=& \, 2.1405\cdot 10^{-2}\\
+Y_n &= 1-Y_p &=& \, 7.8595 \cdot 10^{-2},
+\end{align}\f]
+where 
+\f[\begin{equation}
+E_e = 3.1514 \cdot T_e.
+\end{equation}\f]
+This test shows a high accuracy of \f$\Delta = 10^{-11}\f$.
+
+@image html lumin.png "Evolution of neutrons and protons under a constant neutrino luminosity" width=400
+
+
+
+\section bdelayed_fission Beta-delayed fission
+
+This test performs the \f$\beta\f$-delayed fission of \f$^{295}\mathrm{Am}\f$. 
+The initial composition consists of \f$^{295}\mathrm{Am}\f$ only and the calculation 
+is done for \f$t=10^{-2}\, \mathrm{s}\f$. We compare the final abundances with the 
+fragment distribution of ABLA [(Kelic et al. 2009)](https://ui.adsabs.harvard.edu/abs/2009arXiv0906.4193K/abstract), 
+(Kodama & Takahashi 1976)[https://ui.adsabs.harvard.edu/abs/1975NuPhA.239..489K/abstract], and 
+(Panov et al. 2001)[https://ui.adsabs.harvard.edu/abs/2001NuPhA.688..587P/abstract].
+
+@image html fissfrag_test.png "Fission fragmet distribution of 295Am after 0.01 s" width=400
+
+
+
+\section bdecay_format Beta-decay format
+
+The nuclear reaction rates in WinNet are implemented using the reaction rate database 
+JINA Reaclib. The format of this database restricts the reaction to a maximum number 
+of four products. However, the \f$\beta\f$-decay of very neutron rich nuclei involves 
+the release of many neutrons (e.g., up to $10$ neutrons in the calculation of 
+[(Moeller et al. 2019)](https://matthewmumpower.com/publications/paper/2019/moller/nuclear-properties-for-astrophysical-and-radioactive-ion-beam-applications-ii)). 
+We therefore introduced another format to implement \f$\beta\f$-decays where all 
+reactions that are also given in the Reaclib file format are replaced. 
+The test calculates the decay of \f$^{73}\mathrm{Ca}\f$ given in \f$\beta\f$-decay 
+format along with the decay of \f$^{24}\mathrm{O}\f$ given in Reaclib file format.
+
+@image html beta_decay_format_test.png "The beta-decay of O24 (Reaclib) and Ca73 (Other format)." width=400
+
+The final abundances can be calculated analytically for the decay of \f$^{24}\mathrm{O}\f$, 
+and result from the probability to emit a neutron in the case of \f$^{73}\mathrm{Ca}\f$. 
+The percentage of each decay product of \f$^{73}\mathrm{Ca}\f$ is in excellent agreement with 
+the input probability for each corresponding decay-channel and the test is set to a 
+sensitivity of \f$\Delta < 10^{-5}\f$.
+
+
+
+\section parametric Analytic trajectory mode
+The hydrodynamic conditions can be given by either a trajectory file or an analytic expression.
+We test that WinNet follows the correct expressions by assuming 
+\f[
+\begin{align}
+T_9  &= \sin(x)+10^{-5} \cdot e^{-x+20}+4-10^{-2} \cdot x \\
+\rho &= (5\cdot 10^{-1} \cdot \cos(x)+1) \cdot 10^{6}+\sin(\pi) \\
+R    &= \ln(x)+1
+\end{align}
+\f]
+The output is checked with the analytic expression.
+@image html parametric.png "Analytic temperature, density, and radius evolution." width=400
+
+
+\section switch_evolution Switch evolution mode
+This test ensures that the switches between NSE, Network, and expansion work properly.
+For this a simple 154 isotope network is calculated with an artificial trajectory. 
+The trajectory was created that it switches between NSE and network several times and 
+that it is short enough that there is an expansion in the end of the simulation.
+The test passes for \f$\Delta < 10^{-3}\f$.
+<div class="row">
+@image html reference_abundances.png "Evolution of neutrons, protons, and alphas." width=400
+@image html switch_evolution.png "Temperature evolution." width=400
+</div>
+
+\section tabulated_rates Tabulated rates
+To ensure that the tabulated rates work as intended, we run a decay in reaclib format 
+together with an \f$(n, \gamma)\f$ reaction. The latter reaction is included in the reaclib file
+as well, but with invalid parameters. The result is compared with a result of a calculation
+with the same reactions, but all given in reaclib format.
+The test passes if none of the abundances deviate by more than \f$\Delta < 5\cdot 10^{-4}\f$.
+
+
+@image html tabulated_rates.png "Evolution of the abundances with reactions given in different formats." width=400
+
+
+\section twr Theoretical weak rates
+To ensure that the theoretical \f$\beta\f$-decays and electron captures are working, we run a neutron decay test,
+but this time with theoretical weak rates enables (iwformat=2). The result is compared with the analytic solution.
+The test passes if neutrons and protons stay within a deviation of \f$ \Delta = 5\cdot 10^{-4} \f$.
+
+@image html twr.png "Comparison of WinNet and an analytic result. Furthermore the expected analytic result using the reaclib is plotted." width=400
+
+\section screening Screening corrections
+Screening corrections have been tested with the heavy ion \f$^{12}\mathrm{C}\f$ + \f$^{12}\mathrm{C}\f$ reaction. 
+We apply hydrostatic conditions of \f$ 10^{8}\f$ g/ccm and 1 GK, evolving pure \f$^{12}\mathrm{C}\f$ matter for
+\f$ 10^{6}\f$ s. The result is compared with an external calculation of the result that has been coded in Python.
+
+@image html screening.png "Evolution of carbon assuming screening corrections within WinNet and calculated within Python." width=400
+
+\section expansion Adiabatic expansion
+Within this test we ensure that the radius, density, and temperature evolves in a reasonable way during the expansion.
+In the adiabatic expansion the temperature evolves proportional to
+\f[
+S \propto T^{3}\rho^{-1}
+\f]
+Within the test we compare the temperature, density, and radius evolution with a reference run. 
+All quantities have to stay within a deviation of \f$ \Delta = 10^{-8} \f$.
+@image html expansion.png "Evolution of temperature, density, radius, and entropy within the expansion." width=400
+
+*/

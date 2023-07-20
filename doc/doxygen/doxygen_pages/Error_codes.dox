@@ -1,0 +1,231 @@
+/** \page error_codes Error codes
+@tableofcontents
+
+## Error codes ##
+
+A typical error code is lead by a "W" and followed by six numbers. An Example is <b><span style="color:red">W12</span><span style="color:blue">0001</span></b>.
+Hereby, the first three red colored characters indicate the file where the error occured and the last four blue colored digits the error.
+
+### File code ###
+
+The first three characters of the error code are translated to the following files:
+
+<table>
+<caption id="File translation">File translation</caption>
+<tr><th>Code                      <th>File
+<tr><td> W10 <td> \ref analysis.f90
+<tr><td> W11 <td> \ref benam_class.f90
+<tr><td> W12 <td> \ref beta_decay_rate_module.f90
+<tr><td> W13 <td> \ref chem_pot.f90
+<tr><td> W14 <td> \ref driver.f90
+<tr><td> W15 <td> \ref effphase_class.f90
+<tr><td> W16 <td> \ref error_msg_class.f90
+<tr><td> W17 <td> \ref expansion_module.f90
+<tr><td> W18 <td> \ref file_handling_class.f90
+<tr><td> W19 <td> \ref fission_rate_module.f90
+<tr><td> W20 <td> \ref flow_module.f90
+<tr><td> W21 <td> \ref format_class.f90
+<tr><td> W22 <td> \ref gear_module.f90
+<tr><td> W23 <td> \ref global_class.f90
+<tr><td> W24 <td> \ref hdf5_module.f90
+<tr><td> W25 <td> \ref hydro_trajectory.f90
+<tr><td> W26 <td> \ref detailed_balance.f90
+<tr><td> W27 <td> \ref inter_module.f90
+<tr><td> W28 <td> \ref jacobian_class.f90
+<tr><td> W29 <td> \ref mergesort_module.f90
+<tr><td> W30 <td> \ref network_init_module.f90
+<tr><td> W31 <td> \ref nuclear_heating.f90
+<tr><td> W32 <td> \ref nucstuff_class.f90
+<tr><td> W33 <td> \ref nuflux_class.f90
+<tr><td> W34 <td> \ref parameter_class.f90
+<tr><td> W35 <td> \ref pardiso_class.f90
+<tr><td> W36 <td> \ref parser_module.f90
+<tr><td> W37 <td> \ref quadpack_module.f90
+<tr><td> W38 <td> \ref reaclib_rate_module.f90
+<tr><td> W39 <td> \ref readini.f90
+<tr><td> W40 <td> \ref screening_module.f90
+<tr><td> W41 <td> \ref single_zone_vars.f90
+<tr><td> W42 <td> \ref tabulated_rate_module.f90
+<tr><td> W43 <td> \ref timestep_module.f90
+<tr><td> W44 <td> \ref tw_rate_module.f90
+<tr><td> W45 <td> \ref winnse_module.f90
+<tr><td> W46 <td> \ref alpha_decay_rate_module.f90
+</table>
+
+
+
+### Error code translation###
+
+The error codes are translated to the following problems:
+
+<table>
+<caption id="File translation">Error code translation</caption>
+<tr><th>Code                      <th>File
+<tr><td> W100000 <td> Unknown error.
+<tr><td> W110001 <td> Allocation failure.
+<tr><td> W110002 <td> Deallocation failure.
+<tr><td> W110003 <td> Problem reading WinVn.
+<tr><td> W110004 <td> Problem reading sunet.
+<tr><td> W120001 <td> Allocation failure.
+<tr><td> W120002 <td> Deallocation failure.
+<tr><td> W130001 <td> Allocation failure.
+<tr><td> W130002 <td> Deallocation failure.
+<tr><td> W130003 <td> Temperature was off grid (too hot).
+<tr><td> W130004 <td> Temperature was off grid (too cold).
+<tr><td> W130005 <td> rho * ye was off grid (too high).
+<tr><td> W130006 <td> rho * ye was off grid (too low).
+<tr><td> W140003 <td> Solver not known.
+<tr><td> W160003 <td> Unable to convert string to integer.
+<tr><td> W160004 <td> Unable to convert string to float.
+<tr><td> W170003 <td> Expansion type unknown.
+<tr><td> W170004 <td> Extrapolation width larger than trajectory grid points.
+<tr><td> W170005 <td> Extrapolation width smaller than 2.
+<tr><td> W170006 <td> Expansion velocity is negative.
+<tr><td> W170007 <td> Error calling the EOS.
+<tr><td> W170008 <td> Expansion type unknown.
+<tr><td> W180003 <td> No free file id.
+<tr><td> W180004 <td> Unable to open file for writing.
+<tr><td> W180005 <td> Unable to open file for reading.
+<tr><td> W180006 <td> Unable to close file due to invalid id.
+<tr><td> W180007 <td> Unable to close file.
+<tr><td> W180008 <td> Unable to delete file.
+<tr><td> W190001 <td> Allocation failure.
+<tr><td> W190002 <td> Deallocation failure.
+<tr><td> W190003 <td> Unknown fission flag.
+<tr><td> W190004 <td> Unable to read abla_n fission file.
+<tr><td> W190005 <td> Unable to rewind abla_n fission file.
+<tr><td> W190006 <td> Unable to read abla_beta fission file.
+<tr><td> W190007 <td> Unable to rewind abla_beta fission file.
+<tr><td> W190008 <td> Unable to include fission fragment.
+<tr><td> W190009 <td> Fragment yield not conserved.
+<tr><td> W220001 <td> Allocation failure.
+<tr><td> W240001 <td> Allocation failure.
+<tr><td> W240002 <td> Deallocation failure.
+<tr><td> W240003 <td> Could not initialize predefined datatypes.
+<tr><td> W240004 <td> Unable to open hdf5 file.
+<tr><td> W240005 <td> Unable create hdf5 group.
+<tr><td> W240006 <td> Unable to create dataspace.
+<tr><td> W240007 <td> Unable to close the dataspace.
+<tr><td> W240008 <td> gzip compression filter was not available.
+<tr><td> W240009 <td> gzip compression filter was not available for (de)compression.
+<tr><td> W240010 <td> Unable to modify dataset properties.
+<tr><td> W240011 <td> Unable to deflate and apply gzip filter.
+<tr><td> W240012 <td> Unable to enable chunking.
+<tr><td> W240013 <td> Unable to write dataset.
+<tr><td> W240014 <td> Unable to extend dataset.
+<tr><td> W240015 <td> Unable to create new memspace.
+<tr><td> W240016 <td> Unable to select hyperslab.
+<tr><td> W240017 <td> Unable to close hdf5 group.
+<tr><td> W240018 <td> Unable to close hdf5 file.
+<tr><td> W240019 <td> Unable to close property list.
+<tr><td> W260001 <td> Allocation failure.
+<tr><td> W260002 <td> Deallocation failure.
+<tr><td> W240003 <td> Unable to create chapter 7 reverse rate.
+<tr><td> W240004 <td> Reaclib chapter of reaction not valid.
+<tr><td> W240005 <td> Detailed balance parameter turned off, but trying to calculate rate.
+<tr><td> W270003 <td> Value for interpolation was out of bounds.
+<tr><td> W270004 <td> Unknown interpolation type.
+<tr><td> W280003 <td> Reaclib rate got infinity.
+<tr><td> W280004 <td> Fission rate got infinity.
+<tr><td> W280005 <td> n-induced fission rate got infinity.
+<tr><td> W280006 <td> Ye got NaN.
+<tr><td> W280007 <td> Ye got negative.
+<tr><td> W280008 <td> Ye got larger 1.
+<tr><td> W280009 <td> Reaclib chapter unknown.
+<tr><td> W280009 <td> rho x ye got NaN.
+<tr><td> W280010 <td> dYdt got NaN.
+<tr><td> W280011 <td> Unknown reaction origin.
+<tr><td> W290001 <td> Allocation failure.
+<tr><td> W290003 <td> Unknown sort mode.
+<tr><td> W290004 <td> Inconsistent index array.
+<tr><td> W300001 <td> Allocation failure.
+<tr><td> W300003 <td> Last temperature point of trajectory too high.
+<tr><td> W300004 <td> Unknown trajectory_mode.
+<tr><td> W300005 <td> Error when calling EOS.
+<tr><td> W300006 <td> Unknown termination_criterion.
+<tr><td> W310003 <td> Error in EOS.
+<tr><td> W310004 <td> Heating mode not implemented.
+<tr><td> W320001 <td> Allocation failure.
+<tr><td> W320003 <td> Unknown Reaclib chapter.
+<tr><td> W320004 <td> No corresponding chapter.
+<tr><td> W330001 <td> Allocation failure.
+<tr><td> W330003 <td> Unknown neutrino type.
+<tr><td> W330004 <td> Unknown neutrino reaction type.
+<tr><td> W330005 <td> Nuflag not implemented.
+<tr><td> W330006 <td> Wrong formatted nu-channel file.
+<tr><td> W340003 <td> Unable to read parameter file.
+<tr><td> W340004 <td> Unknown parameter.
+<tr><td> W340005 <td> Unable to parse parameter.
+<tr><td> W340006 <td> NSE temperatures are inconsistent.
+<tr><td> W340007 <td> Init temperatures are inconsistent.
+<tr><td> W340008 <td> nr_mincount and nr_maxcount are inconsistent.
+<tr><td> W340009 <td> Inconsistent termination criterium.
+<tr><td> W350003 <td> el(i) got NaN.
+<tr><td> W350004 <td> Unknown solver.
+<tr><td> W360001 <td> Allocation failure.
+<tr><td> W360003 <td> Unable to parse operator.
+<tr><td> W360004 <td> Unable to parse function.
+<tr><td> W360005 <td> Unable to convert string.
+<tr><td> W360006 <td> Unknown character.
+<tr><td> W360007 <td> Array was not allocated.
+<tr><td> W380001 <td> Allocation failure.
+<tr><td> W380003 <td> "Res" flag not known.
+<tr><td> W380004 <td> "Rev" flag not known.
+<tr><td> W390001 <td> Allocation failure.
+<tr><td> W390002 <td> Deallocation failure.
+<tr><td> W390003 <td> Unable to read custom snapshots.
+<tr><td> W390004 <td> Trajectory time unit not known.
+<tr><td> W390005 <td> Trajectory temperature unit not known.
+<tr><td> W390006 <td> Trajectory density unit not known.
+<tr><td> W390007 <td> Trajectory radius unit not known.
+<tr><td> W390008 <td> Trajectory neutrino temperature unit not known.
+<tr><td> W390009 <td> Trajectory neutrino energy unit not known.
+<tr><td> W390010 <td> Trajectory neutrino luminosity unit not known.
+<tr><td> W390011 <td> Trajectory column name not known.
+<tr><td> W390012 <td> Trajectory necessary column missing.
+<tr><td> W390013 <td> Trajectory necessary neutrino column missing.
+<tr><td> W390014 <td> Trajectory radius not specified correctly.
+<tr><td> W390015 <td> Last time in trajectory was negative.
+<tr><td> W390016 <td> Unphysical value of Ye in trajectory.
+<tr><td> W390017 <td> Unphysical value of radius in trajectory.
+<tr><td> W390018 <td> Unphysical value of temperature in trajectory.
+<tr><td> W390019 <td> Unphysical value of density in trajectory.
+<tr><td> W390020 <td> Trajectory time not monotonically increasing.
+<tr><td> W390021 <td> Seed format column was not known.
+<tr><td> W390022 <td> A column for the seed file was missing.
+<tr><td> W390023 <td> Abundance information in seed file was missing.
+<tr><td> W390024 <td> Failed to read the trajectory file.
+<tr><td> W400001 <td> Allocation failure.
+<tr><td> W400003 <td> Screening mode not implemented.
+<tr><td> W400004 <td> Screening derivatives not implemented.
+<tr><td> W420001 <td> Allocation failure.
+<tr><td> W430003 <td> Timestep got NaN after ye_timestep.
+<tr><td> W430004 <td> Timestep got NaN after abchange_timestep.
+<tr><td> W430005 <td> Timestep got NaN after hydro_timestep.
+<tr><td> W430006 <td> Timestep got NaN after restrict_timestep.
+<tr><td> W430007 <td> Timestep got NaN in hydro_timestep.
+<tr><td> W430008 <td> Timestep got too small.
+<tr><td> W430009 <td> Error in EOS.
+<tr><td> W430010 <td> Maximum number of adapting steps needed.
+<tr><td> W430011 <td> Not converging within mass conservation requirement.
+<tr><td> W440001 <td> Allocation failure.
+<tr><td> W440002 <td> Deallocation failure.
+<tr><td> W440003 <td> Weak rate grid was not regular.
+<tr><td> W440004 <td> Unknown iwinterp type.
+<tr><td> W440005 <td> Not all weak rates could get replaced.
+<tr><td> W440006 <td> Replaced too many rates.
+<tr><td> W440007 <td> Not all rates were removed.
+<tr><td> W440008 <td> Too many rates were removed.
+<tr><td> W440009 <td> Unknown array to interpolate.
+<tr><td> W450003 <td> Maximum number of iterations reached.
+<tr><td> W450004 <td> Temperature difference was too small.
+<tr><td> W450005 <td> NSE solver did not converge.
+<tr><td> W450006 <td> Unknown NSE solver.
+<tr><td> W460001 <td> Allocation failure.
+<tr><td> W460002 <td> Deallocation failure.
+</table>
+
+
+
+
+*/

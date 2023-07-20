@@ -1,0 +1,30 @@
+/** \page how_it_works How it works
+@tableofcontents
+
+## How it works ##
+A reaction network takes reaction rates and thermodynamic conditions as an input and calculates nucleosynthetic yields. 
+Here we describe the code flow and the reaction rate procedure.
+
+### Code structure and flow
+
+In the following, we describe the control flow of the nuclear reaction network code WinNet. The code starts by reading a user-defined file in the initialization step. This file contains runtime parameters such as paths to nuclear input data and other options. 
+
+After the initialization, the evolution mode is chosen. This mode is set to either _Network_ or _NSE_ and depends on the temperature. The implementation of several modes is necessary as the most efficient approach to determine the composition changes with temperature. Whereas solving the full network equations in a temperature regime where an equilibrium holds can lead to arbitrarily small time steps, solving NSE conditions in too low temperatures can lead to incorrect results. 
+
+For both evolution modes, the temperature, density, and neutrino quantities (i.e., neutrino temperatures and luminosities) are updated using either the Lagrangian tracer particle or a user-defined extrapolation (i.e., adiabatic, exponential, free). In the network regime, updating the temperature depends on the input settings and includes some special cases. If the user allows a feedback of the nuclear energy release on the temperature, a differential equation of the entropy is solved explicitly together with the nuclear reaction network equations. After updating the temperature, density, and neutrino properties, the reaction network equations are solved numerically. For the network regime, the full set of coupled differential equations (including all reactions) is solved. In the NSE regime, only weak reactions are considered in the equations and only the electron fraction is evolved. Furthermore, the NSE equations are solved.
+
+If no convergence is achieved, the step size is halved and the iteration is repeated. Otherwise, an output is generated and the time is evolved (indicated by ``rotate timelevels'' in the Figure below). The main loop ends when an user defined termination criterion is fulfilled. Before the code terminates, final output such as the final abundances and mass fractions are written.
+
+@image html flow_diagram.png "Flow diagram of WinNet" height=900
+
+
+### Rate replacement procedure
+Even though all nuclei are connected to every other by nuclear reactions, in practice most of the reactions are negligible. The most important reactions for astrophysical environments are given by reactions that involve nucleons or $\alpha$-particles, decays, neutrino reactions, electron- and positron captures, or fission reactions (See Figure below). There exists many formats of the reaction rates, WinNet is build around the Reaclib reaction rate library and this library usually contains the majority of reactions [Cyburt et al.2010](https://ui.adsabs.harvard.edu/abs/2010ApJS..189..240C). However, also other formats are supported to cover the variety of available reaction rate formats as, e.g., given as an output from the reaction rate code TALYS (see [here](https://tendl.web.psi.ch/tendl_2019/talys.html)). Rates given in different formats are either added or merged into the list of all rates within WinNet. Hereby, the different formats have different priorities, starting with the reaclib reactions with the lowest priority. To make an example, in case the decay of \f$^{172}\f$Eu is included in the Reaclib file format and the $\beta$-delayed neutron emission format, the Reaclib rate will be replaced. If, in addition this rate is also included in the theoretical \f$\beta^+\f$, \f$\beta^-\f$, ec, and pc rates it is replaced once again. The priority of the individual rates is shown below.
+@image html rate_replacement_scheme.png "Rate priorities within WinNet" height=400
+We note that WinNet does not perform any evaluation on the reliability of a rate. If a rate is contained multiple times in different formats (not to confuse with a rate being contained multiple times in the same format which can happen due to, e.g., resonances in the rate), it is the users responsibility to choose the desired one by either fully automatically using the one with the highest priority or by deleting unwanted rates from high priority formats. The advantage of this method is that rates can be replaced without the need to delete them from other sources.
+In the following we give a short overview of the supported file formats within WinNet.
+
+
+
+
+*/

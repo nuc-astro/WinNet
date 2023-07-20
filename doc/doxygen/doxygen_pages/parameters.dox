@@ -1,0 +1,1972 @@
+/** \page parameters Parameters
+
+@tableofcontents
+
+
+
+\section adapt_stepsize_maxcount      adapt_stepsize_maxcount
+
+  Maximum amount of adapting the time step in case the Newton-Raphson did not converge
+  within \ref nr_maxcount (\ref solver = 0) or \ref gear_nr_maxcount (\ref solver = 1).
+  The default value is 20.
+
+   @par Example template line:
+   `` adapt_stepsize_maxcount= 20 ``
+
+   @see parameter_class::adapt_stepsize_maxcount, \ref solver, \ref nr_maxcount,
+        timestep_module::advance_gear, timestep_module::advance_implicit_euler
+        
+        
+\section alpha_decay_file alpha_decay_file
+ Path to a file with alpha-decays. This parameter will only be relevant if \ref use_alpha_decay_file is turned on. 
+ An example file could look like:
+ \file{
+ sb103   7.84058e+10
+ sb104   4.29655e+05
+ sb105   1.37511e+10
+ sb106   1.03780e+17
+ te103   8.30806e+02
+ ...
+ }
+ Within this file, first the name of the decaying nucleus is given and afterwards the alpha-decay
+ half-life in seconds.  
+   
+   
+   @par Example template line:
+   `` alpha_decay_file = alpha_decays.dat ``
+
+   @see \ref parameter_class::alpha_decay_file, \ref alpha_decay_rate_module, \ref alpha_decay_src_ignore,
+        \ref alpha_decay_zmax, \ref alpha_decay_zmin, \ref use_alpha_decay_file, \ref alpha_decay_ignore_all
+
+
+\section alpha_decay_ignore_all alpha_decay_ignore_all
+ Flag to decide if any alpha-decay that is contained in the \ref reaclib_file should get replaced or not. If this parameter
+ is set to 'yes' (default), all reaclib rates will have priority over the additional alpha-decay rates. This parameter
+ will only be relevant if \ref use_alpha_decay_file is turned on. If \ref alpha_decay_ignore_all is turned on,
+ \ref alpha_decay_src_ignore will become irrelevant.
+  
+   @warning When disabling this parameter, other rates that are contained in the reaclib may get replaced!
+   
+   @par Example template line:
+   `` alpha_decay_ignore_all = no ``
+
+   @see \ref parameter_class::alpha_decay_ignore_all, \ref alpha_decay_rate_module, \ref alpha_decay_src_ignore,
+        \ref alpha_decay_zmax, \ref alpha_decay_zmin, \ref use_alpha_decay_file
+
+
+\section alpha_decay_src_ignore alpha_decay_src_ignore
+ Flag to decide if a alpha-decay that is contained in the \ref reaclib_file should get replaced or not. If the 
+ source label is given in this parameter here, all rates with this source label will not get replaced. This parameter
+ will only be relevant if \ref use_alpha_decay_file is turned on and \ref alpha_decay_ignore_all is set to no.
+ Per default, experimentally measured rates with the labels wc07, wc12, and wc17 are not replaced.
+  
+   @par Example template line:
+   `` alpha_decay_src_ignore = wc12;wc17 ``
+
+   @see \ref parameter_class::alpha_decay_src_ignore, \ref alpha_decay_rate_module, \ref alpha_decay_ignore_all,
+        \ref alpha_decay_zmax, \ref alpha_decay_zmin, \ref use_alpha_decay_file
+   
+\section alpha_decay_zmax alpha_decay_zmax
+ Maximum proton number to include additional alpha-decays. This parameter
+ will only be relevant if \ref use_alpha_decay_file is turned on.
+ The default value is 184.
+  
+   @par Example template line:
+   `` alpha_decay_zmax = 200 ``
+
+   @see \ref parameter_class::alpha_decay_zmin, \ref alpha_decay_rate_module, \ref alpha_decay_ignore_all,
+        \ref alpha_decay_zmin, \ref alpha_decay_src_ignore, \ref use_alpha_decay_file
+    
+  
+\section alpha_decay_zmin alpha_decay_zmin
+ Minimum proton number to include additional alpha-decays. This parameter
+ will only be relevant if \ref use_alpha_decay_file is turned on.
+ The default value is 20.
+  
+   @par Example template line:
+   `` alpha_decay_zmin = 84 ``
+
+   @see \ref parameter_class::alpha_decay_zmin, \ref alpha_decay_rate_module, \ref alpha_decay_ignore_all,
+        \ref alpha_decay_zmax, \ref alpha_decay_src_ignore, \ref use_alpha_decay_file
+    
+   
+\section beta_decay_file            beta_decay_file
+
+   This file is used to replace \f$\beta\f$-decays from the Reaclib file. An example of such
+   a file looks like:
+   <div style='width:600px;overflow:scroll;padding:5px;background-color:#e8e8e8;
+   scrollbar-base-color:#DEBB07;border:1px dashed grey;display: inline-block'><pre>
+   ...
+    ca73    1.268195e-03
+    0.0030   0.0000   0.0010   0.0000   0.0020   0.9950   0.0000   0.0000   0.0000   0.0000   0.0000   
+    ...</pre></div>
+   This file is only read if \ref use_beta_decay_file is enabled. If additionally the information of 
+   the average Q-Value and the average neutrino energy of the decay is known, one can add this info behind
+   the half life, e.g.,
+   <div style='width:600px;overflow:scroll;padding:5px;background-color:#e8e8e8;
+   scrollbar-base-color:#DEBB07;border:1px dashed grey;display: inline-block'><pre>
+   ...
+    ca73    1.268195e-03  2.443690e+01  9.034672e+00
+    0.0030   0.0000   0.0010   0.0000   0.0020   0.9950   0.0000   0.0000   0.0000   0.0000   0.0000   
+    ...</pre></div>
+    where the first number behind the nucleus name is the half-life, the second number the average Q-value, and the third number the average neutrino energy.
+    This Q-value information is only used in case \ref heating_mode is larger than 0.
+
+   @par Example template line:
+   `` beta_decay_file = "@WINNET@/data/beta_decays_moeller_mumpower.dat" ``
+
+   @see parameter_class::beta_decay_file, parameter_class::use_beta_decay_file, \ref beta_decay_rate_module, \ref beta_decay_src_ignore.
+   
+
+\section beta_decay_src_ignore            beta_decay_src_ignore
+
+   Colon seperated string with labels of rates that should not get replaced by the beta_decays. Only the source string of 
+   the P0n channel of the reaclib is hereby compared. Experimental rates are ignored per default.
+   This parameter is only relevant if \ref use_beta_decay_file is enabled
+
+   @par Example template line:
+   `` beta_decay_src_ignore = wc07;wc12;wc17 ``
+
+   @see parameter_class::beta_decay_file, parameter_class::use_beta_decay_file, \ref beta_decay_rate_module.
+
+
+\section bfission_file      bfission_file
+
+   File that contains the fission fragment probabilities of \f$\beta\f$-delayed
+   and spontaneous fission. An example is given by:
+   \file{
+   90 231      39
+   7.800592E-07   0.000   0.180
+    79  31  0.0137
+    80  32  0.0191
+    81  32  0.0199
+    82  32  0.0258
+   ...}
+   Here, the first line specifies the fissioning nucleus
+   (atomic number, mass number) and the amount of fission fragments (39).
+   The second line gives the rate of the reaction, the amount of incoming neutrons
+   and the amount of outcoming neutrons. It is not used within WinNet.
+   From the third line onwards, the fission fragments are specified
+   (mass number, atomic number) together with their probability.
+   The third column therefore adds up to one over all fragments. This file
+   is read only when \ref fissflag was set to four.
+
+   @par Example template line:
+   `` fission_file= "@WINNET@/data/BFISSION" ``
+
+   @see parameter_class::bfission_file, \ref fission_rate_module, \ref nfission_file, \ref fissflag
+   
+   
+   
+\section nfission_file      nfission_file
+
+   Fission fragment probabilities of neutron induced fission. In case of 
+   \ref fissflag equal to 4 (ABLA) this file has to be in the identical format
+   as the \ref bfission_file.
+   For \ref fissflag equal to 3, the file format has to be as given in 
+   [Mumpower et al. 2020](https://journals.aps.org/prc/supplemental/10.1103/PhysRevC.101.054607).
+   An example is given by:
+   \file{
+     93  220  574
+     0 0 0
+     019  048  1.96607e-06
+     020  048  2.24289e-05
+     020  049  1.88041e-05
+     020  050  7.65944e-06
+     020  051  1.62040e-06
+     021  048  1.17847e-05
+     021  049  3.62928e-05
+   }
+   The first line contains the Z, A and number of the fissioning nucleus.
+   The next line is a dummy line. Then followed by Z, A and the yield Y(Z,A).
+   Note that \f$\sum Y(Z,A) \cdot A \f$ should be the mass number of the
+   parent nucleus. Furthermore,  \f$\sum Y(Z,A) = 2\f$.
+   
+
+   @par Example template line:
+   `` nfission_file= "@WINNET@/data/NFISSION" ``
+
+   @see parameter_class::nfission_file, \ref fission_rate_module, \ref bfission_file, \ref fissflag, 
+        [Mumpower et al. 2020](https://journals.aps.org/prc/supplemental/10.1103/PhysRevC.101.054607)
+
+   
+   
+   
+   \section calc_nsep_energy           calc_nsep_energy
+
+      Calculate the average neutron separation energy in every time step.
+      This can be useful to determine the path of the r-process.
+      If this parameter is set to "yes", an additional column will appear
+      in the file _mainout.dat_, showing the average neutron separation energy.
+
+      @par Example template line:
+      ``` calc_nsep_energy = no ```
+
+      \see \ref parameter_class::calc_nsep_energy, analysis::output_mainout, analysis::calc_nseparation_energy
+
+
+   \section chem_pot_file              chem_pot_file
+
+      Path to a file that contains the tabulated chemical potential of electron-positron
+      gas taken from the Helmholtz equation of state [Timmes & Arnett 1999](https://ui.adsabs.harvard.edu/abs/1999ApJS..125..277T/abstract).
+      These are used in order to calculate the electron captures and \f$\beta\f$-decays
+      that are given in the \ref weak_rates_file or for the contribution to the entropy in case of \ref heating_mode greater than 0.
+      The file and \ref chem_pot.f90 is a derivative of what is available at [Cococubed](https://cococubed.com/code_pages/chemical_potential.shtml).
+      The chem_pot_file is read and used in case the parameter \ref use_timmes_mue is set to yes (which is the default) or when nuclear heating
+      is turned on.
+
+      @par Example template line:
+      ``` chem_pot_file= "@WINNET@/data/chem_table.dat" ```
+
+      @see \ref chem_pot.f90, parameter_class::chem_pot_file, \ref use_timmes_mue, \ref weak_rates_file, \ref heating_mode
+
+   \section custom_snapshots           custom_snapshots
+      Boolean parameter that specifies if snapshots should be done only at
+      specific points in time. In this way, the whole composition can be printed ,e.g., after one year.
+      The file will be stored in the directory _snaps/_. If set to ``yes'', a file has to be
+      provided with the parameter \ref snapshot_file.
+
+      @par Example template line:
+      ``` custom_snapshots = yes ```
+
+      @see parameter_class::custom_snapshots, analysis::output_iteration,
+           analysis::printsnap, timestep_module::restrict_timestep
+
+   \section detailed_balance_src_ignore           detailed_balance_src_ignore
+      This parameter only has an effect in case \ref use_detailed_balance is enabled. The source labels given
+      within this parameter will be ignored by the detailed balance calculation of WinNet, i.e., no rates
+      will be removed or added for any rates given within the provided source labels.
+
+      @par Example template line:
+      ``` detailed_balance_src_ignore = rath;kd02 ```
+
+      @see \ref use_detailed_balance, \ref use_detailed_balance_q_reac, \ref detailed_balance_src_q_reac,
+           \ref detailed_balance_src_q_winvn, \ref detailed_balance.f90
+
+
+   \section detailed_balance_src_q_reac           detailed_balance_src_q_reac
+      This parameter only has an effect in case \ref use_detailed_balance is enabled. The source labels given
+      within this parameter will use the Q-value as given in the rate file for the calculation of the inverse rate.
+      This is independent on whether \ref use_detailed_balance_q_reac is enabled or not.
+
+      @par Example template line:
+      ``` detailed_balance_src_q_reac = rath;kd02 ```
+
+      @see \ref use_detailed_balance, \ref use_detailed_balance_q_reac, \ref detailed_balance_src_ignore,
+           \ref detailed_balance_src_q_winvn, \ref detailed_balance.f90
+
+   \section detailed_balance_src_q_winvn           detailed_balance_src_q_winvn
+      This parameter only has an effect in case \ref use_detailed_balance is enabled. The source labels given
+      within this parameter will use the Q-value as given in the \ref isotopes_file (winvn) by the mass excess for the calculation of the inverse rate.
+      This is independent on whether \ref use_detailed_balance_q_reac is enabled or not.
+
+      @par Example template line:
+      ``` detailed_balance_src_q_winvn = rath;kd02 ```
+
+      @see \ref use_detailed_balance, \ref use_detailed_balance_q_reac, \ref detailed_balance_src_ignore,
+           \ref detailed_balance_src_q_reac, \ref detailed_balance.f90
+
+   \section Enue                        Enue
+      Function of the average electron-neutrino energies in MeV.
+      Only used when \ref neutrino_mode is set to "analytic".
+      @par Example template line:
+         ``` Enue=16.66 ```
+      @see parameter_class::enue, \ref nuflux_class
+
+   \section Enuebar                     Enuebar
+      Function of the average electron-antineutrino energies in MeV.
+      Only used when \ref neutrino_mode is set to "analytic".
+      @par Example template line:
+         ``` Enuebar=16.66 ```
+      @see parameter_class::enuebar, \ref nuflux_class
+
+      \section Enux                        Enux
+         Function of the average muon-neutrino and tauon neutrino energies in MeV.
+         Only used when \ref neutrino_mode is set to "analytic" and
+         \ref nuflag is 4 or 5.
+         @par Example template line:
+            ``` Enux=16.66 ```
+         @see parameter_class::enux, \ref nuflux_class
+
+      \section Enuxbar                     Enuxbar
+      Function of the average muon-antineutrino and tauon antineutrino energies in MeV.
+      Only used when \ref neutrino_mode is set to "analytic" and
+      \ref nuflag is 4 or 5.
+      @par Example template line:
+         ``` Enuxbar=16.66 ```
+      @see parameter_class::enuxbar, \ref nuflux_class
+
+
+   \section expansiontype              expansiontype
+      Determine how the hydrodynamic quantities should be calculated once the trajectory has ended.
+      Possible values are:
+ 	<table>
+ 	<caption id="multi_row">Expansiontype parameter</caption>
+ 	<tr><th> Value       <th> Expansion                          <th> Literature
+ 	<tr><td> 1 (default) <td> Adiabatic expansion                <td> [Korobkin et al. 2012](https://ui.adsabs.harvard.edu/abs/2012MNRAS.426.1940K/abstract)
+ 	<tr><td> 2           <td> Exponential expansion              <td> -
+ 	<tr><td> 3           <td> Expansion with const. velocity     <td> -
+ 	<tr><td> 4           <td> Expansion with const. velocity     <td> [Fujimoto et al. 2008](https://ui.adsabs.harvard.edu/abs/2008ApJ...680.1350F/abstract)
+ 	</table>
+
+
+   \section extrapolation_width        extrapolation_width
+      Most expansion types need a velocity. This velocity is calculated with the
+      help of the parameter \ref extrapolation_width. This parameter specifies how
+      many points of the trajectory are used to calculate a residual velocity.
+      This parameter has to be larger than one. For extrapolation\_width \f$w\f$
+      equal two, the velocity is given by:
+      \f[
+      v=\frac{r_{N-1}-r_{N}}{t_{N-1}-t_{N}},
+      \f]
+      with the total number of trajectory points \f$N\f$, radius at the last point
+      of the trajectory \f$r_N\f$, and the last trajectory time \f$t_N\f$. For \f$w>2\f$,
+      the velocity is calculated by:
+      \f[
+      v=\frac{\left( \sum \limits_{i=N-w} ^N r_i \right) \cdot \left( \sum \limits_{i=N-w} ^N t_i \right) -w \cdot \left( \sum \limits_{i=N-w} ^N r_i \cdot t_i \right)  }
+         {\left( \sum \limits_{i=N-w} ^N t_i \right) \cdot \left( \sum \limits_{i=N-w} ^N t_i \right) -w \cdot \left( \sum \limits_{i=N-w} ^N t_i^2 \right) }
+      \f]
+      with radius \f$r_i\f$ at trajectory point \f$i\f$, and time \f$t_i\f$.
+
+      @par Example template line:
+         ``` extrapolation_width=2 ```
+
+      @see \ref expansion_module, parameter_class::extrapolation_width
+
+   \section final_dens                 final_dens
+      Final density in g/ccm. Only used when \ref termination_criterion
+      was set to 2.
+
+      @par Example template line:
+         ``` final_dens= 1e3 ```
+      @see parameter_class::final_dens
+   \section final_temp                 final_temp
+      Final temperature in GK. Only used when \ref termination_criterion
+      was set to 2.
+
+      @par Example template line:
+         ``` final_temp= 0.5 ```
+      @see parameter_class::final_temp
+   \section final_time                 final_time
+      Final time in seconds. Only used when \ref termination_criterion
+      was set to 1.
+
+      @par Example template line:
+         ``` final_time= 1e15 ```
+      @see parameter_class::final_time
+
+   \section fissflag                   fissflag
+
+   Parameter to change the fission fragment distribution. Possible values are:
+
+    <table>
+    <caption id="multi_row"></caption>
+    <tr><th> fissflag <th> Treatment             <th> Necessary other parameters            <th> Reference
+    <tr><td> 0  <td> No fission                  <td> -                                     <td> -
+    <tr><td> 1  <td> Panov                       <td>\ref fission_rates                     <td> [Panov et al. 2001](https://ui.adsabs.harvard.edu/abs/2001NuPhA.688..587P/abstract)
+    <tr><td> 2  <td> Kodama-Takahashi            <td>\ref fission_rates                     <td> [Kodama & Takahashi 1975](https://ui.adsabs.harvard.edu/abs/1975NuPhA.239..489K/abstract)
+    <tr><td> 3  <td> Mumpower & Kodama-Takahashi <td>\ref fission_rates, \ref nfission_file <td> [Mumpower et al. 2020](https://ui.adsabs.harvard.edu/abs/2020PhRvC.101e4607M/abstract), 
+                                                                                                 [Kodama & Takahashi 1975](https://ui.adsabs.harvard.edu/abs/1975NuPhA.239..489K/abstract)
+    <tr><td> 4  <td> ABLA                        <td>\ref fission_rates, \ref nfission_file, \ref bfission_file <td> [Kelic et al. 2009](https://ui.adsabs.harvard.edu/abs/2009arXiv0906.4193K/abstract),
+                                                                                                                     [Panov et al. 2001](https://ui.adsabs.harvard.edu/abs/2001NuPhA.688..587P/abstract)
+    </table>
+
+    For fission flag 3, the fragments of [Mumpower et al. 2020](https://ui.adsabs.harvard.edu/abs/2020PhRvC.101e4607M/abstract) are used for beta delayed and neutron induced fission. For spontaneous fission
+    the fragments of [Kodama & Takahashi 1975](https://ui.adsabs.harvard.edu/abs/1975NuPhA.239..489K/abstract) are used. Also in case of a missing fragment distribution for the rate, the scheme relies on 
+    [Kodama & Takahashi 1975](https://ui.adsabs.harvard.edu/abs/1975NuPhA.239..489K/abstract). In the case of ABLA, the fragment of [Panov et al., Nuc. Phys. A688 2001](https://ui.adsabs.harvard.edu/abs/2001NuPhA.688..587P/abstract)
+    is used for missing fragment distributions.
+
+    @par Example template line:
+       ``` fissflag= 1 ```
+    @see \ref fission_rate_module, parameter_class::fissflag, \ref bfission_file, \ref nfission_file, \ref fission_rates,
+         [Panov et al. 2001](https://ui.adsabs.harvard.edu/abs/2001NuPhA.688..587P/abstract),
+         [Kodama & Takahashi 1975](https://ui.adsabs.harvard.edu/abs/1975NuPhA.239..489K/abstract),
+         [Kelic et al. 2009](https://ui.adsabs.harvard.edu/abs/2009arXiv0906.4193K/abstract),
+         [Mumpower et al. 2020](https://ui.adsabs.harvard.edu/abs/2020PhRvC.101e4607M/abstract)
+
+   \section fission_rates              fission_rates
+    A file that contains fission rates. The temperature dependence of these rates
+    is tabulated in the same format as the \ref reaclib_file. The rates are also
+    split into different chapters, but the amount of participants in the reaction
+    is not the same as in the REACLIB format. Based on the number of reactants,
+    spontaneous and \f$\beta\f$-delayed fission is assigned to REACLIB chapter 2,
+    whereas neutron-induced fission is assigned to chapter 6. WinNet includes
+    the possibility to change the fission fragment distribution that
+    is given by several theoretical models (see \ref fissflag).
+    An example file looks like:
+    \file{...
+       th256                                 ms99w     0.00000E+00
+    1.988512E-02 0.000000E+00 0.000000E+00 0.000000E+00
+    0.000000E+00 0.000000E+00 0.000000E+00
+       th257                                 ms99w     0.00000E+00
+    -1.483947E+00 0.000000E+00 0.000000E+00 0.000000E+00
+    0.000000E+00 0.000000E+00 0.000000E+00
+    ...}
+
+    The source labels here are important to decide which kind of reaction it is. The translation is given in the 
+    table below.
+    <table>
+    <caption id="multi_row"></caption>
+    <tr><th> Label           <th> Reaction type
+    <tr><td> "fiss"          <td> Neutron induced fission
+    <tr><td> "mp01", "ms99"  <td> Beta delayed fission
+    <tr><td> "sfis"          <td> Spontaneous fission
+    </table>
+
+    @note Note that fission rates that are included in the Reaclib reaction rate file
+    will be ignored. Furthermore, the Q-value of the reaction from this file will be ignored.
+
+    @par Example template line:
+       ``` fission_rates= "@WINNET@/data/fissionrates_frdm" ```
+    @see \ref fission_rate_module, parameter_class::fission_rates, fission_rate_module::read_fission_rates
+
+   \section flow_every                flow_every
+   Outputs the nuclear flow that is calculated by:
+    \f[
+    F_{ij} = |(1/h - J_{ij}) \times Y_j - (1/h - J_{ji}) \times Y_i|
+    \f]
+    An example of this file may look like:
+    \file{
+     time    temp    dens
+     1.03895957612263E-01   7.19136097013393E+00   1.40977753502083E+06
+      nin     zin     yin    nout    zout    yout    flow
+     2   1   4.81807892321990E-08   1   1   2.13994533749120E-06   0.00000000000000E+00
+     1   2   1.26489216252989E-09   1   1   2.13994533749120E-06   0.00000000000000E+00
+     1   2   1.26489216252989E-09   2   1   4.81807892321990E-08   1.58426675189734E-10
+     4   2   9.86495465952053E-13   3   3   2.15833022688002E-11   8.53665754802155E-13
+     ...}
+     @par Example template line:
+        ``` flow_every= 10 ```
+     @see parameter_class::flow_every, \ref flow_module, analysis::output_flow
+
+
+  \section freeze_rate_temp        freeze_rate_temp
+  Temperature in GK to freeze the reaction rates. Below this value, all reaction rates
+  will kept constant. The default value is 1e-2 GK.
+
+  @warning This temperature should not be choosen below 1e-2 GK in case that reaclib rates are
+           used. They have been fitted in the range of 10GK > T > 1e-2 GK and outside of this range
+           errors can occur.
+
+  @par Example template line:
+       ``` freeze_rate_temp= 1e-2 ```
+  @see \ref parameter_class::freeze_rate_temp, \ref jacobian_class::jacobi_init
+
+  \section gear_cFactor        gear_cFactor
+  Conservative time step factor. This factor should lie between 0.1 and 0.4.
+  This parameter is only used in case \ref solver is set to 1. The default value is 0.25.
+
+  @par Example template line:
+       ``` gear_cFactor= 0.15 ```
+  @see \ref solver, \ref parameter_class::gear_cfactor,
+       [Longland et al. 2014](https://ui.adsabs.harvard.edu/abs/2014A%26A...563A..67L/abstract),
+       [Martin, D. 2017](https://tuprints.ulb.tu-darmstadt.de/6301/)
+
+
+   \section gear_eps        gear_eps
+   Numerical parameter to control the abundance accuracy. This parameter is only used
+   in case \ref solver is set to 1. The default value is 1e-3.
+
+   @par Example template line:
+        ``` gear_eps= 1e-4 ```
+   @see \ref solver, \ref parameter_class::gear_eps,
+        [Longland et al. 2014](https://ui.adsabs.harvard.edu/abs/2014A%26A...563A..67L/abstract),
+        [Martin, D. 2017](https://tuprints.ulb.tu-darmstadt.de/6301/)
+
+
+   \section gear_escale        gear_escale
+   Numerical parameter to control the minimum abundance that is considered in the calculation time step.
+   This parameter is only used in case \ref solver is set to 1. The default value is 1e-12.
+
+   @par Example template line:
+        ``` gear_escale= 1e-10 ```
+   @see \ref solver, \ref parameter_class::gear_escale, \ref timestep_Ymin,
+        [Longland et al. 2014](https://ui.adsabs.harvard.edu/abs/2014A%26A...563A..67L/abstract),
+        [Martin, D. 2017](https://tuprints.ulb.tu-darmstadt.de/6301/)
+
+
+   \section gear_ignore_adapt_stepsize        gear_ignore_adapt_stepsize
+   Parameter to decide whether the time step should be adapted in case the Newton-Raphson did
+   not converge optimally. The default is set to true and the stepsize is therefore  
+   not changed when the newton-raphson reaches the maximum amount of iterations.
+   This parameter is only used in case \ref solver is set to 1. 
+
+   @par Example template line:
+        ``` gear_ignore_adapt_stepsize= no ```
+   @see \ref solver, \ref parameter_class::gear_ignore_adapt_stepsize, 
+        [Longland et al. 2014](https://ui.adsabs.harvard.edu/abs/2014A%26A...563A..67L/abstract),
+        [Martin, D. 2017](https://tuprints.ulb.tu-darmstadt.de/6301/)
+
+
+   \section gear_nr_eps        gear_nr_eps
+   Numerical parameter to control the newton-raphson convergence criteria.
+   This parameter is only used in case \ref solver is set to 1. The default value is 1e-6.
+
+   @par Example template line:
+        ``` gear_nr_eps= 1e-5 ```
+   @see \ref solver, \ref parameter_class::gear_nr_eps, \ref nr_tol,
+        [Longland et al. 2014](https://ui.adsabs.harvard.edu/abs/2014A%26A...563A..67L/abstract),
+        [Martin, D. 2017](https://tuprints.ulb.tu-darmstadt.de/6301/)
+
+
+   \section gear_nr_maxcount        gear_nr_maxcount
+   Numerical parameter to control the maximum iterations of the newton-raphson.
+   This parameter is only used in case \ref solver is set to 1. The default value is 10.
+
+   @par Example template line:
+        ``` gear_nr_maxcount= 20 ```
+   @see \ref solver, \ref parameter_class::gear_nr_maxcount, \ref nr_maxcount,
+        [Longland et al. 2014](https://ui.adsabs.harvard.edu/abs/2014A%26A...563A..67L/abstract),
+        [Martin, D. 2017](https://tuprints.ulb.tu-darmstadt.de/6301/)
+
+
+
+   \section gear_nr_mincount        gear_nr_mincount
+   Numerical parameter to control the minimum iterations of the newton-raphson.
+   This parameter is only used in case \ref solver is set to 1. The default value is 1.
+
+   @par Example template line:
+        ``` gear_nr_mincount= 2```
+   @see \ref solver, \ref parameter_class::gear_nr_mincount, \ref nr_mincount,
+        [Longland et al. 2014](https://ui.adsabs.harvard.edu/abs/2014A%26A...563A..67L/abstract),
+        [Martin, D. 2017](https://tuprints.ulb.tu-darmstadt.de/6301/)
+
+
+   \section h_custom_snapshots        h_custom_snapshots
+   Same as \ref custom_snapshots, but the output is stored in an hdf5 file named "WinNet_data.hdf5". This only
+   works if the hdf5 library is linked properly and the compilerflag -DUSE_HDF5 is set.
+   In case you have installed the h5fc compiler you can change the makefile accordingly to use this compiler
+   and the hdf5 output should work.
+
+   @par Example template line:
+        ``` h_custom_snapshots= yes ```
+   @see parameter_class::h_custom_snapshots, \ref hdf5_module, \ref custom_snapshots
+
+   \section h_engen_every        h_engen_every
+   Parameter to specify if the energy generation should be written to "WinNet_data.hdf5". This only
+   works if the hdf5 library is linked properly and the compilerflag -DUSE_HDF5 is set.
+   In case you have installed the h5fc compiler you can change the makefile accordingly to use this compiler
+   and the hdf5 output should work. The units are given in erg/g/s.
+
+   @par Example template line:
+        ``` h_engen_every= 20 ```
+   @see parameter_class::h_engen_every, \ref hdf5_module
+
+   \section h_engen_detailed        h_engen_detailed
+   Parameter to specify if the energy generation from individual reaction types should be written to "WinNet_data.hdf5".
+   This array will have the size of the network x the amount of outputs controlled by h_engen_every.
+   This only works if the hdf5 library is linked properly and the compilerflag -DUSE_HDF5 is set.
+   In case you have installed the h5fc compiler you can change the makefile accordingly to use this compiler
+   and the hdf5 output should work. The units are given in erg/g/s.
+
+   @par Example template line:
+        ``` h_engen_detailed= yes ```
+   @see parameter_class::h_engen_every, \ref hdf5_module
+
+   \section h_finab        h_finab
+   Parameter to specify if final abundances should be written into "WinNet_data.hdf5". This only
+   works if the hdf5 library is linked properly and the compilerflag -DUSE_HDF5 is set.
+   In case you have installed the h5fc compiler you can change the makefile accordingly to use this compiler
+   and the hdf5 output should work. When this flag is set, no ascii version of the finabs will be created
+   and therefore reduce the amount of files.
+
+   @par Example template line:
+        ``` h_finab= yes ```
+   @see parameter_class::h_finab, \ref hdf5_module
+
+   \section h_flow_every        h_flow_every
+   Same as \ref flow_every, but the output is stored in an hdf5 file named "WinNet_data.hdf5". This only
+   works if the hdf5 library is linked properly and the compilerflag -DUSE_HDF5 is set.
+   In case you have installed the h5fc compiler you can change the makefile accordingly to use this compiler
+   and the hdf5 output should work.
+
+   @par Example template line:
+        ``` h_flow_every= 10 ```
+   @see parameter_class::h_flow_every, \ref hdf5_module, \ref flow_every
+
+   \section h_mainout_every        h_mainout_every
+   Same as \ref mainout_every, but the output is stored in an hdf5 file named "WinNet_data.hdf5". This only
+   works if the hdf5 library is linked properly and the compilerflag -DUSE_HDF5 is set.
+   In case you have installed the h5fc compiler you can change the makefile accordingly to use this compiler
+   and the hdf5 output should work.
+
+   @par Example template line:
+        ``` h_mainout_every= 10 ```
+   @see parameter_class::h_mainout_every, \ref hdf5_module, \ref mainout_every
+
+
+   \section h_nu_loss_every        h_nu_loss_every
+   Same as \ref nu_loss_every, but the output is stored in an hdf5 file named "WinNet_data.hdf5". This only
+   works if the hdf5 library is linked properly and the compilerflag -DUSE_HDF5 is set.
+   In case you have installed the h5fc compiler you can change the makefile accordingly to use this compiler
+   and the hdf5 output should work.
+
+   @par Example template line:
+        ``` h_nu_loss_every= 10 ```
+   @see parameter_class::h_nu_loss_every, \ref hdf5_module, \ref nu_loss_every
+
+   \section h_snapshot_every        h_snapshot_every
+   Same as \ref snapshot_every, but the output is stored in an hdf5 file named "WinNet_data.hdf5". This only
+   works if the hdf5 library is linked properly and the compilerflag -DUSE_HDF5 is set.
+   In case you have installed the h5fc compiler you can change the makefile accordingly to use this compiler
+   and the hdf5 output should work.
+
+   @par Example template line:
+        ``` h_snapshot_every= 10 ```
+   @see parameter_class::h_snapshot_every, \ref hdf5_module, \ref snapshot_every
+
+
+   \section h_timescales_every        h_timescales_every
+   Same as \ref timescales_every, but the output is stored in an hdf5 file named "WinNet_data.hdf5". This only
+   works if the hdf5 library is linked properly and the compilerflag -DUSE_HDF5 is set.
+   In case you have installed the h5fc compiler you can change the makefile accordingly to use this compiler
+   and the hdf5 output should work.
+
+   @par Example template line:
+        ``` h_timescales_every= 10 ```
+   @see parameter_class::h_timescales_every, \ref hdf5_module, \ref timescales_every
+
+
+   \section h_track_nuclei_every        h_track_nuclei_every
+   Same as \ref track_nuclei_every, but the output is stored in an hdf5 file named "WinNet_data.hdf5". This only
+   works if the hdf5 library is linked properly and the compilerflag -DUSE_HDF5 is set.
+   In case you have installed the h5fc compiler you can change the makefile accordingly to use this compiler
+   and the hdf5 output should work.
+
+   @par Example template line:
+        ``` h_track_nuclei_every= 10 ```
+   @see parameter_class::h_track_nuclei_every, \ref hdf5_module, \ref track_nuclei_every
+
+ \section heating_density               heating_density
+     This parameter indicates at which density heating is switched on. Whenever the density of the tracer or analytic approach 
+     drops below the \ref heating_density and \ref heating_mode is greater than 0, a feedback of the nuclear energy together with the neutrino loss
+     is considered. The parameter is motivated by the assumption 
+     of our heating scheme that all produced neutrinos can escape the system freely
+     and therefore contribute to a loss of energy. This assumption is, however, only valid below certain densities. 
+     The default value is \f$ 10^{11} \f$ g/ccm. In case that heating should be enabled for all conditions, this parameter 
+     can be set to -1.
+
+     @par Example template line:
+        ``` heating_density = -1 ```
+     @see nuclear_heating::nuclear_heating_update, parameter_class::heating_density, \ref heating_mode
+
+
+  \section heating_mode                heating_mode
+  Flag that enables a feedback of the nuclear energy generation on the temperature.
+  Possible values are
+  <table>
+  <caption id="multi_row">Heating modes</caption>
+  <tr><th> Value     <th> Evolved variable       <th> Additional source term
+  <tr><td> 0         <td> No heating             <td> -
+  <tr><td> 1         <td> Entropy                <td> adiabatic
+  <tr><td> 2         <td> Temperature            <td> trajectory
+  <tr><td> 3         <td> Temperature            <td> adiabatic
+  </table>
+
+  Here, mode 1 and 3 are very similar as both assume an adiabatic expansion. Mode
+  2 assumes that the change in temperature of the trajectory does not already have
+  a nuclear contribution.
+  
+  Within heating mode 1, the following equation is evolved:
+  \f[ \Delta{S} = - \frac{1}{k_\mathrm{B}T} \sum _i (\mu _i + Z_i \mu _e ) \Delta Y_i - \Delta q \f]
+  Here, S is the entropy, T the temperature, \f$ \mu _i \f$ the chemical potential of nucleus \f$ i \f$,
+  \f$ \mu _e \f$ the electron chemical potential, and \f$ \Delta Y_i \f$ the abundance difference. The term \f$ \Delta q \f$ is the energy radiated away
+  or added to the system by neutrinos within the given time step.
+  
+  Heating mode 2 and 3 evolve the temperature directly with
+  \f[ \Delta{T} = \frac{\Delta{\epsilon _\mathrm{nuc}}- \Delta q}{C_V} + T_\delta \f] 
+  with the nuclear energy \f$ \epsilon _\mathrm{nuc} \f$ and the specific heat capacity \f$ C_V \f$ that is obtained from the Timmes EOS. For heating mode 
+  2, \f$ T_\delta \f$ is obtained by the difference in temperature from the trajectory (or parametrization) for the given time step and for heating mode 3
+  it is obtained by assuming an adiabatic expansion.
+
+  @see \ref nuclear_heating,
+    [Freiburghaus et al. 1999, Eq. 2](https://ui.adsabs.harvard.edu/abs/1999ApJ...525L.121F/abstract),
+    [Mueller 1986](https://ui.adsabs.harvard.edu/abs/1986A%26A...162..103M/abstract),
+    [Hix & Thielemann 1999, Eq. 15](https://ui.adsabs.harvard.edu/abs/1999JCoAM.109..321H/abstract),
+    [Lippuner & Roberts 2017](https://ui.adsabs.harvard.edu/abs/2017ApJS..233...18L/abstract)
+
+   \section heating_frac               heating_frac
+     If nuclear heating is included in the calculation, you can determine the
+     fraction of the released energy that is radiated away by neutrinos. For \f$\beta\f$-decays
+     a good value is \f$0.4\f$, i.e., 40 percent of the energy is radiated away by neutrinos.
+
+     @par Example template line:
+        ``` heating_frac= 0.4 ```
+     @see nuclear_heating::nuclear_heating_update, parameter_class::heating_frac
+
+   \section htpf_file                  htpf_file
+   File that contains high temperature partition functions exceeding
+   temperatures of \f$10\f$ GK. This file was provided by [Rauscher 2003](https://ui.adsabs.harvard.edu/abs/2003ApJS..147..403R/abstract).
+   Each line contains the name of the isotope, the atomic number, the mass number,
+   the spin of the ground state, followed by the values of the partition function
+   for a high temperature grid.
+   \l_file{
+   o13    8  13  1.5 1.00E+000 1.00E+000 9.99E-001 9.95E-001 9.90E-001 9.84E-001 9.76E-001 9.68E-001 9.59E-001 9.50E-001 9.22E-001 8.92E-001 8.59E-001 8.23E-001 7.86E-001 7.49E-001 7.10E-001 6.71E-001 6.33E-001 5.95E-001 5.57E-001 5.21E-001 4.86E-001 4.52E-001 4.19E-001 3.89E-001 3.59E-001 3.32E-001 3.06E-001 2.82E-001 2.59E-001 2.38E-001 2.18E-001 2.00E-001 1.83E-001 1.68E-001 1.53E-001 1.40E-001 1.28E-001 1.17E-001 9.74E-002 8.10E-002 6.74E-002 5.61E-002 4.66E-002 3.88E-002 3.23E-002 2.05E-002
+   o14    8  14  0.0 1.05E+000 1.11E+000 1.20E+000 1.32E+000 1.47E+000 1.65E+000 1.84E+000 2.04E+000 2.26E+000 2.48E+000 3.03E+000 3.56E+000 4.03E+000 4.44E+000 4.78E+000 5.05E+000 5.25E+000 5.39E+000 5.46E+000 5.49E+000 5.46E+000 5.39E+000 5.29E+000 5.16E+000 5.00E+000 4.83E+000 4.64E+000 4.43E+000 4.23E+000 4.01E+000 3.80E+000 3.59E+000 3.38E+000 3.18E+000 2.98E+000 2.79E+000 2.60E+000 2.43E+000 2.26E+000 2.10E+000 1.81E+000 1.55E+000 1.33E+000 1.13E+000 9.60E-001 8.15E-001 6.91E-001 4.55E-001
+   ...}
+   Per default, this file is set to _datafile2.txt_.
+
+   @note The default file was calculated for the FRDM mass model
+   @par Example template line:
+      ``` htpf_file= "@WINNET@/data/datafile2.txt" ```
+   @see benam_class::read_htpf, parameter_class::htpf_file, nucstuff_class::inter_partf, \ref use_htpf
+
+   \section initemp_cold                   initemp_cold
+   WinNet is able to start at a given temperature and evolve the electron fraction
+   with weak reactions until the system falls out of NSE. This temperature determines
+   the start of the calculation. If \ref initemp_hot is higher than the maximum temperature of the trajectory,
+   the calculation will start at the maximum temperature that is larger than initemp_cold.
+   A schematic is shown by:
+    @image html initemp_schematic.png "Schematic explanation of initemp_cold and initemp_hot" height=280
+
+   @warning Ensure that \ref nsetemp_hot and \ref nsetemp_cold are set consistently. Otherwise you may not start in
+   NSE conditions.
+
+      @par Example template line:
+      ``` initemp_cold= 8 ```
+   @see parameter_class::initemp_cold, network_init_module::prepare_simulation, \ref initemp_hot
+
+   \section initemp_hot                    initemp_hot
+   WinNet is able to start at a given temperature and evolve the electron fraction
+   with weak reactions until the system falls out of NSE. This temperature determines
+   the start of the calculation. If it is higher than the maximum temperature of the trajectory,
+   the calculation will start at the maximum temperature that is larger than \ref initemp_cold.
+
+   @warning Ensure that \ref nsetemp_hot and \ref nsetemp_cold are set consistently. Otherwise you may not start in
+   NSE conditions.
+   @par Example template line:
+      ``` initemp_hot= 10 ```
+   @see parameter_class::initemp_hot, network_init_module::prepare_simulation, \ref initemp_cold
+
+   \section initial_stepsize           initial_stepsize
+   Initial stepsize of the calculation.
+   @warning A too large initial stepsize may lead to crashes.
+
+   @par Example template line:
+      ``` initial_stepsize= 1e-15 ```
+   @see parameter_class::initial_stepsize, timestep_module::select_optimistic_timestep
+
+   \section interp_mode           interp_mode
+   Interpolation method that is used for the interpolation of temperature and density when \ref trajectory_mode is set to "from_file".
+   All interpolations are performed in lin-log space. The \ref interp_mode parameter is a integer that translates to
+   
+     <table>
+  <caption id="multi_row">Interpolation modes</caption>
+  <tr><th> Value     <th> Interpolation      
+  <tr><td> 1         <td> Linear            
+  <tr><td> 2         <td> Cubic           
+  <tr><td> 3         <td> Akima           
+  <tr><td> 4         <td> modified Akima   
+  <tr><td> 5         <td> PCHIP   
+  </table>
+  For an example trajectory the interpolations look as follows:
+  @image html interp_modes.png "Different interpolation schemes for temperature and density" height=280
+
+   The default interpolation is the PCHIP.
+
+   @par Example template line:
+      ``` interp_mode= 3 ```
+   @see [Steffen 1990](https://ui.adsabs.harvard.edu/abs/1990A%26A...239..443S/abstract),
+        \ref trajectory_mode
+
+   
+
+   \section isotopes_file              isotopes_file
+   Mandatory file that contains the partition functions and the mass excess of the contained isotopes.
+   The second line of this file contains the temperature grid points for the values of the partition function.
+   For example the line 010015020030040050060070080090100150200250300350400450500600700800900100 is translated into
+   (0.10, 0.15, 0.20, 0.30,..., 8.00, 9.00, 10.0) GK.
+   After the second line, the file contains a list of isotopes, where the last
+   isotope of the list is contained twice. An example file looks like:
+   \file{
+   010015020030040050060070080090100150200250300350400450500600700800900100
+       n
+       p
+       p
+       n       1.000   0   1   0.5     8.071
+        1.00     1.00     1.00     1.00     1.00     1.00     1.00     1.00
+        1.00     1.00     1.00     1.00     1.00     1.00     1.00     1.00
+        1.00     1.00     1.00     1.00     1.00     1.00     1.00     1.00
+       p       1.000   1   0   0.5     7.289
+        1.00     1.00     1.00     1.00     1.00     1.00     1.00     1.00
+        1.00     1.00     1.00     1.00     1.00     1.00     1.00     1.00
+        1.00     1.00     1.00     1.00     1.00     1.00     1.00     1.00
+   }
+   where n is the name, 1.000 the mass number, 0 the atomic number, 1 the neutron number,
+   0.5 the spin of the ground state and 8.071 the mass excess of the isotope in MeV.
+   The mass excess is defined as
+   \f[ \Delta = mc^2-Auc^2 \f]
+   where \f$m\f$ is the mass of the atom (i.e., includes the electron rest mass), \f$c\f$ is the speed of light, 
+   \f$A\f$ is the mass number of the nuclide, and \f$u\f$ is the atomic mass unit. As the atomic mass
+   unit \f$u\f$ is defined as 1/12 of the mass of a \f$^{12}\f$C nuclide, the mass excess
+   of this isotope is per definition zero.
+
+   Below this line, the values of the partition functions for the temperature grid that
+   was given in the first line are listed. The difference between a winvn and winvne
+   file from [JINA Reaclib](https://groups.nscl.msu.edu/jina/reaclib/db/library.php?action=viewsnapshots)
+   is the format of the partition functions. It can be written with floats (winvn)
+   and in scientific notation (winvne). WinNet is able to read both formats.
+
+   @par Example template line:
+      ``` isotopes_file= "@WINNET@/data/winvne_v2.0.dat" ```
+   @see parameter_class::isotopes_file, nucstuff_class::inter_partf, benam_class::get_nuclear_properties, \ref htpf_file, \ref use_htpf
+
+   \section iwformat                   iwformat
+   Flag whether the rates contained in \ref weak_rates_file are used or not.
+   Possible values are:
+   <table>
+   <caption id="multi_row"></caption>
+   <tr><th>iwformat <th> Description
+   <tr><td>  0 <td> no theoretical weak rates are used.
+   <tr><td>  1 <td> tabulated theoretical weak rates are used.
+   <tr><td>  2 <td> log(ft) theoretical weak rates are used.
+   </table>
+
+   The default file _rateseff.out_ is tabulated logarithmically and is taken
+   from [Langanke & Martinez-Pinedo 2001](https://ui.adsabs.harvard.edu/abs/2001ADNDT..79....1L/abstract).
+   Therefore, the flag 1 is deprecated and will not produce correct
+   results when using the default file.
+
+   @par Example template line:
+      ``` iwformat= 2 ```
+   @see parameter_class::iwformat, \ref tw_rate_module,
+        [Langanke & Martinez-Pinedo 2001](https://ui.adsabs.harvard.edu/abs/2001ADNDT..79....1L/abstract).
+
+   \section iwinterp                   iwinterp
+   Flag whether the weak rates rates are interpolated bilinear or bicubic.
+   Possible values are:
+   <table>
+   <caption id="multi_row"></caption>
+   <tr><th>iwinterp <th> Description
+   <tr><td>  0 <td> bilinear interpolation
+   <tr><td>  1 <td> bicubic interpolation
+   </table>
+
+   @warning A bicubic interpolation can lead to over- or undershoots for the rate interpolation
+            if a -99 value is neighboring. Therefore, iwinterp=1 is not recommended.
+
+   @par Example template line:
+      ``` iwinterp= 0 ```
+   @see parameter_class::iwinterp, \ref tw_rate_module,
+        [Langanke & Martinez-Pinedo 2001](https://ui.adsabs.harvard.edu/abs/2001ADNDT..79....1L/abstract).
+
+
+   \section Le                         Le
+   Constant value or function for electron-neutrino luminosities in erg\f$\,\f$s\f$^{-1}\f$.
+   Only used when \ref neutrino_mode is set to "analytic".
+
+   @par Example template line:
+      ``` Le= 2e51 ```
+   @see parameter_class::le, \ref nuflux_class
+
+   \section Lebar                      Lebar
+   Constant value or function for electron-antineutrino luminosities in erg\f$\,\f$s\f$^{-1}\f$.
+   Only used when \ref neutrino_mode is set to "analytic".
+
+   @par Example template line:
+      ``` Lebar= 2e51 ```
+   @see parameter_class::lebar, \ref nuflux_class
+
+   \section Lx                         Lx
+   Constant value or function for the summed value of muon-neutrino and tauon-neutrino luminosities in erg\f$\,\f$s\f$^{-1}\f$.
+   Only used when \ref neutrino_mode is set to "analytic" and \ref nuflag is 4 or 5.
+
+   @par Example template line:
+      ``` Lx= 2e51 * 2```
+   @see parameter_class::lx, \ref nuflux_class
+
+   \section Lxbar                      Lxbar
+   Constant value or function for the summed value of muon-antineutrino and tauon-antineutrino luminosities in erg\f$\,\f$s\f$^{-1}\f$.
+   Only used when \ref neutrino_mode is set to "analytic" and \ref nuflag is 4 or 5.
+
+   @par Example template line:
+      ``` Lxbar= 2e51 * 2```
+   @see parameter_class::lxbar, \ref nuflux_class
+
+
+
+   \section mainout_every              mainout_every
+   Main output of the network. This parameter determines the frequency at which this output is given.
+   It contains: iteration, time in \f$\mathrm{s}\f$, temperature in \f$\mathrm{GK}\f$,
+   density in \f$\mathrm{g \, cm^{-3}}\f$, electron fraction, abundance of neutrons,
+   abundance of protons, abundance of alpha particles, abundance of elements with \f$A\le 4\f$,
+   abundance of elements with \f$A>4\f$, average atomic number, average mass number,
+   entropy in \f$\mathrm{k_B/baryon}\f$, and the average neutron separation energy
+   if the parameter \ref calc_nsep_energy was set to ``yes''. This output is stored
+   into the file _mainout.dat_.
+   An example file looks like:
+    \l_file{
+    # 1:iteration 2:time[s], 3:T[GK], 4:rho[g/cm3], 5:Ye
+    # 6:R[km], 7:Y_n, 8:Y_p, 9:Y_alpha, 10:Y_lights
+    # 11:Y_heavies 12:<Z> 13:<A> 14:entropy [kB/baryon] (15:Sn [MeV])
+       0  0.0000000000000000E+00   1.0964999999999998E+01   8.7095999999999795E+12   3.4880000000001680E-02   4.9272999999999975E+01   8.7430471311642388E-01   1.8154340816658842E-15   1.8313910002116333E-13   8.4293473893924100E-09   1.6154109228777289E-03   3.9820982195819934E-02   1.1416565996507526E+00   9.4638587929828290E-03
+      10  4.0940000000000001E-09   1.0965038071994945E+01   8.7093701186135752E+12   3.4880006806212963E-02   4.9273176232580205E+01   8.7430472419630612E-01   1.8157922458135375E-15   1.8317495847108614E-13   8.4302150496944692E-09   1.6154086944791908E-03   3.9820989563731306E-02   1.1416565881127740E+00   9.4639764072160116E-03
+    ...}
+
+    @par Example template line:
+      ``` mainout_every= 15 ```
+    @see parameter_class::mainout_every, \ref analysis::output_mainout
+
+
+\section net_source                 net_source
+   Mandatory file that contains a list of all isotopes that are used in the network.
+   Each column of the file should contain 5 characters and the names of the isotopes
+   should be orientated to the right.
+   Example:
+   \file{
+    n
+    p
+    d
+    t
+   he3
+   he4
+   he6
+   li6
+   li7
+   li8
+   li9
+   ...}
+
+  @note Specific energy states of Al26 can be given as "Al*6" and "Al-6". If these are present, "Al26"
+        should not be added to the \ref net_source file!
+
+   @par Example template line:
+   `` net_source= "@WINNET@/data/sunet_complete" ``
+
+   @see parameter_class::net_source, benam_class::load_network
+
+\section neutrino_loss_file              neutrino_loss_file
+Path to a file that contains the information of the average neutrino energy that gets produced 
+by \f$ \beta \f$-decays. This is only relevant if \ref heating_mode is greater than 0.
+An example of the file could look like:
+\file{...
+ al34     4.803857E+00
+ al35     6.072946E+00
+ al37     5.639200E+00
+ si25     4.794861E+00
+... }
+where the first column is the decaying nucleus and the second column the average energy 
+of the neutrinos in MeV that get released by the decay.
+
+@note One can debug which factor is used by setting the Verbose_level in the 
+      Makefile greater than 1. This will create the file "debug_heating_nufrac.dat" along with the run. 
+      The script to create the default file can be found 
+      in the bin\ folder.
+
+@par Example template line:
+`` neutrino_loss_file= "nuloss_file.dat" ``
+
+@see \ref heating_mode, \ref heating_frac, \ref beta_decay_file
+
+
+\section neutrino_mode              neutrino_mode
+Flag to indicate if the neutrino quantities (i.e., luminosities and energies)
+should get read from a trajectory file or from an analytic expression.
+Possible values are "analytic" or "from_file".
+
+@par Example template line:
+`` neutrino_mode= "from_file" ``
+
+@see parameter_class::neutrino_mode, \ref Le, \ref Lebar, \ref Enue, \ref Enuebar,
+     \ref trajectory_format
+
+
+ \section nr_maxcount              nr_maxcount
+ Maximum amount of iterations within the Newton-Raphson algorithm. This parameter
+ is only used in case that \ref solver is set to 0. The default value is 3.
+
+ @par Example template line:
+ `` nr_maxcount= 10 ``
+
+ @see parameter_class::nr_maxcount, \ref solver, \ref gear_nr_maxcount,
+      [Winteler 2013](https://edoc.unibas.ch/29895/)
+
+
+ \section nr_mincount              nr_mincount
+ Minimum amount of iterations within the Newton-Raphson algorithm. This parameter
+ is only used in case that \ref solver is set to 0. The default value is 2.
+
+ @par Example template line:
+ `` nr_mincount= 1 ``
+
+ @see parameter_class::nr_mincount, \ref solver, \ref gear_nr_mincount,
+      [Winteler 2013](https://edoc.unibas.ch/29895/)
+      
+      
+ \section nr_tol              nr_tol
+ Exit accuracy of the Newton-Raphson algorithm. This parameter
+ is only used in case that \ref solver is set to 0. The default value is 1e-5.
+
+ @par Example template line:
+ `` nr_tol= 1e-7 ``
+
+ @see parameter_class::nr_tol, \ref solver, \ref gear_nr_eps,
+      [Winteler 2013](https://edoc.unibas.ch/29895/)
+
+
+\section nrdiag_every               nrdiag_every
+Since WinNet uses implicit numerical methods, a root finding algorithm must be
+applied. Here, it is the Newton-Raphson method. With the parameter \ref nrdiag_every
+you can check the convergence of this root finding algorithm.
+If the frequency is \f$>0\f$ a file _nrdiag.dat_ will be created,
+containing iteration, time in \f$\mathrm{s}\f$, temperature in \f$\mathrm{GK}\f$,
+a counter that indicates how often the step size was corrected, a counter for the
+number of steps that where necessary for the Newton-Raphson algorithm to achieve
+convergence, the time step in \f$\mathrm{s}\f$, an error of the mass conservation,
+the maximal change of an abundance in the iteration, the name of the isotope that
+determined the time step, and the abundance of this isotope.
+An example file looks like:
+ \l_file{
+ # Newton-Raphson diagnostic output
+ # 1 : global iteration count (cnt)
+ # 2 : global time [s]
+ # 3 : temperature T9 [GK]
+ # 4 : adapt stepsize loop counter (k)
+ # 5 : NR loop counter (nr_count)
+ # 6 : global timestep [s]
+ # 7 : mass conservation error
+ # 8 : maximal abundance change (eps)
+ # 9 : most rapidly evolving isotope (epsl)
+ # 10: abundance of the isotope epsl, y(epsl)
+       0   5.20740000000E-22   7.42450000000E+00    0    1   5.20740000000E-22   9.32587340685E-15   2.22044604925E-16 cl42   2.43899441583E-08
+       0   5.20740000000E-22   7.42450000000E+00    0    2   5.20740000000E-22   9.32587340685E-15   2.22044604925E-16  s40   2.73320077046E-08
+       1   1.56220000000E-21   7.42450000000E+00    0    1   1.04146000000E-21   9.32587340685E-15   2.22044604925E-16  he4   3.13811866442E-03
+       1   1.56220000000E-21   7.42450000000E+00    0    2   1.04146000000E-21   9.32587340685E-15   2.22044604925E-16 mg30   1.57736344914E-10
+ ...}
+
+@par Example template line:
+`` nrdiag_every= 10 ``
+
+@see parameter_class::nrdiag_every, analysis::output_nr_diagnostic, timestep_module::advance_implicit_euler,
+     timestep_module::advance_gear
+
+   \section nse_calc_every             nse_calc_every
+   Since weak reactions are changing the electron fraction during the
+   phase of nuclear statistical equilibrium, the composition changes as well.
+   This parameter sets the frequency of recalculating the NSE composition,
+   which can have an impact on the evolution of the electron fraction.
+   If it is set to zero, the composition will be calculated only when entering
+   the regime of NSE and when leaving it. The default value is 1, i.e., 
+   always calculate NSE.
+
+   @par Example template line:
+   `` nse_calc_every= 1 ``
+   @see parameter_class::nse_calc_every, \ref winnse_module::winnse_guess, \ref winnse_module
+
+
+
+   \section nse_delt_t9min        nse_delt_t9min
+   Minimum temperature in GK when descending from \ref nse_descend_t9start to
+   the desired temperature. If smaller temperatures are necessary, an error is raised.
+   The default value is 1d-16.
+
+   @par Example template line:
+   `` nse_delt_t9min= 100 ``
+   @see parameter_class::nse_descend_t9start, \ref winnse_module, \ref nse_nr_tol, \ref nse_max_it
+
+   \section nse_descend_t9start        nse_descend_t9start
+   The nuclear statistical equilibrium is calculated as in, e.g.,
+   [Hix & Thielemann 1999](https://ui.adsabs.harvard.edu/abs/1999JCoAM.109..321H/abstract).
+   For numerical reasons it is advantageous to start with a high temperature and iterate
+   to lower temperatures, using the result of the old temperature as input value for the
+   new temperature. This parameter determines the highest temperature in GK for this iteration.
+   A default value of this parameter is \f$100\, \mathrm{GK}\f$.
+
+   @par Example template line:
+   `` nse_descend_t9start= 100 ``
+   @see parameter_class::nse_descend_t9start, \ref winnse_module
+
+
+
+   \section nse_max_it             nse_max_it
+   Maximum amount of iterations to bring the NSE solver to convergence.
+   The default value is 25.
+
+   @par Example template line:
+   `` nse_max_it= 50``
+   @see \ref nse_nr_tol, \ref winnse_module
+
+
+   \section nse_nr_tol             nse_nr_tol
+   Convergence criteria within the solving scheme of the NSE calculation.
+   The default value is 1d-6.
+
+   @par Example template line:
+   `` nse_nr_tol= 1d-4 ``
+   @see \ref winnse_module , \ref nse_max_it
+  
+  
+  
+   \section nse_solver             nse_solver
+   Flag to decide which solver to use to determine the NSE composition. Possible options are:
+   | nse_solver | Solver                 |
+   |:----------:|:----------------------:|
+   | 0          | Newton-Raphson         |
+   | 1          | Powell's hybrid method |
+
+   Hereby, Powell's hybrid method uses the MINPACK-I package downloaded from [here](https://people.sc.fsu.edu/~jburkardt/f_src/fsolve/fsolve.html).
+   The default value is 0.
+
+
+   @par Example template line:
+   `` nse_solver= 1 ``
+   @see \ref winnse_module 
+  
+  
+   
+   \section nsep_energies_file nsep_energies_file
+   Path to a file that contains neutron separation energies. This file is only relevant if 
+   \ref calc_nsep_energy has been enabled. An example of a file could look like:
+   \file{
+   ...
+   8   6  14  2.3176000E+01
+   8   7  15  1.3222000E+01
+   8   8  16  1.5664000E+01
+   8   9  17  4.1433000E+00
+   8  10  18  8.0443700E+00
+   8  11  19  3.9553000E+00
+   8  12  20  7.6073700E+00
+   8  13  21  3.7373700E+00
+   8  14  22  6.7613700E+00
+   9   8  17  1.6800000E+01
+   9   9  18  9.1500000E+00
+   9  10  19  1.0432000E+01
+   9  11  20  6.6013000E+00
+   ...}
+   where the first column is the amount of protons, the second the amount of neutrons, the third the 
+   amount of nucleons, and the fourth one the neutron separation energy.
+   
+     @par Example template line:
+   `` nsep_energies_file= frdm_sn.dat ``
+   @see \ref mainout_every, \ref calc_nsep_energy
+
+   \section nsetemp_cold               nsetemp_cold
+   Temperature at which the nuclear reaction network switches from NSE
+   evolution to the full network evolution. This temperature is given in GK.
+
+   @par Example template line:
+   `` nsetemp_cold= 5 ``
+   @see parameter_class::nsetemp_cold, \ref network_init_module::switch_evolution_mode, \ref nsetemp_hot
+
+   \section nsetemp_hot                nsetemp_hot
+   Due to nuclear heating, it can happen that the network bounces between
+   NSE evolution and network evolution. To prevent this, two temperatures can
+   be given and the transition between NSE and the network can be different
+   from the transition between the network and NSE.
+   @par Example template line:
+   `` nsetemp_hot= 8 ``
+   @see parameter_class::nsetemp_hot, \ref network_init_module::switch_evolution_mode, \ref nsetemp_cold
+
+   \section nuchannel_file             nuchannel_file
+   File to specify channels for neutrino reactions. This file is only used for nuflag 3-5.
+   The file follows the format of [Sieverding et al.2018](https://ui.adsabs.harvard.edu/abs/2018ApJ...865..143S/abstract).
+   An example looks like:
+   \file{
+   id    type     particle emission
+   \n
+   001 nue    (cc)  0p 0n 0a
+   002 nue    (cc)  1p 0n 0a
+   003 nue    (cc)  0p 1n 0a
+   004 nue    (cc)  0p 0n 1a
+   005 nue    (cc)  2p 0n 0a
+   ...}
+   where the type "cc" stands for charged current and "nc" for neutral
+   current. The particle emission is the number of particles emitted
+   in the reaction (p: protons, n: neutrons, a: alphas).
+   The first line is a header line and is ignored.
+   The original file can be found in the supplemental material in
+   [Sieverding et al.2018](https://ui.adsabs.harvard.edu/abs/2018ApJ...865..143S/abstract).
+
+   @par Example template line:
+   `` nuchannel_file= nu_channels ``
+   @see parameter_class::nuflag, \ref nuflux_class, \ref nurates_file,
+        [Sieverding et al.2018](https://ui.adsabs.harvard.edu/abs/2018ApJ...865..143S/abstract)
+
+
+   \section nuflag                     nuflag
+
+   Parameter to specify the treatment of neutrino reactions. Possible values are:
+
+   <table>
+   <caption id="multi_row"></caption>
+   <tr><th>nuflag <th> Description                                                      <th>  Format                                                                                   <th> Necessary other parameters
+   <tr><td>  0    <td> No neutrino reactions.                                           <td>  -                                                                                        <td> -
+   <tr><td>  1    <td> Neutrino captures of \f$\nu_e\f$, \f$\bar{\nu_e}\f$ on nucleons. <td>  -                                                                                        <td> \ref nunucleo_rates_file
+   <tr><td>  2    <td> \f$\nu_e\f$, \f$\bar{\nu_e}\f$ on nucleons and heavy nuclei
+                      (only charged current reactions).                                 <td> [Sieverding et al.2018](https://ui.adsabs.harvard.edu/abs/2018ApJ...865..143S/abstract).  <td> \ref nunucleo_rates_file, \ref nuchannel_file, \ref nurates_file
+   <tr><td>  3    <td> \f$\nu_e\f$, \f$\bar{\nu_e}\f$ on nucleons,
+                       neutral current reactions on heavy nuclei.                       <td> [Sieverding et al.2018](https://ui.adsabs.harvard.edu/abs/2018ApJ...865..143S/abstract).  <td> \ref nunucleo_rates_file, \ref nuchannel_file, \ref nurates_file
+   <tr><td>  4    <td> \f$\nu_e\f$, \f$\bar{\nu_e}\f$ on nucleons, charged and
+                       neutral current reactions on heavy nuclei.                       <td> [Sieverding et al.2018](https://ui.adsabs.harvard.edu/abs/2018ApJ...865..143S/abstract).  <td> \ref nunucleo_rates_file, \ref nuchannel_file, \ref nurates_file
+   </table>
+
+   If neutrinos are included, neutrino reaction rates are read from the files \ref nunucleo_rates_file,
+   \ref nuchannel_file, or \ref nurates_file (see table which parameter is necessary).
+   In case of neutral current reactions included (nuflag 3 or 4), also the luminosities and temperatures of muon/tauon neutrinos have to be given either
+   in the trajectory or in analytic form.
+
+   @par Example template line:
+   `` nuflag= 1 ``
+   @see parameter_class::nuflag, \ref nuflux_class , \ref trajectory_format, \ref neutrino_mode, \ref Le, \ref Lebar,
+                         \ref Enue, \ref Enuebar, \ref Lx, \ref Lxbar, \ref Enux, \ref Enuxbar
+
+
+\section nu_loss_every        nu_loss_every
+  Output frequency for energy that is added or lost from the system. If this parameter is 
+  greater than one, a file called _nu_loss_gain.dat_ will be created. Hereby, there is a distinction
+  between energy lost by neutrinos that are created in beta-decay, energy lost by thermal neutrinos,
+  and energy added to the system by neutrino reactions. An example file could look like:
+  \file{
+  \# File containing the neutrino loss/gain for the nuclear heating.
+  \# Negative values mean that energy is added to the system.
+  \# Neutrino energies are given in MeV/baryon/s.
+  \#         time[s]                 T[GK]            rho[g/cm3]                 R[km]              nu_total ...
+        1.64334E-04           1.00000E+01           7.05312E+07           3.02337E+02           0.00000E+00 ...
+        1.64334E-04           1.00000E+01           7.05312E+07           3.02337E+02          -2.77996E+01 ...
+        1.64334E-04           1.00000E+01           7.05312E+07           3.02337E+02          -2.77996E+01 ...
+        1.64334E-04           1.00000E+01           7.05312E+07           3.02337E+02          -2.77996E+01 ...
+        1.64334E-04           1.00000E+01           7.05312E+07           3.02337E+02          -2.77996E+01 ...
+    ...}
+    
+  @par Example template line:
+   `` nu_loss_every= 1 ``
+   @see parameter_class::nu_loss_every, \ref heating_mode,
+        \ref use_thermal_nu_loss, \ref h_nu_loss_every
+
+
+   \section nunucleo_rates_file        nunucleo_rates_file
+   Path to a file, containing neutrino capture rates on protons and neutrons. 
+   The file contains tabulated values of the rates, using a neutrino
+   temperature grid of \f$2.8, 3.5, 4.0, 5.0, 6.4, 8.0, 10.0 \,\mathrm{MeV}\f$.
+   An example of this file is given by (located in _data/neunucleons.dat_):
+   \file{
+         n    p                             nen
+ 12.39     18.64     23.89     36.38     58.36     89.96    139.28
+ 13.67     17.23     19.77     24.87     32.00     40.17     50.37
+         p    n                            nebp
+  7.11     11.27     14.76     22.94     36.79     55.56     82.64
+ 14.58     17.96     20.37     25.13     31.71     39.12     48.22
+ }
+ The first line of the file indicates the reaction, similar to the reaclib format. The next line indicates the tabulated
+ cross section and the line below the average energy of the absorped neutrino.
+   The data is calculated as in [Burrows et al. 2006](https://ui.adsabs.harvard.edu/abs/2006NuPhA.777..356B/abstract) with
+   weak magnetism corrections as in [Horowitz 2002](https://ui.adsabs.harvard.edu/abs/2002PhRvD..65d3001H/abstract).
+
+   @par Example template line:
+   `` nunucleo_rates_file= "@WINNET@/data/neunucleons.dat" ``
+   @see parameter_class::nunucleo_rates_file, \ref nuflux_class,
+         [Burrows et al. 2006](https://ui.adsabs.harvard.edu/abs/2006NuPhA.777..356B/abstract),
+         [Burrows & Thompson 2002](https://ui.adsabs.harvard.edu/abs/2002astro.ph.11404B/abstract),
+         [Horowitz 2002](https://ui.adsabs.harvard.edu/abs/2002PhRvD..65d3001H/abstract)
+
+
+   \section nurates_file        nurates_file
+   Path to a file, containing neutrino reactions. These
+   reactions can be charged current or neutral current reactions. They use a neutrino
+   temperature grid of \f$2.8, 3.5, 4.0, 5.0, 6.4, 8.0, 10.0 \,\mathrm{MeV}\f$.
+   The format comes from [Sieverding et al.2018](https://ui.adsabs.harvard.edu/abs/2018ApJ...865..143S/abstract).
+   An example of the file looks like:
+   \file{
+    000  Z = 2    A = 4   channels:  6
+    002  1.099778E-03  7.960983E-03  2.308440E-02  1.163089E-01  5.736357E-01  2.100826E+00  6.820661E+00
+    023  1.145175E-03  7.713879E-03  2.115540E-02  9.541441E-02  4.077819E-01  1.295820E+00  3.633845E+00
+    ...
+   }
+   Here the first line contains the atomic number, the mass number and the amount of reactions.
+   The second line contains the channel specified in the channel file (see \ref nuchannel_file)
+   followed by the reaction rates. The reaction rates are tabulated on a (neutrino) temperature grid
+   of Tnu (MeV) = 2.800 3.500 4.000 5.000 6.400 8.000 10.000. The file can be also downloaded in the
+   supplemental material of [Sieverding et al.2018](https://ui.adsabs.harvard.edu/abs/2018ApJ...865..143S/abstract).
+   @par Example template line:
+   `` nurates_file= "@WINNET@/data/nucross.dat" ``
+   @see parameter_class::nurates_file, \ref nuflux_class,
+         \ref nuflag, \ref nuchannel_file,
+         [Sieverding et al.2018](https://ui.adsabs.harvard.edu/abs/2018ApJ...865..143S/abstract)
+
+
+
+
+   \section out_every                  out_every
+   Parameter to specify a brief output. If you start WinNet by using the
+   terminal, this output will be shown in the terminal. It consists of
+   short status messages (e.g., the network size), the iteration, time,
+   temperature, density, and entropy.
+   \l_file{
+       WinNet - Nuclear reaction network
+      ===================================
+    \n
+    \n
+    Option                                   :      Value     Unit
+    \--------------------------------------------------------------
+    Network size                             :       6545
+    Amount reaclib rates                     :      70565
+    Amount fission rates                     :       4301
+    Total number of fission neutrons         :      17100
+    Amount weak (ffn) rates                  :        212
+    Total reactions after merge              :      74976
+    Thermodynamic trajectory                 :  from file
+    Starting index                           :          1
+    Expansion velocity:                      :   4.00E+04   [km/s]
+    Initial abundance source                 :        NSE
+    Evolution mode                           :        NSE
+    Initial entropy                          :   9.46E-03 [kB/nuc]
+    \n
+    #-- 1:it 2:time[s] 3:T9[GK] 4:rho[g/cm3] 5:entropy[kB/baryon]
+    0  0.0000000E+00 10.9650000  8.7096000E+12    0.0094639
+    1  2.0000000E-12 10.9650000  8.7095999E+12    0.0094639
+   ... }
+
+   @par Example template line:
+   `` out_every= 10 ``
+   @see parameter_class::out_every, analysis::output_iteration
+
+   \section reaclib_file               reaclib_file
+   Path to a mandatory reaction rate file ([Cyburt et al.2010](https://ui.adsabs.harvard.edu/abs/2010ApJS..189..240C)).
+   It contains reaction rates in order to solve the reaction network.
+   WinNet is only able to handle the Reaclib 1 (R1) original format without chapter 9,
+   10, 11. All rates in the REACLIB database are fitted by the function
+
+   \f[
+   \lambda = \mathrm{exp} \left[ a_0 + \sum \limits _{i=1} ^5 a_i T_9 ^{\frac{2i-5}{3}} a_6 \, \mathrm{ln} T_9 \right].
+   \f]
+
+   An exemplary entry for on reaction rate is given below. The reactions are divided
+   into different chapters, which is given by the first number in a single line
+   (in the example below, it is chapter "4").
+   Afterwards, the participating nuclei are indicated, followed by the literature
+   source of the reaction (see [here](https://reaclib.jinaweb.org/labels.php)),
+   a flag for resonant and one for
+   reverse rates ("r" and "v"), and the Q-value of the reaction.
+   The next lines contain the \f$a_i\f$ parameters for the fit function.
+
+   <pre style="border:1px dashed grey; display: inline-block; background: #e8e8e8">
+   <span style="color:red">Example reaclib_file:</span>
+   ...
+   4
+   ...
+            n ge65 ge66                       talyr     1.32001e+01
+    1.851912e+01 0.000000e+00 0.000000e+00-1.731299e+00
+    1.979346e+00-1.136181e+00-1.560352e-01 2.967128e-01-2.840840e-02
+   ...
+   </pre>
+   It is possible to replace some of the weak reaction rate files by theoretical
+   ones as described in the parameter \ref weak_rates_file. A more extensive
+   explanation of the reaclib file format is given
+   [here](https://reaclib.jinaweb.org/help.php?topic=reaclib_format&intCurrentNum=0).
+
+   @par Example template line:
+   `` reaclib_file= "@WINNET@/data/20140416defaultno910" ``
+   @see parameter_class::reaclib_file, \ref reaclib_rate_module
+
+
+   \section read_initial_composition   read_initial_composition
+   Boolean parameter that specifies whether the initial composition should be read
+   from the file \ref seed_file.
+
+   @par Example template line:
+   `` read_initial_composition= yes ``
+   @see parameter_class::read_initial_composition, \ref seed_file
+
+
+   \section rho_analytic               rho_analytic
+   Analytic density evolution. This expression is only evaluated when
+   the parameter \ref trajectory_mode is set to "analytic".
+
+   @par Example template line:
+   `` rho_analytic= (5e-1*cos(x)+1)*1e6+sin(pi) ``
+   @see parameter_class::rho_analytic, \ref parser_module
+
+
+   \section Rkm_analytic               Rkm_analytic
+   Analytic radius evolution. This expression is only evaluated when
+   the parameter \ref trajectory_mode is set to "analytic".
+
+   @par Example template line:
+   `` Rkm_analytic= ln(x)+1 ``
+   @see \ref parameter_class::rkm_analytic, \ref parser_module
+
+   \section screening_mode             screening_mode
+   Determines the prescription of coulomb corrections. Screening accounts for the change
+   of the coulomb potential of the nucleus by electrons and has therefore an impact
+   on the reaction rates (and NSE). Screening corrections are taken into account in NSE 
+   as well as in lower temperature regimes.
+   Possible values are:
+    <table>
+    <caption id="multi_row"></caption>
+    <tr><th>screening_mode <th> Description   
+    <tr><td> 0             <td> No corrections
+    <tr><td> 1 (default)   <td> Corrections as in [Kravchuk & Yakovlev 2014](https://ui.adsabs.harvard.edu/abs/2014PhRvC..89a5802K/abstract)
+    </table>
+
+   @par Example template line:
+      ``` screening_mode = 0 ```
+   @see parameter_class::screening_mode, \ref screening_module.f90, 
+       [Kravchuk & Yakovlev 2014](https://ui.adsabs.harvard.edu/abs/2014PhRvC..89a5802K/abstract)
+
+
+
+   \section seed_file                  seed_file
+
+   Optional file to specify the composition. The format of this file can be
+   specified by \ref seed_format .
+   If the sum over all mass fractions is not exactly one,
+   the initial composition is renormalized.
+
+   @par Example template line:
+   `` seed_file      = @WINNET@/data/Example_data/seed ``
+   @see parameter_class::seed_file, \ref read_initial_composition, readini::read_seed, \ref seed_format
+
+
+   \section seed_format          seed_format
+    The columns and structure of the seed file is determined by the user
+    defined parameter \ref parameter_class::seed_format.
+    The default seed format is given by: <b> "name X" </b>.
+    This format will assume a file that looks like:
+    \file{
+    \# Name X
+    \#---------------
+    n    0.0000e+00
+    p    2.5000e-05
+    he4  5.0000e-05
+    ...}
+    Another example for seed format "A Z X skip" looks like:
+    \file{
+       1   0    2.000000e-01  unimportant
+       1   1    1.000000e-01  unimportant
+      12   6    2.000000e-01  unimportant
+      16   8    3.000000e-01  unimportant
+      40  20    1.500000e-01  unimportant
+      98  48    0.500000e-01  unimportant }
+    Possible column names are:
+    <table>
+    <caption id="multi_row"></caption>
+    <tr><th>Column value <th> Description
+    <tr><td> A      <td> Mass number
+    <tr><td> Z      <td> Atomic number
+    <tr><td> N      <td> Neutron number
+    <tr><td> Y      <td> Abundance
+    <tr><td> X      <td> Mass fraction
+    <tr><td> Name   <td> Nucleus name
+    <tr><td> skip   <td> Skip column
+    </table>
+    The first rows of the seed file will be skipped if they start with "#" or are blank.
+    
+   @note Excited states as often used for Al26 can only be specified with the "Name" column. In the reaclib 
+         they are usually indicated by Al-6 and Al*6.
+
+   @par Example template line:
+   `` seed_format = "A Z Y" ``
+   @see parameter_class::seed_format, readini::read_seed, parameter_class::seed_file, \ref seed_file
+
+
+   \section snapshot_every             snapshot_every
+   Frequency of an output of all abundances. This output will be stored
+   in the sub folder of the run
+   _snaps/_.
+   \file{
+       time    temp    dens
+      6.00000000000000E-03   3.00000000000000E-07   1.00000000000000E+00
+        nin     zin       y       x
+     1    0     9.99993224403019E-03   9.99993224403019E-03
+     0    1     9.90000067755970E-01   9.90000067755970E-01
+   ....}
+
+   @par Example template line:
+   `` snapshot_every      = 10 ``
+   @see parameter_class::snapshot_every, analysis::printsnap
+
+   \section snapshot_file              snapshot_file
+   Path to a file for providing points in time in days for custom snapshots.
+   This file is only used if \ref custom_snapshots_ are enabled. The file:
+   \file{
+   0.04166666
+   1
+   365
+   3650
+   36500 }
+   creates a snapshot after one hour, one day, one year, \f$10\f$ years,
+   and \f$100\f$ years.
+
+   @par Example template line:
+   `` snapshot_file= "@WINNET@/data/Example_data/Example_MRSN_nup_process_obergaulinger/custom_snapshots.dat" ``
+   @see parameter_class::snapshot_file, analysis::printsnap, readini::read_custom_snapshots
+
+
+   \section solver                     solver
+   WinNet contains different solver. With the parameter \ref solver you specify
+   which solver should be used. Possible values are:
+   <table>
+   <caption id="multi_row"></caption>
+   <tr><th>solver <th> Description
+   <tr><td>  0 <td> Implicit euler.
+   <tr><td>  1 <td> Gear's method.
+   </table>
+
+   @par Example template line:
+   `` solver = 1 ``
+   @see parameter_class::solver, timestep_module::advance_implicit_euler,
+        timestep_module::advance_gear,
+        [Winteler 2013](https://edoc.unibas.ch/29895/),
+        [Martin, D. 2017](https://tuprints.ulb.tu-darmstadt.de/6301/)
+
+
+   \section t_analytic                 t_analytic
+   Initial time in seconds for analytic trajectory mode.
+   This time is only assumed for constant hydrodynamic
+   conditions. Otherwise the calculation starts at the point where the temperature is
+   lower than  \ref initemp.
+
+   @par Example template line:
+   `` t_analytic = 1e-3``
+   @see parameter_class::t_analytic, \ref parser_module
+
+
+   \section T9_analytic                T9_analytic
+   Analytic temperature evolution in GK. This expression is only evaluated when
+   the parameter \ref trajectory_mode is set to "analytic".
+
+   @par Example template line:
+   `` T9_analytic  = sin(x)+10**(-5)*exp(-x+20)+4-10**(-2)*x ``
+   @see parameter_class::T9_analytic, \ref parser_module
+
+
+   \section tabulated_rates_file             tabulated_rates_file
+   File with tabulated rates that is used when \ref use_tabulated_rates is turned on. The file looks similar
+   as a \ref reaclib_file, i.e., it is also splitted into chapters, has a source string, and a Q-value. An example
+   is shown below:
+   \file{
+   4
+   ....
+          c12  c12 mg24                       tabln     0.00000e+00
+   0.000E+00 0.000E+00 0.000E+00 0.000E+00 0.000E+00 1.634E-72 2.768E-52 1.768E-42 ...
+          c12  o16 si28                       tabln     0.00000e+00
+   0.000E+00 0.000E+00 0.000E+00 0.000E+00 0.000E+00 0.000E+00 0.000E+00 0.000E+00 ...
+          o16  o16  s32                       tabln     0.00000e+00
+   0.000E+00 0.000E+00 0.000E+00 0.000E+00 0.000E+00 0.000E+00 1.845E-90 1.594E-74 ...
+   ....}
+   In contrast to Reaclib, it has one long line of a rate tabulation. The temperature grid points are given by:
+   1.0d-4, 5.0d-4, 1.0d-3, 5.0d-3, 1.0d-2, 5.0d-2, 1.0d-1, 1.5d-1, 2.0d-1, 2.5d-1, 3.0d-1, 4.0d-1, 5.0d-1, 6.0d-1, 7.0d-1, 8.0d-1, 9.0d-1, 1.0d+0, 1.5d+0, 2.0d+0,
+   2.5d+0, 3.0d+0, 3.5d+0, 4.0d+0, 5.0d+0, 6.0d+0, 7.0d+0, 8.0d+0, 9.0d+0, 1.0d+1 GK.
+
+   @warning When using this file, other reaction rates will get replaced!
+
+   @par Example template line:
+   `` tabulated_rates_file  = tabl_rates.dat ``
+   @see \ref use_tabulated_rates, \ref tabulated_rate_module.f90, \ref reaclib_file
+
+
+   \section temp_reload_exp_weak_rates temp_reload_exp_weak_rates
+   The reaction rates are only valid above \f$10^{-2}\f$ GK.
+   Therefore the parameter \ref temp_reload_exp_weak_rates specifies
+   the temperature at which the rates are replaced with rates specified
+   in the \ref reaclib_file. This temperature is only important if
+   \ref iwformat is greater than 0.
+
+   @par Example template line:
+   `` temp_reload_exp_weak_rates  = 1d-2 ``
+   @see parameter_class::temp_reload_exp_weak_rates, \ref tw_rate_module,
+        \ref iwformat,
+        [Langanke & Martinez-Pinedo 2001](https://ui.adsabs.harvard.edu/abs/2001ADNDT..79....1L/abstract)
+
+
+   \section termination_criterion      termination_criterion
+   The termination criterion can be set with the parameter \ref termination_criterion.
+   Possible values are:
+   <table>
+   <caption id="multi_row"></caption>
+   <tr><th>termination_criterion <th> Description
+   <tr><td>  0 <td> terminate simulation in the end of trajectory.
+   <tr><td>  1 <td> terminate after final time is reached.
+   <tr><td>  2 <td> terminate after final temperature is reached.
+   <tr><td>  3 <td> terminate after final density is reached.
+   </table>
+
+   The final values can be set by the parameters \ref final_time,
+   \ref final_temp, \ref final_dens.
+
+   @par Example template line:
+   `` termination_criterion  = 0 ``
+   @see parameter_class::termination_criterion, \ref final_time,
+        \ref final_temp, \ref final_dens.
+
+
+   \section timescales_every           timescales_every
+   Parameter to specify the frequency of the average timescales of each reaction type.
+   These timescales are calculated as in
+   [Arcones et al. 2012](https://ui.adsabs.harvard.edu/abs/2012ApJ...750...18A/abstract)
+   (Eq. 1-6). The (p,gamma) timescale is given by e.g.,
+   \f[
+   \tau_{p\gamma} = \left[ \frac{\rho Y_p}{Y_h}N_A \sum \langle \sigma \nu \rangle_{p,\gamma}(Z,A)Y(Z,A) \right]^{-1}
+   \f]
+   The timescales are stored to the file _timescales.dat_, containing the timescales in
+   \f$\mathrm{s}^{-1}\f$ of the reaction types.
+   An example file looks like:
+   \l_file{
+   # time[s]     Temperature [GK]     tau_ng [s]     tau_gn [s]     tau_pg [s]     tau_gp [s]     tau_np [s]     tau_pn [s]     tau_an [s]     tau_na [s]     tau_beta [s]     tau_alpha [s]     tau_nfiss [s]     tau_sfiss [s]     tau_bfiss [s]
+    1.1130000000000000E+00    9.1821750000000009E+00    0.0000000000000000E+00    0.0000000000000000E+00    0.0000000000000000E+00    0.0000000000000000E+00    0.0000000000000000E+00    0.0000000000000000E+00    0.0000000000000000E+00    0.0000000000000000E+00    1.2642767370327558E+01    2.9487624276191804E+00    0.0000000000000000E+00    0.0000000000000000E+00    0.0000000000000000E+00
+    1.1220000000000001E+00    8.2638489999999951E+00    0.0000000000000000E+00    0.0000000000000000E+00    0.0000000000000000E+00    0.0000000000000000E+00    0.0000000000000000E+00    0.0000000000000000E+00    0.0000000000000000E+00    0.0000000000000000E+00    1.0557999180036711E+02    2.5923655028366777E+01    0.0000000000000000E+00    0.0000000000000000E+00    0.0000000000000000E+00
+    1.1247618491767180E+00    7.9904974735555152E+00    9.5690472538317728E-13    5.3150487750907188E-11    7.4419112944811684E-10    9.8479480155439862E-08    1.9792689873245490E-12    1.9444248037144314E-12    4.8686627517806918E-10    3.9657685448682009E-12    1.4600540103519526E+01    5.2634156341152767E+01    0.0000000000000000E+00    0.0000000000000000E+00    0.0000000000000000E+00
+   ...}
+
+   @par Example template line:
+   `` timescales_every  = 5 ``
+   @see parameter_class::timescales_every, analysis::calc_av_timescales
+
+
+   \section timestep_hydro_factor               timestep_hydro_factor
+   Maximum allowed difference of temperature or density within one timestep. E.g., if set to 0.05, the temperature is maximum allowed to change by
+   5 percent. In case that nuclear heating is enabled, only the density is restricted.
+      @par Example template line:
+   `` timestep_hydro_factor  = 0.05 ``
+   @see parameter_class::timestep_hydro_factor, timestep_module::timestep
+
+
+
+
+   \section timestep_max               timestep_max
+   Maximum allowed ratio of the new time step and the old time step, \f$h_{\mathrm{new}} / h_{\mathrm{old}}\f$.
+   @par Example template line:
+   `` timestep_max  = 2 ``
+   @see parameter_class::timestep_max, timestep_module::timestep
+
+
+   \section timestep_factor            timestep_factor
+   The time step of implicit Euler is determined by:
+   \f[
+   h_{\mathrm{new}} = \eta \cdot \mathrm{min_i}\left( |\frac{Y_i}{\dot{Y_i}}| \right),
+   \f]
+   where \f$\eta = \mathrm{timestep\_factor}\f$, which is the same as the estimated maximal
+   change of the most rapidly evolving nucleus, because from
+   \f[
+   \left| \dot{Y}\right| = \left|\frac{Y(t+h) - Y(t)}{h}\right|
+   \f]
+   and
+   \f[
+   \eta = \left|1-\frac{Y(t+h)}{Y(t)} \right|
+   \f]
+   follows:
+   \f[
+   \left|\dot{Y}\right| = \left| \frac{(1 - \eta ) \cdot Y(t) - Y(t)}{h}\right| \Rightarrow h = \eta \left|\frac{Y(t)}{\dot{Y}(t)}\right|.
+   \f]
+
+   @par Example template line:
+   `` timestep_factor  = 0.1 ``
+   @see parameter_class::timestep_factor, timestep_module::ye_timestep, timestep_module::abchange_timestep
+
+   \section timestep_Ymin              timestep_Ymin
+   Including all nuclei into the determination of the time step, even nuclei
+   with very small abundances would make the time step infinitesimal small.
+   The parameter \ref timestep_Ymin sets a lower bound for the abundance of
+   a nucleus to contribute to the time step.
+
+   @par Example template line:
+   `` timestep_Ymin  = 1e-10 ``
+   @see parameter_class::timestep_ymin, timestep_module::abchange_timestep
+
+   \section timestep_traj_limit        timestep_traj_limit
+   This parameter can either have the value ``yes'' or ``no''.
+   If it is set to ``yes'', the calculation will be limited by the
+   one of the given trajectory. In other words, in case a timestep would
+   exceed the hydro grid point, it will instead be limited to the hydro grid.
+
+   @par Example template line:
+   `` timestep_traj_limit  = no ``
+   @see parameter_class::timestep_traj_limit, timestep_module::restrict_timestep
+
+   \section top_engen_every            top_engen_every
+
+   Integer parameter that specifies
+   if top contributor to the nuclear energy generation should get printed to the file
+    _toplist.dat_ . An example of the file is given by:
+    <div style="width:600px;overflow:scroll;padding:5px;
+    background-color:#e8e8e8;scrollbar-base-color:#DEBB07;border:1px dashed grey;
+    display: inline-block">
+    <pre>
+    Time [s], T [GK], Dens [g/ccm], List of 10 top contributing isotopes, List of 10 top negative contributing isotopes, Energy generation for the first 10 isotopes, Energy generation for the last 10 isotopes
+     0.00000E+00  1.09650E+01  8.70960E+12     n     n     n     n     n     n     n     n     n     n     n     n     n     n     n     n     n     n     n     n  0.00000E+00  0.00000E+00  0.00000E+00  0.00000E+00  0.00000E+00  0.00000E+00  0.00000E+00  0.00000E+00  0.00000E+00  0.00000E+00  0.00000E+00  0.00000E+00  0.00000E+00  0.00000E+00  0.00000E+00  0.00000E+00  0.00000E+00  0.00000E+00  0.00000E+00  0.00000E+00
+     2.00000E-12  1.09650E+01  8.70960E+12  ca72  ti80  ca73  cr86  fe92  ni99  ti79  ni98  ar66  ar67     n   v78  sc70  sc71  mn84  cu97  co90   v77  cu96   k65  8.59235E-11  7.89957E-11  6.38479E-11  1.59813E-11  1.14152E-11  1.11330E-11  9.77194E-12  6.04548E-12  5.18230E-12  4.59834E-12 -6.82466E-11 -3.86156E-11 -3.31344E-11 -2.91247E-11 -7.51819E-12 -5.44326E-12 -5.14437E-12 -4.22946E-12 -2.56968E-12 -2.20797E-12
+     6.00000E-12  1.09650E+01  8.70960E+12  ca72  ti80  ca73  cr86  fe92  ni99  ti79  ni98  ar66  ar67     n   v78  sc70  sc71  mn84  cu97  co90   v77  cu96   k65  1.71847E-10  1.57991E-10  1.27696E-10  3.19626E-11  2.28304E-11  2.22659E-11  1.95439E-11  1.20910E-11  1.03646E-11  9.19668E-12 -1.36501E-10 -7.72312E-11 -6.62695E-11 -5.82495E-11 -1.50364E-11 -1.08866E-11 -1.02888E-11 -8.45892E-12 -5.13959E-12 -4.41594E-12
+     1.40000E-11  1.09650E+01  8.70960E+12  ca72  ti80  ca73  cr86  fe92  ni99  ti79  ni98  ar66  ar67     n   v78  sc70  sc71  mn84  cu97  co90   v77  cu96   k65  3.43694E-10  3.15983E-10  2.55392E-10  6.39251E-11  4.56608E-11  4.45318E-11  3.90877E-11  2.41819E-11  2.07292E-11  1.83934E-11 -2.72993E-10 -1.54462E-10 -1.32541E-10 -1.16499E-10 -3.00729E-11 -2.17734E-11 -2.05778E-11 -1.69179E-11 -1.02801E-11 -8.83189E-12
+    ... </pre></div>
+
+    @par Example template line:
+   `` top_engen_every  = 10 ``
+   @see \ref nuclear_heating, parameter_class::top_engen_every
+
+
+   \section track_nuclei_every         track_nuclei_every
+   One can track the evolution of abundances of individual nuclei.
+   If the parameter is larger than zero, a file called _tracked_nuclei.dat_
+   will be created in the run folder. For this a path of a valid file must be
+   given for the parameter \ref track_nuclei_file.
+   \file{
+   \# time[s]                    Y(  ni56 )                  Y(  ti44 )                  Y(  ca48 )
+    4.4479893740127485E-01      0.0000000000000000E+00      0.0000000000000000E+00      3.7857260959653261E-23
+    4.4536148263636188E-01      0.0000000000000000E+00      1.2167485211212250E-24      1.4314310210168970E-21
+    4.4596649436475339E-01      0.0000000000000000E+00      9.9175184259232737E-24      2.7418559494841269E-20
+   ... }
+   @par Example template line:
+   `` track_nuclei_every  = 10 ``
+   @see parameter_class::track_nuclei_every, analysis::output_iteration
+
+   \section track_nuclei_file          track_nuclei_file
+   When specifying \ref track_nuclei_every larger than zero,
+   this parameter should be set to a path to a valid file,
+   containing names of nuclei you want to track. The format of this file
+   should be the same as given in \ref net_source.
+   An example could be:
+   \file{
+    c13
+   ti44
+   ni56 }
+
+   @par Example template line:
+   `` track_nuclei_file  = @WINNET@/data/trackfile.dat ``
+   @see parameter_class::track_nuclei_every, readini::read_track_nuclei
+
+   \section trajectory_file            trajectory_file
+   Path to a trajectory file, matching the given format specified in
+   \ref trajectory_format. This file will only get read in case
+   trajectory_mode was set to "from_file".
+
+   @par Example template line:
+   `` trajectory_file = "@WINNET@/data/trajectories/trajectory_00001_winnet.dat" ``
+   @see parameter_class::trajectory_file, readini::custom_read
+
+
+   \section trajectory_format          trajectory_format
+    The columns and structure of the file is determined by the user
+    defined parameter \ref parameter_class::trajectory_format.
+    The default trajectory format is given by: <b> "time temp dens rad ye" </b>.
+    This format will assume a file that looks like:
+    \file{
+    \#time[s], T9[GK], density[g/cm^3], R[km], Ye
+    \#--------------------------------------------
+    0.0000e+00 1.0965e+01 8.7096e+12 4.9273e+01 0.03488
+    2.5000e-05 9.9312e+00 7.4131e+12 5.0361e+01 0.03488
+    ...}
+    A more complex format, <b> "time:ms x y z log_dens log_temp:K ye" </b>, would assume a file like:
+    \file{
+    t [ms]       x[km]       y[km]      z[km]      log(rho[cgs]) log(T[K])   Ye
+    \----------------------------------------------------------------------------------
+     0.0000E+00  0.1051E+02  0.3774E+01 -0.4538E+01  0.1364E+02  0.1016E+02  0.1604E-01
+     0.2521E-01  0.1046E+02  0.4724E+01 -0.4541E+01  0.1363E+02  0.1060E+02  0.1604E-01
+    ...}
+    Neutrino luminosities and energies are also read here. A format could look like:
+    <b> "time temp dens rad ye lnu lanu tnu tanu" </b>. \n
+    Possible column names are:
+    <table>
+    <caption id="multi_row"></caption>
+    <tr><th>Column value <th> Description
+    <tr><td> time   <td> The time (s) of the trajectory
+    <tr><td> temp   <td> The temperature (GK) of the trajectory
+    <tr><td> dens   <td> The density (g/ccm) of the trajectory
+    <tr><td> rad    <td> The radius (km) of the trajectory
+    <tr><td> x,y,z  <td> x, y, and z coordinates (km) of the trajectory
+    <tr><td> ye     <td> The electron fraction
+    <tr><td> lanue  <td> Anti-electron neutrino luminosities (erg/s)
+    <tr><td> lnue   <td> Electron neutrino luminosities (erg/s)
+    <tr><td> tanue  <td> Electron anti-neutrino temperatures (MeV)
+    <tr><td> tnue   <td> Electron neutrino temperatures (MeV)
+    <tr><td> eanue  <td> Electron anti-neutrino energies (MeV)
+    <tr><td> enue   <td> Electron Neutrino energies (MeV)
+    <tr><td> lanux  <td> Summed muon and tauon anti-neutrino luminosities (erg/s)
+    <tr><td> lnux   <td> Summed muon and tauon neutrino luminosities (erg/s)
+    <tr><td> tanux  <td> Muon and tauon anti-neutrino temperatures (MeV)
+    <tr><td> tnux   <td> Muon and tauon neutrino temperatures (MeV)
+    <tr><td> eanux  <td> Muon and tauon anti-neutrino energies (MeV)
+    <tr><td> enux   <td> Muon and tauon neutrino energies (MeV)
+    <tr><td> skip   <td> skip a column
+    </table>
+
+    @par Example template line:
+   `` trajectory_format = "time temp dens rad ye lnu lanu tnu tanu" ``
+   @see parameter_class::trajectory_format, readini::custom_read
+
+
+   \section trajectory_mode            trajectory_mode
+   The trajectory mode determines the source of temperature and density
+   used in the network calculation. Possible values are:
+   <table>
+   <caption id="multi_row"></caption>
+   <tr><th>trajectory_mode <th> Description
+   <tr><td> "from_file"    <td> Follow a trajectory.
+   <tr><td> "analytic"     <td> Get temperature and density from an analytic formula
+   </table>
+
+   When choosing "from_file", two additional parameters have to be given.
+   One specifies the path to the trajectory file and the other parameter
+   specifies the format of this file.
+
+   @par Example template line:
+    `` trajectory_mode = "from_file" ``
+   @see parameter_class::trajectory_mode
+
+
+   \section use_alpha_decay_file        use_alpha_decay_file
+   Use additional alpha-decays that are given in \ref alpha_decay_file.
+   The default file was calculated via the Viola-Seaborg formula. Additional alpha-decays
+   can either replace existing ones in reaclib or only complement the reaclib rates.
+   Via the Viola-Seaborg formula the alpha-decay rates can be empirically approximated by
+   \f[ \log_{10}T_\alpha = (aZ + b)Q_\alpha^{-0.5} + (cZ + d)+h_{log}  \f]
+   with certain fit parameters. The parameters are chosen as follows:
+|                                    | a       | b        | c        | d        |
+|------------------------------------|---------|----------|----------|----------|
+| \f$Z>82\f$, \f$N>126\f$            | 1.64062 | -8.54399 | -0.19430 | -33.9054 |
+| \f$Z>82\f$, \f$82<N\le126\f$       | 1.71183 | -7.50481 | -0.25315 | -30.7028 |
+| \f$50<Z\le 82\f$, \f$82<N\le126\f$ | 1.70875 | -7.52265 | -0.25153 | -30.8245 |
+| \f$50<Z\le 82\f$, \f$50<N\le82\f$  | 1.71371 | -7.34226 | -0.24978 | -30.6826 |
+|                                    | h1      | h2       | h3       | h4       |
+| \f$Z>82\f$, \f$N>126\f$            | 0       | 0.8937   | 0.5720   | 0.9380   |
+| \f$Z>82\f$, \f$82<N\le126\f$       | 0       | 0.0476   | 0.1214   | 0.3933   |
+| \f$50<Z\le 82\f$, \f$82<N\le126\f$ | 0       | 0.2140   | 0.0600   | 0.4999   |
+| \f$50<Z\le 82\f$, \f$50<N\le82\f$  | 0       | -0.1242  | 1.1799   | 0.7166   |
+
+
+  The lower part of the table shows the hindrance factors \f$h_{log}\f$ and h1 indicates Z even and N even, h2 Z even and N odd, 
+  h3 Z odd and N even, h4 Z odd and N odd.
+
+   @par Example template line:
+    `` use_alpha_decay_file = yes ``
+    @see parameter_class::use_alpha_decay_file, \ref alpha_decay_ignore_all,
+         \ref alpha_decay_src_ignore, \ref alpha_decay_zmin, \ref alpha_decay_zmax,
+         [Dong & Ren 2005](https://ui.adsabs.harvard.edu/abs/2005EPJA...26...69D/abstract),
+         \ref alpha_decay_rate_module, \ref alpha_decay_file         
+
+
+   \section use_beta_decay_file        use_beta_decay_file
+   Use external beta decays that are given in a different format compared
+   to reaclib. They tabulate the halflife of a nucleus together
+   with Pn probabilities (\f$\beta\f$-delayed neutron emission). The file
+   includes up to P10n (10 \f$\beta\f$-delayed neutrons), which can not be
+   calculated in the default reaclib format (There P2n is max. in chapter 3,
+   or P3n in the new reaclib format in chapter 11).
+
+   @par Example template line:
+    `` use_beta_decay_file = yes ``
+    @see parameter_class::use_beta_decay_file, \ref beta_decay_file,
+         \ref beta_decay_rate_module
+
+
+   \section use_detailed_balance        use_detailed_balance
+   Flag to decide whether to use the inverse reaction rates from the rate files or use detailed balance
+   to calculate them. This is specifically useful when tabulated rates are used, where the interpolation on
+   the tabulated grid of forward and inverse rate may break detailed balance.
+
+   @warning This parameter will overwrite existing reverse rates (flagged with "v" in the rate source file) and will create
+            new inverse rates for all rates. If a rate is not flagged properly as inverse, the reactions will appear several times in
+            the rate library and the result can be wrong.
+
+   @par Example template line:
+    `` use_detailed_balance = yes ``
+    @see parameter_class::use_detailed_balance,
+    [Fowler, Caughlan, and Zimmerman (1967)](https://www.annualreviews.org/doi/10.1146/annurev.aa.05.090167.002521),
+    \ref detailed_balance
+
+
+  \section use_detailed_balance_q_reac        use_detailed_balance_q_reac
+   Flag to decide whether to use the Q-value from the reaction file (yes) or from the used winvn (no). The ladder one is more consistent with NSE,
+   while the first one is consistent with the forward rate.
+
+   @par Example template line:
+    `` use_detailed_balance_q_reac = yes ``
+    @see parameter_class::use_detailed_balance,
+    [Fowler, Caughlan, and Zimmerman (1967)](https://www.annualreviews.org/doi/10.1146/annurev.aa.05.090167.002521),
+    \ref detailed_balance
+
+
+   \section use_htpf        use_htpf
+   Use high temperature partition functions or not. The default file that is included
+   in WinNet contains a tabulation of nuclei heavier than 13O. The tabulation is further done
+   for temperatures heavier than 10GK where matter is usually in NSE and mostly nucleons are
+   populated (depending on the conditions). Therefore, using
+   this tabulation has not a big impact on the result. In case it is not used, the
+   last partition function tabulation of the winvn file is kept constant for higher temperatures.
+
+   @par Example template line:
+    `` use_htpf = yes ``
+   @see parameter_class::use_htpf, \ref benam_class::read_htpf
+
+   \section use_neutrino_loss_file   use_neutrino_loss_file
+   Use the information of an external file for the average energy of released neutrinos when a
+   nucleus beta-decays. This parameter is only relevant if \ref heating_mode is greater than 0.
+   If it is enabled, \ref neutrino_loss_file has to be set.
+
+   @par Example template line:
+    `` use_neutrino_loss_file = yes ``
+   @see \ref use_neutrino_loss_file , \ref neutrino_loss_file , \ref heating_mode , \ref heating_frac , \ref beta_decay_file
+
+  \section use_tabulated_rates        use_tabulated_rates
+   Whether to use a file with tabulated rates or not. If this parameter is enabled, \ref tabulated_rates_file should be a path to a valid file.
+
+   @par Example template line:
+    `` use_tabulated_rates = yes ``
+   @see \ref tabulated_rates_file
+
+  \section use_thermal_nu_loss        use_thermal_nu_loss
+   Flag whether thermal neutrino losses are used or not. This parameter will only have an effect if \ref heating_mode is enabled.
+   The underlying module is from [Itoh et al. 1996](https://ui.adsabs.harvard.edu/abs/1996ApJS..102..411I/abstract) accessed via
+   [Cococubed](https://cococubed.com/code_pages/nuloss.shtml). The thermal neutrinos can be produced in several processes namely
+   pair production, photoneutrinos, plasmon neutrinos, bremsstrahlung, and recombination.
+   Per default thermal neutrino losses are taken into account. 
+
+   @par Example template line:
+    `` use_thermal_nu_loss = no ``
+   @see parameter_class::use_thermal_nu_loss, \ref thermal_neutrino_module, \ref heating_mode,
+        [Itoh et al. 1996](https://ui.adsabs.harvard.edu/abs/1996ApJS..102..411I/abstract),
+        [Cococubed](https://cococubed.com/code_pages/nuloss.shtml)
+        
+
+   \section use_timmes_mue        use_timmes_mue
+   Flag to use previously tabulated electron chemical potential from  [Timmes & Arnett 1999](https://ui.adsabs.harvard.edu/abs/1999ApJS..125..277T/abstract).
+   If this flag is set to 'no', the electron chemical potential is directly used from \ref weak_rates_file (column "uf").
+   The chemical potential is only used if \ref iwformat is set to option 2.
+
+   @par Example template line:
+    `` use_timmes_mue = no ``
+   @see parameter_class::use_timmes_mue, \ref chem_pot_file, \ref weak_rates_file
+
+   \section weak_rates_file            weak_rates_file
+   This file is read when \ref iwformat was
+   set to 1 or 2. An example of an expected format for iwformat=2 is given by:
+    of the file is given by:
+    \file{
+    neg. daughter Sc45 z=21 n=24 a=45 Q=  0.7678
+    pos. daughter Ca45 z=20 n=25 a=45 Q= -0.7678
+                         +++ Sc45 --> Ca45 +++      --- Ca45 --> Sc45 ---
+      t9   lrho    uf    lbeta+    lfte-     lnu    lbeta-    lfte+   lnubar
+     0.01  1.0  -0.003  -99.999  -99.999  -99.999   -7.302  -99.999   -0.746
+     0.10  1.0  -0.058  -91.517    5.796   -1.577   -7.302    7.565   -0.746
+     0.20  1.0  -0.134  -49.637    5.792   -1.266   -7.302    7.083   -0.746
+     ... }
+
+    for iwformat=1 the file has to look like:
+    \file{
+     neg. daughter Sc45 z=21 n=24 a=45 Q=  0.7678
+     pos. daughter Ca45 z=20 n=25 a=45 Q= -0.7678
+                      +++ Sc45 --> Ca45 +++      --- Ca45 --> Sc45 ---
+     t9   lrho    uf    lbeta+    leps-    lrnu    lbeta-    leps+  lrnubar
+    0.01  1.0  -0.003  -99.999  -99.999  -99.999   -7.302  -99.999   -8.048
+    0.10  1.0  -0.058  -91.517  -26.451  -28.027   -7.302  -57.268   -8.048
+    0.20  1.0  -0.134  -49.637  -19.509  -20.775   -7.302  -30.246   -8.048
+    ... }.
+
+   The default file _rateseff.out_ is taken from
+   [Langanke & Martinez-Pinedo 2001](https://ui.adsabs.harvard.edu/abs/2001ADNDT..79....1L/abstract)
+
+
+   @par Example template line:
+    `` weak_rates_file= "@WINNET@/data/rateseff.out" ``
+
+   @see parameter_class::weak_rates_file, parameter_class::iwformat, parameter_class::iwinterp, \ref tw_rate_module
+
+
+   \section Ye_analytic                Ye_analytic
+   Analytic evolution of the electron fraction. This expression is only evaluated when
+   the parameter \ref trajectory_mode is set to "analytic".
+
+   @par Example template line:
+    `` Ye_analytic = 0.99 ``
+   @see parameter_class::ye_analytic, \ref parser_module
+
+*/

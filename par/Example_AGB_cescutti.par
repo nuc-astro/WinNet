@@ -1,0 +1,147 @@
+###############################################################################
+# Example case for a AGB-star. The star used a 3 Msun, Z = 0.014 (solar metallicity)
+# stellar evolution model, calculate with 1D stellar evolution code MESA,
+# revision number 6208 (Paxton et al. 2011). It was accessed at
+# https://zenodo.org/record/6474686 (v 1.2.1). The example will calculate 2 trajectories
+# one of the C13 pocket and one with thermal pule conditions. If you use the
+# trajectory, cite and read:
+# Cescutti et al. 2018 (https://ui.adsabs.harvard.edu/abs/2018MNRAS.478.4101C/abstract)
+# Cescutti 2022. Main s-process (1.2.1) [Data set]. Zenodo. (https://doi.org/10.5281/zenodo.6474686)
+#
+# * The network includes ~2000 nuclei.
+# * The initial composition is given from the simulation
+# * Reaction rates from the JINA Reaclib database
+#   Cyburt et al. (2010, https://ui.adsabs.harvard.edu/abs/2010ApJS..189..240C/abstract)
+#   accessed via https://reaclib.jinaweb.org/ .
+# * Temperature and density evolution are taken from the HD simulation.
+# * Electron chemical potentials from Timmes & Arnett (1999, https://ui.adsabs.harvard.edu/abs/1999ApJS..125..277T/abstract),
+#   accessed via Cococubed: https://cococubed.com/code_pages/chemical_potential.shtml
+# * Screening corrections from Kravchuk & Yakovlev et al. (2014, https://ui.adsabs.harvard.edu/abs/2014PhRvC..89a5802K/abstract).
+# * no theoretical weak rates
+# * no fission rates
+# * no neutrinos
+#
+# A more detailed description and a complete list of the parameters can be found in the documentation.
+# This documentation can be created by running "make doc". After this, it is located in "doc/documentation.html".
+#
+# Run this file with the help of the makerun.py via:
+# python makerun.py --many -p Example_AGB_cescutti.par -r Example_AGB_cescutti
+# and check the plotting script in the produced run folder (runs/Example_AGB_cescutti/Plot_me.py)
+
+
+###########################
+#   General input files   #
+###########################
+
+# List of all isotopes used in the network
+net_source= "@WINNET@/data/sunet_s"
+
+# Database with the properties of all isotopes
+isotopes_file= "@WINNET@/data/winvne_v2.0.dat"
+
+# The reaclib library
+reaclib_file  = "@WINNET@/data/Reaclib_18_9_20"
+
+
+####################################
+# Input for theoretical weak rates #
+####################################
+
+# No theoretical weak rates
+iwformat = 0
+
+
+############################
+# Thermodynamic conditions #
+############################
+
+# Is this a trajectory run?
+trajectory_mode = "from_file"
+
+# time in years, temperature in GK, density in g/ccm, Ye taken from seed.
+trajectory_format = "time:yrs temp:GK dens"
+
+# File name of trajectory
+trajectory_file = "@WINNET@/data/Example_data/Example_AGB_cescutti/trajectory_"
+
+
+###########################
+#   Initial composition   #
+###########################
+
+# Shall the driver read initial composition from a seed file?
+read_initial_composition= yes
+
+# Format for read initial composition
+seed_format = Z skip A X
+
+# Take initial composition as presented in
+seed_file = "@WINNET@/data/Example_data/Example_AGB_cescutti/iniab_"
+
+
+###########
+# Fission #
+###########
+
+# Fission treatment:
+# =0: No fission
+fissflag = 0
+
+
+###################################
+# Nuclear statistical equilibrium #
+###################################
+
+# Initial temperature for NSE descend algorithm
+nse_descend_t9start= 100.0
+
+# Temperature at which calculation should start [GK] (initemp)
+initemp_hot  = 1.0e1
+initemp_cold = 1.0e1
+
+# Temperature above which nse should be used [GK]
+nsetemp_hot  = 7.0
+nsetemp_cold = 7.0
+
+# Recalculate NSE composition?
+nse_calc_every = 1
+
+
+########################
+# Termination settings #
+########################
+
+# termination_criterion:
+# =0: after trajectory ends;
+termination_criterion = 0
+
+
+###########################
+#     Output Settings     #
+###########################
+
+# Frequency of various types of the output:
+# Set the values to 0 to turn output and calculation off.
+
+# Output frequency for OUT file (or screen if not started with output piped to OUT)
+out_every        = 10
+
+# Output frequency for mainout.dat
+mainout_every    = 10
+
+
+###############
+# Other flags #
+###############
+
+# Screening corrections
+screening_mode = 1
+
+
+#######################
+# Numerical parameter #
+#######################
+
+# Integration method
+# 1 - Gear
+solver = 1

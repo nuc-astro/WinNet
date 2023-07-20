@@ -1,0 +1,132 @@
+###############################################################################
+# Example case for hydrostatic Carbon-Oxygen burning.
+# The example case is inspired by the one that can be found on 
+# Cococubed: https://cococubed.com/code_pages/burn_helium.shtml
+# 
+# * The network includes 13 nuclei (alpha-chain up to Ni56).
+# * The initial composition is read from a file.
+# * Hydrostatic temperature and density evolution.
+# * Reaction rates from the JINA Reaclib database
+#   Cyburt et al. (2010, https://ui.adsabs.harvard.edu/abs/2010ApJS..189..240C/abstract)
+#   accessed via https://reaclib.jinaweb.org/ .
+# * Electron chemical potentials from Timmes & Arnett (1999, https://ui.adsabs.harvard.edu/abs/1999ApJS..125..277T/abstract),
+#   accessed via Cococubed: https://cococubed.com/code_pages/chemical_potential.shtml
+# * Screening corrections from Kravchuk & Yakovlev et al. (2014, https://ui.adsabs.harvard.edu/abs/2014PhRvC..89a5802K/abstract).
+# * no theoretical weak rates, no heating, no neutrinos.
+#
+# A more detailed description and a complete list of the parameters can be found in the documentation. 
+# This documentation can be created by running "make doc". After this, it is located in "doc/documentation.html".	
+#
+# Run this file with the help of the makerun.py via:
+# python makerun.py -p Example_CO_burning.par -r Example_CO_burning
+# and check the plotting script in the produced run folder (runs/Example_CO_burning/Plot_me.py)
+
+
+###########################
+#   General input files   #
+###########################
+
+# List of all isotopes used in the network
+net_source= "@WINNET@/data/Example_data/Example_CO_burning/sunet"
+
+# Database with the properties of all isotopes
+isotopes_file= "@WINNET@/data/winvne_v2.0.dat"
+
+# The reaclib library
+reaclib_file  = "@WINNET@/data/Reaclib_18_9_20"
+
+
+###########################
+#   Initial composition   #
+###########################
+
+# Shall the driver read initial composition from a seed file?
+read_initial_composition= yes
+
+# Seed path, half Carbon, half oxygen (in terms of mass fractions)
+seed_file = "@WINNET@/data/Example_data/Example_CO_burning/seed"
+
+
+############################
+# Thermodynamic conditions #
+############################
+
+# Is this a trajectory run?
+trajectory_mode = "analytic"
+
+# Hydrostatic conditions
+t_analytic   = 0
+T9_analytic  = 3
+rho_analytic = 1e9
+
+
+###################################
+# Nuclear statistical equilibrium #
+###################################
+
+# Initial temperature for NSE descend algorithm
+nse_descend_t9start= 100.0
+
+# Temperature at which calculation should start [GK] (initemp)
+initemp_hot  = 6
+initemp_cold = 6
+
+# Temperature above which nse should be used [GK]
+nsetemp_hot  = 5.8
+nsetemp_cold = 5.8
+
+# Recalculate NSE composition?
+nse_calc_every = 1
+
+
+########################
+# Termination settings #
+########################
+
+# termination_criterion: 
+# =1: after final_time is reached;
+termination_criterion = 1
+
+# End after 1 Gyr
+final_time = 3.1536e16
+
+
+###########################
+#     Output Settings     #
+###########################
+
+# Frequency of various types of the output:
+# Set the values to 0 to turn output and calculation off.
+
+# Output frequency for OUT file (or screen if not started with output piped to OUT)
+out_every        = 1
+
+# Output frequency for mainout.dat
+mainout_every    = 10
+
+# Also for energy plot
+engen_every = 5
+
+# For later plot
+track_nuclei_file ="@WINNET@/data/Example_data/Example_CO_burning/sunet"
+track_nuclei_every=5
+
+use_detailed_balance = yes
+
+###############
+# Other flags #
+###############
+
+# Screening corrections
+screening_mode = 1
+
+# Tabulated chemical potential of electron-positron gas (chem_table.dat)
+chem_pot_file= "@WINNET@/data/chem_table.dat"
+
+#######################
+# Numerical parameter #
+#######################
+
+# Integration method
+# 1 - Gear
+solver = 1

@@ -1,0 +1,88 @@
+###############################################################################
+# Big bang nucleosynthesis test for different baryon to photon-ratios.
+#
+# * The network includes 32 nuclei.
+# * The initial electron fraction and the trajectory is calculated as it is described 
+#   in Winteler (2014, https://ui.adsabs.harvard.edu/abs/2014PhDT.......206W/abstract).
+# * When running this parameter file with the makerun.py script, many trajectories are created
+#   and run in parallel (see @WINNET@/data/Example_data/Example_BigBang_many/create_trajectories.py)
+#   to learn more about the created trajectories. 
+# * It is assumed, that the composition consists out of nucleons only. 
+# * Reaction rates from the JINA Reaclib database
+#   Cyburt et al. (2010, https://ui.adsabs.harvard.edu/abs/2010ApJS..189..240C/abstract)
+#   accessed via https://reaclib.jinaweb.org/ .
+# * Screening corrections from 
+#   Kravchuk & Yakovlev et al. (2014, https://ui.adsabs.harvard.edu/abs/2014PhRvC..89a5802K/abstract).
+# * no neutrino reactions, no theoretical weak rates, no heating, no expansion
+#
+# A more detailed description and a complete list of the parameters can be found in the documentation. 
+# This documentation can be created by running "make doc". After this, it is located in "doc/documentation.html".
+#
+# Run this file with the help of the makerun.py via:
+# python makerun.py --many -p Example_BigBang_many.par -r Example_BigBang_many
+# and check the plotting script in the produced run folder (runs/Example_BigBang_many/Plot_me.py)
+
+
+###########################
+#   General input files   #
+###########################
+
+# Reaction rates and isotope information
+net_source    = "@WINNET@/data/Example_data/Example_BigBang/net_bbn"
+reaclib_file  = "@WINNET@/data/Example_data/Example_BigBang/bbn_reactions.dat"
+isotopes_file = "@WINNET@/data/Example_data/Example_BigBang/bbn_winvne.dat"
+
+
+############################
+# Thermodynamic conditions #
+############################
+
+# Take density, temperature, ye from file
+trajectory_mode          = 'from_file'
+trajectory_format        = 'time temp dens ye'
+
+# Thermodynamic information
+trajectory_file          = "@WINNET@/data/Example_data/Example_BigBang_many/bbn_"
+
+
+###################################
+# Nuclear statistical equilibrium #
+###################################
+
+# Threshold temperatures (way above 0.8MeV (freezout)):
+initemp_hot  = 2.0e1
+initemp_cold = 2.0e1
+nsetemp_hot  = 2.0e1
+nsetemp_cold = 2.0e1
+
+
+########################
+# Termination settings #
+########################
+
+# termination criterion = 0, until the trajectory has ended (1e5 seconds);
+termination_criterion = 0
+
+
+###########################
+#     Output Settings     #
+###########################
+
+# Output the nuclei to be able to plot them versus time
+track_nuclei_file = "@WINNET@/data/Example_data/Example_BigBang/light_nuclei"
+track_nuclei_every = 1
+
+
+###############
+# Other flags #
+###############
+
+screening_mode = 1
+
+
+#######################
+# Numerical parameter #
+#######################
+
+# Use implicit euler
+solver = 0

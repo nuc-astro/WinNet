@@ -1,0 +1,152 @@
+###############################################################################
+# Example case for parametrized complete Si burning. 
+#
+# * The network includes ~3000 nuclei.
+# * The initial composition is calculated via NSE.
+# * The electron fraction is assumed to be slightly neutron rich (0.498).
+# * Temperature and density evolution are parametrized. 
+# * Reaction rates from the JINA Reaclib database
+#   Cyburt et al. (2010, https://ui.adsabs.harvard.edu/abs/2010ApJS..189..240C/abstract)
+#   accessed via https://reaclib.jinaweb.org/ .
+# * theoretical weak rates from:
+#   Fuller et al. (1985, https://ui.adsabs.harvard.edu/abs/1985ApJ...293....1F/abstract)
+#   Oda et al. (1994, https://ui.adsabs.harvard.edu/abs/1994ADNDT..56..231O/abstract)
+#   Langanke & Martinez-Pinedo (2001, https://ui.adsabs.harvard.edu/abs/2001ADNDT..79....1L/abstract) 
+#   Pruet & Fuller (2003, https://ui.adsabs.harvard.edu/abs/2003ApJS..149..189P/abstract)
+#   Suzuki et al. (2016, https://ui.adsabs.harvard.edu/abs/2016ApJ...817..163S/abstract).
+#   All theoretical weak rates were transformed to the same log<ft> format in case the tables were not 
+#   already available in this format.
+# * Electron chemical potentials from (Timmes & Arnett 1999, https://ui.adsabs.harvard.edu/abs/1999ApJS..125..277T/abstract), 
+#   accessed via Cococubed: https://cococubed.com/code_pages/chemical_potential.shtml
+# * Screening corrections from Kravchuk & Yakovlev et al. (2014, https://ui.adsabs.harvard.edu/abs/2014PhRvC..89a5802K/abstract).
+# * no neutrino reactions, no heating, no expansion, no fission
+#
+# A more detailed description and a complete list of the parameters can be found in the documentation. 
+# This documentation can be created by running "make doc". After this, it is located in "doc/documentation.html".
+#
+# Run this file with the help of the makerun.py via:
+# python makerun.py -p Example_CCSN_explosive_burning_parametrized.par -r Example_CCSN_explosive_burning_parametrized
+# and check the plotting script in the produced run folder (runs/Example_CCSN_explosive_burning_parametrized/Plot_me.py)
+
+
+###########################
+#   General input files   #
+###########################
+
+# List of all isotopes used in the network
+net_source= "@WINNET@/data/sunet_ccsn"
+
+# Database with the properties of all isotopes
+isotopes_file= "@WINNET@/data/winvne_v2.0.dat"
+
+# The reaclib library
+reaclib_file  = "@WINNET@/data/Reaclib_18_9_20"
+
+
+##########################
+# Theoretical weak rates #
+##########################
+
+# Weak rates library
+weak_rates_file= "@WINNET@/data/theoretical_weak_rates.dat"
+
+# Tabulated chemical potential of electron-positron gas (chem_table.dat)
+# This table is used for the log <ft> tabulation of the weak rates.
+chem_pot_file= "@WINNET@/data/chem_table.dat"
+
+# Flag for theoretical weak rates: 
+# =2 : log(ft) theoretical weak rates are used
+iwformat = 2
+
+# Temp at which theoretical weak rates should be replaced 
+temp_reload_exp_weak_rates= 1.d-2
+
+
+############################
+# Thermodynamic conditions #
+############################
+
+# Is this a trajectory run?
+trajectory_mode = "analytic"
+
+# Parametrized temperature and density with initial (pre-shock) 
+# radius R0 = 0.2 [1e9cm] and initial density rho_0=1e6 [g/ccm]. 
+T9_analytic  = 2.4*(0.2)**(-3/4)*exp(-x/ (3*(446/sqrt(7*1e6))))
+rho_analytic = 7*1e6 *exp(-x / (446/sqrt(7*1e6)))
+Ye_analytic  = 0.498
+
+
+###################################
+# Nuclear statistical equilibrium #
+###################################
+
+# Initial temperature for NSE descend algorithm
+nse_descend_t9start= 100.0
+
+# Temperature at which calculation should start [GK] (initemp)
+initemp_hot  = 6
+initemp_cold = 6
+
+# Temperature above which nse should be used [GK]
+nsetemp_hot  = 5.8
+nsetemp_cold = 5.8
+
+# Recalculate NSE composition?
+nse_calc_every = 1
+
+
+########################
+# Termination settings #
+########################
+
+# End after final_time is reached
+termination_criterion = 1
+
+# End after 1 Gyr
+final_time = 3.1536e16
+
+
+###########################
+#     Output Settings     #
+###########################
+
+# Frequency of various types of the output:
+# Set the values to 0 to turn output and calculation off.
+
+# Output frequency for OUT file (or screen if not started with output piped to OUT)
+out_every        = 1
+
+# Output frequency for mainout.dat
+mainout_every    = 10
+
+
+###############
+# Other flags #
+###############
+
+# Screening corrections
+screening_mode = 1
+
+
+#######################
+# Numerical parameter #
+#######################
+
+# Integration method
+# 0 - Implicit Euler
+solver = 0
+
+# Amount of maximum Newton-Raphson iterations
+nr_maxcount = 10
+
+# Maximum change of the timestep
+timestep_max    = 2.d0
+
+# Estimated change of abundances within one timestep
+timestep_factor = 1.0d-1
+
+# Minimum of abundances taken into account for timestep calculations
+timestep_Ymin   = 1.0d-10
+
+# Limit of the timestep from trajectory?
+timestep_traj_limit = yes

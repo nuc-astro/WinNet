@@ -1,0 +1,138 @@
+###############################################################################
+# Example case for the explosive burning in the detonation phase of
+# a type Ia Supernova.
+# The underlying parametrization originates from:
+# Meakin et al. (2009, https://ui.adsabs.harvard.edu/abs/2009ApJ...693.1188M/abstract).
+#
+# * The network includes ~443 nuclei.
+# * The initial composition is calculated via NSE.
+# * Reaction rates from the JINA Reaclib database
+#   Cyburt et al. (2010, https://ui.adsabs.harvard.edu/abs/2010ApJS..189..240C/abstract)
+#   accessed via https://reaclib.jinaweb.org/ .
+# * Temperature and density evolution are parametrized according to Meakin et al. 2009
+# * theoretical weak rates from Langanke & Martinez-Pinedo (2001, https://ui.adsabs.harvard.edu/abs/2001ADNDT..79....1L/abstract).
+# * Electron chemical potentials from (Timmes & Arnett 1999, https://ui.adsabs.harvard.edu/abs/1999ApJS..125..277T/abstract),
+#   accessed via Cococubed: https://cococubed.com/code_pages/chemical_potential.shtml
+# * Screening corrections from Kravchuk & Yakovlev et al. (2014, https://ui.adsabs.harvard.edu/abs/2014PhRvC..89a5802K/abstract).
+# * No fission
+# * no neutrinos
+#
+# A more detailed description and a complete list of the parameters can be found in the documentation.
+# This documentation can be created by running "make doc". After this, it is located in "doc/documentation.html".
+#
+# Run this file with the help of the makerun.py via:
+# python makerun.py -p Example_type_Ia_meakin.par -r Example_type_Ia_meakin
+# and check the plotting script in the produced run folder (runs/Example_type_Ia_meakin/Plot_me.py)
+
+
+###########################
+#   General input files   #
+###########################
+
+# List of all isotopes used in the network
+net_source= "@WINNET@/data/Example_data/Example_type_Ia_meakin/sunet"
+
+# Database with the properties of all isotopes
+isotopes_file= "@WINNET@/data/winvne_v2.0.dat"
+
+# The reaclib library
+reaclib_file  = "@WINNET@/data/Reaclib_18_9_20"
+
+
+####################################
+# Input for theoretical weak rates #
+####################################
+
+# Weak rates library
+weak_rates_file= "@WINNET@/data/rateseff.out"
+
+# Tabulated chemical potential of electron-positron gas (chem_table.dat)
+chem_pot_file= "@WINNET@/data/chem_table.dat"
+
+# Flag for theoretical weak rates:
+# =2 : log(ft) theoretical weak rates are used
+iwformat = 2
+
+# Temp at which theoretical weak rates should be replaced
+temp_reload_exp_weak_rates= 1.d-2
+
+
+############################
+# Thermodynamic conditions #
+############################
+
+# Is this a trajectory run?
+trajectory_mode = "from_file"
+
+trajectory_format = time temp dens ye
+
+# File name of trajectory
+trajectory_file = "@WINNET@/data/Example_data/Example_type_Ia_meakin/Type_Ia.traj"
+
+
+###################################
+# Nuclear statistical equilibrium #
+###################################
+
+# Initial temperature for NSE descend algorithm
+nse_descend_t9start= 100.0
+
+# Temperature at which calculation should start [GK] (initemp)
+initemp_hot  = 7.0e1
+initemp_cold = 7.0e1
+
+# Temperature above which nse should be used [GK]
+nsetemp_hot = 7.0
+nsetemp_cold = 7.0
+
+# Recalculate NSE composition?
+nse_calc_every = 1
+
+
+########################
+# Termination settings #
+########################
+
+
+# termination_criterion:
+# =0: After the end of the trajectory
+termination_criterion = 0
+
+
+###########################
+#     Output Settings     #
+###########################
+
+# Frequency of various types of the output:
+# Set the values to 0 to turn output and calculation off.
+
+# Output frequency for OUT file (or screen if not started with output piped to OUT)
+out_every        = 200
+
+# Output frequency for mainout.dat
+mainout_every    = 5
+
+track_nuclei_every = 5
+track_nuclei_file = "@WINNET@/data/Example_data/Example_type_Ia_meakin/track_nuclei"
+
+###############
+# Other flags #
+###############
+
+# Screening corrections
+screening_mode = 1
+
+# Lets calculate inverse reactions via detailed balance ourselves
+use_detailed_balance = yes
+use_detailed_balance_q_reac = no
+
+#######################
+# Numerical parameter #
+#######################
+
+# Integration method
+# 1 - Gear
+solver = 1
+
+# Limit of the timestep from trajectory?
+timestep_traj_limit = yes

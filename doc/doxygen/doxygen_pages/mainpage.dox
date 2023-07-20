@@ -1,0 +1,174 @@
+/** \mainpage First steps
+
+@tableofcontents
+
+
+\section getting_started Getting started
+WinNet is a single zone nuclear reaction network, capable of calculating many
+different nucleosynthesis processes (i.e., r-process, nup-process, explosive
+nucleosynthesis, and many more). Please read and cite
+[Reichert et al. 2023](https://ui.adsabs.harvard.edu/abs/2023arXiv230507048R/abstract) when you use this network. A brief overview 
+of the code is also given at the [How it works](\ref how_it_works) documentation page.
+When using the code check your parameter file if you used any other input file within 
+your calculation that require you to cite. A list of input files with the respective 
+literature can be found at the [Input files](\ref input_files) documentation page. 
+We tried our best to produce a reliable code, but nevertheless we
+stress that this code comes with no warranty!
+
+\subsection prerequisits Prerequisits
+To run WinNet you need a Fortran compiler and the Math Kernel Library (MKL).
+In the following we describe briefly how to install these things.
+On Linux you can install the compiler and all necessary python packages by using the script contained in the "install" folder:
+```
+cd path_to_winnet/install
+chmod +x setup_linux.sh
+./setup_linux.sh
+```
+Alternatively, you can follow the instruction below.
+
+\subsubsection fortran Fortran
+In order to compile the code either the intel fortran compiler (ifort) or the gnu
+fortran compiler (gfortran) is needed. We recommend to install the ifort compiler
+as it comes already with the Math Kernel Library (MKL) that you need to run the
+network. An instruction how to install and download the ifort compiler can be found
+[here](https://software.intel.com/content/www/us/en/develop/articles/free-intel-software-developer-tools.html).
+You need the Intel® oneAPI Base Toolkit and Intel® oneAPI HPC Toolkit. In most of the cases in Linux you can
+download the compiler by typing the following commands in the terminal:
+```
+wget https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB
+sudo apt-key add GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB
+rm GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB
+sudo echo "deb https://apt.repos.intel.com/oneapi all main" | sudo tee /etc/apt/sources.list.d/oneAPI.list
+sudo apt-get update
+sudo apt-get install -y intel-oneapi-common-vars
+sudo apt-get install -y intel-oneapi-compiler-fortran
+sudo apt-get install -y intel-oneapi-mkl
+echo 'source /opt/intel/oneapi/setvars.sh >/dev/null' >> ~/.bashrc
+```
+After this, open a new terminal to apply the changes.
+
+\subsubsection python Python
+Even though not mandatory to run the network, the test suite and plotting routines
+use python. So we highly recommend to install the anaconda python package, which
+can be found [here](https://www.anaconda.com/products/individual). It comes with
+several packages (e.g., Matplotlib, ...) that are also used in the python scripts
+of WinNet. The used python packages are given in "install/requirements.txt".
+
+
+\subsection hdf5 Using hdf5 files as output
+It is not a mandatory requirement, but to be able to have hdf5 files as output,
+one has to modify the Makefile and install hdf5 support. To be more precise, the h5fc
+compiler is necessary (see, e.g, [here](https://command-not-found.com/h5fc)).
+For example, in linux with the "apt" package manager the following command in
+the terminal will make the h5fc command available:
+```
+sudo apt-get install libhdf5-serial-dev
+```
+By changing the compiler with 'FC = h5fc' or 'FC = path/to/h5fc' in the _Makefile_, all hdf5
+related parameters should work. There can be interferance with the h5fc instance that anaconda uses.
+This is visible when you type "which h5fc" into the terminal and it returns an anaconda path.
+In this case, you have to specify the full path in the _Makefile_. An example line in the _Makefile_
+could be, e.g.,
+```
+....
+FC = /usr/bin/h5fc
+....
+```
+The correct path can be displayed by the terminal command "whereis -b -f h5fc".
+Possibly, there are further modifications of the compiler flags necessary.
+
+
+\section start_running Starting to run the code
+The WinNet base folder includes the file _Makefile.example_ that you can change
+in order to fit your needs. MAC user for example have to include additional
+compiler flags that are included as a comment in the Makefile. If you are satisfied
+with the _Makefile.example_ you can rename the file to Makefile.
+Afterwards you can run the command "make", it should work without complaining.
+If you have installed python, you can run "make tests" and all tests should pass.
+
+\subsection parameter The parameter file
+The interface between the user and the code is given in the form of parameter files.
+Examples of those files can be found in the _par/_ folder. Within these files,
+you can change all the input to the code. An overview of all valid parameters is
+given [here](\ref parameters).
+
+\subsection example_cases Example cases
+WinNet comes with a variety of example cases. To access them you can rename the _makerun.py.example_ into _makerun.py_.
+Afterwards, the list of examples is accessible by typing the command:
+
+```
+python makerun.py --example
+```
+One example is executed by running
+```
+python makerun.py -p Example_BigBang.par -r Example_BigBang
+```
+to calculate the primordial nucleosynthesis with WinNet.
+
+\subsection monitoring_simulations Monitoring simulations
+
+If you used _makerun.py_ to launch your simulation, the script will report the process ID
+(PID) in case you decide to pause or terminate the run. Standard output and standard
+error of the run are written to _OUT_ and _ERR_ files in the run output directory.
+The _makerun.py_ script will also ask you if you want to monitor the simulation.
+Otherwise, you can monitor the progress using the "tail -f" command, for instance:
+```
+tail -f $WINNET/runs/Example_BigBang/OUT
+```
+
+\subsection compile_docs Compiling a local version of the documentation
+If you have ***doxygen*** installed (see https://www.doxygen.nl/index.html) you can use it to
+create a local version of the documentation by executing
+```
+make doc
+```
+in the terminal. The compilation of the documentation was tested with doxygen version 1.8.17.
+
+\subsection publications List of publications
+Here we try to list publications that direclty use a close version of the here presented Code:
+
+[Vonlanthen et al. (2009)](https://ui.adsabs.harvard.edu/abs/2009A%26A...503...47V/abstract),
+[Winteler et al. (2012)](https://ui.adsabs.harvard.edu/abs/2012ApJ...750L..22W/abstract),
+[Korobkin et al. (2012)](https://ui.adsabs.harvard.edu/abs/2012MNRAS.426.1940K/abstract),
+[Rosswog et al. (2014)](https://ui.adsabs.harvard.edu/abs/2014MNRAS.439..744R/abstract),
+[Grossman et al. (2014)](https://ui.adsabs.harvard.edu/abs/2014MNRAS.439..757G/abstract),
+[Perego et al. (2014)](https://ui.adsabs.harvard.edu/abs/2014MNRAS.443.3134P/abstract),
+[Hansen et al. (2014)](https://ui.adsabs.harvard.edu/abs/2014ApJ...797..123H/abstract),
+[Perego et al. (2015)](https://ui.adsabs.harvard.edu/abs/2015ApJ...806..275P/abstract),
+[Eichler et al. (2015)](https://ui.adsabs.harvard.edu/abs/2015ApJ...808...30E/abstract),
+[Martin et al. (2015)](https://ui.adsabs.harvard.edu/abs/2015ApJ...813....2M/abstract),
+[Martin et al. (2016)](https://ui.adsabs.harvard.edu/abs/2016PhRvL.116l1101M/abstract),
+[Bliss et al. (2017)](https://ui.adsabs.harvard.edu/abs/2017JPhG...44e4003B/abstract),
+[Rosswog et al. (2017)](https://ui.adsabs.harvard.edu/abs/2017CQGra..34j4001R/abstract),
+[Tanvir et al. (2017)](https://ui.adsabs.harvard.edu/abs/2017ApJ...848L..27T/abstract),
+[Lippuner & Roberts (2017)](https://ui.adsabs.harvard.edu/abs/2017ApJS..233...18L/abstract),
+[Bovard et al. (2017)](https://ui.adsabs.harvard.edu/abs/2017PhRvD..96l4005B/abstract),
+[Eichler et al. (2018)](https://ui.adsabs.harvard.edu/abs/2018JPhG...45a4001E/abstract),
+[Martin et al. (2018)](https://ui.adsabs.harvard.edu/abs/2018CQGra..35c4001M/abstract),
+[Bliss et al. (2018)](https://ui.adsabs.harvard.edu/abs/2018ApJ...855..135B/abstract),
+[Rosswog et al. (2018)](https://ui.adsabs.harvard.edu/abs/2018A%26A...615A.132R/abstract),
+[Wollaeger et al. (2018)](https://ui.adsabs.harvard.edu/abs/2018MNRAS.478.3298W/abstract),
+[Koch et al. (2019)](https://ui.adsabs.harvard.edu/abs/2019A%26A...622A.159K/abstract),
+[Côté et al. (2019)](https://ui.adsabs.harvard.edu/abs/2019ApJ...875..106C/abstract),
+[Eichler et al. (2019)](https://ui.adsabs.harvard.edu/abs/2019ApJ...879...47E/abstract),
+[Bliss et al. (2020)](https://ui.adsabs.harvard.edu/abs/2020PhRvC.101e5807B/abstract),
+[Côté et al. (2021)](https://ui.adsabs.harvard.edu/abs/2021Sci...371..945C/abstract),
+[Kiss et al. (2021)](https://ui.adsabs.harvard.edu/abs/2021ApJ...908..202K/abstract),
+[Reichert et al. (2021a)](https://ui.adsabs.harvard.edu/abs/2021MNRAS.501.5733R/abstract),
+[OConnor et al. (2021)](https://ui.adsabs.harvard.edu/abs/2021MNRAS.502.1279O/abstract),
+[Korobkin et al. (2021)](https://ui.adsabs.harvard.edu/abs/2021ApJ...910..116K/abstract),
+[Reichert et al. (2021b)](https://ui.adsabs.harvard.edu/abs/2021ApJ...912..157R/abstract),
+[Molero et al. (2021)](https://ui.adsabs.harvard.edu/abs/2021MNRAS.505.2913M/abstract),
+[Wolleger et al. (2021)](https://ui.adsabs.harvard.edu/abs/2021ApJ...918...10W/abstract),
+[Szegedi et al. (2021)](https://ui.adsabs.harvard.edu/abs/2021PhRvC.104c5804S/abstract),
+[Witt et al. (2021)](https://ui.adsabs.harvard.edu/abs/2021ApJ...921...19W/abstract),
+[Ristic et al. (2022a)](https://ui.adsabs.harvard.edu/abs/2022PhRvR...4a3046R/abstract),
+[Chase et al. (2022)](https://ui.adsabs.harvard.edu/abs/2022ApJ...927..163C/abstract),
+[Psaltis et al. (2022)](https://ui.adsabs.harvard.edu/abs/2022ApJ...935...27P/abstract),
+[Ristic et al. (2022b)](https://ui.adsabs.harvard.edu/abs/2022arXiv220602273R/abstract).
+[Setzer et al. (2023)](https://ui.adsabs.harvard.edu/abs/2023MNRAS.520.2829S/abstract),
+[Reichert et al. (2023)](https://ui.adsabs.harvard.edu/abs/2023MNRAS.518.1557R/abstract)
+
+The list above (compiled on 15.07.22) is certainly not complete. It nevertheless shows the vast variety of usecases and the scientific relevance of WinNet.
+
+*/

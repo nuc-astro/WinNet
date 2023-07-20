@@ -1,0 +1,581 @@
+##########################################################################
+#                                                                        #
+#                       WINNET Makefile example                          #
+#                                                                        #
+# >>> : modify in places marked by '>>>' to fit your system / req's      #
+##########################################################################
+
+
+#>>> Path to Intel MKL library
+MKL_DIR = /opt/intel/mkl
+
+#>>> Machine architecture
+ARCH = 64
+
+# In the following you have to give a compiler
+# A common problem is that anaconda is overwriting the
+# link to the hdf5 compiler (for example h5fc). This you can figure
+# out by typing "which h5fc" in the terminal. If the path leads to
+# an anaconda folder, you can give a full path to the correct
+# h5fc executable. You can see all known h5fc instances by typing
+# "whereis h5fc" in the terminal.
+# This will show all h5fc instances that are included in the PATH variable.
+# You can take the correct one and fill the full path for "FC" in the lines
+# below.
+
+#>>> Compiler and linker: ifort, h5fc, or gfortran so far
+FC = ifort
+# FC = h5fc
+# FC = h5pfc
+# FC = gfortran
+
+LD = $(FC)
+FCCOM = $(notdir $(FC))
+
+# Get the git Version
+GIT_VERSION:="$(shell git describe --abbrev=10 --always --tags)"
+
+# Check if the compiler is able to deal with hdf5 files
+# So far h5fc and h5pfc are supported
+ifneq ($(filter $(FCCOM),h5fc h5pfc),)
+    # Check underlying compiler as h5fc and h5pfc are just wrappers around
+    # gfortran or ifort
+    fccompiler:= $(shell $(FC) -show | awk {'print $1'})
+    fccompiler:= $(firstword $(fccompiler))
+    FCCOM = $(firstword $(notdir $(fccompiler)))
+
+    # Check if the underlying compiler is a wrapper again
+    # e.g., mpiifort. The following will give you the error status
+    # of the command (e.g., != 0 for ifort)
+    estatus:= $(shell $(fccompiler) -show > /dev/null 2>&1 ; echo $$?)
+    # Print the result
+    # $(info $$estatus is [${estatus}])
+
+    # Then do it again in case you got a wrapper
+    ifeq ($(estatus),0)
+      fccompiler:= $(shell $(fccompiler) -show | awk {'print $1'})
+      fccompiler:= $(firstword $(fccompiler))
+      FCCOM = $(firstword $(notdir $(fccompiler)))
+    endif
+
+    # Add the hdf5 use statement for the network
+    FFLAGS   = -DUSE_HDF5
+    # Recognize that hdf5 was used
+    hdf5     = true
+else
+    # Not able to use hdf5, dont add anything
+    FFLAGS   =
+    # Recognize that hdf5 was not used
+    hdf5     = false
+endif
+
+
+ifeq ($(FCCOM),ifort)
+    #>>> Compiler flags: paranoid warning system
+    # FFLAGS += -cpp -r8 -align -O0 -Warn all -fpe0 -check all -g -traceback -qopenmp -fp-stack-check -extend-source -heap-arrays -init=snan,arrays -DVERS=$(GIT_VERSION)
+    #>>> .. vs more relaxed version
+    FFLAGS   += -cpp -r8 -align -O3 -w -g -parallel -traceback -qopenmp -heap-arrays -DVERS=$(GIT_VERSION)
+
+    # Mac OS X user should further add -fp-stack-check -Wl,-stack_size,0x40000000,-stack_addr,0xf0000000
+    # since the stack limit of mac can't be changed with ulimit -s unlimited. The above line will increase the stack limit to 1GB on Mac
+else ifeq ($(FCCOM),gfortran)
+    #>>> Compiler flags: paranoid warning system
+    # FFLAGS += -cpp -fdefault-double-8 -fdefault-real-8 -O0 -ffixed-line-length-none -ffree-line-length-none -Wall -fbacktrace -fopenmp -g -fcheck=all
+    #>>> .. vs more relaxed version
+    FFLAGS += -cpp -fdefault-double-8 -fdefault-real-8 -O3 -fimplicit-none -ffixed-line-length-none -ffree-line-length-none -fbacktrace -fopenmp
+else
+    $(error Unsupported compiler: $(FCCOM))
+endif
+
+LDFLAGS  = $(FFLAGS)
+
+#>>> Linker flags
+
+# the right paths
+WINNET = $(PWD)
+BIN_PATH    = $(WINNET)/bin
+OBJ_PATH    = $(WINNET)/obj
+SOURCE_PATH = $(WINNET)/src
+TOOL_PATH   = $(WINNET)/src/external_tools
+EOS_PATH    = $(WINNET)/src/eostable_ls_timmes
+NUTH_PATH   = $(WINNET)/src/thermal_neutrinos
+MKL_INC     = $(MKL_DIR)/include
+VPATH       = .
+VPATH      += $(OBJ_PATH)
+VPATH      += $(SOURCE_PATH)
+VPATH      += $(EOS_PATH)
+VPATH      += $(TOOL_PATH)
+VPATH      += $(MKL_INC)
+VPATH      += $(NUTH_PATH)
+
+ifeq ($(FCCOM),ifort)
+    FFLAGS     += -module $(OBJ_PATH)
+else
+    FFLAGS     += -J$(OBJ_PATH)
+endif
+FFLAGS += -I$(OBJ_PATH) -I$(MKL_INC)
+
+ifeq ($(ARCH),32)
+  MKL_LIB = $(MKL_DIR)/lib/32
+  FPATH = -L$(MKL_LIB) -I$(MKL_INC)
+  #>>> MKL libraries to link agains; may differ in more recent versions
+  FLIBS = -lmkl_solver_sequential -lmkl_intel -lmkl_sequential \
+          -lmkl_core -lpthread
+else
+  MKL_LIB = $(MKL_DIR)/lib/em64t
+  FPATH = -L$(MKL_LIB) -I$(MKL_INC)
+  #>>> Check that these are correct MKL libraries
+  FLIBS = -lmkl_intel_lp64 -lmkl_intel_thread -lmkl_core -liomp5
+endif
+
+# the main target
+PROG = winnet
+
+# the source and object files of the project
+
+SRCS = error_msg_class.f90
+SRCS += timestep_module.f90
+SRCS += file_handling_class.f90
+SRCS += parameter_class.f90
+SRCS += global_class.f90
+SRCS += format_class.f90
+SRCS += alpha_decay_rate_module.f90
+SRCS += gear_module.f90
+SRCS += inter_module.f90
+SRCS += fsolve.f90
+SRCS += ls_timmes_eos_module.f
+SRCS += timmes_eos_module.f
+SRCS += thermal_neutrino_module.f90
+SRCS += units_module.f
+SRCS += benam_class.f90
+SRCS += mergesort_module.f90
+SRCS += reaclib_rate_module.f90
+SRCS += flow_module.f90
+SRCS += nuflux_class.f90
+SRCS += detailed_balance.f90
+SRCS += network_init_module.f90
+SRCS += beta_decay_rate_module.f90
+SRCS += nucstuff_class.f90
+SRCS += tabulated_rate_module.f90
+SRCS += fission_rate_module.f90
+SRCS += hdf5_module.f90
+SRCS += tw_rate_module.f90
+SRCS += screening_module.f90
+SRCS += chem_pot.f90
+SRCS += effphase_class.f90
+SRCS += expansion_module.f90
+SRCS += analysis.f90
+SRCS += nuclear_heating.f90
+SRCS += quadpack_module.f90
+SRCS += jacobian_class.f90
+SRCS += pardiso_class.f90
+SRCS += winnse_module.f90
+SRCS += parser_module.f90
+SRCS += single_zone_vars.f90
+SRCS += readini.f90
+SRCS += driver.f90
+
+OBJS = error_msg_class.o
+OBJS += timestep_module.o
+OBJS += file_handling_class.o
+OBJS += parameter_class.o
+OBJS += global_class.o
+OBJS += alpha_decay_rate_module.o
+OBJS += format_class.o
+OBJS += gear_module.o
+OBJS += inter_module.o
+OBJS += ls_timmes_eos_module.o
+OBJS += timmes_eos_module.o
+OBJS += thermal_neutrino_module.o
+OBJS += units_module.o
+OBJS += benam_class.o
+OBJS += tabulated_rate_module.o
+OBJS += detailed_balance.o
+OBJS += tw_rate_module.o
+OBJS += fission_rate_module.o
+OBJS += reaclib_rate_module.o
+OBJS += beta_decay_rate_module.o
+OBJS += mergesort_module.o
+OBJS += flow_module.o
+OBJS += fsolve.o
+OBJS += parser_module.o
+OBJS += nuflux_class.o
+OBJS += network_init_module.o
+OBJS += hdf5_module.o
+OBJS += nucstuff_class.o
+OBJS += screening_module.o
+OBJS += chem_pot.o
+OBJS += effphase_class.o
+OBJS += expansion_module.o
+OBJS += analysis.o
+OBJS += nuclear_heating.o
+OBJS += quadpack_module.o
+OBJS += pardiso_class.o
+OBJS += jacobian_class.o
+OBJS += winnse_module.o
+OBJS += hydro_trajectory.o
+OBJS += single_zone_vars.o
+OBJS += readini.o
+OBJS += driver.o
+
+
+TESTS  = neutron-decay
+TESTS += neutron-decay-implicit-euler
+TESTS += ni56-decay
+TESTS += read_seeds
+TESTS += read_trajectory
+TESTS += gamma_eq
+TESTS += detailed_balance
+TESTS += beta_eq
+TESTS += emission_eq
+TESTS += absorption_eq
+TESTS += alpha_network
+TESTS += alpha_decay
+TESTS += analytic_mode
+TESTS += nse
+TESTS += read_neutrino
+TESTS += switch_evolution
+TESTS += expand
+TESTS += tabulated_rates
+TESTS += ulimit
+TESTS += tw_rate
+TESTS += screening
+#TESTS += flow
+TESTS += beta_decay_format
+TESTS += fissfrag_kodtak
+TESTS += fissfrag_ABLA
+TESTS += fissfrag_panov
+TESTS += fissfrag_mumpower
+TESTS += neutral-current_reaction
+TESTS += charged-current_reaction
+TESTS += nc_cc_reaction
+
+# Physical reference cases
+TESTS += bigbang
+
+
+# Hdf5 test, only when hdf5 compiler was used
+ifeq ($(hdf5),true)
+    TESTS += hdf5_format
+endif
+
+$(BIN_PATH)/$(PROG): $(OBJ_PATH) $(BIN_PATH) $(OBJS) $(SRCS)
+	cd $(OBJ_PATH) && \
+	$(LD) $(LDFLAGS) -o $(BIN_PATH)/$(PROG) $(OBJS) -I$(OBJ_PATH) $(FPATH) $(FLIBS)
+
+$(OBJ_PATH):
+	mkdir -p $(OBJ_PATH)
+
+$(BIN_PATH):
+	mkdir -p $(BIN_PATH)
+
+# the targets
+
+all: $(BIN_PATH)/$(PROG)
+
+# UNIX one-liner to automatically list module dependencies:
+# $ grep -i '^ *use' file_handling_class.f90 | sed 's/,//' | awk '{printf ("%s.o\n", $2) }'|sort|uniq
+
+
+file_handling_class.o            :\
+   error_msg_class.o
+
+parameter_class.o                :\
+   error_msg_class.o \
+   file_handling_class.o
+
+chem_pot.o                       :\
+   parameter_class.o \
+   error_msg_class.o \
+   file_handling_class.o
+
+parser_module.o             :\
+   parameter_class.o
+
+network_init_module.o            :\
+   format_class.o \
+   analysis.o \
+   benam_class.o \
+   expansion_module.o \
+   file_handling_class.o \
+   beta_decay_rate_module.o \
+   thermal_neutrino_module.o \
+   alpha_decay_rate_module.o \
+   error_msg_class.o \
+   winnse_module.o \
+   flow_module.o \
+   detailed_balance.o \
+   format_class.o \
+   gear_module.o \
+   global_class.o \
+   hydro_trajectory.o \
+   ls_timmes_eos_module.o \
+   screening_module.o \
+   fission_rate_module.o \
+   mergesort_module.o \
+   inter_module.o \
+   tw_rate_module.o \
+   reaclib_rate_module.o \
+   tabulated_rate_module.o \
+   nuclear_heating.o \
+   nucstuff_class.o \
+   nuflux_class.o \
+   parameter_class.o \
+   pardiso_class.o \
+   readini.o \
+   parser_module.o \
+   single_zone_vars.o
+
+alpha_decay_rate_module.o                 :\
+   parameter_class.o \
+   benam_class.o \
+   error_msg_class.o \
+   global_class.o
+
+detailed_balance.o         :\
+   global_class.o \
+   error_msg_class.o \
+   benam_class.o \
+   reaclib_rate_module.o
+
+beta_decay_rate_module.o         :\
+   global_class.o \
+   file_handling_class.o \
+   error_msg_class.o \
+   mergesort_module.o \
+   parameter_class.o \
+   benam_class.o
+
+hdf5_module.o                    :\
+   global_class.o \
+   error_msg_class.o \
+   parameter_class.o
+
+tw_rate_module.o                 :\
+   parameter_class.o \
+   benam_class.o \
+   mergesort_module.o \
+   effphase_class.o \
+   inter_module.o \
+   global_class.o \
+   error_msg_class.o
+
+fission_rate_module.o                 :\
+   parameter_class.o \
+   file_handling_class.o \
+   benam_class.o \
+   mergesort_module.o \
+   format_class.o \
+   global_class.o \
+   error_msg_class.o
+
+reaclib_rate_module.o           :\
+   parameter_class.o \
+   global_class.o \
+   file_handling_class.o \
+   nucstuff_class.o \
+   error_msg_class.o \
+   mergesort_module.o \
+   format_class.o \
+   benam_class.o
+
+tabulated_rate_module.o           :\
+   parameter_class.o \
+   global_class.o \
+   file_handling_class.o \
+   reaclib_rate_module.o \
+   benam_class.o \
+   format_class.o \
+   error_msg_class.o \
+   mergesort_module.o
+
+benam_class.o                    :\
+   file_handling_class.o \
+   error_msg_class.o \
+   nucstuff_class.o \
+   format_class.o \
+   global_class.o \
+   parameter_class.o
+
+timmes_eos_module.o              :\
+   const.dek \
+   eosfxt.f \
+   implno.dek \
+   vector_eos.dek
+
+ls_timmes_eos_module.o           :\
+   timmes_eos_module.o \
+   units_module.o
+
+effphase_class.o                 :\
+   parameter_class.o \
+   file_handling_class.o \
+   global_class.o
+
+expansion_module.o               :\
+   parameter_class.o \
+   ls_timmes_eos_module.o \
+   hydro_trajectory.o \
+   file_handling_class.o
+
+gear_module.o                   :\
+   error_msg_class.o \
+   parameter_class.o \
+   global_class.o
+
+jacobian_class.o                 :\
+   parameter_class.o \
+   benam_class.o \
+   nucstuff_class.o \
+   nuclear_heating.o \
+   effphase_class.o \
+   error_msg_class.o \
+   nuflux_class.o \
+   screening_module.o \
+   reaclib_rate_module.o \
+   fission_rate_module.o \
+   tabulated_rate_module.o \
+   tw_rate_module.o \
+   gear_module.o \
+   global_class.o \
+   inter_module.o \
+   pardiso_class.o
+
+nuclear_heating.o                :\
+   parameter_class.o \
+   ls_timmes_eos_module.o \
+   nucstuff_class.o \
+   expansion_module.o \
+   thermal_neutrino_module.o \
+   file_handling_class.o \
+   single_zone_vars.o
+
+thermal_neutrino_module.o        :\
+   parameter_class.o
+
+nucstuff_class.o                 :\
+   parameter_class.o \
+   error_msg_class.o \
+   global_class.o
+
+nuflux_class.o                   :\
+   parameter_class.o \
+   hydro_trajectory.o \
+   mergesort_module.o \
+   file_handling_class.o \
+   benam_class.o \
+   inter_module.o \
+   parser_module.o \
+   global_class.o
+
+pardiso_class.o                  :\
+   parameter_class.o \
+   reaclib_rate_module.o \
+   fission_rate_module.o \
+   global_class.o
+
+screening_module.o               :\
+   error_msg_class.o \
+   parameter_class.o \
+   global_class.o
+
+timestep_module.o                :\
+   parameter_class.o \
+   global_class.o \
+   hydro_trajectory.o \
+   error_msg_class.o \
+   gear_module.o \
+   inter_module.o \
+   expansion_module.o \
+   single_zone_vars.o \
+   nucstuff_class.o \
+   analysis.o \
+   winnse_module.o \
+   network_init_module.o \
+   parser_module.o \
+   nuclear_heating.o \
+   readini.o \
+   jacobian_class.o
+
+analysis.o                       :\
+   parameter_class.o \
+   global_class.o \
+   fission_rate_module.o \
+   tw_rate_module.o \
+   file_handling_class.o \
+   ls_timmes_eos_module.o \
+   benam_class.o \
+   hdf5_module.o \
+   flow_module.o \
+   reaclib_rate_module.o \
+   nucstuff_class.o \
+   nuclear_heating.o
+
+flow_module.o            :\
+   global_class.o \
+   pardiso_class.o \
+   error_msg_class.o \
+   file_handling_class.o
+
+readini.o                :\
+   parameter_class.o \
+   global_class.o \
+   file_handling_class.o \
+   analysis.o \
+   benam_class.o \
+   nuflux_class.o \
+   hydro_trajectory.o \
+   error_msg_class.o
+
+winnse_module.o          :\
+   parameter_class.o \
+   global_class.o \
+   screening_module.o \
+   nucstuff_class.o
+
+mergesort_module.o       :\
+   parameter_class.o \
+   error_msg_class.o \
+   global_class.o \
+   file_handling_class.o
+
+inter_module.o                 :\
+   parameter_class.o \
+   error_msg_class.o
+
+driver.o                 :\
+   parameter_class.o \
+   global_class.o \
+   readini.o \
+   error_msg_class.o \
+   nucstuff_class.o \
+   network_init_module.o \
+   expansion_module.o \
+   mergesort_module.o \
+   hydro_trajectory.o \
+   winnse_module.o \
+   hdf5_module.o \
+   nuclear_heating.o \
+   single_zone_vars.o \
+   timestep_module.o
+
+%.o: %.mod
+
+doc:
+	doxygen doc/doxygen/config.dox
+	rm -f doc/documentation.html
+	ln -s html/index.html doc/documentation.html
+tests:
+	@bin/run_tests.py $(TESTS) --keep
+
+.SUFFIXES: .f90 .f .o
+
+.f90.o:
+	$(FC) $(FFLAGS) -c $< -o $(OBJ_PATH)/$*.o
+.f.o:
+	$(FC) $(FFLAGS) -c $< -o $(OBJ_PATH)/$*.o
+
+clean:
+	rm -rf $(BIN_PATH)/$(PROG) $(OBJS) $(OBJ_PATH)/*
+
+.PHONY: clean all doc tests

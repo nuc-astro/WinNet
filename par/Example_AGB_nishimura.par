@@ -1,0 +1,174 @@
+###############################################################################
+# Example case for a AGB-star. The trajectory was extracted from a 25 Msun,
+# Z = 0.014 (solar metallicity) stellar evolution model. It was chosen because
+# it roughly corresponds to the average weak s-process production in massive stars
+# weighted over the initial mass function. This information and the trajectory
+# itself was at https://zenodo.org/record/6474728 (v 1.1.1). If you use the
+# trajectory, cite and read:
+# Hirschi et al. 2004   (https://ui.adsabs.harvard.edu/abs/2004A%26A...425..649H/abstract)
+# Nishimura et al. 2017 (https://ui.adsabs.harvard.edu/abs/2017MNRAS.469.1752N/abstract)
+# Pignatari & Hirschi. 2022. Weak s-process (1.1.1) [Data set]. Zenodo. (https://doi.org/10.5281/zenodo.6474728)
+#
+# * The network includes ~2000 nuclei.
+# * The initial composition is given from the simulation
+# * Reaction rates from the JINA Reaclib database
+#   Cyburt et al. (2010, https://ui.adsabs.harvard.edu/abs/2010ApJS..189..240C/abstract)
+#   accessed via https://reaclib.jinaweb.org/ .
+# * 22Ne(a,n)25Mg gets replaced via the tabulated rates with the rate given by
+#   Jaeger et al. (2001, https://ui.adsabs.harvard.edu/abs/2001PhRvL..87t2501J/abstract)
+# * 22Ne(a,g)24Mg and 17O(a,n)20Ne get replaced via the tabulated rates with the rates given by
+#   Angulo et al. (1999, https://ui.adsabs.harvard.edu/abs/1999NuPhA.656....3A/abstract)
+# * 17O(a,g)21Ne gets replaced via the tabulated rates with the rate given by
+#   Angulo et al. (1999, https://ui.adsabs.harvard.edu/abs/1999NuPhA.656....3A/abstract)
+#   multiplied by 0.1 (See Nishimura et al. 2017 for details).
+# * Inverse reactions are calculated via detailed balance using the Q-Value as given in the rates files.
+# * Temperature and density evolution are taken from the HD simulation.
+# * Theoretical weak rates from Langanke & Martinez-Pinedo (2001, https://ui.adsabs.harvard.edu/abs/2001ADNDT..79....1L/abstract).
+# * Electron chemical potentials from Timmes & Arnett (1999, https://ui.adsabs.harvard.edu/abs/1999ApJS..125..277T/abstract),
+#   accessed via Cococubed: https://cococubed.com/code_pages/chemical_potential.shtml
+# * Screening corrections from Kravchuk & Yakovlev et al. (2014, https://ui.adsabs.harvard.edu/abs/2014PhRvC..89a5802K/abstract).
+# * no fission rates
+# * no neutrinos
+#
+# A more detailed description and a complete list of the parameters can be found in the documentation.
+# This documentation can be created by running "make doc". After this, it is located in "doc/documentation.html".
+#
+# Run this file with the help of the makerun.py via:
+# python makerun.py -p Example_AGB_nishimura.par -r Example_AGB_nishimura
+# and check the plotting script in the produced run folder (runs/Example_AGB_nishimura/Plot_me.py)
+
+
+###########################
+#   General input files   #
+###########################
+
+# List of all isotopes used in the network
+net_source= "@WINNET@/data/sunet_s"
+
+# Database with the properties of all isotopes
+isotopes_file= "@WINNET@/data/winvne_v2.0.dat"
+
+# The reaclib library
+reaclib_file  = "@WINNET@/data/Reaclib_18_9_20"
+
+# Use tabulated rates for neutron sources and poisons as in Nishimura et al. 2017
+use_tabulated_rates  = yes
+tabulated_rates_file = @WINNET@/data/Example_data/Example_AGB_nishimura/tab_rates.dat
+
+# Calculate the inverse rates with detailed balance
+# Use the reaclib Q-value for this
+use_detailed_balance        = yes
+use_detailed_balance_q_reac = yes
+
+####################################
+# Input for theoretical weak rates #
+####################################
+
+# Weak rates library
+weak_rates_file= "@WINNET@/data/rateseff.out"
+
+# Tabulated chemical potential of electron-positron gas (chem_table.dat)
+chem_pot_file= "@WINNET@/data/chem_table.dat"
+
+# Flag for theoretical weak rates:
+# =2 : log(ft) theoretical weak rates are used
+iwformat = 2
+
+# Temp at which theoretical weak rates should be replaced
+temp_reload_exp_weak_rates= 1.d-2
+
+
+############################
+# Thermodynamic conditions #
+############################
+
+# Is this a trajectory run?
+trajectory_mode = "from_file"
+
+# time in years, temperature in GK, density in g/ccm, Ye taken from seed.
+trajectory_format = "time:yrs temp:GK dens"
+
+# File name of trajectory
+trajectory_file = "@WINNET@/data/Example_data/Example_AGB_nishimura/trajectory.input"
+
+
+###########################
+#   Initial composition   #
+###########################
+
+# Shall the driver read initial composition from a seed file?
+read_initial_composition = yes
+
+# Format for read initial composition
+seed_format = Z skip A X
+
+# Take initial composition as presented in
+seed_file = @WINNET@/data/Example_data/Example_AGB_nishimura/iniab1.4E-02As09.ppn
+
+
+###########
+# Fission #
+###########
+
+# Fission treatment:
+# =0: No fission
+fissflag = 0
+
+
+###################################
+# Nuclear statistical equilibrium #
+###################################
+
+# Initial temperature for NSE descend algorithm
+nse_descend_t9start= 100.0
+
+# Temperature at which calculation should start [GK] (initemp)
+initemp_hot  = 1.0e1
+initemp_cold = 1.0e1
+
+# Temperature above which nse should be used [GK]
+nsetemp_hot  = 7.0
+nsetemp_cold = 7.0
+
+# Recalculate NSE composition?
+nse_calc_every = 1
+
+
+########################
+# Termination settings #
+########################
+
+# termination_criterion:
+# =0: after trajectory ends;
+termination_criterion = 0
+
+
+###########################
+#     Output Settings     #
+###########################
+
+# Frequency of various types of the output:
+# Set the values to 0 to turn output and calculation off.
+
+# Output frequency for OUT file (or screen if not started with output piped to OUT)
+out_every        = 10
+
+# Output frequency for mainout.dat
+mainout_every    = 10
+
+
+###############
+# Other flags #
+###############
+
+# Screening corrections
+screening_mode = 1
+
+
+#######################
+# Numerical parameter #
+#######################
+
+# Integration method
+# 0 - Implicit Euler
+solver = 0

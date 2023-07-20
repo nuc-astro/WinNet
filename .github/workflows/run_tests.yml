@@ -1,0 +1,156 @@
+name: Testing the code version
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+jobs:
+  Run_tests:
+    runs-on: ubuntu-20.04
+    defaults:
+      run:
+        shell: bash --noprofile --norc {0}
+    steps:
+    - uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+    - uses: actions/checkout@v3
+
+    - name: Install Python packages
+      run: |
+        pip install -r install/requirements.txt
+
+    - name: Cache install ifort
+      id: cache-install
+      uses: actions/cache@v3
+      with:
+        path: |
+          /opt/intel/oneapi
+        key: install-apt
+
+    - name: Non-cache install ifort
+      if: steps.cache-install.outputs.cache-hit != 'true'
+      timeout-minutes: 6
+      run: |
+        wget https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB
+        sudo apt-key add GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB
+        rm GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB
+        sudo echo "deb https://apt.repos.intel.com/oneapi all main" | sudo tee /etc/apt/sources.list.d/oneAPI.list
+        sudo apt-get update
+        sudo apt-get install -y intel-oneapi-common-vars
+        sudo apt-get install -y intel-oneapi-compiler-fortran
+        sudo apt-get install -y intel-oneapi-mkl
+
+    - name: Compile (ifort)
+      timeout-minutes: 2
+      run: |
+        source /opt/intel/oneapi/setvars.sh
+        printenv >> $GITHUB_ENV
+        sed 's/-DVERS=$(GIT_VERSION)/-Warn\ all\ -check\ all\ -fp-stack-check\ -extend-source\ -init=snan,arrays\ -DVERS=$(GIT_VERSION)/g' -i Makefile.example
+        sed 's/-O3/-O0/g' -i Makefile.example
+        make -f Makefile.example -j2
+
+    - name: "Test the code (ifort)"
+      timeout-minutes: 5
+      run: |
+        echo "Running the tests using the Intel oneapi fortran compiler"
+        if [ ! -f bin/winnet ]; then
+          echo "Could not compile the run!"
+          echo "Check the code before pushing to master branch!"
+          echo "Exiting!"
+          exit 1
+        fi
+
+        # Get the ouput of the tests
+        echo "Running tests..."
+        output_tests=$(make -f Makefile.example tests)
+        last_line=$(echo "$output_tests" | grep 'tests have')
+        # Check that all tests have passed
+        if [[ ${last_line} = *"successfully"* ]]; then
+          :
+        else
+          echo "Test failed - push denied. Run tests and confirm they pass before pushing"
+          echo "The failing tests are:"
+          fail_tests=$(echo "$output_tests" | grep '[FAIL]')
+          echo "$fail_tests"
+          echo "Exiting!"
+          exit 1
+        fi
+        echo "All tests passed!"
+
+    - name: Test verbose level 5 (ifort)
+      timeout-minutes: 5
+      run: |
+        sed 's/-DVERS=$(GIT_VERSION)/-DVERS=$(GIT_VERSION)\ -DVERBOSE_LEVEL=5/g' -i Makefile.example
+        make -f Makefile.example clean
+        make -f Makefile.example -j2
+        echo "Running the tests using the Intel oneapi fortran compiler"
+        echo "Using high verbose level"
+        if [ ! -f bin/winnet ]; then
+          echo "Could not compile the run!"
+          echo "Check the code before pushing to master branch!"
+          echo "Exiting!"
+          exit 1
+        fi
+
+        # Get the ouput of the tests
+        echo "Running tests..."
+        output_tests=$(make -f Makefile.example tests)
+        last_line=$(echo "$output_tests" | grep 'tests have')
+        # Check that all tests have passed
+        if [[ ${last_line} = *"successfully"* ]]; then
+          :
+        else
+          echo "Test failed - push denied. Run tests and confirm they pass before pushing"
+          echo "The failing tests are:"
+          fail_tests=$(echo "$output_tests" | grep '[FAIL]')
+          echo "$fail_tests"
+          echo "Exiting!"
+          exit 1
+        fi
+        echo "All tests passed!"
+
+    - name: Install hdf5 library
+      timeout-minutes: 2
+      run: |
+        sudo apt-get install -y libhdf5-serial-dev
+
+    - name: Compile (gfortran)
+      timeout-minutes: 2
+      run: |
+        make -f Makefile.example clean
+        sed 's/-fopenmp/-fopenmp\ -g\ -Wall\ -fcheck=all/g' -i Makefile.example
+        sed 's/-O3/-O0/g' -i Makefile.example
+        sed 's/FC\ =\ ifort/FC\ =\ h5fc/g' -i Makefile.example
+        make -f Makefile.example -j2
+
+
+    - name: "Test the code (gfortran)"
+      timeout-minutes: 5
+      run: |
+        echo "Running the tests using the gfortran compiler"
+        if [ ! -f bin/winnet ]; then
+          echo "Could not compile the run!"
+          echo "Check the code before pushing to master branch!"
+          echo "Exiting!"
+          exit 1
+        fi
+
+        # Get the ouput of the tests
+        echo "Running tests..."
+        output_tests=$(make -f Makefile.example tests)
+        last_line=$(echo "$output_tests" | grep 'tests have')
+        # Check that all tests have passed
+        if [[ ${last_line} = *"successfully"* ]]; then
+          :
+        else
+          echo "Test failed - push denied. Run tests and confirm they pass before pushing"
+          echo "The failing tests are:"
+          fail_tests=$(echo "$output_tests" | grep '[FAIL]')
+          echo "$fail_tests"
+          echo "Exiting!"
+          exit 1
+        fi
+        echo "All tests passed!"

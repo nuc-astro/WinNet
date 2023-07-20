@@ -1,0 +1,217 @@
+###############################################################################
+# Example case for an r-process within the dynamic ejecta of
+# a Neutron star - Neutron star merger.
+# The underlying simulations are:
+# Korokbin et al. (2012, https://ui.adsabs.harvard.edu/abs/2012MNRAS.426.1940K/abstract),
+# Rosswog et al. (2013, https://ui.adsabs.harvard.edu/abs/2013MNRAS.430.2585R/abstract), and
+# Piran et al. (2013, https://ui.adsabs.harvard.edu/abs/2013MNRAS.430.2121P/abstract).
+# Accessed via: https://compact-merger.astro.su.se/downloads_fluid_trajectories.html.
+#
+# * The network includes ~6700 nuclei.
+# * The initial composition is calculated via NSE.
+# * Reaction rates from the JINA Reaclib database
+#   Cyburt et al. (2010, https://ui.adsabs.harvard.edu/abs/2010ApJS..189..240C/abstract)
+#   accessed via https://reaclib.jinaweb.org/ .
+# * Temperature and density evolution are taken from the HD simulation.
+# * Theoretical weak rates from Langanke & Martinez-Pinedo (2001, https://ui.adsabs.harvard.edu/abs/2001ADNDT..79....1L/abstract).
+# * Additional alpha-decays using the Viola-Seaborg formula together with the parametrization of 
+#   Dong & Ren (2005, https://ui.adsabs.harvard.edu/abs/2005EPJA...26...69D/abstract).
+# * Electron chemical potentials from Timmes & Arnett (1999, https://ui.adsabs.harvard.edu/abs/1999ApJS..125..277T/abstract),
+#   accessed via Cococubed: https://cococubed.com/code_pages/chemical_potential.shtml
+# * Beta delayed fission rates from Panov et al (2005, https://ui.adsabs.harvard.edu/abs/2005NuPhA.747..633P/abstract),
+#   neutron-induced fission rates from Panov et al. (2010, https://ui.adsabs.harvard.edu/abs/2010A%26A...513A..61P/abstract),
+#   and spontaneous fission rates that were calculated using the semi-empirical formula of
+#   Khuyagbaatar (2020, https://ui.adsabs.harvard.edu/abs/2020NuPhA100221958K/abstract) together with the fission barriers of
+#   Möller et al. (2015, https://ui.adsabs.harvard.edu/abs/2015PhRvC..91b4310M/abstract).
+# * Fission fragments from Panov et al. (2001, https://ui.adsabs.harvard.edu/abs/2001NuPhA.688..587P/abstract).
+# * Screening corrections from Kravchuk & Yakovlev et al. (2014, https://ui.adsabs.harvard.edu/abs/2014PhRvC..89a5802K/abstract).
+# * Self heating as in Freiburghaus (1999, https://ui.adsabs.harvard.edu/abs/1999ApJ...525L.121F/abstract).
+# * Neutrino losses are taken from the theoretical weak rates tables and an external file that
+#   uses data from the ENSDF database of Brown et al. (2018, https://ui.adsabs.harvard.edu/abs/2018NDS...148....1B/abstract).
+#   Furthermore, thermal neutrinos losses are calculated with the subroutines of 
+#   Itoh et al. (1996, https://ui.adsabs.harvard.edu/abs/1996ApJS..102..411I/abstract).
+# * The extrapolation and self heating uses the Timmes EOS from
+#   Timmes & Swesty (2000, https://ui.adsabs.harvard.edu/abs/2000ApJS..126..501T/abstract).
+# * no neutrinos
+#
+# A more detailed description and a complete list of the parameters can be found in the documentation.
+# This documentation can be created by running "make doc". After this, it is located in "doc/documentation.html".
+#
+# Run this file with the help of the makerun.py via:
+# python makerun.py -p Example_NSM_dyn_ejecta_rosswog.par -r Example_NSM_dyn_ejecta_rosswog
+# and check the plotting script in the produced run folder (runs/Example_NSM_dyn_ejecta_rosswog/Plot_me.py)
+
+
+###########################
+#   General input files   #
+###########################
+
+# List of all isotopes used in the network
+net_source= "@WINNET@/data/sunet_complete"
+
+# Database with the properties of all isotopes
+isotopes_file= "@WINNET@/data/winvne_v2.0.dat"
+
+# The reaclib library
+reaclib_file  = "@WINNET@/data/Reaclib_18_9_20"
+
+
+####################################
+# Input for theoretical weak rates #
+####################################
+
+# Weak rates library
+weak_rates_file= "@WINNET@/data/rateseff.out"
+
+# Tabulated chemical potential of electron-positron gas (chem_table.dat)
+chem_pot_file= "@WINNET@/data/chem_table.dat"
+
+# Flag for theoretical weak rates:
+# =2 : log(ft) theoretical weak rates are used
+iwformat = 2
+
+# Temp at which theoretical weak rates should be replaced
+temp_reload_exp_weak_rates= 1.d-2
+
+
+############################
+# Thermodynamic conditions #
+############################
+
+# Is this a trajectory run?
+trajectory_mode = "from_file"
+
+# File name of trajectory
+trajectory_file = "@WINNET@/data/Example_data/Example_NSM_dyn_ejecta_rosswog/nsm_representative.dat"
+
+
+###########################
+# Additional alpha-decays #
+###########################
+
+# Supplement rates with additional alpha-decays
+use_alpha_decay_file = yes
+
+# Alpha-decays that have been calculated with 
+# the Viola-Seaborg formula
+alpha_decay_file = "@WINNET@/data/alpha_decays.dat"
+
+
+###########
+# Fission #
+###########
+
+# Fission treatment:
+# =1: Panov
+fissflag = 1
+
+# Rates from Panov
+fission_rates = "@WINNET@/data/fissionrates_frdm"
+
+
+###################
+# Nuclear heating #
+###################
+
+# Calculate energy generation due to nuclear burning?
+# Update the entropy
+heating_mode = 1
+
+# Use external file for neutrino loss due to beta decay
+use_neutrino_loss_file = yes
+neutrino_loss_file = "@WINNET@/data/nu_loss_data.dat"
+
+# For all other nuclei use this fraction of nuclear-generated 
+# energy for the escaping neutrinos
+heating_frac = 0.4e0
+
+# Use thermal neutrino losses
+use_thermal_nu_loss = yes
+
+# Enable heating when matter becomes
+# transparent for neutrinos 
+heating_density = 1e11
+
+
+###################################
+# Nuclear statistical equilibrium #
+###################################
+
+# Initial temperature for NSE descend algorithm
+nse_descend_t9start= 100.0
+
+# Temperature at which calculation should start [GK] (initemp)
+initemp_hot  = 1.0e1
+initemp_cold = 1.0e1
+
+# Temperature above which nse should be used [GK]
+nsetemp_hot = 8.0
+nsetemp_cold = 7.0
+
+# Recalculate NSE composition?
+nse_calc_every = 1
+
+
+########################
+# Termination settings #
+########################
+
+# Use expansion after the final step?
+expansiontype = 1
+
+# termination_criterion:
+# =1: after final_time is reached;
+termination_criterion = 1
+
+# End after 1 Gyr
+final_time = 3.1536e16
+
+
+###########################
+#     Output Settings     #
+###########################
+
+# Frequency of various types of the output:
+# Set the values to 0 to turn output and calculation off.
+
+# Output frequency for OUT file (or screen if not started with output piped to OUT)
+out_every     = 1
+
+# Output frequency for mainout.dat
+mainout_every = 10
+
+# Output the energy generation
+engen_every   = 1
+
+
+###############
+# Other flags #
+###############
+
+# Screening corrections
+screening_mode = 1
+
+
+#######################
+# Numerical parameter #
+#######################
+
+# Integration method
+# 0 - Implicit Euler
+# 1 - Gear
+solver = 0
+
+# Maximum number of Newton-Raphson iterations
+nr_maxcount = 10
+
+# Maximum change of the timestep
+timestep_max    = 2.d0
+
+# Estimated change of abundances within one timestep
+timestep_factor = 1.0d-1
+
+# Minimum of abundances taken into account for timestep calculations
+timestep_Ymin   = 1.0d-10
+
+# Limit of the timestep from trajectory?
+timestep_traj_limit = yes

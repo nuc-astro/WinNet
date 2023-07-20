@@ -1,0 +1,55 @@
+c.. 
+c..mathematical and physical constants (in cgs,except e0 which is in ev)
+c..
+c..the 1986 codta recommended valeus of the physical constants
+c..by coehn & taylor 
+
+
+c..declare  
+      double precision pi,a2rad,rad2a,eulercon
+      double precision g,h,hbar,qe,avo,clight,kerg,kev,amu,mn,mp,me,
+     1                 rbohr,fine,hion,ev2erg,ssol,asol,weinfre,weinlam,
+     2                 rhonuc
+      double precision msol,rsol,lsol,mearth,rearth,ly,pc,au,   
+     2                 secyer
+
+c..math constants   
+      parameter        (pi       = 3.1415926535897932384d0, 
+     1                  eulercon = 0.577215664901532861d0,   
+     2                  a2rad    = pi/180.0d0,  rad2a = 180.0d0/pi)
+
+c..physical constants   
+      parameter        (g       = 6.67259d-8,  
+     1                  h       = 6.6260755d-27,   
+     2                  hbar    = 0.5 * h/pi,
+     3                  qe      = 4.8032068d-10,   
+     4                  avo     = 6.0221367d23,
+     5                  clight  = 2.99792458d10, 
+     6                  kerg    = 1.380658d-16,
+     7                  kev     = 8.617385d-5, 
+     8                  amu     = 1.6605402d-24,
+     9                  mn      = 1.6749286d-24,   
+     &                  mp      = 1.6726231d-24,   
+     1                  me      = 9.1093897d-28,   
+     2                  rbohr   = hbar*hbar/(me * qe * qe),
+     3                  fine    = qe*qe/(hbar*clight),  
+     4                  hion    = 13.605698140d0,  
+     5                  ev2erg  = 1.602d-12)
+      parameter        (ssol     = 5.67051d-5,
+     1                  asol    = 4.0d0 * ssol / clight, 
+     2                  weinlam = h*clight/(kerg * 4.965114232d0), 
+     3                  weinfre = 2.821439372d0*kerg/h,   
+     4                  rhonuc  = 2.342d14) 
+
+
+c..astronomical constants   
+      parameter        (msol    = 1.9892d33,     
+     1                  rsol    = 6.95997d10,
+     2                  lsol    = 3.8268d33, 
+     3                  mearth  = 5.9764d27, 
+     4                  rearth  = 6.37d8,
+     5                  ly      = 9.460528d17,   
+     6                  pc      = 3.261633d0 * ly, 
+     7                  au      = 1.495978921d13,
+     8                  secyer  = 3.1558149984d7)
+

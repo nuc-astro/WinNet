@@ -1,0 +1,249 @@
+/** \page input_files Input files
+@tableofcontents
+
+\subsection alpha_decays alpha_decays.dat
+\par Contains:
+Name of the alpha-decaying nucleus as well as alpha-decay half-life. The values have been calculated according to:
+
+\f[ \log_{10}T_\alpha = (aZ + b)Q_\alpha^{-0.5} + (cZ + d)+h_{log}  \f]
+   with certain fit parameters. The parameters are chosen as follows:
+|                                    | a       | b        | c        | d        |
+|------------------------------------|---------|----------|----------|----------|
+| \f$Z>82\f$, \f$N>126\f$            | 1.64062 | -8.54399 | -0.19430 | -33.9054 |
+| \f$Z>82\f$, \f$82<N\le126\f$       | 1.71183 | -7.50481 | -0.25315 | -30.7028 |
+| \f$50<Z\le 82\f$, \f$82<N\le126\f$ | 1.70875 | -7.52265 | -0.25153 | -30.8245 |
+| \f$50<Z\le 82\f$, \f$50<N\le82\f$  | 1.71371 | -7.34226 | -0.24978 | -30.6826 |
+|                                    | h1      | h2       | h3       | h4       |
+| \f$Z>82\f$, \f$N>126\f$            | 0       | 0.8937   | 0.5720   | 0.9380   |
+| \f$Z>82\f$, \f$82<N\le126\f$       | 0       | 0.0476   | 0.1214   | 0.3933   |
+| \f$50<Z\le 82\f$, \f$82<N\le126\f$ | 0       | 0.2140   | 0.0600   | 0.4999   |
+| \f$50<Z\le 82\f$, \f$50<N\le82\f$  | 0       | -0.1242  | 1.1799   | 0.7166   |
+The lower part of the table shows the hindrance factors \f$h_{log}\f$ and h1 indicates Z even and N even, h2 Z even and N odd, 
+h3 Z odd and N even, h4 Z odd and N odd. Masses that are necessary to calculate the Q-value were taken from the winvn file.
+\par Relevant parameters
+\ref use_alpha_decay_file , \ref alpha_decay_file
+\par Literature
+[Reichert et al. 2023](https://ui.adsabs.harvard.edu/abs/2023arXiv230507048R/abstract), [Dong & Ren 2005](https://ui.adsabs.harvard.edu/abs/2005EPJA...26...69D/abstract)
+\see 
+[Viola & Seaborg 1966](https://www.sciencedirect.com/science/article/abs/pii/0022190266804128) 
+\par Useful scripts
+\ref create_alpha_decay_file.py
+
+------
+
+\subsection bet_marketin beta_decay_marketin.dat
+\par Contains:
+File with half lifes and beta-delayed neutron emission probabilities (P0,...P10n), average Q-value, and average energy of
+released neutrinos of the decay.
+\par Relevant parameters
+\ref use_beta_decay_file , \ref beta_decay_file , \ref heating_mode
+\par Literature
+[Marketin et al. 2016](https://ui.adsabs.harvard.edu/abs/2016PhRvC..93b5805M/abstract)
+\par Useful scripts
+\ref convert_marketin_beta_decays.py
+
+------
+
+\subsection bet_moeller beta_decay_moeller.dat
+File with half lifes and beta-delayed neutron emission probabilities (P0,...P10n).
+\par Relevant parameters
+\ref use_beta_decay_file , \ref beta_decay_file
+\par Literature
+[Moeller et al. 2019](https://ui.adsabs.harvard.edu/abs/2019ADNDT.125....1M/abstract)
+
+------
+
+\subsection bet_reacl beta_decay_reaclib.dat
+\par Contains:
+File with half lifes and beta-delayed neutron emission probabilities (P0,...P10n).
+\par Relevant parameters
+\ref use_beta_decay_file , \ref beta_decay_file
+\par Literature
+[Cyburt et al. 2010](https://ui.adsabs.harvard.edu/abs/2010ApJS..189..240C)
+
+------
+
+\subsection chemtable chem_table.dat
+\par Contains:
+Tabulated chemical potential of electron-positron gas taken from the Helmholtz equation of state.
+\par Relevant parameters
+\ref chem_pot_file , \ref use_timmes_mue
+\par Literature
+[Timmes & Arnett 1999](https://ui.adsabs.harvard.edu/abs/1999ApJS..125..277T/abstract),
+[Cococubed](https://cococubed.com/code_pages/chemical_potential.shtml)
+
+------
+
+\subsection htpf datafile2.txt
+\par Contains:
+Tabulated partition functions exceeding 10 GK for the FRDM mass model.
+\par Relevant parameters
+\ref htpf_file , \ref use_htpf
+\par Literature
+[Rauscher 2003](https://ui.adsabs.harvard.edu/abs/2003ApJS..147..403R/abstract)
+
+------
+
+\subsection fissmumpower FISS_Mumpower
+\par Contains:
+Fission fragment distribution for neutron-induced and beta delayed fission.
+\par Relevant parameters
+\ref fissflag , \ref nfission_file
+\par Literature
+[Mumpower et al. 2020](https://ui.adsabs.harvard.edu/abs/2020PhRvC.101e4607M/abstract)
+
+------
+
+\subsection fissrates fissionrates_frdm
+\par Contains:
+Fission rates for the FRDM mass model in Reaclib file format. Neutron-induced fission
+is given in [Panov et al. 2010](https://ui.adsabs.harvard.edu/abs/2010A%26A...513A..61P/abstract),
+beta-delayed fission in [Panov et al. 2005](https://ui.adsabs.harvard.edu/abs/2005NuPhA.747..633P/abstract),
+and spontaneous fission was calculated using the semi-empirical formula given in 
+[Khuyagbaatar 2020](https://ui.adsabs.harvard.edu/abs/2020NuPhA100221958K/abstract) with the 
+fission barriers of [Moeller et al. 2015](https://journals.aps.org/prc/supplemental/10.1103/PhysRevC.91.024310).
+
+\par Relevant parameters
+\ref fissflag , \ref fission_rates
+\par Literature
+[Panov et al. 2005](https://ui.adsabs.harvard.edu/abs/2005NuPhA.747..633P/abstract),
+[Panov et al. 2010](https://ui.adsabs.harvard.edu/abs/2010A%26A...513A..61P/abstract)
+[Moeller et al. 2015](https://journals.aps.org/prc/supplemental/10.1103/PhysRevC.91.024310)
+[Khuyagbaatar 2020](https://ui.adsabs.harvard.edu/abs/2020NuPhA100221958K/abstract)
+\par Useful scripts
+\ref create_spontaneous_fission_file.py
+
+------
+
+\subsection sn frdm_sn.dat
+\par Contains:
+Table with neutron separation energies with the FRDM mass model.
+
+\par Relevant parameters
+\ref calc_nsep_energy , \ref nsep_energies_file
+
+------
+
+\subsection stables stable_isotopes.txt
+\par Contains:
+List that contains mass number, atomic number, and neutron number of stable isotopes.
+
+\par Relevant parameters
+\-
+
+------
+
+\subsection neunucleons neunucleons.dat
+\par Contains:
+Tabulated neutrino reactions as well as average energies of the absorped 
+neutrinos on neutrons and protons.
+
+\par Relevant parameters
+\ref nuflag , \ref nunucleo_rates_file
+\par Literature
+[Burrows et al 2006](https://ui.adsabs.harvard.edu/abs/2006NuPhA.777..356B/abstract)
+[Horowitz 2002](https://ui.adsabs.harvard.edu/abs/2002PhRvD..65d3001H/abstract)
+\see
+[Burrows & Thompson 2002](https://ui.adsabs.harvard.edu/abs/2002astro.ph.11404B/abstract)
+\par Useful scripts
+\ref create_neutrino_nucleon_file.py
+
+------
+
+\subsection nu_channels nu_channels
+\par Contains:
+Channels of neutrino reactions. Both, charged current and neutral current channels are included.
+
+\par Relevant parameters
+\ref nuflag , \ref nuchannel_file
+\par Literature
+[Sieverding et al. 2018](https://ui.adsabs.harvard.edu/abs/2018ApJ...865..143S/abstract)
+
+------
+
+\subsection nucross nucross.dat
+\par Contains:
+Neutrino reactions on heavy nuclei. Both, charged current and neutral current channels are included.
+
+\par Relevant parameters
+\ref nuflag , \ref nurates_file
+\par Literature
+[Sieverding et al. 2018](https://ui.adsabs.harvard.edu/abs/2018ApJ...865..143S/abstract)
+
+------
+
+\subsection nu_loss_data nu_loss_data.dat
+\par Contains:
+Average energy of neutrinos in MeV that are produced in the beta-decay.
+
+\par Relevant parameters
+\ref use_neutrino_loss_file , \ref neutrino_loss_file , \ref heating_mode
+\par Literature
+[Brown et al. 2018](https://ui.adsabs.harvard.edu/abs/2018NDS...148....1B/abstract)
+\par Useful scripts
+\ref create_neutrino_loss_file.py
+
+------
+
+\subsection ffn_rates rateseff.out
+\par Contains:
+Tabulated weak reactions.
+
+\par Relevant parameters
+\ref iwformat , \ref weak_rates_file, \ref temp_reload_exp_weak_rates
+\par Literature
+[Langanke & Martinez-Pinedo 2001](https://ui.adsabs.harvard.edu/abs/2001ADNDT..79....1L/abstract)
+\see 
+[Fuller et al. 1985](https://ui.adsabs.harvard.edu/abs/1985ApJ...293....1F/abstract),
+[Oda et al. 1994](https://ui.adsabs.harvard.edu/abs/1994ADNDT..56..231O/abstract)
+
+------
+
+\subsection reaclib Reaclib_18_9_20
+\par Contains:
+Nuclear reaction rates in reaclib file format.
+
+\par Relevant parameters
+\ref reaclib_file
+\par Literature
+[Cyburt et al. 2010](https://ui.adsabs.harvard.edu/abs/2010ApJS..189..240C)
+\see 
+https://reaclib.jinaweb.org/
+
+------
+
+\subsection ffn_rates2 theoretical_weak_rates.dat
+\par Contains:
+Tabulated weak reactions (electron-/positron- captures and \f$ \beta \f$-decays) from different literatures (see Fig. below)
+    @image html weak_rates.png "Included theoretical weak reactions color coded by literature" height=350
+The reaction rates have been accessed via the [Weak rate library](https://groups.nscl.msu.edu/charge_exchange/weakrates.html) and have been converted into 
+log <ft> format.
+
+\par Relevant parameters
+\ref iwformat , \ref weak_rates_file, \ref temp_reload_exp_weak_rates
+\par Literature
+[Fuller et al. 1985](https://ui.adsabs.harvard.edu/abs/1985ApJ...293....1F/abstract), 
+[Oda et al. 1994](https://ui.adsabs.harvard.edu/abs/1994ADNDT..56..231O/abstract), 
+[Langanke & Martinez-Pinedo 2001](https://ui.adsabs.harvard.edu/abs/2001ADNDT..79....1L/abstract), 
+[Pruet & Fuller 2003](https://ui.adsabs.harvard.edu/abs/2003ApJS..149..189P/abstract), 
+[Suzuki, Toki & Nomoto 2016](https://ui.adsabs.harvard.edu/abs/2016ApJ...817..163S/abstract)
+\see 
+[Weak rate library](https://groups.nscl.msu.edu/charge_exchange/weakrates.html),
+\ref tw_rate_module.f90
+
+------
+
+\subsection winvn winvne_v2.0.dat
+\par Contains:
+Nuclear properties, such as the spin of the ground state, the mass excess, neutron and proton numbers and tabulated partition functions.
+
+\par Relevant parameters
+\ref isotopes_file
+\par Literature
+[Cyburt et al.2010](https://ui.adsabs.harvard.edu/abs/2010ApJS..189..240C)
+\see 
+https://reaclib.jinaweb.org/
+
+------
+
+*/

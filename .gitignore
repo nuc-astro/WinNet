@@ -1,0 +1,57 @@
+##### Compiled Object files of python #####
+*.pyc
+
+###### Compiled Object files of fortran #####
+*.mod
+*.o
+
+# Run folder
+runs/
+
+# Example_files that get generated
+data/Example_data/Example_BigBang_many/bbn_*
+data/Example_data/Example_BigBang/bbn.dat
+data/Example_data/Example_NSM_dyn_ejecta_ns10ns10_rosswog/trajectory_*
+data/Example_data/Example_NSBH_rosswog/trajectory_*
+data/Example_data/Example_i_process_dardelet/modified_reaclib
+
+# Test folder
+test/*/
+
+# Executable
+bin/winnet
+
+# Makefile and makerun
+makerun.py
+Makefile
+
+
+# Doxygen files
+doc/html/
+doc/documentation.html
+
+# Visual studio code files
+*.vscode*
+
+##### Latex files #####
+## Core latex/pdflatex auxiliary files:
+*.aux
+*.lof
+*.log
+*.lot
+*.fls
+*.out
+*.toc
+*.fmt
+*.fot
+*.cb
+*.cb2
+*.blg
+*.bbl
+*.bak
+*.synctex.gz
+
+## Intermediate documents:
+*.dvi
+*-converted-to.*
+*test_cases.pdf

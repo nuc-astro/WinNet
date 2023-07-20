@@ -1,0 +1,133 @@
+###############################################################################
+# Example case for an X-ray burst.
+# The example trajectory is taken from
+# Schatz et al. (2002, https://ui.adsabs.harvard.edu/abs/2001NuPhA.688..150S/abstract) and
+# was also used in Lippuner & Roberts (2017, https://ui.adsabs.harvard.edu/abs/2017ApJS..233...18L/abstract).
+#
+# * The network includes ~700 nuclei.
+# * The initial composition read from a file.
+# * Temperature and density evolution from file.
+# * Reaction rates from the JINA Reaclib database
+#   Cyburt et al. (2010, https://ui.adsabs.harvard.edu/abs/2010ApJS..189..240C/abstract)
+#   accessed via https://reaclib.jinaweb.org/ .
+# * Assume detailed balance for inverse reactions with masses as given in the winvn file.
+# * Screening corrections from Kravchuk & Yakovlev et al. (2014, https://ui.adsabs.harvard.edu/abs/2014PhRvC..89a5802K/abstract).
+# * no theoretical weak rates, no heating, no neutrinos.
+#
+# A more detailed description and a complete list of the parameters can be found in the documentation.
+# This documentation can be created by running "make doc". After this, it is located in "doc/documentation.html".
+#
+# Run this file with the help of the makerun.py via:
+# python makerun.py -p Example_xrayburst_schatz.par -r Example_xrayburst_schatz
+# and check the plotting script in the produced run folder (runs/Example_xrayburst_schatz/Plot_me.py)
+
+###########################
+#   General input files   #
+###########################
+
+# The reaclib library
+reaclib_file  = "@WINNET@/data/Example_data/Example_xrayburst_schatz/Reaclib_v2.2_reduced"
+
+# List of all isotopes used in the network
+net_source= "@WINNET@/data/Example_data/Example_xrayburst_schatz/sunet"
+
+# Database with the properties of all isotopes
+isotopes_file= "@WINNET@/data/Example_data/Example_xrayburst_schatz/winvn_v2.2_reduced"
+
+
+###########################
+#   Initial composition   #
+###########################
+
+read_initial_composition = yes
+
+seed_file = "@WINNET@/data/Example_data/Example_xrayburst_schatz/initial_mass_fractions"
+
+
+############################
+# Thermodynamic conditions #
+############################
+
+# Is this a trajectory run?
+trajectory_mode = "from_file"
+
+# Format of the trajectory
+trajectory_format = "time temp dens"
+
+# File name of trajectory
+trajectory_file = "@WINNET@/data/Example_data/Example_xrayburst_schatz/example_xrayburst_schatz"
+
+
+###################################
+# Nuclear statistical equilibrium #
+###################################
+
+# Initial temperature for NSE descend algorithm
+nse_descend_t9start= 100.0
+
+# Temperature at which calculation should start [GK] (initemp)
+initemp_hot  = 2.0e1
+initemp_cold = 2.0e1
+
+# Temperature above which nse should be used [GK]
+nsetemp_hot  = 7.0e0
+nsetemp_cold = 7.0e0
+
+# Recalculate NSE composition?
+nse_calc_every = 1
+
+
+########################
+# Termination settings #
+########################
+
+# termination_criterion:
+# =1: after final_time is reached;
+termination_criterion = 1
+
+# End after 1 Gyr
+final_time = 1e3
+
+
+###########################
+#     Output Settings     #
+###########################
+
+# Frequency of various types of the output:
+# Set the values to 0 to turn output and calculation off.
+
+# Output frequency for OUT file (or screen if not started with output piped to OUT)
+out_every        = 1
+
+# Output frequency for mainout.dat
+mainout_every    = 10
+
+
+####################
+# Detailed balance #
+####################
+
+use_detailed_balance = yes
+
+
+###############
+# Other flags #
+###############
+
+# Screening corrections
+screening_mode = 1
+
+
+#######################
+# Numerical parameter #
+#######################
+
+# Integration method
+# 0 - Implicit Euler
+solver = 0
+
+# Minimum of abundances taken into account for timestep calculations
+timestep_Ymin   = 1.0d-6
+
+# Limit of the timestep from trajectory?
+timestep_traj_limit = no

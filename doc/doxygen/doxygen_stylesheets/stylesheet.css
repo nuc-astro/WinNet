@@ -1,0 +1,81 @@
+body {
+        background-color: #CCC;
+        color: black;
+        margin: 0;
+}
+
+div.contents {
+        margin-bottom: 10px;
+        padding: 12px;
+        margin-left: auto;
+        margin-right: auto;
+        width: 960px;
+        background-color: white;
+        border-radius: 8px;
+/*
+        box-shadow: 8px 8px 5px #444;
+*/
+}
+
+.navpath ul{
+	height: 1px;
+}
+
+
+#titlearea {
+        background-color: transparent;
+        background-image: url("header_image.png");
+}
+
+hr.footer {
+        display: none;
+}
+
+.footer {
+        background-color: #AAA;
+} 
+
+.row{
+display:flex;
+justify-content:center;
+}
+
+/*
+.memdoc, dl.reflist dd{
+	border: 1px solid;
+	border-top-width: 0px;
+	box-shadow: 8px 8px 5px #444;
+
+}
+*/
+/*
+dl.remarks dd,
+dl.note dd,
+dl.warning dd,
+dl.todo dd,
+dl.deprecated dd,
+dl.reflist dd {
+	margin: 0;
+	padding: 4px;
+	background: none;
+
+	color: #222222;
+
+	border: 0px solid;
+	border-bottom-left-radius: 0px;
+	border-bottom-right-radius: 0px;
+	border-top: 1px;
+
+	box-shadow: 8px 8px 5px #444;
+}
+
+dl.warning dt {
+	background-color: #bf5f82;
+}
+
+dl.warning dd {
+	background-color: #f48fb1;
+	border-color: #bf5f82;
+}
+*/
+

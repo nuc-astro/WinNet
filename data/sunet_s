@@ -1,0 +1,1955 @@
+    n
+    p
+    d
+    t
+  he3
+  he4
+  he6
+  he7
+  li6
+  li7
+  li8
+  li9
+  be7
+  be8
+  be9
+ be10
+ be11
+ be12
+   b8
+   b9
+  b10
+  b11
+  b12
+  b13
+  b14
+   c9
+  c10
+  c11
+  c12
+  c13
+  c14
+  c15
+  c16
+  n11
+  n12
+  n13
+  n14
+  n15
+  n16
+  n17
+  n18
+  o13
+  o14
+  o15
+  o16
+  o17
+  o18
+  o19
+  o20
+  f14
+  f15
+  f16
+  f17
+  f18
+  f19
+  f20
+  f21
+  f22
+  f23
+  f24
+ ne17
+ ne18
+ ne19
+ ne20
+ ne21
+ ne22
+ ne23
+ ne24
+ ne25
+ na19
+ na20
+ na21
+ na22
+ na23
+ na24
+ na25
+ na26
+ na27
+ na28
+ mg20
+ mg21
+ mg22
+ mg23
+ mg24
+ mg25
+ mg26
+ mg27
+ mg28
+ mg29
+ mg30
+ mg31
+ al22
+ al23
+ al24
+ al25
+ al26
+ al27
+ al28
+ al29
+ al30
+ al31
+ al32
+ al33
+ al34
+ si23
+ si24
+ si25
+ si26
+ si27
+ si28
+ si29
+ si30
+ si31
+ si32
+ si33
+ si34
+ si35
+ si36
+ si37
+  p24
+  p25
+  p26
+  p27
+  p28
+  p29
+  p30
+  p31
+  p32
+  p33
+  p34
+  p35
+  p36
+  p37
+  p38
+  p39
+  s26
+  s27
+  s28
+  s29
+  s30
+  s31
+  s32
+  s33
+  s34
+  s35
+  s36
+  s37
+  s38
+  s39
+  s40
+  s41
+  s42
+ cl28
+ cl29
+ cl30
+ cl31
+ cl32
+ cl33
+ cl34
+ cl35
+ cl36
+ cl37
+ cl38
+ cl39
+ cl40
+ cl41
+ cl42
+ cl43
+ cl44
+ ar30
+ ar31
+ ar32
+ ar33
+ ar34
+ ar35
+ ar36
+ ar37
+ ar38
+ ar39
+ ar40
+ ar41
+ ar42
+ ar43
+ ar44
+ ar45
+ ar46
+ ar47
+  k32
+  k33
+  k34
+  k35
+  k36
+  k37
+  k38
+  k39
+  k40
+  k41
+  k42
+  k43
+  k44
+  k45
+  k46
+  k47
+  k48
+  k49
+ ca34
+ ca35
+ ca36
+ ca37
+ ca38
+ ca39
+ ca40
+ ca41
+ ca42
+ ca43
+ ca44
+ ca45
+ ca46
+ ca47
+ ca48
+ ca49
+ ca50
+ ca51
+ ca52
+ sc36
+ sc37
+ sc38
+ sc39
+ sc40
+ sc41
+ sc42
+ sc43
+ sc44
+ sc45
+ sc46
+ sc47
+ sc48
+ sc49
+ sc50
+ sc51
+ sc52
+ sc53
+ sc54
+ sc55
+ ti38
+ ti39
+ ti40
+ ti41
+ ti42
+ ti43
+ ti44
+ ti45
+ ti46
+ ti47
+ ti48
+ ti49
+ ti50
+ ti51
+ ti52
+ ti53
+ ti54
+ ti55
+ ti56
+ ti57
+ ti58
+ ti59
+  v40
+  v41
+  v42
+  v43
+  v44
+  v45
+  v46
+  v47
+  v48
+  v49
+  v50
+  v51
+  v52
+  v53
+  v54
+  v55
+  v56
+  v57
+  v58
+  v59
+  v60
+  v61
+  v62
+ cr43
+ cr44
+ cr45
+ cr46
+ cr47
+ cr48
+ cr49
+ cr50
+ cr51
+ cr52
+ cr53
+ cr54
+ cr55
+ cr56
+ cr57
+ cr58
+ cr59
+ cr60
+ cr61
+ cr62
+ cr63
+ mn46
+ mn47
+ mn48
+ mn49
+ mn50
+ mn51
+ mn52
+ mn53
+ mn54
+ mn55
+ mn56
+ mn57
+ mn58
+ mn59
+ mn60
+ mn61
+ mn62
+ mn63
+ mn64
+ mn65
+ fe48
+ fe49
+ fe50
+ fe51
+ fe52
+ fe53
+ fe54
+ fe55
+ fe56
+ fe57
+ fe58
+ fe59
+ fe60
+ fe61
+ fe62
+ fe63
+ fe64
+ fe65
+ fe66
+ fe67
+ co50
+ co51
+ co52
+ co53
+ co54
+ co55
+ co56
+ co57
+ co58
+ co59
+ co60
+ co61
+ co62
+ co63
+ co64
+ co65
+ co66
+ co67
+ co68
+ co69
+ co70
+ ni52
+ ni53
+ ni54
+ ni55
+ ni56
+ ni57
+ ni58
+ ni59
+ ni60
+ ni61
+ ni62
+ ni63
+ ni64
+ ni65
+ ni66
+ ni67
+ ni68
+ ni69
+ ni70
+ ni71
+ ni72
+ ni73
+ cu54
+ cu55
+ cu56
+ cu57
+ cu58
+ cu59
+ cu60
+ cu61
+ cu62
+ cu63
+ cu64
+ cu65
+ cu66
+ cu67
+ cu68
+ cu69
+ cu70
+ cu71
+ cu72
+ cu73
+ cu74
+ cu75
+ cu76
+ zn57
+ zn58
+ zn59
+ zn60
+ zn61
+ zn62
+ zn63
+ zn64
+ zn65
+ zn66
+ zn67
+ zn68
+ zn69
+ zn70
+ zn71
+ zn72
+ zn73
+ zn74
+ zn75
+ zn76
+ zn77
+ zn78
+ zn79
+ ga61
+ ga62
+ ga63
+ ga64
+ ga65
+ ga66
+ ga67
+ ga68
+ ga69
+ ga70
+ ga71
+ ga72
+ ga73
+ ga74
+ ga75
+ ga76
+ ga77
+ ga78
+ ga79
+ ga80
+ ga81
+ ga82
+ ge63
+ ge64
+ ge65
+ ge66
+ ge67
+ ge68
+ ge69
+ ge70
+ ge71
+ ge72
+ ge73
+ ge74
+ ge75
+ ge76
+ ge77
+ ge78
+ ge79
+ ge80
+ ge81
+ ge82
+ ge83
+ ge84
+ ge85
+ ge86
+ as66
+ as67
+ as68
+ as69
+ as70
+ as71
+ as72
+ as73
+ as74
+ as75
+ as76
+ as77
+ as78
+ as79
+ as80
+ as81
+ as82
+ as83
+ as84
+ as85
+ as86
+ as87
+ se68
+ se69
+ se70
+ se71
+ se72
+ se73
+ se74
+ se75
+ se76
+ se77
+ se78
+ se79
+ se80
+ se81
+ se82
+ se83
+ se84
+ se85
+ se86
+ se87
+ se88
+ se89
+ br71
+ br72
+ br73
+ br74
+ br75
+ br76
+ br77
+ br78
+ br79
+ br80
+ br81
+ br82
+ br83
+ br84
+ br85
+ br86
+ br87
+ br88
+ br89
+ br90
+ kr74
+ kr75
+ kr76
+ kr77
+ kr78
+ kr79
+ kr80
+ kr81
+ kr82
+ kr83
+ kr84
+ kr85
+ kr86
+ kr87
+ kr88
+ kr89
+ kr90
+ kr91
+ kr92
+ kr93
+ rb77
+ rb78
+ rb79
+ rb80
+ rb81
+ rb82
+ rb83
+ rb84
+ rb85
+ rb86
+ rb87
+ rb88
+ rb89
+ rb90
+ rb91
+ rb92
+ rb93
+ rb94
+ rb95
+ rb96
+ rb97
+ sr79
+ sr80
+ sr81
+ sr82
+ sr83
+ sr84
+ sr85
+ sr86
+ sr87
+ sr88
+ sr89
+ sr90
+ sr91
+ sr92
+ sr93
+ sr94
+ sr95
+ sr96
+ sr97
+ sr98
+ sr99
+sr100
+  y81
+  y82
+  y83
+  y84
+  y85
+  y86
+  y87
+  y88
+  y89
+  y90
+  y91
+  y92
+  y93
+  y94
+  y95
+  y96
+  y97
+  y98
+  y99
+ y100
+ y101
+ y102
+ y103
+ zr83
+ zr84
+ zr85
+ zr86
+ zr87
+ zr88
+ zr89
+ zr90
+ zr91
+ zr92
+ zr93
+ zr94
+ zr95
+ zr96
+ zr97
+ zr98
+ zr99
+zr100
+zr101
+zr102
+zr103
+zr104
+zr105
+zr106
+ nb85
+ nb86
+ nb87
+ nb88
+ nb89
+ nb90
+ nb91
+ nb92
+ nb93
+ nb94
+ nb95
+ nb96
+ nb97
+ nb98
+ nb99
+nb100
+nb101
+nb102
+nb103
+nb104
+nb105
+nb106
+nb107
+nb108
+nb109
+ mo88
+ mo89
+ mo90
+ mo91
+ mo92
+ mo93
+ mo94
+ mo95
+ mo96
+ mo97
+ mo98
+ mo99
+mo100
+mo101
+mo102
+mo103
+mo104
+mo105
+mo106
+mo107
+mo108
+mo109
+mo110
+mo111
+mo112
+mo113
+ tc90
+ tc91
+ tc92
+ tc93
+ tc94
+ tc95
+ tc96
+ tc97
+ tc98
+ tc99
+tc100
+tc101
+tc102
+tc103
+tc104
+tc105
+tc106
+tc107
+tc108
+tc109
+tc110
+tc111
+tc112
+tc113
+tc114
+tc115
+tc116
+ ru92
+ ru93
+ ru94
+ ru95
+ ru96
+ ru97
+ ru98
+ ru99
+ru100
+ru101
+ru102
+ru103
+ru104
+ru105
+ru106
+ru107
+ru108
+ru109
+ru110
+ru111
+ru112
+ru113
+ru114
+ru115
+ru116
+ru117
+ru118
+ru119
+ rh94
+ rh95
+ rh96
+ rh97
+ rh98
+ rh99
+rh100
+rh101
+rh102
+rh103
+rh104
+rh105
+rh106
+rh107
+rh108
+rh109
+rh110
+rh111
+rh112
+rh113
+rh114
+rh115
+rh116
+rh117
+rh118
+rh119
+rh120
+rh121
+rh122
+ pd97
+ pd98
+ pd99
+pd100
+pd101
+pd102
+pd103
+pd104
+pd105
+pd106
+pd107
+pd108
+pd109
+pd110
+pd111
+pd112
+pd113
+pd114
+pd115
+pd116
+pd117
+pd118
+pd119
+pd120
+pd121
+pd122
+pd123
+pd124
+pd125
+ ag99
+ag100
+ag101
+ag102
+ag103
+ag104
+ag105
+ag106
+ag107
+ag108
+ag109
+ag110
+ag111
+ag112
+ag113
+ag114
+ag115
+ag116
+ag117
+ag118
+ag119
+ag120
+ag121
+ag122
+ag123
+ag124
+ag125
+ag126
+cd101
+cd102
+cd103
+cd104
+cd105
+cd106
+cd107
+cd108
+cd109
+cd110
+cd111
+cd112
+cd113
+cd114
+cd115
+cd116
+cd117
+cd118
+cd119
+cd120
+cd121
+cd122
+cd123
+cd124
+cd125
+cd126
+cd127
+cd128
+in103
+in104
+in105
+in106
+in107
+in108
+in109
+in110
+in111
+in112
+in113
+in114
+in115
+in116
+in117
+in118
+in119
+in120
+in121
+in122
+in123
+in124
+in125
+in126
+in127
+in128
+in129
+in130
+sn105
+sn106
+sn107
+sn108
+sn109
+sn110
+sn111
+sn112
+sn113
+sn114
+sn115
+sn116
+sn117
+sn118
+sn119
+sn120
+sn121
+sn122
+sn123
+sn124
+sn125
+sn126
+sn127
+sn128
+sn129
+sn130
+sn131
+sn132
+sb108
+sb109
+sb110
+sb111
+sb112
+sb113
+sb114
+sb115
+sb116
+sb117
+sb118
+sb119
+sb120
+sb121
+sb122
+sb123
+sb124
+sb125
+sb126
+sb127
+sb128
+sb129
+sb130
+sb131
+sb132
+sb133
+te112
+te113
+te114
+te115
+te116
+te117
+te118
+te119
+te120
+te121
+te122
+te123
+te124
+te125
+te126
+te127
+te128
+te129
+te130
+te131
+te132
+te133
+te134
+te135
+te136
+te137
+ i115
+ i116
+ i117
+ i118
+ i119
+ i120
+ i121
+ i122
+ i123
+ i124
+ i125
+ i126
+ i127
+ i128
+ i129
+ i130
+ i131
+ i132
+ i133
+ i134
+ i135
+ i136
+ i137
+ i138
+ i139
+ i140
+xe118
+xe119
+xe120
+xe121
+xe122
+xe123
+xe124
+xe125
+xe126
+xe127
+xe128
+xe129
+xe130
+xe131
+xe132
+xe133
+xe134
+xe135
+xe136
+xe137
+xe138
+xe139
+xe140
+xe141
+xe142
+cs122
+cs123
+cs124
+cs125
+cs126
+cs127
+cs128
+cs129
+cs130
+cs131
+cs132
+cs133
+cs134
+cs135
+cs136
+cs137
+cs138
+cs139
+cs140
+cs141
+cs142
+cs143
+cs144
+ba124
+ba125
+ba126
+ba127
+ba128
+ba129
+ba130
+ba131
+ba132
+ba133
+ba134
+ba135
+ba136
+ba137
+ba138
+ba139
+ba140
+ba141
+ba142
+ba143
+ba144
+ba145
+ba146
+ba147
+ba148
+la126
+la127
+la128
+la129
+la130
+la131
+la132
+la133
+la134
+la135
+la136
+la137
+la138
+la139
+la140
+la141
+la142
+la143
+la144
+la145
+la146
+la147
+la148
+la149
+la150
+la151
+ce129
+ce130
+ce131
+ce132
+ce133
+ce134
+ce135
+ce136
+ce137
+ce138
+ce139
+ce140
+ce141
+ce142
+ce143
+ce144
+ce145
+ce146
+ce147
+ce148
+ce149
+ce150
+ce151
+ce152
+ce153
+ce154
+pr131
+pr132
+pr133
+pr134
+pr135
+pr136
+pr137
+pr138
+pr139
+pr140
+pr141
+pr142
+pr143
+pr144
+pr145
+pr146
+pr147
+pr148
+pr149
+pr150
+pr151
+pr152
+pr153
+pr154
+pr155
+pr156
+pr157
+nd134
+nd135
+nd136
+nd137
+nd138
+nd139
+nd140
+nd141
+nd142
+nd143
+nd144
+nd145
+nd146
+nd147
+nd148
+nd149
+nd150
+nd151
+nd152
+nd153
+nd154
+nd155
+nd156
+nd157
+nd158
+nd159
+nd160
+pm136
+pm137
+pm138
+pm139
+pm140
+pm141
+pm142
+pm143
+pm144
+pm145
+pm146
+pm147
+pm148
+pm149
+pm150
+pm151
+pm152
+pm153
+pm154
+pm155
+pm156
+pm157
+pm158
+pm159
+pm160
+pm161
+pm162
+pm163
+pm164
+sm139
+sm140
+sm141
+sm142
+sm143
+sm144
+sm145
+sm146
+sm147
+sm148
+sm149
+sm150
+sm151
+sm152
+sm153
+sm154
+sm155
+sm156
+sm157
+sm158
+sm159
+sm160
+sm161
+sm162
+sm163
+sm164
+sm165
+sm166
+eu141
+eu142
+eu143
+eu144
+eu145
+eu146
+eu147
+eu148
+eu149
+eu150
+eu151
+eu152
+eu153
+eu154
+eu155
+eu156
+eu157
+eu158
+eu159
+eu160
+eu161
+eu162
+eu163
+eu164
+eu165
+eu166
+eu167
+eu168
+gd144
+gd145
+gd146
+gd147
+gd148
+gd149
+gd150
+gd151
+gd152
+gd153
+gd154
+gd155
+gd156
+gd157
+gd158
+gd159
+gd160
+gd161
+gd162
+gd163
+gd164
+gd165
+gd166
+gd167
+gd168
+gd169
+gd170
+tb146
+tb147
+tb148
+tb149
+tb150
+tb151
+tb152
+tb153
+tb154
+tb155
+tb156
+tb157
+tb158
+tb159
+tb160
+tb161
+tb162
+tb163
+tb164
+tb165
+tb166
+tb167
+tb168
+tb169
+tb170
+tb171
+tb172
+dy149
+dy150
+dy151
+dy152
+dy153
+dy154
+dy155
+dy156
+dy157
+dy158
+dy159
+dy160
+dy161
+dy162
+dy163
+dy164
+dy165
+dy166
+dy167
+dy168
+dy169
+dy170
+dy171
+dy172
+dy173
+dy174
+dy175
+ho152
+ho153
+ho154
+ho155
+ho156
+ho157
+ho158
+ho159
+ho160
+ho161
+ho162
+ho163
+ho164
+ho165
+ho166
+ho167
+ho168
+ho169
+ho170
+ho171
+ho172
+ho173
+ho174
+ho175
+ho176
+ho177
+ho178
+er154
+er155
+er156
+er157
+er158
+er159
+er160
+er161
+er162
+er163
+er164
+er165
+er166
+er167
+er168
+er169
+er170
+er171
+er172
+er173
+er174
+er175
+er176
+er177
+er178
+er179
+er180
+er181
+tm157
+tm158
+tm159
+tm160
+tm161
+tm162
+tm163
+tm164
+tm165
+tm166
+tm167
+tm168
+tm169
+tm170
+tm171
+tm172
+tm173
+tm174
+tm175
+tm176
+tm177
+tm178
+tm179
+tm180
+tm181
+tm182
+tm183
+tm184
+yb159
+yb160
+yb161
+yb162
+yb163
+yb164
+yb165
+yb166
+yb167
+yb168
+yb169
+yb170
+yb171
+yb172
+yb173
+yb174
+yb175
+yb176
+yb177
+yb178
+yb179
+yb180
+yb181
+yb182
+yb183
+yb184
+yb185
+yb186
+yb187
+yb188
+lu162
+lu163
+lu164
+lu165
+lu166
+lu167
+lu168
+lu169
+lu170
+lu171
+lu172
+lu173
+lu174
+lu175
+lu176
+lu177
+lu178
+lu179
+lu180
+lu181
+lu182
+lu183
+lu184
+lu185
+lu186
+lu187
+lu188
+lu189
+lu190
+lu191
+hf165
+hf166
+hf167
+hf168
+hf169
+hf170
+hf171
+hf172
+hf173
+hf174
+hf175
+hf176
+hf177
+hf178
+hf179
+hf180
+hf181
+hf182
+hf183
+hf184
+hf185
+hf186
+hf187
+hf188
+hf189
+hf190
+hf191
+hf192
+hf193
+hf194
+ta169
+ta170
+ta171
+ta172
+ta173
+ta174
+ta175
+ta176
+ta177
+ta178
+ta179
+ta180
+ta181
+ta182
+ta183
+ta184
+ta185
+ta186
+ta187
+ta188
+ta189
+ta190
+ta191
+ta192
+ta193
+ta194
+ta195
+ta196
+ta197
+ w172
+ w173
+ w174
+ w175
+ w176
+ w177
+ w178
+ w179
+ w180
+ w181
+ w182
+ w183
+ w184
+ w185
+ w186
+ w187
+ w188
+ w189
+ w190
+ w191
+ w192
+ w193
+ w194
+ w195
+ w196
+ w197
+ w198
+ w199
+ w200
+ w201
+re174
+re175
+re176
+re177
+re178
+re179
+re180
+re181
+re182
+re183
+re184
+re185
+re186
+re187
+re188
+re189
+re190
+re191
+re192
+re193
+re194
+re195
+re196
+re197
+re198
+re199
+re200
+re201
+re202
+re203
+re204
+os177
+os178
+os179
+os180
+os181
+os182
+os183
+os184
+os185
+os186
+os187
+os188
+os189
+os190
+os191
+os192
+os193
+os194
+os195
+os196
+os197
+os198
+os199
+os200
+os201
+os202
+os203
+os204
+os205
+os206
+os207
+ir180
+ir181
+ir182
+ir183
+ir184
+ir185
+ir186
+ir187
+ir188
+ir189
+ir190
+ir191
+ir192
+ir193
+ir194
+ir195
+ir196
+ir197
+ir198
+ir199
+ir200
+ir201
+ir202
+ir203
+ir204
+ir205
+ir206
+ir207
+ir208
+ir209
+ir210
+pt183
+pt184
+pt185
+pt186
+pt187
+pt188
+pt189
+pt190
+pt191
+pt192
+pt193
+pt194
+pt195
+pt196
+pt197
+pt198
+pt199
+pt200
+pt201
+pt202
+pt203
+pt204
+pt205
+pt206
+pt207
+pt208
+pt209
+pt210
+pt211
+pt212
+pt213
+au185
+au186
+au187
+au188
+au189
+au190
+au191
+au192
+au193
+au194
+au195
+au196
+au197
+au198
+au199
+au200
+au201
+au202
+au203
+au204
+au205
+au206
+au207
+au208
+au209
+au210
+au211
+au212
+au213
+au214
+au215
+hg189
+hg190
+hg191
+hg192
+hg193
+hg194
+hg195
+hg196
+hg197
+hg198
+hg199
+hg200
+hg201
+hg202
+hg203
+hg204
+hg205
+hg206
+hg207
+hg208
+hg209
+hg210
+hg211
+hg212
+hg213
+hg214
+hg215
+hg216
+hg217
+tl194
+tl195
+tl196
+tl197
+tl198
+tl199
+tl200
+tl201
+tl202
+tl203
+tl204
+tl205
+tl206
+tl207
+tl208
+tl209
+tl210
+tl211
+tl212
+tl213
+tl214
+tl215
+tl216
+tl217
+tl218
+pb197
+pb198
+pb199
+pb200
+pb201
+pb202
+pb203
+pb204
+pb205
+pb206
+pb207
+pb208
+pb209
+pb210
+pb211
+pb212
+pb213
+pb214
+pb215
+pb216
+pb217
+pb218
+pb219
+bi200
+bi201
+bi202
+bi203
+bi204
+bi205
+bi206
+bi207
+bi208
+bi209
+bi210
+bi211
+bi212
+bi213
+bi214
+bi215
+bi216
+bi217
+bi218
+bi219
+bi220
+po205
+po206
+po207
+po208
+po209
+po210
+po211
+po212
+po213
+po214
+po215
+po216
+po217
+po218
+po219
+po220
+po221
+at208
+at209
+at210
+at211
+at212
+at213
+at214
+at215
+at216
+at217
+at218
+at219
+at220
+at221
+at222
+rn204
+rn205
+rn206
+rn207
+rn208
+rn209
+rn210
+rn211
+rn212
+rn213
+rn214
+rn215
+rn216
+rn217
+rn218
+rn219
+rn220
+rn221
+rn222
+rn223
+fr207
+fr208
+fr209
+fr210
+fr211
+fr212
+fr213
+fr214
+fr215
+fr216
+fr217
+fr218
+fr219
+fr220
+fr221
+fr222
+fr223
+fr224
+ra210
+ra211
+ra212
+ra213
+ra214
+ra215
+ra216
+ra217
+ra218
+ra219
+ra220
+ra221
+ra222
+ra223
+ra224
+ra225
+ac213
+ac214
+ac215
+ac216
+ac217
+ac218
+ac219
+ac220
+ac221
+ac222
+ac223
+ac224
+ac225
+ac226
+th216
+th217
+th218
+th219
+th220
+th221
+th222
+th223
+th224
+th225
+th226
+th227
