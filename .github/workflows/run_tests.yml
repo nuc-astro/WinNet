@@ -48,6 +48,8 @@ jobs:
       run: |
         source /opt/intel/oneapi/setvars.sh
         printenv >> $GITHUB_ENV
+        whereis ifx
+        whereis ifort
         sed 's/-DVERS=$(GIT_VERSION)/-Warn\ all\ -check\ all\ -fp-stack-check\ -extend-source\ -init=snan,arrays\ -DVERS=$(GIT_VERSION)/g' -i Makefile.example
         sed 's/-O3/-O0/g' -i Makefile.example
         make -f Makefile.example -j2
