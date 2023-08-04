@@ -26,8 +26,8 @@ ARCH = 64
 # below.
 
 #>>> Compiler and linker: ifort, ifx, h5fc, h5pfc, or gfortran so far
-# FC = ifort
-FC = ifx
+FC = ifort
+# FC = ifx
 # FC = h5fc
 # FC = h5pfc
 # FC = gfortran

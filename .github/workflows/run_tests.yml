@@ -40,16 +40,8 @@ jobs:
         sudo echo "deb https://apt.repos.intel.com/oneapi all main" | sudo tee /etc/apt/sources.list.d/oneAPI.list
         sudo apt-get update
         sudo apt-get install -y intel-oneapi-common-vars
-        sudo apt-get install -y intel-oneapi-mkl
-        sudo apt-get install -y intel-oneapi-compiler-fortran
-
-        # Fix the latest folder.
-        # In version 2023.2.1 the 'latest/' folder is not linked correctly.
-        # We may be able to remove the following in the future.
-        cd /opt/intel/oneapi/compiler
-        latest=$(ls -rd */ | grep -v '^latest/$' | head -n1)
-        sudo ln -sf $latest latest
-        cd -
+        sudo apt-get install -y intel-oneapi-mkl-2023.1.0
+        sudo apt-get install -y intel-oneapi-compiler-fortran-2023.1.0
 
     - name: Compile (ifort)
       timeout-minutes: 2
