@@ -20,12 +20,13 @@ module error_msg_class
   integer,parameter :: error_id=0          !< Default standard error unit in fortran
 
   logical,private   :: write_header_init=.True. !< Init flag for write_data_to_std_out
+  logical,public    :: data_creation_mode=.False. !< Flag for rate creation mode
   !
   ! Public fields and methods of the module (every routine is public)
   !
   public:: &
      raise_exception, num_to_str, int_to_str, write_data_to_std_out, str_to_float,&
-     str_to_int
+     str_to_int, write_final_stats_rate_creation
   private::&
      write_header
 contains
@@ -56,6 +57,10 @@ subroutine write_header()
 
    write(*,*) "              WinNet - Nuclear reaction network"
    write(*,*) "             ==================================="
+   if (data_creation_mode) then
+       write(*,*) "                     (Data creation mode)"
+   end if
+
    write(*,*) ""
    write(*,*) ""
    msg       = "Option"
@@ -74,6 +79,28 @@ subroutine write_header()
 #endif
 
 end subroutine write_header
+
+
+!> Write the final stats for rate creation
+!!
+!! This subroutine writes the final stats when
+!! only creating a folder with prepared binary data.
+!!
+!! @author M. Reichert
+!! @date 22.07.23
+subroutine write_final_stats_rate_creation
+    implicit none
+
+    INFO_ENTRY('write_final_stats_rate_creation')
+
+    write(*,'(A)') '----------------------------------'
+    write(*,'(A)') 'Finshed data creation succesfully.'
+
+
+    INFO_EXIT('write_final_stats_rate_creation')
+
+end subroutine write_final_stats_rate_creation
+
 
 
 !> Write data to the standard output (usually _OUT_)

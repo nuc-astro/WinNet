@@ -5,7 +5,7 @@ A flexible, multi-purpose, single-zone nuclear reaction network.
 
 
 ## Documentation
-See [WinNet-documentation](https://nuc-astro.github.io/WinNet/) for documentation and further information.
+See [WinNet-documentation](https://nuc-astro.github.io/codes-WinNet/) for documentation and further information.
 
 
 ## Literature

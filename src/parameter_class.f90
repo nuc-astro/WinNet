@@ -8,7 +8,6 @@
 !> Contains all runtime parameters as well as phys and math constants
 !!
 !! Contains the following definitions:
-!! \li the 'kind' attribute for all real types used throught the code;
 !! \li all runtime simulation parameters;
 !! \li mathematical and physical constants.
 !!
@@ -92,6 +91,7 @@ module parameter_class
   logical                 :: read_initial_composition       !< specify whether initial distribution of abundances should be read from file
   logical                 :: use_tabulated_rates            !< switch for using tabulated rates (e.g. talysNGrates.dat)
   logical                 :: use_beta_decay_file            !< switch for using different format for beta decays
+  logical                 :: use_prepared_network           !< Use a prepared folder with all necessary data in binary format
   character(max_fname_len):: beta_decay_src_ignore          !< Source flag(s) to ignore within the beta decay file
   logical                 :: use_timmes_mue                 !< Use electron chemical potentials from timmes EOS for theoretical weak rates
   logical                 :: use_detailed_balance           !< Calculate the inverse reactions via detailed balance rather than using them form file
@@ -182,12 +182,17 @@ module parameter_class
   character(max_fname_len):: Lxbar                          !< Muon and Tauon  antineutrino luminosities [erg/s]
   character(max_fname_len):: Enux                           !< average Muon and Tauon neutrino energies [MeV]
   character(max_fname_len):: Enuxbar                        !< average Muon and Tauon antineutrino energies [MeV]
+  character(max_fname_len):: prepared_network_path          !< Prepared network folder
 
 !>-- Newton-Raphson iterative loop parameters
   integer                  :: nr_maxcount             !< no more that this many iterations in NR
   integer                  :: nr_mincount             !< Minimum iterations in NR
   real(r_kind)             :: nr_tol                  !< exit NR if tolerance less than this value
   integer                  :: adapt_stepsize_maxcount !< max. iterations in adapting the stepsize
+
+!> other static variables
+  character(len=*), private, parameter   :: par_binary_name='parameter.windat'
+
 
 !>-- parameters for efficient numerical integration of effphase in the interval [1,infinity]
   real(r_kind), dimension(:), allocatable :: weights  !< weights for the numerical integration
@@ -199,6 +204,14 @@ module parameter_class
   real(r_kind), dimension(:,:), allocatable :: Mcc
 
 contains
+
+
+
+
+
+
+
+
 
 !>
 !! Declares values for the elements in unit_type
@@ -308,47 +321,135 @@ subroutine set_param(param_name,param_value)
    !
    character(9999)         :: all_possible_par
    character(*), parameter :: integer_params =  &
-      ":out_every:snapshot_every:nrdiag_every:mainout_every:iwformat:timescales_every" // &
-      ":nuflag:fissflag:termination_criterion:flow_every:expansiontype:h_snapshot_every" // &
-      ":track_nuclei_every:nr_maxcount:adapt_stepsize_maxcount:extrapolation_width:solver" // &
-      ":nse_calc_every:engen_every:top_engen_every:h_mainout_every:h_track_nuclei_every"//&
-      ":h_timescales_every:h_flow_every:h_engen_every:gear_nr_maxcount:iwinterp:heating_mode"//&
-      ":nr_mincount:gear_nr_mincount:alpha_decay_zmin:alpha_decay_zmax:nse_max_it:screening_mode"//&
-      ":nu_loss_every:h_nu_loss_every:interp_mode:nse_solver"
+      ":out_every" // &
+      ":snapshot_every" // &
+      ":nrdiag_every" // &
+      ":mainout_every" // &
+      ":iwformat" // &
+      ":timescales_every" // &
+      ":nuflag" // &
+      ":fissflag" // &
+      ":termination_criterion" // &
+      ":flow_every" // &
+      ":expansiontype" // &
+      ":h_snapshot_every" // &
+      ":track_nuclei_every" // &
+      ":nr_maxcount" // &
+      ":adapt_stepsize_maxcount" // &
+      ":extrapolation_width" // &
+      ":solver" // &
+      ":nse_calc_every" // &
+      ":engen_every" // &
+      ":top_engen_every" // &
+      ":h_mainout_every" // &
+      ":h_track_nuclei_every"//&
+      ":h_timescales_every" // &
+      ":h_flow_every" // &
+      ":h_engen_every" // &
+      ":gear_nr_maxcount" // &
+      ":iwinterp" // &
+      ":heating_mode"//&
+      ":nr_mincount" // &
+      ":gear_nr_mincount" // &
+      ":alpha_decay_zmin" // &
+      ":alpha_decay_zmax" // &
+      ":nse_max_it" // &
+      ":screening_mode"//&
+      ":nu_loss_every" // &
+      ":h_nu_loss_every" // &
+      ":interp_mode" // &
+      ":nse_solver"
    character(*), parameter :: real_params =  &
-      ":temp_reload_exp_weak_rates:engen:initemp_cold:initemp_hot:nsetemp_cold" // &
-      ":nsetemp_hot:heating_frac:nse_descend_t9start"    // &
-      ":t_analytic:gear_eps:gear_escale:gear_cFactor:gear_nr_eps"// &
-      ":timestep_max:timestep_factor:timestep_Ymin"// &
-      ":nr_tol:timestep_hydro_factor:final_time:final_temp:final_dens"// &
-      ":initial_stepsize:freeze_rate_temp:nse_nr_tol:nse_delt_t9min"//&
+      ":temp_reload_exp_weak_rates" // &
+      ":engen"// &
+      ":initemp_cold"// &
+      ":initemp_hot"// &
+      ":nsetemp_cold" // &
+      ":nsetemp_hot"// &
+      ":heating_frac"// &
+      ":nse_descend_t9start" // &
+      ":t_analytic"// &
+      ":gear_eps"// &
+      ":gear_escale"// &
+      ":gear_cFactor"// &
+      ":gear_nr_eps" // &
+      ":timestep_max"// &
+      ":timestep_factor"// &
+      ":timestep_Ymin"// &
+      ":nr_tol"// &
+      ":timestep_hydro_factor"// &
+      ":final_time"// &
+      ":final_temp"// &
+      ":final_dens" // &
+      ":initial_stepsize"// &
+      ":freeze_rate_temp"// &
+      ":nse_nr_tol"// &
+      ":nse_delt_t9min" // &
       ":heating_density"
    character(*), parameter :: logical_params =  &
-      ":read_initial_composition:use_htpf:h_finab" // &
+      ":read_initial_composition" // &
+      ":use_htpf" // &
+      ":h_finab" // &
       ":gear_ignore_adapt_stepsize" // &
-      ":calc_nsep_energy:timestep_traj_limit"    // &
-      ":custom_snapshots:h_custom_snapshots" // &
-      ":h_engen_detailed:use_detailed_balance:use_timmes_mue" // &
+      ":calc_nsep_energy" // &
+      ":timestep_traj_limit" // &
+      ":custom_snapshots" // &
+      ":h_custom_snapshots" // &
+      ":h_engen_detailed" // &
+      ":use_detailed_balance" // &
+      ":use_timmes_mue" // &
       ":use_detailed_balance_q_reac" // &
-      ":use_tabulated_rates:use_beta_decay_file" //&
-      ":use_alpha_decay_file:alpha_decay_ignore_all"//&
-      ":use_neutrino_loss_file:use_thermal_nu_loss"
+      ":use_tabulated_rates" // &
+      ":use_beta_decay_file" //&
+      ":use_alpha_decay_file" // &
+      ":alpha_decay_ignore_all"//&
+      ":use_neutrino_loss_file" // &
+      ":use_thermal_nu_loss"//&
+      ":use_prepared_network"
    character(*), parameter :: string_params =  &
-      ":trajectory_file:seed_file:net_source:isotopes_file" // &
-      ":htpf_file:reaclib_file:fission_rates:weak_rates_file" // &
-      ":chem_pot_file:nsep_energies_file:alpha_decay_src_ignore" // &
-      ":nunucleo_rates_file:nuchannel_file"      // &
-      ":nfission_file:bfission_file"          // &
-      ":trajectory_mode:trajectory_format"            // &
-      ":track_nuclei_file:nurates_file"          // &
-      ":snapshot_file:beta_decay_file:neutrino_mode"  // &
-      ":T9_analytic:rho_analytic:Rkm_analytic:Ye_analytic" // &
-      ":Le:Lebar:Enue:Enuebar:seed_format" // &
-      ":Lx:Lxbar:Enux:Enuxbar:alpha_decay_file" // &
-      ":detailed_balance_src_ignore:detailed_balance_src_q_reac"//&
+      ":trajectory_file" // &
+      ":seed_file" // &
+      ":net_source" // &
+      ":isotopes_file" // &
+      ":htpf_file" // &
+      ":reaclib_file" // &
+      ":fission_rates" // &
+      ":weak_rates_file" // &
+      ":chem_pot_file" // &
+      ":nsep_energies_file" // &
+      ":alpha_decay_src_ignore" // &
+      ":nunucleo_rates_file" // &
+      ":nuchannel_file" // &
+      ":nfission_file" // &
+      ":bfission_file" // &
+      ":trajectory_mode" // &
+      ":trajectory_format" // &
+      ":track_nuclei_file" // &
+      ":nurates_file" // &
+      ":snapshot_file" // &
+      ":beta_decay_file" // &
+      ":neutrino_mode" // &
+      ":T9_analytic" // &
+      ":rho_analytic" // &
+      ":Rkm_analytic" // &
+      ":Ye_analytic" // &
+      ":Le" // &
+      ":Lebar" // &
+      ":Enue" // &
+      ":Enuebar" // &
+      ":seed_format" // &
+      ":Lx" // &
+      ":Lxbar" // &
+      ":Enux" // &
+      ":Enuxbar" // &
+      ":alpha_decay_file" // &
+      ":detailed_balance_src_ignore" // &
+      ":detailed_balance_src_q_reac" // &
       ":detailed_balance_src_q_winvn" // &
-      ":tabulated_rates_file:beta_decay_src_ignore" // &
-      ":neutrino_loss_file"
+      ":tabulated_rates_file" // &
+      ":beta_decay_src_ignore" // &
+      ":neutrino_loss_file" // &
+      ":prepared_network_path"
 
    logical         :: lparam_value
    integer         :: i2
@@ -531,6 +632,8 @@ subroutine set_param(param_name,param_value)
      use_tabulated_rates= lparam_value
    elseif(param_name.eq."use_beta_decay_file") then
      use_beta_decay_file= lparam_value
+   elseif(param_name.eq."use_prepared_network") then
+     use_prepared_network= lparam_value
    elseif(param_name.eq."use_alpha_decay_file") then
      use_alpha_decay_file= lparam_value
    elseif(param_name.eq."use_detailed_balance") then
@@ -572,6 +675,8 @@ subroutine set_param(param_name,param_value)
      net_source= trim(str_value)
    elseif(param_name.eq."isotopes_file") then
      isotopes_file= trim(str_value)
+   elseif(param_name.eq."prepared_network_path") then
+     prepared_network_path= trim(str_value)
    elseif(param_name.eq."htpf_file") then
      htpf_file= trim(str_value)
    elseif(param_name.eq."reaclib_file") then
@@ -829,6 +934,7 @@ subroutine set_default_param
    h_track_nuclei_every        = 0
    top_engen_every             = 0
    track_nuclei_file           = "track_nuclei_file"
+   prepared_network_path       = "None"
    trajectory_format           = "time temp dens rad ye"
    trajectory_mode             = "from_file"
    trajectory_file             = "shock.dat"
@@ -838,6 +944,7 @@ subroutine set_default_param
    use_htpf                    = .false.
    use_tabulated_rates         = .false.
    use_beta_decay_file         = .false.
+   use_prepared_network        = .false.
    use_alpha_decay_file        = .false.
    use_thermal_nu_loss         = .True.
    use_timmes_mue              = .True.
@@ -949,6 +1056,7 @@ subroutine output_param
            write(ofile,'(3A)') 'nunucleo_rates_file         = "', trim(nunucleo_rates_file),'"'
            write(ofile,'(3A)') 'nurates_file                = "', trim(nurates_file),'"'
          write(ofile,'(A,I5)') 'out_every                   = ' , out_every
+           write(ofile,'(3A)') 'prepared_network_path       = "', trim(prepared_network_path),'"'
            write(ofile,'(3A)') 'reaclib_file                = "', trim(reaclib_file),'"'
            write(ofile,'(2A)') 'read_initial_composition    = ' , yesno(read_initial_composition)
            write(ofile,'(3A)') 'rho_analytic                = "', trim(rho_analytic),'"'
@@ -982,12 +1090,12 @@ subroutine output_param
            write(ofile,'(2A)') 'use_detailed_balance_q_reac = ' , yesno(use_detailed_balance_q_reac)
            write(ofile,'(2A)') 'use_htpf                    = ' , yesno(use_htpf)
            write(ofile,'(2A)') 'use_neutrino_loss_file      = ' , yesno(use_neutrino_loss_file)
+           write(ofile,'(2A)') 'use_prepared_network        = ' , yesno(use_prepared_network)
            write(ofile,'(2A)') 'use_tabulated_rates         = ' , yesno(use_tabulated_rates)
            write(ofile,'(2A)') 'use_thermal_nu_loss         = ' , yesno(use_thermal_nu_loss)
            write(ofile,'(2A)') 'use_timmes_mue              = ' , yesno(use_timmes_mue)
            write(ofile,'(3A)') 'weak_rates_file             = "', trim(weak_rates_file),'"'
            write(ofile,'(3A)') 'Ye_analytic                 = "', trim(Ye_analytic),'"'
-
 
      close(ofile)
   end if
@@ -1008,6 +1116,7 @@ end subroutine output_param
 !! .
 subroutine check_param
    implicit none
+   integer :: help_int !< Helper integer
 
    ! NSE temperatures are not set correct
    if (nsetemp_cold .gt. nsetemp_hot) then
@@ -1045,6 +1154,19 @@ subroutine check_param
                          'but the trajectory mode is set to "analytic".',&
                          "check_param",340009)
    end if
+
+   ! Ensure that prepared_network_path ends with a slash, i.e., that it is a folder
+   if (use_prepared_network) then
+       help_int = len(trim(adjustl(prepared_network_path)))
+       if (prepared_network_path(help_int:help_int) .ne. "/") then
+        prepared_network_path = trim(adjustl(prepared_network_path))//"/"
+       end if
+   end if
+
+
+   ! Check that there are no inconsistencies in the parameters of the prepared binary files
+   ! and the parameter file
+   call read_sanity_check_prepared_network()
 
 end subroutine check_param
 
@@ -1186,6 +1308,268 @@ function LevenshteinDistance(par1,par2) result(dist)
 end function LevenshteinDistance
 
 
+!> Read important parameters from a binary file and check for consistency
+!!
+!! This routine reads important parameters from a binary file and checks
+!! if they are consistent with the current run. This is done to check if
+!! the binary files are compatible with the current parameter file.
+!!
+!! @note This routine is only called if the parameter "use_prepared_network"
+!!      is set to ".true."
+!!
+!! @author M. Reichert
+!! @date 21.07.23
+subroutine read_sanity_check_prepared_network
+    use file_handling_class, only: open_unformatted_infile
+    use error_msg_class,     only: raise_exception, int_to_str, data_creation_mode
+    implicit none
+    ! Internal variables
+    integer                      :: file_id     !< File ID
+    integer                      :: int_helper  !< Integer helper
+    logical                      :: log_helper  !< logical helper
+
+    if (use_prepared_network) then
+        ! Only check if the file exists otherwise other errors may be thrown or
+        ! use_prepared_network may be set to false later on for the preparation step
+        inquire(file=trim(adjustl(prepared_network_path))//trim(adjustl(par_binary_name)),exist=log_helper)
+
+        if ((.not. log_helper) .or. (data_creation_mode)) then
+            return
+        end if
+
+        ! Open an unformatted file
+        file_id = open_unformatted_infile(trim(adjustl(prepared_network_path))//trim(adjustl(par_binary_name)))
+        read(file_id) int_helper
+        if (int_helper .ne. nuflag) then
+            call raise_exception("The prepared network file does not match the nuflag of the current run. "// &
+                                 "Got "//int_to_str(nuflag)//" and expected "//int_to_str(int_helper)//". "//&
+                                 "Please check the prepared network file.",&
+                                 "read_sanity_check_prepared_network",340010)
+        end if
+        read(file_id) int_helper
+        if (int_helper .ne. fissflag) then
+            call raise_exception("The prepared network file does not match the fissflag of the current run. "// &
+                                 "Got "//int_to_str(fissflag)//" and expected "//int_to_str(int_helper)//". "//&
+                                 "Please check the prepared network file.",&
+                                 "read_sanity_check_prepared_network",340010)
+        end if
+        read(file_id) int_helper
+        if (int_helper .ne. iwformat) then
+            call raise_exception("The prepared network file does not match the iwformat of the current run. "// &
+                                 "Got "//int_to_str(iwformat)//" and expected "//int_to_str(int_helper)//". "//&
+                                 "Please check the prepared network file.",&
+                                 "read_sanity_check_prepared_network",340010)
+        end if
+        read(file_id) int_helper
+        if (int_helper .ne. iwinterp) then
+            call raise_exception("The prepared network file does not match the iwinterp of the current run. "// &
+                                 "Got "//int_to_str(iwinterp)//" and expected "//int_to_str(int_helper)//". "//&
+                                 "Please check the prepared network file.",&
+                                 "read_sanity_check_prepared_network",340010)
+        end if
+        read(file_id) log_helper
+        if (log_helper .neqv. use_alpha_decay_file) then
+            call raise_exception("The prepared network file does not match the use_alpha_decay_file of the current run. "// &
+                                 "Please check the prepared network file.",&
+                                 "read_sanity_check_prepared_network",340010)
+        end if
+        read(file_id) log_helper
+        if (log_helper .neqv. use_beta_decay_file) then
+            call raise_exception("The prepared network file does not match the use_beta_decay_file of the current run. "// &
+                                 "Please check the prepared network file.",&
+                                 "read_sanity_check_prepared_network",340010)
+        end if
+        read(file_id) log_helper
+        if (log_helper .neqv. use_tabulated_rates) then
+            call raise_exception("The prepared network file does not match the use_tabulated_rates of the current run. "// &
+                                 "Please check the prepared network file.",&
+                                 "read_sanity_check_prepared_network",340010)
+        end if
+        read(file_id) log_helper
+        if (log_helper .neqv. use_detailed_balance) then
+            call raise_exception("The prepared network file does not match the use_detailed_balance of the current run. "// &
+                                 "Please check the prepared network file.",&
+                                 "read_sanity_check_prepared_network",340010)
+        end if
+        read(file_id) log_helper
+        if (log_helper .neqv. use_neutrino_loss_file) then
+            call raise_exception("The prepared network file does not match the use_neutrino_loss_file of the current run. "// &
+                                 "Please check the prepared network file.",&
+                                 "read_sanity_check_prepared_network",340010)
+        end if
+        read(file_id) log_helper
+        if (log_helper .neqv. use_htpf) then
+            call raise_exception("The prepared network file does not match the use_htpf of the current run. "// &
+                                 "Please check the prepared network file.",&
+                                 "read_sanity_check_prepared_network",340010)
+        end if
+        read(file_id) log_helper
+        if (log_helper .neqv. use_timmes_mue) then
+            call raise_exception("The prepared network file does not match the use_timmes_mue of the current run. "// &
+                                 "Please check the prepared network file.",&
+                                 "read_sanity_check_prepared_network",340010)
+        end if
+
+        close(file_id)
+
+    end if
+end subroutine read_sanity_check_prepared_network
+
+
+
+!>
+!! Output relevant parameters to a file in the prepared network path
+!!
+!! Parameters are sorted according to category
+!!
+subroutine output_param_prepared_network(path)
+    use file_handling_class
+    implicit none
+    !
+    character(len=*), intent(in) :: path !< Path to the output directory
+    integer :: ofile
+    character(3) :: yesno
+
+      ofile= open_outfile(path//"Information.out")
+
+      ! Write header
+      write(ofile,'(A)') 'Folder containing network and reaction data in unformatted binary format.'
+      write(ofile,'(A)') ''
+      write(ofile,'(A)') ''
+      write(ofile,'(A)') 'The following list contains relevant parameters that were used to create the network data:'
+      write(ofile,'(A)') '=========================================================================================='
+      write(ofile,'(A)') ''
+
+      ! General files
+      write(ofile,'(3A)') 'isotopes_file               = "', trim(isotopes_file),'"'
+      write(ofile,'(3A)') 'net_source                  = "', trim(net_source),'"'
+      write(ofile,'(3A)') 'reaclib_file                = "', trim(reaclib_file),'"'
+      write(ofile,'(A)') ''
+
+
+      ! Additional alpha decays
+      write(ofile,'(2A)') 'use_alpha_decay_file        = ' , yesno(use_alpha_decay_file)
+      if (use_alpha_decay_file) then
+            write(ofile,'(2A)') 'alpha_decay_ignore_all      = ' , yesno(alpha_decay_ignore_all)
+            write(ofile,'(3A)') 'alpha_decay_src_ignore      = "', trim(alpha_decay_src_ignore),'"'
+            write(ofile,'(3A)') 'alpha_decay_file            = "', trim(alpha_decay_file),'"'
+          write(ofile,'(A,I5)') 'alpha_decay_zmax            = ' , alpha_decay_zmax
+          write(ofile,'(A,I5)') 'alpha_decay_zmin            = ' , alpha_decay_zmin
+      end if
+      write(ofile,'(A)') ''
+
+
+      ! Additional beta decays
+      write(ofile,'(2A)') 'use_beta_decay_file         = ' , yesno(use_beta_decay_file)
+      if (use_beta_decay_file) then
+            write(ofile,'(3A)') 'beta_decay_file             = "', trim(beta_decay_file),'"'
+            write(ofile,'(3A)') 'beta_decay_src_ignore       = "', trim(beta_decay_src_ignore),'"'
+      end if
+      write(ofile,'(A)') ''
+
+
+      ! Include detailed balance
+      write(ofile,'(2A)') 'use_detailed_balance        = ' , yesno(use_detailed_balance)
+      if (use_detailed_balance) then
+        write(ofile,'(2A)') 'use_detailed_balance_q_reac = ' , yesno(use_detailed_balance_q_reac)
+        write(ofile,'(3A)') 'detailed_balance_src_ignore = "', trim(detailed_balance_src_ignore),'"'
+        write(ofile,'(3A)') 'detailed_balance_src_q_reac = "', trim(detailed_balance_src_q_reac),'"'
+        write(ofile,'(3A)') 'detailed_balance_src_q_winvn= "', trim(detailed_balance_src_q_winvn),'"'
+      end if
+      write(ofile,'(A)') ''
+
+
+      ! Theoretical weak reates
+      write(ofile,'(A,I1)') 'iwformat                    = ' , iwformat
+      if (iwformat .gt. 0) then
+        write(ofile,'(A,I1)') 'iwinterp                    = ' , iwinterp
+          write(ofile,'(3A)') 'weak_rates_file             = "', trim(weak_rates_file),'"'
+          write(ofile,'(3A)') 'chem_pot_file               = "', trim(chem_pot_file),'"'
+          write(ofile,'(2A)') 'use_timmes_mue              = ' , yesno(use_timmes_mue)
+      end if
+      write(ofile,'(A)') ''
+
+
+      ! Tabulated rates
+      write(ofile,'(2A)') 'use_tabulated_rates         = ' , yesno(use_tabulated_rates)
+      if (use_tabulated_rates) then
+        write(ofile,'(3A)') 'tabulated_rates_file        = "', trim(tabulated_rates_file),'"'
+      end if
+      write(ofile,'(A)') ''
+
+      ! High temperature partition functions
+      write(ofile,'(2A)') 'use_htpf                    = ' , yesno(use_htpf)
+      if (use_htpf) then
+        write(ofile,'(3A)') 'htpf_file                   = "', trim(htpf_file),'"'
+      end if
+      write(ofile,'(A)') ''
+
+      ! Neutrinos
+      write(ofile,'(A,I1)') 'nuflag                      = ' , nuflag
+      if ((nuflag) .gt. 0) then
+        write(ofile,'(3A)') 'nunucleo_rates_file         = "', trim(nunucleo_rates_file),'"'
+        if (nuflag .gt. 1) then
+            write(ofile,'(3A)') 'nuchannel_file              = "', trim(nuchannel_file),'"'
+            write(ofile,'(3A)') 'nurates_file                = "', trim(nurates_file),'"'
+        end if
+      end if
+      write(ofile,'(A)') ''
+
+      ! Fission
+      write(ofile,'(A,I1)') 'fissflag                    = ' , fissflag
+      if (fissflag .gt. 0) then
+        write(ofile,'(3A)') 'fission_rates               = "', trim(fission_rates),'"'
+        if (fissflag .gt. 3) then
+            write(ofile,'(3A)') 'nfission_file               = "', trim(nfission_file),'"'
+        end if
+        if (fissflag .eq. 4) then
+            write(ofile,'(3A)') 'bfission_file               = "', trim(bfission_file),'"'
+        end if
+      end if
+      write(ofile,'(A)') ''
+
+      ! Neutrino loss file
+      write(ofile,'(2A)') 'use_neutrino_loss_file      = ' , yesno(use_neutrino_loss_file)
+      if (use_neutrino_loss_file) then
+        write(ofile,'(3A)') 'neutrino_loss_file          = "', trim(neutrino_loss_file),'"'
+      end if
+
+      close(ofile)
+
+ end subroutine output_param_prepared_network
+
+!> Output the parameter data to a binary file
+!!
+!! This routine outputs important parameters to a binary file.
+!! This is exclusively done to check later when reading the binary
+!! rate files.
+!!
+!! @author M. Reichert
+!! @date 21.07.23
+subroutine output_binary_parameter_data(path)
+    use file_handling_class, only: open_unformatted_outfile
+    implicit none
+    ! Internal variables
+    character(len=*), intent(in) :: path !< Path to the output directory
+    integer                      :: file_id !< File ID
+
+    ! Open an unformatted file
+    file_id = open_unformatted_outfile(trim(adjustl(path))//trim(adjustl(par_binary_name)))
+    write(file_id) nuflag
+    write(file_id) fissflag
+    write(file_id) iwformat
+    write(file_id) iwinterp
+    write(file_id) use_alpha_decay_file
+    write(file_id) use_beta_decay_file
+    write(file_id) use_tabulated_rates
+    write(file_id) use_detailed_balance
+    write(file_id) use_neutrino_loss_file
+    write(file_id) use_htpf
+    write(file_id) use_timmes_mue
+
+    close(file_id)
+
+ end subroutine output_binary_parameter_data
 
 
 end module parameter_class

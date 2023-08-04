@@ -160,9 +160,7 @@
    
 \section nfission_file      nfission_file
 
-   Fission fragment probabilities of neutron induced fission. In case of 
-   \ref fissflag equal to 4 (ABLA) this file has to be in the identical format
-   as the \ref bfission_file.
+   Fission fragment probabilities of neutron induced fission. 
    For \ref fissflag equal to 3, the file format has to be as given in 
    [Mumpower et al. 2020](https://journals.aps.org/prc/supplemental/10.1103/PhysRevC.101.054607).
    An example is given by:
@@ -367,14 +365,11 @@
     <tr><td> 2  <td> Kodama-Takahashi            <td>\ref fission_rates                     <td> [Kodama & Takahashi 1975](https://ui.adsabs.harvard.edu/abs/1975NuPhA.239..489K/abstract)
     <tr><td> 3  <td> Mumpower & Kodama-Takahashi <td>\ref fission_rates, \ref nfission_file <td> [Mumpower et al. 2020](https://ui.adsabs.harvard.edu/abs/2020PhRvC.101e4607M/abstract), 
                                                                                                  [Kodama & Takahashi 1975](https://ui.adsabs.harvard.edu/abs/1975NuPhA.239..489K/abstract)
-    <tr><td> 4  <td> ABLA                        <td>\ref fission_rates, \ref nfission_file, \ref bfission_file <td> [Kelic et al. 2009](https://ui.adsabs.harvard.edu/abs/2009arXiv0906.4193K/abstract),
-                                                                                                                     [Panov et al. 2001](https://ui.adsabs.harvard.edu/abs/2001NuPhA.688..587P/abstract)
     </table>
 
     For fission flag 3, the fragments of [Mumpower et al. 2020](https://ui.adsabs.harvard.edu/abs/2020PhRvC.101e4607M/abstract) are used for beta delayed and neutron induced fission. For spontaneous fission
     the fragments of [Kodama & Takahashi 1975](https://ui.adsabs.harvard.edu/abs/1975NuPhA.239..489K/abstract) are used. Also in case of a missing fragment distribution for the rate, the scheme relies on 
-    [Kodama & Takahashi 1975](https://ui.adsabs.harvard.edu/abs/1975NuPhA.239..489K/abstract). In the case of ABLA, the fragment of [Panov et al., Nuc. Phys. A688 2001](https://ui.adsabs.harvard.edu/abs/2001NuPhA.688..587P/abstract)
-    is used for missing fragment distributions.
+    [Kodama & Takahashi 1975](https://ui.adsabs.harvard.edu/abs/1975NuPhA.239..489K/abstract). 
 
     @par Example template line:
        ``` fissflag= 1 ```
@@ -1320,6 +1315,17 @@ An example file looks like:
    `` out_every= 10 ``
    @see parameter_class::out_every, analysis::output_iteration
 
+
+   \section prepared_network_path                  prepared_network_path
+   File to a previously created folder with reaction rate and nuclear data. For more information see
+   the description of the parameter \ref use_prepared_network.
+
+   @par Example template line:
+   `` prepared_network_path= network_data/ ``
+   @see \ref use_prepared_network
+
+
+
    \section reaclib_file               reaclib_file
    Path to a mandatory reaction rate file ([Cyburt et al.2010](https://ui.adsabs.harvard.edu/abs/2010ApJS..189..240C)).
    It contains reaction rates in order to solve the reaction network.
@@ -1895,6 +1901,23 @@ An example file looks like:
    @par Example template line:
     `` use_neutrino_loss_file = yes ``
    @see \ref use_neutrino_loss_file , \ref neutrino_loss_file , \ref heating_mode , \ref heating_frac , \ref beta_decay_file
+
+  \section use_prepared_network   use_prepared_network
+  Whether or not to use a previously prepared folder that contains reaction rates and network data. This is particularly useful
+  if running many trajectories with the same nuclear input as it can significantly speed up the initialization.
+  A folder that contains the data in the necessary format can be created by running winnet with two inputs, i.e.,
+  
+  ``` ./winnet Example.par network_data ```
+  
+  This will create a folder "network_data" with the same nuclear properties that are given in Example.par. The path to this created folder
+  has then to be given within the \ref prepared_network_path parameter. 
+  The makerun.py is able to automatically prepare all necessary files for a run with many trajectories with the --prepared flag. 
+  For more information see the example cases and the help of the makerun.py (accessible via python makerun.py --help).
+  
+  @warning When enabling this option certain other parameters that specify the path to reaction rate files or nuclear data may get ignored. 
+  @par Example template line:
+    `` use_prepared_network = yes ``
+   @see \ref prepared_network_path
 
   \section use_tabulated_rates        use_tabulated_rates
    Whether to use a file with tabulated rates or not. If this parameter is enabled, \ref tabulated_rates_file should be a path to a valid file.

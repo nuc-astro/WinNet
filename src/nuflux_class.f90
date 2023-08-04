@@ -93,13 +93,20 @@ module nuflux_class
 
    logical,private :: include_nc_reactions !< Flag to include neutrino reactions that are not charged current
    integer,private :: n_nuclei,n_anuclei,n_nucleo, n_cc, n_nc
+
+
+   character(len=*), parameter, private:: nu_binary_name = "nu_binary.windat" !< Name of the neutrino binary file
+
    !
    ! Public and private fields and methods of the module.
    !
    public:: &
-         init_nuflux, nutemp, nuflux, nucs, merge_neutrino_rates
+         init_nuflux, nutemp, nuflux, nucs, merge_neutrino_rates, &
+         output_binary_neutrino_reaction_data, calculate_nu_rate
    private:: &
-         write_reac_verbose_out, set_nutype
+         write_reac_verbose_out, set_nutype, &
+         read_binary_neutrino_reaction_data, &
+         read_reactions_sieverding, read_neutrino_rates
 
 contains
 
@@ -116,7 +123,8 @@ contains
 !!    - 25.01.21, MR - Moved the reading of the nu-rates to this place
 !!  .
 subroutine init_nuflux()
-  use parameter_class, only: nuflag
+  use parameter_class, only: nuflag, use_prepared_network, &
+                             prepared_network_path
   implicit none
 
   ! Count individual reaction rates
@@ -138,15 +146,18 @@ subroutine init_nuflux()
         write(lumin_debugfile,'(A)') '   Time [s],  NLume [1/s],   NLumebar [1/s], Fnue, Fnuebar, R[cm]'
      endif
 
-     !-- Read neutrino reactions
-     call read_neutrino_rates()
+     if (use_prepared_network) then
+        call read_binary_neutrino_reaction_data(prepared_network_path)
+     else
+        !-- Read neutrino reactions
+        call read_neutrino_rates()
+     end if
 
      !-- Give output statistics
      call write_reac_verbose_out()
   end if
 
 end subroutine init_nuflux
-
 
 
 !>
@@ -713,6 +724,73 @@ subroutine read_neutrino_rates()
 end subroutine read_neutrino_rates
 
 
+!> Read the reactions from a file in binary format
+!!
+!! This subroutine reads neutrino reactions and all
+!! neutrino data from a binary file. This file has
+!! to be previously prepared.
+!!
+!! @author M. Reichert
+!! @date 21.06.2023
+subroutine read_binary_neutrino_reaction_data(path)
+    use parameter_class,     only: nuflag, max_fname_len
+    use global_class,        only: nurate
+    use file_handling_class, only: open_unformatted_infile
+    implicit none
+    ! Internal variables
+    character(len=*), intent(in) :: path !< Path to the output directory
+    integer                      :: file_id !< File ID
+    integer                      :: alloc_stat !< Allocation status
+
+    if (nuflag .gt. 0) then
+        ! Open an unformatted file
+        file_id = open_unformatted_infile(trim(adjustl(path))//trim(adjustl(nu_binary_name)))
+
+        read(file_id) nnu
+        read(file_id) n_nuclei, n_anuclei, n_nucleo, n_cc, n_nc
+        ! Allocate the arrays
+        allocate(nurate(nnu),stat=alloc_stat)
+        if (alloc_stat .ne. 0) then
+            call raise_exception("Could not allocate nurate array.", &
+                                 "read_binary_neutrino_reaction_data", 330001)
+        end if
+        read(file_id) nurate
+
+        close(file_id)
+    end if
+
+ end subroutine read_binary_neutrino_reaction_data
+
+
+!> Write the reactions to a file in binary format
+!!
+!! This subroutine writes the reactions to a file in binary format.
+!! This is done for preparing a folder with all reaction rates that
+!! can be read in later on from many tracers.
+!!
+!! @author M. Reichert
+!! @date 21.06.2023
+subroutine output_binary_neutrino_reaction_data(path)
+    use parameter_class,     only: nuflag
+    use global_class,        only: nurate
+    use file_handling_class, only: open_unformatted_outfile
+    implicit none
+    ! Internal variables
+    character(len=*), intent(in) :: path !< Path to the output directory
+    integer                      :: file_id !< File ID
+
+    if (nuflag .gt. 0) then
+        ! Open an unformatted file
+        file_id = open_unformatted_outfile(trim(adjustl(path))//trim(adjustl(nu_binary_name)))
+
+        write(file_id) nnu
+        write(file_id) n_nuclei, n_anuclei, n_nucleo, n_cc, n_nc
+        write(file_id) nurate
+
+        close(file_id)
+    end if
+
+ end subroutine output_binary_neutrino_reaction_data
 
 
 !> Read the reactions from a file in the format of Sieverding et al 2018
@@ -1268,6 +1346,7 @@ subroutine merge_neutrino_rates(rrate_array,rrate_length)
    use error_msg_class,  only: raise_exception
    use parameter_class,  only: nuflag
    use mergesort_module, only: rrate_ms,rrate_sort
+   use parameter_class,  only: use_prepared_network
    implicit none
    type(reactionrate_type),dimension(:),allocatable,intent(inout) :: rrate_array  !< Large rate array, containing all reactions
    type(reactionrate_type),dimension(:),allocatable               :: rrate_tmp    !< Temporary rate array
@@ -1275,31 +1354,33 @@ subroutine merge_neutrino_rates(rrate_array,rrate_length)
    integer                                                        :: alloc_stat   !< Allocation state
    integer                                                        :: new_length   !< New length of rrate_array
 
-   if (nuflag .ge. 1) then
-      new_length = rrate_length+nnu
-      if (nnu .ne. 0) then
-        if (.not. allocated(rrate_array)) then
-           !-- Allocate the reaclib rate array
-           allocate(rrate_array(nnu),stat=alloc_stat)
-           if ( alloc_stat /= 0) call raise_exception('Allocation of "rrate_array" failed.',&
-                                                      "merge_neutrino_rates",330001)
-           rrate_array(1:nnu) = rrate_nu(1:nnu)
-           rrate_length = new_length
-        else
-           call rrate_sort(rrate_length,rrate_array(1:rrate_length))
-           call rrate_ms(rrate_array(1:rrate_length),rrate_length,&
-                         rrate_nu,size(rrate_nu),0,new_length,rrate_tmp)
-           rrate_length = new_length
-           ! Reallocate rrate_array with new length
-           if (allocated(rrate_array)) deallocate(rrate_array)
-           allocate(rrate_array(rrate_length),stat=alloc_stat)
-           if ( alloc_stat /= 0) call raise_exception('Allocation of "rrate_array" failed.',&
-                                                      "merge_neutrino_rates",330001)
-           rrate_array(1:rrate_length) = rrate_tmp(1:rrate_length)
+   if (.not. use_prepared_network) then
+    if (nuflag .ge. 1) then
+        new_length = rrate_length+nnu
+        if (nnu .ne. 0) then
+            if (.not. allocated(rrate_array)) then
+            !-- Allocate the reaclib rate array
+            allocate(rrate_array(nnu),stat=alloc_stat)
+            if ( alloc_stat /= 0) call raise_exception('Allocation of "rrate_array" failed.',&
+                                                        "merge_neutrino_rates",330001)
+            rrate_array(1:nnu) = rrate_nu(1:nnu)
+            rrate_length = new_length
+            else
+            call rrate_sort(rrate_length,rrate_array(1:rrate_length))
+            call rrate_ms(rrate_array(1:rrate_length),rrate_length,&
+                            rrate_nu,size(rrate_nu),0,new_length,rrate_tmp)
+            rrate_length = new_length
+            ! Reallocate rrate_array with new length
+            if (allocated(rrate_array)) deallocate(rrate_array)
+            allocate(rrate_array(rrate_length),stat=alloc_stat)
+            if ( alloc_stat /= 0) call raise_exception('Allocation of "rrate_array" failed.',&
+                                                        "merge_neutrino_rates",330001)
+            rrate_array(1:rrate_length) = rrate_tmp(1:rrate_length)
+            end if
+            !-- Deallocate the reaclib rate array
+            deallocate(rrate_nu)
         end if
-        !-- Deallocate the reaclib rate array
-        deallocate(rrate_nu)
-      end if
+    end if
    end if
 
 end subroutine merge_neutrino_rates

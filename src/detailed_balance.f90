@@ -93,12 +93,12 @@ module detailed_balance
     !! @date 04.08.22
     subroutine init_inverse_rates()
       use parameter_class, only: detailed_balance_src_ignore,detailed_balance_src_q_reac,&
-                                 detailed_balance_src_q_winvn
+                                 detailed_balance_src_q_winvn, use_prepared_network
       use nucstuff_class,  only: analyze_src_string
       implicit none
 
       ! Dont do anything if not enabled
-      if (.not. use_detailed_balance) return
+      if ((.not. use_detailed_balance) .or. use_prepared_network) return
 
       INFO_ENTRY("init_inverse_rates")
 
@@ -135,7 +135,7 @@ module detailed_balance
     !! @date 22.07.22
     subroutine merge_inverse_rates(rrate_array,rrate_length)
       use benam_class,     only: getcoefficients
-      use parameter_class, only: use_detailed_balance_q_reac
+      use parameter_class, only: use_detailed_balance_q_reac, use_prepared_network
       implicit none
       ! Declare the pass
       type(reactionrate_type),dimension(:),allocatable,intent(inout) :: rrate_array  !< Large rate array, containing all reactions
@@ -150,7 +150,7 @@ module detailed_balance
       integer,dimension(11)                            :: ignore_inv      !< Ignore these chapters for inverse rates
 
       ! Only do something when parameter is enabled
-      if (.not. use_detailed_balance) return
+      if ((.not. use_detailed_balance) .or. use_prepared_network) return
 
       INFO_ENTRY("merge_inverse_rates")
 

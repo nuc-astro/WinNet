@@ -21,6 +21,8 @@ for p in paths:
     # Skip non folders
     if not os.path.isdir(p):
         continue
+    if p.strip() == "network_data":
+        continue
     if not os.path.isfile(os.path.join(p,"WinNet_data.h5")):
         raise Exception("Could not find WinNet_data.h5 in '"+str(p)+"'. "\
                         "Are you sure you enabled hdf5 output in the makefile "\

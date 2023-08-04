@@ -240,15 +240,14 @@ TESTS += tabulated_rates
 TESTS += ulimit
 TESTS += tw_rate
 TESTS += screening
-#TESTS += flow
 TESTS += beta_decay_format
 TESTS += fissfrag_kodtak
-TESTS += fissfrag_ABLA
 TESTS += fissfrag_panov
 TESTS += fissfrag_mumpower
 TESTS += neutral-current_reaction
 TESTS += charged-current_reaction
 TESTS += nc_cc_reaction
+TESTS += prepared_network
 
 # Physical reference cases
 TESTS += bigbang

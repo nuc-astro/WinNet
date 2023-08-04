@@ -20,6 +20,7 @@ module reaclib_rate_module
   integer,private     :: n_bm,n_bp,n_ad,n_pe,n_ne,n_ec             !< Amount of individual reaction types
   type(reactionrate_type), dimension(:), allocatable, private :: rrate_reaclib !< Reaclib reaction rates
 
+  character(len=*), parameter, private :: rrate_binary_name = "rrate.windat" !< Name of the binary file for rrate array
   real(r_kind),private :: infty
   !
   ! Public and private fields and methods of the module
@@ -41,7 +42,8 @@ contains
 !! @author M. Reichert
 !! @date 25.01.21
 subroutine init_reaclib_rates()
-   use error_msg_class, only: raise_exception
+   use error_msg_class,  only: raise_exception
+   use parameter_class,  only: use_prepared_network, prepared_network_path
    implicit none
    integer    :: alloc_stat  !< Status of allocation
 
@@ -54,16 +56,19 @@ subroutine init_reaclib_rates()
    ! Get a variable for comparison for overflows
    infty = huge(infty)
 
-   !-- Count the amount of rates
-   call count_reaclib_rates()
+   if (use_prepared_network) then
+      call read_binary_reaclib_reaction_data(prepared_network_path)
+   else
+      !-- Count the amount of rates
+      call count_reaclib_rates()
+      !-- Allocate the reaclib rate array
+      allocate(rrate_reaclib(nrea),stat=alloc_stat)
+      if ( alloc_stat /= 0) call raise_exception('Allocation of "rrate_reaclib" failed.',&
+                                                  "init_reaclib_rates",380001)
 
-   !-- Allocate the reaclib rate array
-   allocate(rrate_reaclib(nrea),stat=alloc_stat)
-   if ( alloc_stat /= 0) call raise_exception('Allocation of "rrate_reaclib" failed.',&
-                                              "init_reaclib_rates",380001)
-
-   !-- Read the reaclib rates into rrate_reaclib
-   call read_reaclib()
+      !-- Read the reaclib rates into rrate_reaclib
+      call read_reaclib()
+   end if
 
    call write_reac_verbose_out()
 
@@ -137,7 +142,77 @@ subroutine write_reac_verbose_out()
 end subroutine write_reac_verbose_out
 
 
+!> Read the complete rrate array from a binary file
+!!
+!! This subroutine reads the complete rrate array from a binary file.
+!! The binary file has to be created beforehand. If the binary data is read,
+!! no other data has to be read
+!!
+!! @author M. Reichert
+!! @date 21.07.23
+subroutine read_binary_reaclib_reaction_data(path)
+    use file_handling_class, only: open_unformatted_outfile
+    use global_class,        only: rrate, nreac
+    use error_msg_class,     only: raise_exception
+    implicit none
+    character(len=*), intent(in) :: path
+    integer                      :: file_id
+    integer                      :: alloc_stat
 
+    ! Open an unformatted file
+    file_id = open_unformatted_outfile(trim(adjustl(path))//trim(adjustl(rrate_binary_name)))
+    ! Read reaction info
+    read(file_id) n_ne,n_ng,n_gn,n_ap,n_pa,n_o
+    read(file_id) n_np,n_pn,n_ag,n_ga,n_an,n_na
+    read(file_id) n_pg,n_gp,n_bm,n_bp,n_ad,n_pe
+    read(file_id) n_ec
+    ! Read the amount of reactions
+    read(file_id) nreac
+    nrea = nreac
+    ! Allocate rrate if not already allocated
+    if (.not. allocated(rrate)) then
+        allocate(rrate(nreac),stat=alloc_stat)
+        if ( alloc_stat /= 0) call raise_exception('Allocation of "rrate" failed.',&
+                                                "read_binary_reaclib_reaction_data",380001)
+    end if
+
+    read(file_id) rrate
+
+    close(file_id)
+
+
+end subroutine read_binary_reaclib_reaction_data
+
+
+!> Save the complete rrate array to a binary file
+!!
+!! This subroutine saves the complete rrate array to a binary file.
+!!
+!! @author M. Reichert
+!! @date 21.07.23
+subroutine output_binary_reaclib_reaction_data(path)
+    use file_handling_class, only: open_unformatted_outfile
+    use global_class,        only: rrate, nreac
+    implicit none
+    character(len=*), intent(in) :: path
+    integer                      :: file_id
+
+    ! Open an unformatted file
+    file_id = open_unformatted_outfile(trim(adjustl(path))//trim(adjustl(rrate_binary_name)))
+
+    ! Write reaction info
+    write(file_id) n_ne,n_ng,n_gn,n_ap,n_pa,n_o
+    write(file_id) n_np,n_pn,n_ag,n_ga,n_an,n_na
+    write(file_id) n_pg,n_gp,n_bm,n_bp,n_ad,n_pe
+    write(file_id) n_ec
+    ! Save the path and the format for sanity check
+    write(file_id) nreac
+    write(file_id) rrate
+
+    close(file_id)
+
+
+end subroutine output_binary_reaclib_reaction_data
 
 
 !> Calculate a reaclib rate.
@@ -193,6 +268,7 @@ end subroutine calculate_reacl_rate
 !! @date 25.01.21
 subroutine merge_reaclib_rates(rrate_array,rrate_length)
    use error_msg_class, only: raise_exception
+   use parameter_class, only: use_prepared_network
    implicit none
    type(reactionrate_type),dimension(:),allocatable,intent(inout) :: rrate_array  !< Large rate array, containing all reactions
    integer,intent(inout)                                          :: rrate_length !< length of rrate_array
@@ -200,36 +276,38 @@ subroutine merge_reaclib_rates(rrate_array,rrate_length)
    integer                                                        :: alloc_stat   !< Allocation state
    integer                                                        :: new_length   !< New length of rrate_array
 
-   new_length = rrate_length+nrea
-   if (nrea .ne. 0) then
-     if (.not. allocated(rrate_array)) then
-        !-- Allocate the reaclib rate array
-        allocate(rrate_array(nrea),stat=alloc_stat)
-        if ( alloc_stat /= 0) call raise_exception('Allocation of "rrate_array" failed.',&
-                                                   "merge_reaclib_rates",380001)
-        rrate_array(1:nrea) = rrate_reaclib(1:nrea)
-     else
-        !-- Allocate a temporary array to store the content of rrate_array
-        allocate(rrate_tmp(rrate_length),stat=alloc_stat)
-        if ( alloc_stat /= 0) call raise_exception('Allocation of "rrate_tmp" failed.',&
-                                                   "merge_reaclib_rates",380001)
-        rrate_tmp(1:rrate_length) = rrate_array(1:rrate_length)
+    if (.not. use_prepared_network) then
+        new_length = rrate_length+nrea
+        if (nrea .ne. 0) then
+            if (.not. allocated(rrate_array)) then
+                !-- Allocate the reaclib rate array
+                allocate(rrate_array(nrea),stat=alloc_stat)
+                if ( alloc_stat /= 0) call raise_exception('Allocation of "rrate_array" failed.',&
+                                                        "merge_reaclib_rates",380001)
+                rrate_array(1:nrea) = rrate_reaclib(1:nrea)
+            else
+                !-- Allocate a temporary array to store the content of rrate_array
+                allocate(rrate_tmp(rrate_length),stat=alloc_stat)
+                if ( alloc_stat /= 0) call raise_exception('Allocation of "rrate_tmp" failed.',&
+                                                        "merge_reaclib_rates",380001)
+                rrate_tmp(1:rrate_length) = rrate_array(1:rrate_length)
 
-        !-- Deallocate the input array
-        deallocate(rrate_array)
-        allocate(rrate_array(new_length),stat=alloc_stat)
-        if ( alloc_stat /= 0) call raise_exception('Allocation of "rrate_array" failed.',&
-                                                   "merge_reaclib_rates",380001)
-        rrate_array(1:rrate_length)             = rrate_tmp(1:rrate_length)
-        rrate_array(rrate_length+1:new_length)  = rrate_reaclib(1:nrea)
+                !-- Deallocate the input array
+                deallocate(rrate_array)
+                allocate(rrate_array(new_length),stat=alloc_stat)
+                if ( alloc_stat /= 0) call raise_exception('Allocation of "rrate_array" failed.',&
+                                                        "merge_reaclib_rates",380001)
+                rrate_array(1:rrate_length)             = rrate_tmp(1:rrate_length)
+                rrate_array(rrate_length+1:new_length)  = rrate_reaclib(1:nrea)
 
-        deallocate(rrate_tmp)
-     end if
-     !-- Deallocate the reaclib rate array
-     deallocate(rrate_reaclib)
-   end if
-   !-- Output the new length
-   rrate_length = new_length
+                deallocate(rrate_tmp)
+            end if
+            !-- Deallocate the reaclib rate array
+            deallocate(rrate_reaclib)
+        end if
+        !-- Output the new length
+        rrate_length = new_length
+    end if
 
 end subroutine merge_reaclib_rates
 

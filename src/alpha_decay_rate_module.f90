@@ -51,32 +51,34 @@ contains
    !! @author M. Reichert
    !! @date 25.01.21
    subroutine init_alpha_decay_rates()
-        use parameter_class,     only: alpha_decay_src_ignore, use_alpha_decay_file
+        use parameter_class,     only: alpha_decay_src_ignore, use_alpha_decay_file, &
+                                       use_prepared_network
         use nucstuff_class,      only: analyze_src_string
         use file_handling_class
         implicit none
         integer     :: beta_unit  !< File ID of external beta decay file
         integer     :: alloc_stat !< Allocation status
 
+        if (.not. use_prepared_network) then
+            if (use_alpha_decay_file) then
+                ! Alpha decays will be used
+                include_alpha_decays = .True.
 
-        if (use_alpha_decay_file) then
-            ! Alpha decays will be used
-            include_alpha_decays = .True.
+                ! Check if some reactions should not get replaced
+                call analyze_src_string(alpha_decay_src_ignore,src_ignore,src_ignore_length)
 
-            ! Check if some reactions should not get replaced
-            call analyze_src_string(alpha_decay_src_ignore,src_ignore,src_ignore_length)
+                ! Count the amount of possible alpha decays to be added
+                call count_reactions(nalpha_dec)
 
-            ! Count the amount of possible alpha decays to be added
-            call count_reactions(nalpha_dec)
+                ! Create an array with alpha decays
+                call read_reactions(alpha_dec_rate,nalpha_dec)
 
-            ! Create an array with alpha decays
-            call read_reactions(alpha_dec_rate,nalpha_dec)
+                ! Say how many there were
+                if (VERBOSE_LEVEL .ge. 1) then
+                    call write_data_to_std_out("Amount alpha-decay format rates",int_to_str(nalpha_dec))
+                end if
 
-            ! Say how many there were
-            if (VERBOSE_LEVEL .ge. 1) then
-                call write_data_to_std_out("Amount alpha-decay format rates",int_to_str(nalpha_dec))
             end if
-
         end if
 
    end subroutine init_alpha_decay_rates
@@ -201,6 +203,7 @@ contains
    subroutine merge_alpha_decays(rrate_array,rrate_length)
     use error_msg_class,  only: raise_exception
     use mergesort_module, only: rrate_ms,rrate_sort
+    use parameter_class,  only: use_prepared_network
     implicit none
     type(reactionrate_type),dimension(:),allocatable,intent(inout) :: rrate_array  !< Large rate array, containing all reactions
     integer,intent(inout)                                          :: rrate_length !< length of rrate_array
@@ -208,50 +211,53 @@ contains
     type(reactionrate_type),dimension(:),allocatable               :: helper       !< Large rate array, containing all reactions
     integer                                                        :: new_length   !< new length of the array
 
-    if (include_alpha_decays) then
-        ! Only merge if there are rates to be added
-        if (nalpha_dec .ne. 0) then
-            ! No reaclib rates are present, create the rate array only with alpha decays
-            if (.not. allocated(rrate_array)) then
 
-               rrate_length = nalpha_dec
-               !-- Allocate the reaclib rate array
-               allocate(rrate_array(nalpha_dec),stat=alloc_stat)
-               if ( alloc_stat /= 0) call raise_exception('Allocation of "rrate_array" failed.',&
-                                                          "merge_alpha_decays",&
-                                                          460001)
-               rrate_array(1:nalpha_dec) = alpha_dec_rate(1:nalpha_dec)
-            else
-                ! Merge the rates as you desire
-                call unify_rate_array(rrate_array,alpha_dec_rate,helper,rrate_length,nalpha_dec,new_length)
-                ! Deallocate the array and allocate with new size
-                deallocate(rrate_array,stat=alloc_stat)
-                if ( alloc_stat /= 0) call raise_exception('Deallocation of "rrate_array" failed.',&
-                                                           "merge_alpha_decays",&
-                                                           460002)
+    if (.not. use_prepared_network) then
+        if (include_alpha_decays) then
+            ! Only merge if there are rates to be added
+            if (nalpha_dec .ne. 0) then
+                ! No reaclib rates are present, create the rate array only with alpha decays
+                if (.not. allocated(rrate_array)) then
 
-                allocate(rrate_array(new_length),stat=alloc_stat)
+                rrate_length = nalpha_dec
+                !-- Allocate the reaclib rate array
+                allocate(rrate_array(nalpha_dec),stat=alloc_stat)
                 if ( alloc_stat /= 0) call raise_exception('Allocation of "rrate_array" failed.',&
-                                                           "merge_alpha_decays",&
-                                                           460001)
+                                                            "merge_alpha_decays",&
+                                                            460001)
+                rrate_array(1:nalpha_dec) = alpha_dec_rate(1:nalpha_dec)
+                else
+                    ! Merge the rates as you desire
+                    call unify_rate_array(rrate_array,alpha_dec_rate,helper,rrate_length,nalpha_dec,new_length)
+                    ! Deallocate the array and allocate with new size
+                    deallocate(rrate_array,stat=alloc_stat)
+                    if ( alloc_stat /= 0) call raise_exception('Deallocation of "rrate_array" failed.',&
+                                                            "merge_alpha_decays",&
+                                                            460002)
 
-                rrate_array(1:new_length) = helper(1:new_length)
-                rrate_length = new_length
+                    allocate(rrate_array(new_length),stat=alloc_stat)
+                    if ( alloc_stat /= 0) call raise_exception('Allocation of "rrate_array" failed.',&
+                                                            "merge_alpha_decays",&
+                                                            460001)
 
-                ! Now helper array can be deallocated
-                deallocate(helper,stat=alloc_stat)
-                if ( alloc_stat /= 0) call raise_exception('Deallocation of "helper" failed.',&
-                                                           "merge_alpha_decays",&
-                                                           460002)
+                    rrate_array(1:new_length) = helper(1:new_length)
+                    rrate_length = new_length
+
+                    ! Now helper array can be deallocated
+                    deallocate(helper,stat=alloc_stat)
+                    if ( alloc_stat /= 0) call raise_exception('Deallocation of "helper" failed.',&
+                                                            "merge_alpha_decays",&
+                                                            460002)
+                end if
+
+                ! Deallocate the alpha decay array to clean memory
+                deallocate(alpha_dec_rate,stat=alloc_stat)
+                if ( alloc_stat /= 0) call raise_exception('Deallocation of "alpha_dec_rate" failed.',&
+                                                        "merge_alpha_decays",&
+                                                        460002)
             end if
 
-            ! Deallocate the alpha decay array to clean memory
-            deallocate(alpha_dec_rate,stat=alloc_stat)
-            if ( alloc_stat /= 0) call raise_exception('Deallocation of "alpha_dec_rate" failed.',&
-                                                       "merge_alpha_decays",&
-                                                       460002)
         end if
-
     end if
 
    end subroutine merge_alpha_decays

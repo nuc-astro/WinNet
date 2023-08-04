@@ -13,16 +13,19 @@ module benam_class
   implicit none
   integer,allocatable,dimension(:,:) :: minmax !< TODO: add description
 
+  character(len=*), private, parameter :: network_binary_name='network.windat'
+
   !
   ! Public and private fields and methods of the module
   !
   public:: &
-     findaz, benam, load_network, get_nuclear_properties, get_minmax, &
-     getcoefficients, &
+     findaz, benam, get_nuclear_properties, get_minmax, &
+     getcoefficients, output_binary_network_data, &
      reaction_string,get_net_name,ident,convert
 
   private:: &
-      sunet_check, read_htpf, read_winvn, read_neutrino_loss
+      sunet_check, read_htpf, read_winvn, read_neutrino_loss, load_network, &
+      read_ascii_network_data, read_binary_network_data
 
 
 contains
@@ -402,6 +405,211 @@ subroutine getcoefficients(rate_array,length_rate_array)
 end subroutine getcoefficients
 
 
+
+
+subroutine read_binary_network_data(path)
+    use file_handling_class, only: open_unformatted_infile
+    use global_class,        only: net_size, t9_data, isotope, &
+                                   ipro, ineu, ihe4, net_names
+    use nucstuff_class,      only: ntgp
+    implicit none
+    character(len=*),intent(in) :: path !< Path to the input file
+    integer :: i, alloc_stat
+    integer :: file_id
+
+    ! Open an unformatted file
+    file_id = open_unformatted_infile(trim(adjustl(path))//trim(adjustl(network_binary_name)))
+
+    ! Read the network size
+    read(file_id) net_size
+    ! Output something
+    if (VERBOSE_LEVEL.ge.1) then
+       call write_data_to_std_out("Network size",int_to_str(net_size))
+    end if
+
+    ! Allocate and read the net_names
+    allocate(net_names(net_size),stat=alloc_stat)
+    if ( alloc_stat /= 0) call raise_exception('Allocation of "net_names" failed.',&
+                                               "read_binary_network_data",110001)
+    read(file_id) net_names
+
+    ! Read the length of partition function grid
+    read(file_id) ntgp
+    ! Allocate grid data array, later set by read_winvn and read_htpf
+    allocate(t9_data(ntgp),stat=alloc_stat)
+    if (alloc_stat .ne. 0) call raise_exception("Could not allocate partition function "//&
+                                                "temperature grid","read_binary_network_data",&
+                                                110001)
+
+    read(file_id) t9_data
+
+    ! Read indices of neutrons, protons, and alphas
+    read(file_id) ipro
+    read(file_id) ineu
+    read(file_id) ihe4
+
+    ! Allocate the isotope array
+    allocate(isotope(net_size),stat=alloc_stat)
+    if ( alloc_stat /= 0) call raise_exception('Allocation of "isotope" failed.',&
+                                               "read_binary_network_data",110001)
+
+    ! Allocate the grid for the partition functions in the correct size
+    do i=1,net_size
+      allocate(isotope(i)%part_func(ntgp),stat=alloc_stat)
+      if (alloc_stat .ne. 0) call raise_exception("Could not allocate grid for partition functions."&
+                                                 ,"read_binary_network_data",&
+                                                 110001)
+    end do
+
+    ! Read the isotope data
+    do i=1,net_size
+      read(file_id) isotope(i)%name
+      read(file_id) isotope(i)%mass
+      read(file_id) isotope(i)%p_nr
+      read(file_id) isotope(i)%n_nr
+      read(file_id) isotope(i)%spin
+      read(file_id) isotope(i)%mass_exc
+      read(file_id) isotope(i)%part_func
+    end do
+
+    close(file_id)
+
+end subroutine read_binary_network_data
+
+
+
+subroutine output_binary_network_data(path)
+    use file_handling_class, only: open_unformatted_outfile
+    use global_class,        only: net_size, t9_data, isotope, &
+                                   ipro, ineu, ihe4, net_names
+    use nucstuff_class,      only: ntgp
+    implicit none
+    character(len=*),intent(in) :: path !< Path to the output file
+    integer :: i
+    integer :: file_id
+
+    INFO_ENTRY("output_binary_network_data")
+
+    ! Open an unformatted file
+    file_id = open_unformatted_outfile(trim(adjustl(path))//trim(adjustl(network_binary_name)))
+
+    ! Write the network size
+    write(file_id) net_size
+    ! Write the network names
+    write(file_id) net_names
+    ! Write the length of partition function grid
+    write(file_id) ntgp
+    ! Write t9 grid data for partition functions
+    write(file_id) t9_data
+
+    ! Write indices of neutrons, protons, and alphas
+    write(file_id) ipro
+    write(file_id) ineu
+    write(file_id) ihe4
+
+    ! Write the isotope data
+    do i=1,net_size
+      write(file_id) isotope(i)%name
+      write(file_id) isotope(i)%mass
+      write(file_id) isotope(i)%p_nr
+      write(file_id) isotope(i)%n_nr
+      write(file_id) isotope(i)%spin
+      write(file_id) isotope(i)%mass_exc
+      write(file_id) isotope(i)%part_func
+    end do
+
+    close(file_id)
+
+    INFO_EXIT("output_binary_network_data")
+
+end subroutine output_binary_network_data
+
+
+
+!>
+!! Reads nuclear properties (name,a,n,z,spin,mass excess,partition functions)
+!! from file 'winvn' and htpf file and writes them into isotope(:).
+!! Also the arrays of the partition function grid and temperature grid are
+!! initialized here.
+!!
+!! \b Edited:
+!!      - 11.01.14
+!!      - 11.02.21 - MR: Implemented a switch for htpf functions and
+!!                       moved things to additional subroutine
+!! .
+subroutine read_ascii_network_data()
+    use parameter_class, only: isotopes_file, htpf_file,use_htpf, &
+                               use_neutrino_loss_file, neutrino_loss_file, &
+                               net_source
+    use nucstuff_class,  only: ntgp, is_stable
+    use global_class,    only: net_size, isotope, t9_data
+    use file_handling_class
+    implicit none
+    integer                     :: winvn, htpf !< File IDs
+    integer                     :: alloc_stat  !< Allocation status variable
+    integer                     :: i           !< Loop variable
+
+    INFO_ENTRY("get_nuclear_properties")
+
+    ! Load the network
+    call load_network(net_source)
+    allocate(isotope(net_size),stat=alloc_stat)
+    if ( alloc_stat /= 0) call raise_exception('Allocation of "isotope" failed.',&
+                                               "get_nuclear_properties",110001)
+
+    ! Set the number of temperature grid points
+    ! where the partition functions are tabulated.
+    ! In case high temperature partition functions are included
+    ! more grid points are used.
+    if (.not. use_htpf) then
+       ntgp = 24
+    else
+       ntgp = 72
+    end if
+
+    ! Allocate grid data array, later set by read_winvn and read_htpf
+    allocate(t9_data(ntgp),stat=alloc_stat)
+    if (alloc_stat .ne. 0) call raise_exception("Could not allocate partition function "//&
+                                                "temperature grid","get_nuclear_properties",&
+                                                110001)
+
+    ! Allocate the grid for the partition functions in the correct size
+    do i=1,net_size
+       allocate(isotope(i)%part_func(ntgp),stat=alloc_stat)
+       if (alloc_stat .ne. 0) call raise_exception("Could not allocate grid for partition functions."&
+                                                  ,"get_nuclear_properties",&
+                                                  110001)
+    end do
+
+    ! Always read winvn
+    winvn= open_infile(isotopes_file)
+    call read_winvn(winvn)
+    call close_io_file(winvn,isotopes_file)
+
+    ! In case high temperature partition functions are included
+    if (use_htpf) then
+       htpf = open_infile(htpf_file)
+       call read_htpf(htpf)
+       call close_io_file(htpf,htpf_file)
+    end if
+
+    ! Check if the isotope is stable
+    do i=1,net_size
+        isotope(i)%is_stable = is_stable(isotope(i)%p_nr,isotope(i)%n_nr)
+    end do
+
+    ! Read nuloss file
+    if (use_neutrino_loss_file) then
+       call read_neutrino_loss(neutrino_loss_file)
+    end if
+
+
+    INFO_EXIT("get_nuclear_properties")
+
+ end subroutine read_ascii_network_data
+
+
+
 !>
 !! Reads nuclear properties (name,a,n,z,spin,mass excess,partition functions)
 !! from file 'winvn' and htpf file and writes them into isotope(:).
@@ -414,64 +622,17 @@ end subroutine getcoefficients
 !!                       moved things to additional subroutine
 !! .
 subroutine get_nuclear_properties()
-   use parameter_class, only: isotopes_file, htpf_file,use_htpf, &
-                              use_neutrino_loss_file, neutrino_loss_file
-   use nucstuff_class,  only: ntgp, is_stable
-   use global_class,    only: net_size, isotope, t9_data
-   use file_handling_class
+   use parameter_class, only: use_prepared_network, &
+                              prepared_network_path
    implicit none
-   integer                     :: winvn, htpf !< File IDs
-   integer                     :: alloc_stat  !< Allocation status variable
-   integer                     :: i           !< Loop variable
 
    INFO_ENTRY("get_nuclear_properties")
 
-   ! Set the number of temperature grid points
-   ! where the partition functions are tabulated.
-   ! In case high temperature partition functions are included
-   ! more grid points are used.
-   if (.not. use_htpf) then
-      ntgp = 24
+   if (use_prepared_network) then
+      call read_binary_network_data(prepared_network_path)
    else
-      ntgp = 72
+      call read_ascii_network_data()
    end if
-
-   ! Allocate grid data array, later set by read_winvn and read_htpf
-   allocate(t9_data(ntgp),stat=alloc_stat)
-   if (alloc_stat .ne. 0) call raise_exception("Could not allocate partition function "//&
-                                               "temperature grid","get_nuclear_properties",&
-                                               110001)
-
-   ! Allocate the grid for the partition functions in the correct size
-   do i=1,net_size
-      allocate(isotope(i)%part_func(ntgp),stat=alloc_stat)
-      if (alloc_stat .ne. 0) call raise_exception("Could not allocate grid for partition functions."&
-                                                 ,"get_nuclear_properties",&
-                                                 110001)
-   end do
-
-   ! Always read winvn
-   winvn= open_infile(isotopes_file)
-   call read_winvn(winvn)
-   call close_io_file(winvn,isotopes_file)
-
-   ! In case high temperature partition functions are included
-   if (use_htpf) then
-      htpf = open_infile(htpf_file)
-      call read_htpf(htpf)
-      call close_io_file(htpf,htpf_file)
-   end if
-
-   ! Check if the isotope is stable
-   do i=1,net_size
-       isotope(i)%is_stable = is_stable(isotope(i)%p_nr,isotope(i)%n_nr)
-   end do
-
-   ! Read nuloss file
-   if (use_neutrino_loss_file) then
-      call read_neutrino_loss(neutrino_loss_file)
-   end if
-
 
    INFO_EXIT("get_nuclear_properties")
 
@@ -549,30 +710,6 @@ subroutine read_winvn(winvn)
       if (read_stat /= 0) exit
 !      read (winvn,my_format(5)) (pf(j),j=1,24)
       read (winvn,*) (pf(j),j=1,24)
-      ! Special cases of aluminium isomers
-      if ((trim(adjustl(name)) .eq. "al26")) then
-        i = benam(" al*6")
-        if  (i .ne. 0) then
-          isotope(i)%name      = " al*6"
-          isotope(i)%mass      = zp+zn
-          isotope(i)%p_nr      = zp
-          isotope(i)%n_nr      = zn
-          isotope(i)%spin      = sp
-          isotope(i)%mass_exc  = bi
-          isotope(i)%part_func(1:24) = pf
-        end if
-        i = benam(" al-6")
-        if  (i .ne. 0) then
-          isotope(i)%name      = " al-6"
-          isotope(i)%mass      = zp+zn
-          isotope(i)%p_nr      = zp
-          isotope(i)%n_nr      = zn
-          isotope(i)%spin      = sp
-          isotope(i)%mass_exc  = bi
-          isotope(i)%part_func(1:24) = pf
-        end if
-      end if
-
       ! Normal cases, i.e., not Al26
       i = benam(name)
       if (i == 0) cycle
@@ -586,18 +723,6 @@ subroutine read_winvn(winvn)
 
    end do
 
-   ! if (VERBOSE_LEVEL .gt. 1) then
-   !    do i=1,size(net_names)
-   !       if(isotope(i)%name.eq.'  c12')cycle
-   !       ! MR: the following may not be an error, it just means that
-   !       ! the binding energy per nucleon is equal to c12? I commented out the whole
-   !       ! check
-   !       if(isotope(i)%mass_exc .eq. 0.d0) then
-   !          write(*,*) "Warning: "//trim(adjustl(net_names(i)))//" has a mass excess"//&
-   !                     "of zero. Your winvn may be faulty, check it!"
-   !       end if
-   !    end do
-   ! end if
 
    INFO_EXIT("read_winvn")
 
@@ -631,13 +756,7 @@ subroutine sunet_check(ref_array)
 
    do i=1,net_len
 
-      ! Take care of isomers
-      if ((trim(adjustl(net_names(i))) .ne. "al*6") .and. &
-          (trim(adjustl(net_names(i))) .ne. "al-6")) then
-          net_name_tmp = net_names(i)
-      else
-          net_name_tmp = "al26"
-      end if
+      net_name_tmp = net_names(i)
 
       in:do j=1,ref_len
          if(trim(adjustl(net_name_tmp)).eq.trim(adjustl(ref_array(j))))then

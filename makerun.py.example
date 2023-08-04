@@ -6,6 +6,7 @@
 # 2013 M. Ugliano, O. Korobkin
 # Edited: - 27.12.20 - M. Reichert
 #         - 08.07.22 - M. Reichert
+#         - 21.07.23 - M. Reichert
 ##############################################################################
 
 import os
@@ -55,6 +56,8 @@ p.add_option("--val", action="store", dest="val_values", default="", \
   help="Comma separated values for an analytic run.")
 p.add_option("--force", action="store_true", dest="force_run", default=False, \
   help="Force to start the run without asking.")
+p.add_option("--prepare", action="store_true", dest="prepare", default=False, \
+  help="Prepare the network data in reasonable format. Only works when --many flag is enabled.")
 p.set_usage("""
   Setup and launch (optional) a winnet simulation.
   Usage:   ./makerun.py -r <rundir> -p <parfile>
@@ -154,7 +157,6 @@ example.prepare_examples(parfile_name)
 
 #--- compile code  -----------------------------------------------------------
 os.chdir(maindir)
-# In case you always want to recompile, uncomment the following line:
 # subprocess.call(["make", "clean"])
 subprocess.call(["make", "-j4"])
 
@@ -164,8 +166,9 @@ if not options.many_runs:
 # substitute @WINNET@ -> maindir using the 'sed' command
     command = "sed 's%@WINNET@%"+maindir+"%g' "+parfile+" > " \
         + rundir + "/" + parfile_name
+
     subprocess.call(command,shell=True)
-    subprocess.call(["cp",program,rundir])
+    subprocess.call(["mv",program,rundir])
 
 # create directories for snapshots and flow files
     os.chdir(rundir)
@@ -179,6 +182,8 @@ else:
     seed_basename = ''
     initial_composition = ''
     calc_snaps=False
+    use_prepared_network_line = -1
+    prepared_network_line = -1
 
     analine = {}
 
@@ -216,6 +221,13 @@ else:
         if (line.lower().find('read_initial_composition') != -1) and (line.find('=') != -1) \
            and (not line.find('#') != -1):
             initial_composition = line.replace("\n","").replace(" ","\ ")
+        if (line.lower().find('use_prepared_network') != -1) and (line.find('=') != -1) \
+           and (not line.find('#') != -1):
+            use_prepared_network_line = it
+        if (line.lower().find('prepared_network_path') != -1) and (line.find('=') != -1) \
+           and (not line.find('#') != -1):
+            prepared_network_line = it
+
 
     f.close()
 
@@ -323,6 +335,23 @@ else:
                 command = command[:-1] # Remove last ;
                 command+="' "+ parfile + " > " + subdir + "/" + parfile_name
 
+
+        # Check if the network has to be prepared
+        if options.prepare:
+            if use_prepared_network_line!=-1:
+                # Replace the use_prepared_network line with yes
+                command+=" && "+"sed -i '"+str(use_prepared_network_line+1)+"s%no%yes%g' "+subdir+"/"+parfile_name
+            else:
+                # Append the line to the end of the file
+                command+=" && "+"echo use_prepared_network=yes"+" >> "+ subdir + "/" + parfile_name
+            if prepared_network_line!=-1:
+                # Replace the prepared_network_path line with the correct file
+                command+=" && "+"sed -i '"+str(prepared_network_line+1)+"s%prepared_network_path=.*%prepared_network_path="+str(rundir)+"/network_data/%g' "+subdir+"/"+parfile_name
+            else:
+                # Append the line to the end of the file
+                command+=" && "+"echo prepared_network_path="+str(rundir)+"/network_data/"+" >> "+ subdir + "/" + parfile_name
+
+
         # Create the folder and copy the executable
         subprocess.call(command,shell=True)
 
@@ -350,6 +379,10 @@ subprocess.call(["rm","-rf", "sources"])
 #--- Example runs ------------------------------------------------------------
 # Copy also plot scripts to the folders
 example.copy_scripts(parfile_name,rundir)
+
+if options.many_runs and options.prepare:
+    print("Preparing network data... This may take up to a few minutes.")
+    os.system("cd "+str(subdir)+" "+" && ./winnet *.par ../network_data >../net_creation_log 2>../net_error_log && cd - >/dev/null 2>&1")
 
 #--- run the program, save process ID  ---------------------------------------
 # (the following assumes that the shell is bash; might not work in more

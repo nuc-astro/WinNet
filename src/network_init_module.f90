@@ -54,13 +54,14 @@ subroutine network_init()
 
   use reaclib_rate_module,    only: init_reaclib_rates, merge_reaclib_rates
   use alpha_decay_rate_module,only: init_alpha_decay_rates, merge_alpha_decays
-  use tw_rate_module,         only: init_theoretical_weak_rates, merge_theoretical_weak_rates
+  use tw_rate_module,         only: init_theoretical_weak_rates, merge_theoretical_weak_rates,&
+                                    output_binary_weak_reaction_data
   use fission_rate_module,    only: init_fission_rates, merge_fission_rates
   use detailed_balance,       only: merge_inverse_rates, init_inverse_rates
   use parameter_class,        only: net_source
   use nuflux_class,           only: init_nuflux, merge_neutrino_rates
   use beta_decay_rate_module, only: init_ext_beta_rates,merge_beta_decays
-  use benam_class,            only: load_network, get_minmax, get_nuclear_properties
+  use benam_class,            only: get_minmax, get_nuclear_properties
   use tabulated_rate_module,  only: init_tabulated_rates, merge_tabulated_rates
   use global_class,           only: rrate, isotope, nreac, net_size
   use format_class,           only: load_format
@@ -72,13 +73,6 @@ subroutine network_init()
 !===========================procedure division==================================
   INFO_ENTRY("network_init")
 
-  !-- loads the network
-  call load_network(net_source)
-
-  allocate(isotope(net_size),stat=alloc_stat)
-  if ( alloc_stat /= 0) call raise_exception('Allocation of "isotope" failed.',&
-                                             "network_init",300001)
-
   !-- loads custom formats my_format(:)
   call load_format()
   !-- returns nuclide data in isotope(:)
@@ -87,6 +81,9 @@ subroutine network_init()
   call get_minmax()
   !-- Initialize nucstuff
   call init_nucstuff()
+
+  !-- Count the total amount of rates
+  nreac = 0
 
   !-- Count and read reaclib rates
   call init_reaclib_rates()
@@ -105,8 +102,6 @@ subroutine network_init()
   !-- Initialize inverse reactions
   call init_inverse_rates()
 
-  !-- Count the total amount of rates
-  nreac = 0
 
   ! MR: Note that the following order is important.
   ! For example, TWR have to be merged before neutrino rates!
@@ -435,6 +430,60 @@ logical                               :: init,converged
 
 
 end subroutine prepare_simulation
+
+
+!>
+!! Create a folder with binary files that contain all necessary reaction data
+!!
+!! This routine creates binary files in the exact format that WinNet needs to
+!! initialize the rate arrays. The reading of these files can be done much faster
+!! then reading the original files. The files are stored in the folder specified
+!! by the path argument. The folder is created if it does not exist.
+!! Using these files is specifically useful when running many trajectories.
+!!
+!! @author M. Reichert
+!! @date 21.07.23
+subroutine create_rate_folder(path)
+    use global_class,        only: net_size
+    use tw_rate_module,      only: output_binary_weak_reaction_data
+    use reaclib_rate_module, only: output_binary_reaclib_reaction_data
+    use parameter_class,     only: unit_define, output_binary_parameter_data, &
+                                   max_fname_len, output_param_prepared_network
+    use mergesort_module,    only: mergesort_init
+    use fission_rate_module, only: output_binary_fission_reaction_data
+    use nuflux_class,        only: output_binary_neutrino_reaction_data
+    use benam_class,         only: output_binary_network_data
+    implicit none
+    character(len=*), intent(in) :: path
+    character(max_fname_len)     :: path_dir
+
+    ! define units
+    call unit_define()
+
+    net_size= 0
+
+    ! initialise mergesort module
+    call mergesort_init()
+    ! initialise network, returns net_size (and network data in modules)
+    call network_init()
+    ! Make sure the path ends with a slash
+    path_dir = trim(path)//"/"
+    ! Create folder
+    call system('mkdir -p '//trim(adjustl(path_dir)))
+
+    ! Output weak rates
+    call output_binary_parameter_data(trim(adjustl(path_dir)))
+    call output_binary_network_data(trim(adjustl(path_dir)))
+    call output_binary_weak_reaction_data(trim(adjustl(path_dir)))
+    call output_binary_reaclib_reaction_data(trim(adjustl(path_dir)))
+    call output_binary_fission_reaction_data(trim(adjustl(path_dir)))
+    call output_binary_neutrino_reaction_data(trim(adjustl(path_dir)))
+
+    ! Give information
+    call output_param_prepared_network(trim(adjustl(path_dir)))
+
+end subroutine create_rate_folder
+
 
 
 !>

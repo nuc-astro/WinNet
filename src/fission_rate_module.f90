@@ -39,6 +39,8 @@ module fission_rate_module
    type(reactionrate_type),dimension(:),allocatable,private :: rrate_fiss !< Array storing fission reactions in rrate array
 
 
+   character(len=*), private, parameter                     :: fiss_binary_name='fiss_rates.windat' !< Name of the binary file containing the fission rates
+
 
     type,private                              :: fragtype
         integer                               :: Zp  !< Z of fissioning nucleus
@@ -66,7 +68,7 @@ module fission_rate_module
    ! Public and private fields and methods of the module
    !
    public:: &
-      init_fission_rates, merge_fission_rates
+      init_fission_rates, merge_fission_rates, output_binary_fission_reaction_data
    private:: &
       count_fission_rates, read_fission_rates, fiss_dist, kodtakdist,&
       abla_nfiss, abla_betafiss, read_mumpower_fissfile, mumpower_fiss,&
@@ -85,7 +87,8 @@ contains
    !! @date 25.01.21
    subroutine init_fission_rates()
       use error_msg_class, only: raise_exception
-      use parameter_class, only: fissflag
+      use parameter_class, only: fissflag, use_prepared_network,&
+                                 prepared_network_path
       implicit none
       integer   ::  alloc_stat !< Allocation status flag
 
@@ -93,7 +96,9 @@ contains
       nfiss=0
 
       if (fissflag.ne.0) then
-
+        if (use_prepared_network) then
+          call read_binary_fission_reaction_data(prepared_network_path)
+        else
          !-- Count the amount of fission rates
          call count_fission_rates()
 
@@ -112,8 +117,9 @@ contains
          !!  ch_amount at the beginning.
          call reorder_fragments()
 
-         !-- Write an overview of the reactions
-         call write_reac_verbose_out()
+        end if
+        !-- Write an overview of the reactions
+        call write_reac_verbose_out()
       end if
 
 
@@ -193,6 +199,173 @@ contains
    end subroutine write_reac_verbose_out
 
 
+
+   !> Read the fission reactions and fragment distributions from a binary file
+   !!
+   !! This subroutine reads the fission reactions and fragment distributions
+   !! from a binary, unformatted file. The file is assumed to be created
+   !! beforehand. It is only read when use_prepared_network is set to true.
+   !!
+   !! @author M. Reichert
+   !! @date 21.07.23
+   subroutine read_binary_fission_reaction_data(path)
+    use file_handling_class, only: open_unformatted_infile
+    use parameter_class,     only: max_fname_len, fissflag
+    use error_msg_class,     only: raise_exception
+    implicit none
+    character(len=*), intent(in) :: path         !< Path to folder with binary files
+    integer                      :: i            !< Loop variable
+    integer                      :: file_id      !< File id
+    integer                      :: alloc_stat   !< Allocation status
+    logical                      :: is_allocated !< Logical to check if array is allocated
+
+    if (fissflag .eq. 0) return
+
+    ! Open an unformatted file
+    file_id = open_unformatted_infile(trim(adjustl(path))//trim(adjustl(fiss_binary_name)))
+
+    read(file_id) nfiss
+    read(file_id) nufiss
+    read(file_id) n_nf
+    read(file_id) n_bf
+    read(file_id) n_sf
+
+    ! Allocate the fission rate array
+    allocate(fissrate(nfiss),stat=alloc_stat)
+    if ( alloc_stat /= 0) call raise_exception('Allocation of "fissrate" failed.',&
+                                               "read_binary_fission_reaction_data",190001)
+
+    do i=1,nfiss
+      ! Write all fission rates
+      read(file_id) fissrate(i)%fissnuc_index
+      read(file_id) fissrate(i)%channels
+      read(file_id) fissrate(i)%mode
+      read(file_id) fissrate(i)%dimens
+      read(file_id) fissrate(i)%cached
+      read(file_id) fissrate(i)%averageQ
+      read(file_id) fissrate(i)%reac_type
+
+      read(file_id) is_allocated
+      if (is_allocated) then
+        ! Allocate fissparts, cscf_ind, q_value, channelprob, and ch_amount array
+        allocate(fissrate(i)%fissparts(fissrate(i)%dimens),stat=alloc_stat)
+        if ( alloc_stat /= 0) call raise_exception('Allocation of "fissrate(i)%fissparts" failed.',&
+                                                    "read_binary_fission_reaction_data",190001)
+        read(file_id) fissrate(i)%fissparts   ! has dimension dimens
+      end if
+
+      read(file_id) is_allocated
+      if (is_allocated) then
+          allocate(fissrate(i)%cscf_ind(fissrate(i)%dimens,fissrate(i)%dimens),stat=alloc_stat)
+          if ( alloc_stat /= 0) call raise_exception('Allocation of "fissrate(i)%cscf_ind" failed.',&
+                                                      "read_binary_fission_reaction_data",190001)
+          read(file_id) fissrate(i)%cscf_ind    ! has dimension (dimens,dimens)
+      end if
+
+      read(file_id) fissrate(i)%param       ! has dimension 9
+
+      read(file_id) is_allocated
+      if (is_allocated) then
+          allocate(fissrate(i)%q_value(fissrate(i)%channels),stat=alloc_stat)
+          if ( alloc_stat /= 0) call raise_exception('Allocation of "fissrate(i)%q_value" failed.',&
+                                                      "read_binary_fission_reaction_data",190001)
+          read(file_id) fissrate(i)%q_value     ! has dimension channels
+      end if
+
+      read(file_id) is_allocated
+      if (is_allocated) then
+          allocate(fissrate(i)%channelprob(fissrate(i)%channels),stat=alloc_stat)
+          if ( alloc_stat /= 0) call raise_exception('Allocation of "fissrate(i)%channelprob" failed.',&
+                                                      "read_binary_fission_reaction_data",190001)
+          read(file_id) fissrate(i)%channelprob ! has dimension channels
+      end if
+
+      read(file_id) is_allocated
+      if (is_allocated) then
+          allocate(fissrate(i)%ch_amount(fissrate(i)%dimens),stat=alloc_stat)
+          if ( alloc_stat /= 0) call raise_exception('Allocation of "fissrate(i)%ch_amount" failed.',&
+                                                      "read_binary_fission_reaction_data",190001)
+          read(file_id) fissrate(i)%ch_amount   ! has dimension dimens
+      end if
+
+
+    end do
+
+    close(file_id)
+
+
+    end subroutine read_binary_fission_reaction_data
+
+
+
+
+
+   !> Save the fission data to a unformatted binary file
+   !!
+   !! This subroutine saves the fission data to a unformatted binary file.
+   !!
+   !! @author M. Reichert
+   !! @date 21.07.23
+   subroutine output_binary_fission_reaction_data(path)
+    use file_handling_class, only: open_unformatted_outfile
+    use parameter_class,     only: fissflag
+    implicit none
+    character(len=*), intent(in) :: path
+    integer                      :: i
+    integer                      :: file_id
+
+    if (fissflag .eq. 0) return
+    ! Open an unformatted file
+    file_id = open_unformatted_outfile(trim(adjustl(path))//trim(adjustl(fiss_binary_name)))
+    ! Write the fission rates to binary file
+    write(file_id) nfiss
+    write(file_id) nufiss
+    write(file_id) n_nf
+    write(file_id) n_bf
+    write(file_id) n_sf
+
+
+    do i=1,nfiss
+      ! Write all fission rates
+      write(file_id) fissrate(i)%fissnuc_index
+      write(file_id) fissrate(i)%channels
+      write(file_id) fissrate(i)%mode
+      write(file_id) fissrate(i)%dimens
+      write(file_id) fissrate(i)%cached
+      write(file_id) fissrate(i)%averageQ
+      write(file_id) fissrate(i)%reac_type
+      write(file_id) allocated(fissrate(i)%fissparts)
+      if (allocated(fissrate(i)%fissparts)) then
+        write(file_id) fissrate(i)%fissparts   ! has dimension dimens
+      end if
+      write(file_id) allocated(fissrate(i)%cscf_ind)
+      if (allocated(fissrate(i)%cscf_ind)) then
+        write(file_id) fissrate(i)%cscf_ind    ! has dimension (dimens,dimens)
+      end if
+      write(file_id) fissrate(i)%param       ! has dimension 9
+      write(file_id) allocated(fissrate(i)%q_value)
+      if (allocated(fissrate(i)%q_value)) then
+        write(file_id) fissrate(i)%q_value     ! has dimension channels
+      end if
+      write(file_id) allocated(fissrate(i)%channelprob)
+      if (allocated(fissrate(i)%channelprob)) then
+          write(file_id) fissrate(i)%channelprob ! has dimension channels
+      end if
+      write(file_id) allocated(fissrate(i)%ch_amount)
+      if (allocated(fissrate(i)%ch_amount)) then
+        write(file_id) fissrate(i)%ch_amount   ! has dimension dimens
+      end if
+    end do
+
+    close(file_id)
+
+
+   end subroutine output_binary_fission_reaction_data
+
+
+
+
+
    !> Merge fission rates with larger array.
    !!
    !! This subroutine will merge the fission rates
@@ -210,6 +383,7 @@ contains
    !! @date 25.01.21
    subroutine merge_fission_rates(rrate_array,rrate_length)
       use error_msg_class, only: raise_exception
+      use parameter_class, only: use_prepared_network
       implicit none
       type(reactionrate_type),dimension(:),allocatable,intent(inout) :: rrate_array  !< Large rate array, containing all reactions
       integer,intent(inout)                                          :: rrate_length !< length of rrate_array
@@ -218,7 +392,7 @@ contains
       integer                                                        :: new_length   !< New length of rrate_array
 
       !-- Only do something if there are fission rates
-      if (allocated(rrate_fiss)) then
+      if (allocated(rrate_fiss) .and. (.not. use_prepared_network)) then
          ! New length of the array
          new_length = rrate_length+nfiss
          if (nfiss .ne. 0) then
