@@ -4,6 +4,8 @@ var reaclib__rate__module_8f90 =
     [ "count_reaclib_rates", "reaclib__rate__module_8f90.html#adccfa44041b331c8cc0c377ed38bd4d0", null ],
     [ "init_reaclib_rates", "reaclib__rate__module_8f90.html#a20dab788693450354de363a2cfab39f8", null ],
     [ "merge_reaclib_rates", "reaclib__rate__module_8f90.html#ac2f58552dc460fe5d6ff0ed58b887c31", null ],
+    [ "output_binary_reaclib_reaction_data", "reaclib__rate__module_8f90.html#aea05c0c87253750ad35edea12319e3b2", null ],
+    [ "read_binary_reaclib_reaction_data", "reaclib__rate__module_8f90.html#abfda6e6fa5be3b871093e7900ff7af18", null ],
     [ "read_reaclib", "reaclib__rate__module_8f90.html#ae9e8f84c38218f578011706869e23b59", null ],
     [ "set_heating_frac", "reaclib__rate__module_8f90.html#a42077841ed26c539240b9d7218a7be4a", null ],
     [ "set_reaction_type", "reaclib__rate__module_8f90.html#a8e23d45ed0420de076b8f07863151a34", null ],
@@ -30,5 +32,6 @@ var reaclib__rate__module_8f90 =
     [ "n_pn", "reaclib__rate__module_8f90.html#a2edf05e2e2aaa7cc885b0f0a7dcf2844", null ],
     [ "n_w", "reaclib__rate__module_8f90.html#afe236cb8f2d951e2604155df0ff889b7", null ],
     [ "nrea", "reaclib__rate__module_8f90.html#afd8b52f29ae384f1e72a241ca57ba48f", null ],
+    [ "rrate_binary_name", "reaclib__rate__module_8f90.html#a858a6960305ad382d7131beceeca5c78", null ],
     [ "rrate_reaclib", "reaclib__rate__module_8f90.html#a30917757d0be8e44ac3164002dfb75a6", null ]
 ];

@@ -34,7 +34,7 @@
 <area shape="rect" id="node22" href="$namespacejacobian__class.html#a95f6f4d14e95a44eb3589020bd1509f7" title="Function to decide whether a rate can contribute or not." alt="" coords="521,492,687,519"/>
 <area shape="rect" id="node13" href="$namespacenucstuff__class.html#a54b0d5681c0193e0b2276911713242e9" title="A helper to compute powers of temperature used in the reaction rates." alt="" coords="785,365,921,406"/>
 <area shape="rect" id="node14" href="$namespacedetailed__balance.html#a4c2ebb1580b34cd40aca41258ba5c8b7" title="Calculate the inverse rate from the forward one via detailed balance." alt="" coords="764,430,941,471"/>
-<area shape="rect" id="node17" href="$namespacenuflux__class.html#a6002e8efbcc88144d8963d3909aa49e9" title="Calculates the cross section times the neutrino flux." alt="" coords="777,299,928,341"/>
+<area shape="rect" id="node17" href="$namespacenuflux__class.html#ac04f6b0dca8f9120cb839749cc2dbbe0" title="Calculates the cross section times the neutrino flux." alt="" coords="777,299,928,341"/>
 <area shape="rect" id="node18" href="$namespacenucstuff__class.html#a7f6b5ddec08f9564638a58091e6940d7" title="Calculates partition function." alt="" coords="1008,1275,1145,1317"/>
 <area shape="rect" id="node27" href="$namespacenuclear__heating.html#a9c895886b904977008cdfecbe3847f4b" title="Modifies the temperature to account for nuclear heating." alt="" coords="772,1305,933,1346"/>
 <area shape="rect" id="node32" href="$namespacenuclear__heating.html#a49033cfa463654768cc70d8ce9029fa1" title="Modifies the temperature and ent_p to account for nuclear heating." alt="" coords="772,1370,933,1411"/>

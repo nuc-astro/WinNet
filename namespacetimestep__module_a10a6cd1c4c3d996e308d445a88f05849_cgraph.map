@@ -22,7 +22,7 @@
 <area shape="rect" id="node25" href="$namespacejacobian__class.html#a95f6f4d14e95a44eb3589020bd1509f7" title="Function to decide whether a rate can contribute or not." alt="" coords="470,822,637,849"/>
 <area shape="rect" id="node6" href="$namespacenucstuff__class.html#a54b0d5681c0193e0b2276911713242e9" title="A helper to compute powers of temperature used in the reaction rates." alt="" coords="733,419,869,460"/>
 <area shape="rect" id="node7" href="$namespacedetailed__balance.html#a4c2ebb1580b34cd40aca41258ba5c8b7" title="Calculate the inverse rate from the forward one via detailed balance." alt="" coords="712,732,889,773"/>
-<area shape="rect" id="node10" href="$namespacenuflux__class.html#a6002e8efbcc88144d8963d3909aa49e9" title="Calculates the cross section times the neutrino flux." alt="" coords="725,484,876,525"/>
+<area shape="rect" id="node10" href="$namespacenuflux__class.html#ac04f6b0dca8f9120cb839749cc2dbbe0" title="Calculates the cross section times the neutrino flux." alt="" coords="725,484,876,525"/>
 <area shape="rect" id="node11" href="$namespacereaclib__rate__module.html#a531d2052a5c27ee57c14c22159d1fbfe" title="Calculate a reaclib rate." alt="" coords="729,84,873,125"/>
 <area shape="rect" id="node14" href="$namespacetabulated__rate__module.html#a8cd4cb35a24c56fffef12bff3e785906" title="Calculates the tabulated rate." alt="" coords="724,549,877,591"/>
 <area shape="rect" id="node15" href="$namespacetw__rate__module.html#ae35ff1052a8049df8ab31be3f7f0b777" title="Calculate the theoretical weak rate." alt="" coords="715,615,887,656"/>

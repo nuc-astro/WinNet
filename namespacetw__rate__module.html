@@ -125,6 +125,12 @@ Functions/Subroutines</h2></td></tr>
 <tr class="memitem:a4d6d65076148eba68fa26254b615f35d"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacetw__rate__module.html#a4d6d65076148eba68fa26254b615f35d">merge_theoretical_weak_rates</a> (rrate_array, rrate_length)</td></tr>
 <tr class="memdesc:a4d6d65076148eba68fa26254b615f35d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Merge theoretical weak rates into larger rate array.  <a href="namespacetw__rate__module.html#a4d6d65076148eba68fa26254b615f35d">More...</a><br /></td></tr>
 <tr class="separator:a4d6d65076148eba68fa26254b615f35d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9bc2872f0ebd60c52de3e6a797c37cb3"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacetw__rate__module.html#a9bc2872f0ebd60c52de3e6a797c37cb3">read_binary_weak_reaction_data</a> (path)</td></tr>
+<tr class="memdesc:a9bc2872f0ebd60c52de3e6a797c37cb3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the theoretical weak rates from a unformatted binary file.  <a href="namespacetw__rate__module.html#a9bc2872f0ebd60c52de3e6a797c37cb3">More...</a><br /></td></tr>
+<tr class="separator:a9bc2872f0ebd60c52de3e6a797c37cb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9cccd46db1f1be3e5543d04ae2d6d0ff"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacetw__rate__module.html#a9cccd46db1f1be3e5543d04ae2d6d0ff">output_binary_weak_reaction_data</a> (path)</td></tr>
+<tr class="memdesc:a9cccd46db1f1be3e5543d04ae2d6d0ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Save the theoretical weak rates to a unformatted binary file.  <a href="namespacetw__rate__module.html#a9cccd46db1f1be3e5543d04ae2d6d0ff">More...</a><br /></td></tr>
+<tr class="separator:a9cccd46db1f1be3e5543d04ae2d6d0ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae35ff1052a8049df8ab31be3f7f0b777"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacetw__rate__module.html#ae35ff1052a8049df8ab31be3f7f0b777">calculate_twr_rate</a> (rrate, temp, rho, Ye, rat_calc, nuloss)</td></tr>
 <tr class="memdesc:ae35ff1052a8049df8ab31be3f7f0b777"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate the theoretical weak rate.  <a href="namespacetw__rate__module.html#ae35ff1052a8049df8ab31be3f7f0b777">More...</a><br /></td></tr>
 <tr class="separator:ae35ff1052a8049df8ab31be3f7f0b777"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -186,6 +192,9 @@ Variables</h2></td></tr>
 <tr class="memitem:a73952e6c67e0868cf5fe2446878eb4ee"><td class="memItemLeft" align="right" valign="top">integer, private&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacetw__rate__module.html#a73952e6c67e0868cf5fe2446878eb4ee">n_o</a></td></tr>
 <tr class="memdesc:a73952e6c67e0868cf5fe2446878eb4ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">individual reaction types  <a href="namespacetw__rate__module.html#a73952e6c67e0868cf5fe2446878eb4ee">More...</a><br /></td></tr>
 <tr class="separator:a73952e6c67e0868cf5fe2446878eb4ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeafa013d68ae6bc429bd1847108be3a3"><td class="memItemLeft" align="right" valign="top">character(len= *), parameter, private&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacetw__rate__module.html#aeafa013d68ae6bc429bd1847108be3a3">weak_binary_name</a> ='weak_rates.windat'</td></tr>
+<tr class="memdesc:aeafa013d68ae6bc429bd1847108be3a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Filename of binary file to save weak rates.  <a href="namespacetw__rate__module.html#aeafa013d68ae6bc429bd1847108be3a3">More...</a><br /></td></tr>
+<tr class="separator:aeafa013d68ae6bc429bd1847108be3a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This module contains everything for the theoretical weak rates that are added into the rate array. </p>
@@ -260,7 +269,7 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="tw__rate__module_8f90_source.html#l00255">255</a> of file <a class="el" href="tw__rate__module_8f90_source.html">tw_rate_module.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tw__rate__module_8f90_source.html#l00484">484</a> of file <a class="el" href="tw__rate__module_8f90_source.html">tw_rate_module.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -313,7 +322,7 @@ Here is the call graph for this function:</div>
 <p>These derivatives are necessary for the bicubic interpolation.</p>
 <dl class="section author"><dt>Author</dt><dd>: M. Reichert </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="tw__rate__module_8f90_source.html#l00112">112</a> of file <a class="el" href="tw__rate__module_8f90_source.html">tw_rate_module.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tw__rate__module_8f90_source.html#l00121">121</a> of file <a class="el" href="tw__rate__module_8f90_source.html">tw_rate_module.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -358,11 +367,41 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="tw__rate__module_8f90_source.html#l00199">199</a> of file <a class="el" href="tw__rate__module_8f90_source.html">tw_rate_module.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tw__rate__module_8f90_source.html#l00208">208</a> of file <a class="el" href="tw__rate__module_8f90_source.html">tw_rate_module.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="namespacetw__rate__module_a4d6d65076148eba68fa26254b615f35d_cgraph.svg" width="100%" height="391"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+</div>
+
+</div>
+</div>
+<a id="a9cccd46db1f1be3e5543d04ae2d6d0ff"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9cccd46db1f1be3e5543d04ae2d6d0ff">&#9670;&nbsp;</a></span>output_binary_weak_reaction_data()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">subroutine, public tw_rate_module::output_binary_weak_reaction_data </td>
+          <td>(</td>
+          <td class="paramtype">character(len=*), intent(in)&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Save the theoretical weak rates to a unformatted binary file. </p>
+<dl class="section author"><dt>Author</dt><dd>M. Reichert </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>27.07.21 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="tw__rate__module_8f90_source.html#l00390">390</a> of file <a class="el" href="tw__rate__module_8f90_source.html">tw_rate_module.f90</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="namespacetw__rate__module_a9cccd46db1f1be3e5543d04ae2d6d0ff_cgraph.svg" width="100%" height="361"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div>
 
@@ -380,11 +419,48 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="tw__rate__module_8f90_source.html#l00988">988</a> of file <a class="el" href="tw__rate__module_8f90_source.html">tw_rate_module.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tw__rate__module_8f90_source.html#l01217">1217</a> of file <a class="el" href="tw__rate__module_8f90_source.html">tw_rate_module.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="namespacetw__rate__module_a603e1c2b1e9a8baa1b7d409bfae94bef_cgraph.svg" width="100%" height="590"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+</div>
+
+</div>
+</div>
+<a id="a9bc2872f0ebd60c52de3e6a797c37cb3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9bc2872f0ebd60c52de3e6a797c37cb3">&#9670;&nbsp;</a></span>read_binary_weak_reaction_data()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">subroutine tw_rate_module::read_binary_weak_reaction_data </td>
+          <td>(</td>
+          <td class="paramtype">character(len=*), intent(in)&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Read the theoretical weak rates from a unformatted binary file. </p>
+<p>In case the binary file is read, no other data has to be read.</p>
+<dl class="section author"><dt>Author</dt><dd>M. Reichert </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>27.07.21 </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">path</td><td>Path to binary file </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="tw__rate__module_8f90_source.html#l00259">259</a> of file <a class="el" href="tw__rate__module_8f90_source.html">tw_rate_module.f90</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="namespacetw__rate__module_a9bc2872f0ebd60c52de3e6a797c37cb3_cgraph.svg" width="100%" height="399"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div>
 
@@ -416,7 +492,7 @@ Here is the call graph for this function:</div>
 <li>24.01.21, MR - copied it into this separate subroutine</li>
 </ul>
 
-<p class="definition">Definition at line <a class="el" href="tw__rate__module_8f90_source.html#l00344">344</a> of file <a class="el" href="tw__rate__module_8f90_source.html">tw_rate_module.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tw__rate__module_8f90_source.html#l00573">573</a> of file <a class="el" href="tw__rate__module_8f90_source.html">tw_rate_module.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -483,7 +559,7 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="tw__rate__module_8f90_source.html#l00432">432</a> of file <a class="el" href="tw__rate__module_8f90_source.html">tw_rate_module.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tw__rate__module_8f90_source.html#l00661">661</a> of file <a class="el" href="tw__rate__module_8f90_source.html">tw_rate_module.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -513,7 +589,7 @@ Here is the call graph for this function:</div>
 <li>23.03.23, M.R.</li>
 </ul>
 
-<p class="definition">Definition at line <a class="el" href="tw__rate__module_8f90_source.html#l00887">887</a> of file <a class="el" href="tw__rate__module_8f90_source.html">tw_rate_module.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tw__rate__module_8f90_source.html#l01116">1116</a> of file <a class="el" href="tw__rate__module_8f90_source.html">tw_rate_module.f90</a>.</p>
 
 </div>
 </div>
@@ -543,7 +619,7 @@ Here is the call graph for this function:</div>
 
 <p>Sorts the entries in weak_rate in increasing order of the decaying nuclide. </p>
 
-<p class="definition">Definition at line <a class="el" href="tw__rate__module_8f90_source.html#l01051">1051</a> of file <a class="el" href="tw__rate__module_8f90_source.html">tw_rate_module.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tw__rate__module_8f90_source.html#l01280">1280</a> of file <a class="el" href="tw__rate__module_8f90_source.html">tw_rate_module.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -609,7 +685,7 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="tw__rate__module_8f90_source.html#l00757">757</a> of file <a class="el" href="tw__rate__module_8f90_source.html">tw_rate_module.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tw__rate__module_8f90_source.html#l00986">986</a> of file <a class="el" href="tw__rate__module_8f90_source.html">tw_rate_module.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -683,7 +759,7 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Weak reaction rate, interpolated at the desired temp and dens </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="tw__rate__module_8f90_source.html#l00786">786</a> of file <a class="el" href="tw__rate__module_8f90_source.html">tw_rate_module.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tw__rate__module_8f90_source.html#l01015">1015</a> of file <a class="el" href="tw__rate__module_8f90_source.html">tw_rate_module.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -718,7 +794,7 @@ Here is the call graph for this function:</div>
 <dl class="section author"><dt>Author</dt><dd>M. Reichert </dd></dl>
 <dl class="section date"><dt>Date</dt><dd>27.01.21 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="tw__rate__module_8f90_source.html#l00171">171</a> of file <a class="el" href="tw__rate__module_8f90_source.html">tw_rate_module.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tw__rate__module_8f90_source.html#l00180">180</a> of file <a class="el" href="tw__rate__module_8f90_source.html">tw_rate_module.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -968,6 +1044,32 @@ Here is the call graph for this function:</div>
 <p>switch for weak rates </p>
 
 <p class="definition">Definition at line <a class="el" href="tw__rate__module_8f90_source.html#l00058">58</a> of file <a class="el" href="tw__rate__module_8f90_source.html">tw_rate_module.f90</a>.</p>
+
+</div>
+</div>
+<a id="aeafa013d68ae6bc429bd1847108be3a3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeafa013d68ae6bc429bd1847108be3a3">&#9670;&nbsp;</a></span>weak_binary_name</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">character(len=*), parameter, private tw_rate_module::weak_binary_name ='weak_rates.windat'</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Filename of binary file to save weak rates. </p>
+
+<p class="definition">Definition at line <a class="el" href="tw__rate__module_8f90_source.html#l00069">69</a> of file <a class="el" href="tw__rate__module_8f90_source.html">tw_rate_module.f90</a>.</p>
 
 </div>
 </div>

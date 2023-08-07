@@ -1,5 +1,9 @@
 var NAVTREEINDEX3 =
 {
+"classbin_1_1class__files_1_1winvn__class_1_1winvn.html#af76b2ff92a4ef7ea6c20e0cf39ed397b":[10,0,1,0,4,0,0],
+"classbin_1_1create__neutrino__nucleon__file_1_1nunucleon.html":[10,0,1,1,0],
+"classbin_1_1create__neutrino__nucleon__file_1_1nunucleon.html#a0d686c2de17741b000871c6d41046bd1":[10,0,1,1,0,9],
+"classbin_1_1create__neutrino__nucleon__file_1_1nunucleon.html#a25276e317cc419829464b0d3c131c8ac":[10,0,1,1,0,7],
 "classbin_1_1create__neutrino__nucleon__file_1_1nunucleon.html#a342e402b3659ee866ec301d22e8d3deb":[10,0,1,1,0,24],
 "classbin_1_1create__neutrino__nucleon__file_1_1nunucleon.html#a34d35c5fbf3f086958cbb6ff65334d71":[10,0,1,1,0,11],
 "classbin_1_1create__neutrino__nucleon__file_1_1nunucleon.html#a3f396a4566fd885332ab4fe9f1a89798":[10,0,1,1,0,15],
@@ -245,9 +249,5 @@ var NAVTREEINDEX3 =
 "dir_04f2ecc425faf0d475a3caf484e551f3.html":[11,0,2,0],
 "dir_07a24f2aca1a075e590846273a493d14.html":[11,0,1,0,13,0],
 "dir_07fc319c8e850ce1c369df5cbca36af8.html":[11,0,1,0,10,0],
-"dir_0845c3692f1cc96db77698c23a0c2a47.html":[11,0,3,0],
-"dir_0966041ea5dfb297dc9adad652b3003d.html":[11,0,1,0,13],
-"dir_0a448f292e85e97772d7d4ab897f4d9e.html":[11,0,1,0,14],
-"dir_102e80e97906e546ff7d2f8416a35234.html":[11,0,1,0,7,0],
-"dir_102f75735b5d16c1e789df8d2c0a1a6f.html":[11,0,3,1]
+"dir_0845c3692f1cc96db77698c23a0c2a47.html":[11,0,3,0]
 };

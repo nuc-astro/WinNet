@@ -1,0 +1,7 @@
+<map id="parameter_class::read_sanity_check_prepared_network" name="parameter_class::read_sanity_check_prepared_network">
+<area shape="rect" id="node1" title="Read important parameters from a binary file and check for consistency." alt="" coords="5,38,168,94"/>
+<area shape="rect" id="node2" href="$namespaceerror__msg__class.html#a7e065585cc806a5c264de1f088266498" title="Converts a given integer to a string." alt="" coords="808,20,947,61"/>
+<area shape="rect" id="node3" href="$namespacefile__handling__class.html#a25b51db64738e74a129daae7428c8163" title="Open an unformatted file for reading." alt="" coords="216,45,381,87"/>
+<area shape="rect" id="node5" href="$namespaceerror__msg__class.html#a2453d3b7cb363115c046840baa1dfb75" title="Raise a exception with a given error message." alt="" coords="608,49,760,91"/>
+<area shape="rect" id="node4" href="$namespacefile__handling__class.html#af02196bd5eaf70ecd5ab4cc650094d5e" title="Finds the next unused unit number." alt="" coords="429,20,560,61"/>
+</map>

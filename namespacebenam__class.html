@@ -106,9 +106,9 @@ $(document).ready(function(){initNavTree('namespacebenam__class.html',''); initR
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions/Subroutines</h2></td></tr>
-<tr class="memitem:a1174d48cdb5933abdf83174e48d185c5"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebenam__class.html#a1174d48cdb5933abdf83174e48d185c5">load_network</a> (net_source)</td></tr>
-<tr class="memdesc:a1174d48cdb5933abdf83174e48d185c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads isotope names from file 'net_source' and saves them in <a class="el" href="namespaceglobal__class.html#ad9e016f5a4556e9f128cbdd267bfc54b" title="list of isotopes contained in the network">net_names()</a>. Returns number of isotopes in network.  <a href="namespacebenam__class.html#a1174d48cdb5933abdf83174e48d185c5">More...</a><br /></td></tr>
-<tr class="separator:a1174d48cdb5933abdf83174e48d185c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab2f30d9af7c94727fc2af1ebe7b839d0"><td class="memItemLeft" align="right" valign="top">subroutine, private&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebenam__class.html#ab2f30d9af7c94727fc2af1ebe7b839d0">load_network</a> (net_source)</td></tr>
+<tr class="memdesc:ab2f30d9af7c94727fc2af1ebe7b839d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads isotope names from file 'net_source' and saves them in <a class="el" href="namespaceglobal__class.html#ad9e016f5a4556e9f128cbdd267bfc54b" title="list of isotopes contained in the network">net_names()</a>. Returns number of isotopes in network.  <a href="namespacebenam__class.html#ab2f30d9af7c94727fc2af1ebe7b839d0">More...</a><br /></td></tr>
+<tr class="separator:ab2f30d9af7c94727fc2af1ebe7b839d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2e85786a53d55231776ae950b7b27953"><td class="memItemLeft" align="right" valign="top">character(50) function, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebenam__class.html#a2e85786a53d55231776ae950b7b27953">reaction_string</a> (reac)</td></tr>
 <tr class="memdesc:a2e85786a53d55231776ae950b7b27953"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a string to represent a given reaction.  <a href="namespacebenam__class.html#a2e85786a53d55231776ae950b7b27953">More...</a><br /></td></tr>
 <tr class="separator:a2e85786a53d55231776ae950b7b27953"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -127,6 +127,13 @@ Functions/Subroutines</h2></td></tr>
 <tr class="memitem:af8144ea43fb40187e32fb83da48458f1"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebenam__class.html#af8144ea43fb40187e32fb83da48458f1">getcoefficients</a> (rate_array, length_rate_array)</td></tr>
 <tr class="memdesc:af8144ea43fb40187e32fb83da48458f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the 1/n! factor where n is the number of equal isotopes entering a reaction. in addition the amount by which an isotope is changed in the reaction is saved (+1 / -1)  <a href="namespacebenam__class.html#af8144ea43fb40187e32fb83da48458f1">More...</a><br /></td></tr>
 <tr class="separator:af8144ea43fb40187e32fb83da48458f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a72485363e8459a51cc23724f0aa4291a"><td class="memItemLeft" align="right" valign="top">subroutine, private&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebenam__class.html#a72485363e8459a51cc23724f0aa4291a">read_binary_network_data</a> (path)</td></tr>
+<tr class="separator:a72485363e8459a51cc23724f0aa4291a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a62741f4cd06b3a90648a9bce8db6c52c"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebenam__class.html#a62741f4cd06b3a90648a9bce8db6c52c">output_binary_network_data</a> (path)</td></tr>
+<tr class="separator:a62741f4cd06b3a90648a9bce8db6c52c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a95931751f9ab5819869210a561661790"><td class="memItemLeft" align="right" valign="top">subroutine, private&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebenam__class.html#a95931751f9ab5819869210a561661790">read_ascii_network_data</a> ()</td></tr>
+<tr class="memdesc:a95931751f9ab5819869210a561661790"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads nuclear properties (name,a,n,z,spin,mass excess,partition functions) from file 'winvn' and htpf file and writes them into isotope(:). Also the arrays of the partition function grid and temperature grid are initialized here.  <a href="namespacebenam__class.html#a95931751f9ab5819869210a561661790">More...</a><br /></td></tr>
+<tr class="separator:a95931751f9ab5819869210a561661790"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae8ad1000ee495505fa72a163562513c8"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebenam__class.html#ae8ad1000ee495505fa72a163562513c8">get_nuclear_properties</a> ()</td></tr>
 <tr class="memdesc:ae8ad1000ee495505fa72a163562513c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads nuclear properties (name,a,n,z,spin,mass excess,partition functions) from file 'winvn' and htpf file and writes them into isotope(:). Also the arrays of the partition function grid and temperature grid are initialized here.  <a href="namespacebenam__class.html#ae8ad1000ee495505fa72a163562513c8">More...</a><br /></td></tr>
 <tr class="separator:ae8ad1000ee495505fa72a163562513c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -157,6 +164,8 @@ Variables</h2></td></tr>
 <tr class="memitem:a1c440564b7454996d5060bdc251c6aec"><td class="memItemLeft" align="right" valign="top">integer, dimension(:,:), allocatable&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebenam__class.html#a1c440564b7454996d5060bdc251c6aec">minmax</a></td></tr>
 <tr class="memdesc:a1c440564b7454996d5060bdc251c6aec"><td class="mdescLeft">&#160;</td><td class="mdescRight">TODO: add description.  <a href="namespacebenam__class.html#a1c440564b7454996d5060bdc251c6aec">More...</a><br /></td></tr>
 <tr class="separator:a1c440564b7454996d5060bdc251c6aec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ec6fe8bd338df8341bf31a2ab1497fa"><td class="memItemLeft" align="right" valign="top">character(len= *), parameter, private&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebenam__class.html#a3ec6fe8bd338df8341bf31a2ab1497fa">network_binary_name</a> ='network.windat'</td></tr>
+<tr class="separator:a3ec6fe8bd338df8341bf31a2ab1497fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Subroutines needed to initialise the network. </p>
@@ -190,7 +199,7 @@ Variables</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>index of the isotope called 'name' </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="benam__class_8f90_source.html#l00247">247</a> of file <a class="el" href="benam__class_8f90_source.html">benam_class.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="benam__class_8f90_source.html#l00250">250</a> of file <a class="el" href="benam__class_8f90_source.html">benam_class.f90</a>.</p>
 
 </div>
 </div>
@@ -240,7 +249,7 @@ Example:</h3>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="benam__class_8f90_source.html#l00219">219</a> of file <a class="el" href="benam__class_8f90_source.html">benam_class.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="benam__class_8f90_source.html#l00222">222</a> of file <a class="el" href="benam__class_8f90_source.html">benam_class.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -286,7 +295,7 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>return index </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="benam__class_8f90_source.html#l00750">750</a> of file <a class="el" href="benam__class_8f90_source.html">benam_class.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="benam__class_8f90_source.html#l00869">869</a> of file <a class="el" href="benam__class_8f90_source.html">benam_class.f90</a>.</p>
 
 </div>
 </div>
@@ -305,7 +314,7 @@ Here is the call graph for this function:</div>
 <p>Returns Amin and Amax for each isotopic chain in minmax. </p>
 <p><b>Edited:</b> 11.01.14</p>
 
-<p class="definition">Definition at line <a class="el" href="benam__class_8f90_source.html#l00779">779</a> of file <a class="el" href="benam__class_8f90_source.html">benam_class.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="benam__class_8f90_source.html#l00898">898</a> of file <a class="el" href="benam__class_8f90_source.html">benam_class.f90</a>.</p>
 
 </div>
 </div>
@@ -348,7 +357,7 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>name of the isotope </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="benam__class_8f90_source.html#l00276">276</a> of file <a class="el" href="benam__class_8f90_source.html">benam_class.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="benam__class_8f90_source.html#l00279">279</a> of file <a class="el" href="benam__class_8f90_source.html">benam_class.f90</a>.</p>
 
 </div>
 </div>
@@ -370,7 +379,7 @@ Here is the call graph for this function:</div>
 <li>11.02.21 - MR: Implemented a switch for htpf functions and moved things to additional subroutine</li>
 </ul>
 
-<p class="definition">Definition at line <a class="el" href="benam__class_8f90_source.html#l00416">416</a> of file <a class="el" href="benam__class_8f90_source.html">benam_class.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="benam__class_8f90_source.html#l00624">624</a> of file <a class="el" href="benam__class_8f90_source.html">benam_class.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -419,7 +428,7 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="benam__class_8f90_source.html#l00303">303</a> of file <a class="el" href="benam__class_8f90_source.html">benam_class.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="benam__class_8f90_source.html#l00306">306</a> of file <a class="el" href="benam__class_8f90_source.html">benam_class.f90</a>.</p>
 
 </div>
 </div>
@@ -507,24 +516,32 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="benam__class_8f90_source.html#l00902">902</a> of file <a class="el" href="benam__class_8f90_source.html">benam_class.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="benam__class_8f90_source.html#l01021">1021</a> of file <a class="el" href="benam__class_8f90_source.html">benam_class.f90</a>.</p>
 
 </div>
 </div>
-<a id="a1174d48cdb5933abdf83174e48d185c5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1174d48cdb5933abdf83174e48d185c5">&#9670;&nbsp;</a></span>load_network()</h2>
+<a id="ab2f30d9af7c94727fc2af1ebe7b839d0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab2f30d9af7c94727fc2af1ebe7b839d0">&#9670;&nbsp;</a></span>load_network()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">subroutine, public benam_class::load_network </td>
+          <td class="memname">subroutine, private benam_class::load_network </td>
           <td>(</td>
           <td class="paramtype">character(*), intent(in)&#160;</td>
           <td class="paramname"><em>net_source</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Reads isotope names from file 'net_source' and saves them in <a class="el" href="namespaceglobal__class.html#ad9e016f5a4556e9f128cbdd267bfc54b" title="list of isotopes contained in the network">net_names()</a>. Returns number of isotopes in network. </p>
@@ -550,11 +567,11 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="benam__class_8f90_source.html#l00052">52</a> of file <a class="el" href="benam__class_8f90_source.html">benam_class.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="benam__class_8f90_source.html#l00055">55</a> of file <a class="el" href="benam__class_8f90_source.html">benam_class.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="namespacebenam__class_a1174d48cdb5933abdf83174e48d185c5_cgraph.svg" width="100%" height="553"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="namespacebenam__class_ab2f30d9af7c94727fc2af1ebe7b839d0_cgraph.svg" width="100%" height="553"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div>
 
@@ -592,7 +609,39 @@ Example:</h3>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="benam__class_8f90_source.html#l00183">183</a> of file <a class="el" href="benam__class_8f90_source.html">benam_class.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="benam__class_8f90_source.html#l00186">186</a> of file <a class="el" href="benam__class_8f90_source.html">benam_class.f90</a>.</p>
+
+</div>
+</div>
+<a id="a62741f4cd06b3a90648a9bce8db6c52c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a62741f4cd06b3a90648a9bce8db6c52c">&#9670;&nbsp;</a></span>output_binary_network_data()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">subroutine, public benam_class::output_binary_network_data </td>
+          <td>(</td>
+          <td class="paramtype">character(len=*), intent(in)&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">path</td><td>Path to the output file </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="benam__class_8f90_source.html#l00481">481</a> of file <a class="el" href="benam__class_8f90_source.html">benam_class.f90</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="namespacebenam__class_a62741f4cd06b3a90648a9bce8db6c52c_cgraph.svg" width="100%" height="361"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+</div>
 
 </div>
 </div>
@@ -620,11 +669,87 @@ Example</h3>
 </div><!-- fragment --><p>will return a="ni56 =&gt; co56".</p>
 <dl class="section author"><dt>Author</dt><dd>Moritz Reichert </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="benam__class_8f90_source.html#l00115">115</a> of file <a class="el" href="benam__class_8f90_source.html">benam_class.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="benam__class_8f90_source.html#l00118">118</a> of file <a class="el" href="benam__class_8f90_source.html">benam_class.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><iframe scrolling="no" frameborder="0" src="namespacebenam__class_a2e85786a53d55231776ae950b7b27953_cgraph.svg" width="396" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
+</div>
+
+</div>
+</div>
+<a id="a95931751f9ab5819869210a561661790"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a95931751f9ab5819869210a561661790">&#9670;&nbsp;</a></span>read_ascii_network_data()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">subroutine, private benam_class::read_ascii_network_data</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reads nuclear properties (name,a,n,z,spin,mass excess,partition functions) from file 'winvn' and htpf file and writes them into isotope(:). Also the arrays of the partition function grid and temperature grid are initialized here. </p>
+<p><b>Edited:</b> </p><ul>
+<li>11.01.14</li>
+<li>11.02.21 - MR: Implemented a switch for htpf functions and moved things to additional subroutine</li>
+</ul>
+
+<p class="definition">Definition at line <a class="el" href="benam__class_8f90_source.html#l00540">540</a> of file <a class="el" href="benam__class_8f90_source.html">benam_class.f90</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="namespacebenam__class_a95931751f9ab5819869210a561661790_cgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+</div>
+
+</div>
+</div>
+<a id="a72485363e8459a51cc23724f0aa4291a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a72485363e8459a51cc23724f0aa4291a">&#9670;&nbsp;</a></span>read_binary_network_data()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">subroutine, private benam_class::read_binary_network_data </td>
+          <td>(</td>
+          <td class="paramtype">character(len=*), intent(in)&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">path</td><td>Path to the input file </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="benam__class_8f90_source.html#l00410">410</a> of file <a class="el" href="benam__class_8f90_source.html">benam_class.f90</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="namespacebenam__class_a72485363e8459a51cc23724f0aa4291a_cgraph.svg" width="100%" height="477"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div>
 
@@ -680,7 +805,7 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="benam__class_8f90_source.html#l00692">692</a> of file <a class="el" href="benam__class_8f90_source.html">benam_class.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="benam__class_8f90_source.html#l00811">811</a> of file <a class="el" href="benam__class_8f90_source.html">benam_class.f90</a>.</p>
 
 </div>
 </div>
@@ -732,7 +857,7 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="benam__class_8f90_source.html#l00844">844</a> of file <a class="el" href="benam__class_8f90_source.html">benam_class.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="benam__class_8f90_source.html#l00963">963</a> of file <a class="el" href="benam__class_8f90_source.html">benam_class.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -782,7 +907,7 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="benam__class_8f90_source.html#l00496">496</a> of file <a class="el" href="benam__class_8f90_source.html">benam_class.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="benam__class_8f90_source.html#l00657">657</a> of file <a class="el" href="benam__class_8f90_source.html">benam_class.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -827,7 +952,7 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="benam__class_8f90_source.html#l00614">614</a> of file <a class="el" href="benam__class_8f90_source.html">benam_class.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="benam__class_8f90_source.html#l00739">739</a> of file <a class="el" href="benam__class_8f90_source.html">benam_class.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -853,6 +978,30 @@ Here is the call graph for this function:</div>
 <p>TODO: add description. </p>
 
 <p class="definition">Definition at line <a class="el" href="benam__class_8f90_source.html#l00014">14</a> of file <a class="el" href="benam__class_8f90_source.html">benam_class.f90</a>.</p>
+
+</div>
+</div>
+<a id="a3ec6fe8bd338df8341bf31a2ab1497fa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3ec6fe8bd338df8341bf31a2ab1497fa">&#9670;&nbsp;</a></span>network_binary_name</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">character(len=*), parameter, private benam_class::network_binary_name ='network.windat'</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="benam__class_8f90_source.html#l00016">16</a> of file <a class="el" href="benam__class_8f90_source.html">benam_class.f90</a>.</p>
 
 </div>
 </div>

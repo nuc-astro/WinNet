@@ -119,9 +119,9 @@ Functions/Subroutines</h2></td></tr>
 <tr class="memitem:a84c72570c22285bc7dd6ff8c4f94cd2d"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacenuflux__class.html#a84c72570c22285bc7dd6ff8c4f94cd2d">nuflux</a> (time, rkm)</td></tr>
 <tr class="memdesc:a84c72570c22285bc7dd6ff8c4f94cd2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines neutrino flux for current time (in units of cm^-2 s^-1).  <a href="namespacenuflux__class.html#a84c72570c22285bc7dd6ff8c4f94cd2d">More...</a><br /></td></tr>
 <tr class="separator:a84c72570c22285bc7dd6ff8c4f94cd2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6002e8efbcc88144d8963d3909aa49e9"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacenuflux__class.html#a6002e8efbcc88144d8963d3909aa49e9">calculate_nu_rate</a> (rrate, rat_calc)</td></tr>
-<tr class="memdesc:a6002e8efbcc88144d8963d3909aa49e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates the cross section times the neutrino flux.  <a href="namespacenuflux__class.html#a6002e8efbcc88144d8963d3909aa49e9">More...</a><br /></td></tr>
-<tr class="separator:a6002e8efbcc88144d8963d3909aa49e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac04f6b0dca8f9120cb839749cc2dbbe0"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacenuflux__class.html#ac04f6b0dca8f9120cb839749cc2dbbe0">calculate_nu_rate</a> (rrate, rat_calc)</td></tr>
+<tr class="memdesc:ac04f6b0dca8f9120cb839749cc2dbbe0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates the cross section times the neutrino flux.  <a href="namespacenuflux__class.html#ac04f6b0dca8f9120cb839749cc2dbbe0">More...</a><br /></td></tr>
+<tr class="separator:ac04f6b0dca8f9120cb839749cc2dbbe0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0478014d20897955e1805113a3f19699"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacenuflux__class.html#a0478014d20897955e1805113a3f19699">nucs</a> ()</td></tr>
 <tr class="memdesc:a0478014d20897955e1805113a3f19699"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interpolate neutrino cross sections.  <a href="namespacenuflux__class.html#a0478014d20897955e1805113a3f19699">More...</a><br /></td></tr>
 <tr class="separator:a0478014d20897955e1805113a3f19699"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -131,12 +131,18 @@ Functions/Subroutines</h2></td></tr>
 <tr class="memitem:ab1da7d099980f713b1537e3ba6f0e671"><td class="memItemLeft" align="right" valign="top">subroutine, private&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacenuflux__class.html#ab1da7d099980f713b1537e3ba6f0e671">write_reac_verbose_out</a> ()</td></tr>
 <tr class="memdesc:ab1da7d099980f713b1537e3ba6f0e671"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write the amount of individual reactions to the out.  <a href="namespacenuflux__class.html#ab1da7d099980f713b1537e3ba6f0e671">More...</a><br /></td></tr>
 <tr class="separator:ab1da7d099980f713b1537e3ba6f0e671"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aecce62a44d76c3407077af69277eaf86"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacenuflux__class.html#aecce62a44d76c3407077af69277eaf86">read_neutrino_rates</a> ()</td></tr>
-<tr class="memdesc:aecce62a44d76c3407077af69277eaf86"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read neutrino reactions and fill the <a class="el" href="namespaceglobal__class.html#acbe9f81eabe5989357462091807de3da" title="neutrino rates">global_class::nurate</a> array.  <a href="namespacenuflux__class.html#aecce62a44d76c3407077af69277eaf86">More...</a><br /></td></tr>
-<tr class="separator:aecce62a44d76c3407077af69277eaf86"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae7a5cf7e2f89eb84f4dbc8b999bb21a6"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacenuflux__class.html#ae7a5cf7e2f89eb84f4dbc8b999bb21a6">read_reactions_sieverding</a> (reaction_file_path, reactype)</td></tr>
-<tr class="memdesc:ae7a5cf7e2f89eb84f4dbc8b999bb21a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the reactions from a file in the format of Sieverding et al 2018.  <a href="namespacenuflux__class.html#ae7a5cf7e2f89eb84f4dbc8b999bb21a6">More...</a><br /></td></tr>
-<tr class="separator:ae7a5cf7e2f89eb84f4dbc8b999bb21a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aabfb6442d6a36a5e1613aa0c91bfc777"><td class="memItemLeft" align="right" valign="top">subroutine, private&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacenuflux__class.html#aabfb6442d6a36a5e1613aa0c91bfc777">read_neutrino_rates</a> ()</td></tr>
+<tr class="memdesc:aabfb6442d6a36a5e1613aa0c91bfc777"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read neutrino reactions and fill the <a class="el" href="namespaceglobal__class.html#acbe9f81eabe5989357462091807de3da" title="neutrino rates">global_class::nurate</a> array.  <a href="namespacenuflux__class.html#aabfb6442d6a36a5e1613aa0c91bfc777">More...</a><br /></td></tr>
+<tr class="separator:aabfb6442d6a36a5e1613aa0c91bfc777"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a80ae126dbf78f193c391178d5bedb438"><td class="memItemLeft" align="right" valign="top">subroutine, private&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacenuflux__class.html#a80ae126dbf78f193c391178d5bedb438">read_binary_neutrino_reaction_data</a> (path)</td></tr>
+<tr class="memdesc:a80ae126dbf78f193c391178d5bedb438"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the reactions from a file in binary format.  <a href="namespacenuflux__class.html#a80ae126dbf78f193c391178d5bedb438">More...</a><br /></td></tr>
+<tr class="separator:a80ae126dbf78f193c391178d5bedb438"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a018b8a9dca8d3cf7be07a527c293dd5f"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacenuflux__class.html#a018b8a9dca8d3cf7be07a527c293dd5f">output_binary_neutrino_reaction_data</a> (path)</td></tr>
+<tr class="memdesc:a018b8a9dca8d3cf7be07a527c293dd5f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write the reactions to a file in binary format.  <a href="namespacenuflux__class.html#a018b8a9dca8d3cf7be07a527c293dd5f">More...</a><br /></td></tr>
+<tr class="separator:a018b8a9dca8d3cf7be07a527c293dd5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a46583d0423ea4dfb7d4aa832f9070117"><td class="memItemLeft" align="right" valign="top">subroutine, private&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacenuflux__class.html#a46583d0423ea4dfb7d4aa832f9070117">read_reactions_sieverding</a> (reaction_file_path, reactype)</td></tr>
+<tr class="memdesc:a46583d0423ea4dfb7d4aa832f9070117"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the reactions from a file in the format of Sieverding et al 2018.  <a href="namespacenuflux__class.html#a46583d0423ea4dfb7d4aa832f9070117">More...</a><br /></td></tr>
+<tr class="separator:a46583d0423ea4dfb7d4aa832f9070117"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1bfb787c870f96eb59a5660c1dacf5b0"><td class="memItemLeft" align="right" valign="top">character(50) function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacenuflux__class.html#a1bfb787c870f96eb59a5660c1dacf5b0">nurate_string</a> (nurate)</td></tr>
 <tr class="memdesc:a1bfb787c870f96eb59a5660c1dacf5b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns a string with the reaction information.  <a href="namespacenuflux__class.html#a1bfb787c870f96eb59a5660c1dacf5b0">More...</a><br /></td></tr>
 <tr class="separator:a1bfb787c870f96eb59a5660c1dacf5b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -221,19 +227,22 @@ Variables</h2></td></tr>
 <tr class="separator:a91c9a8a84ee27b2ee49e95f989e248e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adfc2ce9c49a6c8111db6fa99051cf5f0"><td class="memItemLeft" align="right" valign="top">integer, private&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacenuflux__class.html#adfc2ce9c49a6c8111db6fa99051cf5f0">n_nc</a></td></tr>
 <tr class="separator:adfc2ce9c49a6c8111db6fa99051cf5f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4a14d8fde646e3411a6380a9e3466f4c"><td class="memItemLeft" align="right" valign="top">character(len= *), parameter, private&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacenuflux__class.html#a4a14d8fde646e3411a6380a9e3466f4c">nu_binary_name</a> = &quot;nu_binary.windat&quot;</td></tr>
+<tr class="memdesc:a4a14d8fde646e3411a6380a9e3466f4c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Name of the neutrino binary file.  <a href="namespacenuflux__class.html#a4a14d8fde646e3411a6380a9e3466f4c">More...</a><br /></td></tr>
+<tr class="separator:a4a14d8fde646e3411a6380a9e3466f4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Contains variables and parameters related to neutrino fluxes. </p>
 <p>The neutrino temperature grid that is used for the reaction rates can be changed here. </p>
 </div><h2 class="groupheader">Function/Subroutine Documentation</h2>
-<a id="a6002e8efbcc88144d8963d3909aa49e9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6002e8efbcc88144d8963d3909aa49e9">&#9670;&nbsp;</a></span>calculate_nu_rate()</h2>
+<a id="ac04f6b0dca8f9120cb839749cc2dbbe0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac04f6b0dca8f9120cb839749cc2dbbe0">&#9670;&nbsp;</a></span>calculate_nu_rate()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">subroutine nuflux_class::calculate_nu_rate </td>
+          <td class="memname">subroutine, public nuflux_class::calculate_nu_rate </td>
           <td>(</td>
           <td class="paramtype">type(<a class="el" href="structglobal__class_1_1reactionrate__type.html">reactionrate_type</a>), intent(inout)&#160;</td>
           <td class="paramname"><em>rrate</em>, </td>
@@ -264,7 +273,7 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="nuflux__class_8f90_source.html#l00324">324</a> of file <a class="el" href="nuflux__class_8f90_source.html">nuflux_class.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="nuflux__class_8f90_source.html#l00335">335</a> of file <a class="el" href="nuflux__class_8f90_source.html">nuflux_class.f90</a>.</p>
 
 </div>
 </div>
@@ -287,7 +296,7 @@ Variables</h2></td></tr>
 <li>25.01.21, MR - Moved the reading of the nu-rates to this place</li>
 </ul>
 
-<p class="definition">Definition at line <a class="el" href="nuflux__class_8f90_source.html#l00118">118</a> of file <a class="el" href="nuflux__class_8f90_source.html">nuflux_class.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="nuflux__class_8f90_source.html#l00125">125</a> of file <a class="el" href="nuflux__class_8f90_source.html">nuflux_class.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -336,7 +345,7 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="nuflux__class_8f90_source.html#l01267">1267</a> of file <a class="el" href="nuflux__class_8f90_source.html">nuflux_class.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="nuflux__class_8f90_source.html#l01345">1345</a> of file <a class="el" href="nuflux__class_8f90_source.html">nuflux_class.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -368,7 +377,7 @@ Here is the call graph for this function:</div>
 <li>22.02.23, M.R., removed possible division by zero</li>
 </ul>
 
-<p class="definition">Definition at line <a class="el" href="nuflux__class_8f90_source.html#l00387">387</a> of file <a class="el" href="nuflux__class_8f90_source.html">nuflux_class.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="nuflux__class_8f90_source.html#l00398">398</a> of file <a class="el" href="nuflux__class_8f90_source.html">nuflux_class.f90</a>.</p>
 
 </div>
 </div>
@@ -413,7 +422,7 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="nuflux__class_8f90_source.html#l00165">165</a> of file <a class="el" href="nuflux__class_8f90_source.html">nuflux_class.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="nuflux__class_8f90_source.html#l00176">176</a> of file <a class="el" href="nuflux__class_8f90_source.html">nuflux_class.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -445,7 +454,7 @@ Here is the call graph for this function:</div>
 <dl class="section author"><dt>Author</dt><dd>Moritz Reichert </dd></dl>
 <dl class="section date"><dt>Date</dt><dd>12.02.2023 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="nuflux__class_8f90_source.html#l00917">917</a> of file <a class="el" href="nuflux__class_8f90_source.html">nuflux_class.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="nuflux__class_8f90_source.html#l00995">995</a> of file <a class="el" href="nuflux__class_8f90_source.html">nuflux_class.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -484,11 +493,93 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="nuflux__class_8f90_source.html#l00490">490</a> of file <a class="el" href="nuflux__class_8f90_source.html">nuflux_class.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="nuflux__class_8f90_source.html#l00501">501</a> of file <a class="el" href="nuflux__class_8f90_source.html">nuflux_class.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="namespacenuflux__class_a2fb34aac999210463981b91de1e70ffb_cgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+</div>
+
+</div>
+</div>
+<a id="a018b8a9dca8d3cf7be07a527c293dd5f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a018b8a9dca8d3cf7be07a527c293dd5f">&#9670;&nbsp;</a></span>output_binary_neutrino_reaction_data()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">subroutine, public nuflux_class::output_binary_neutrino_reaction_data </td>
+          <td>(</td>
+          <td class="paramtype">character(len=*), intent(in)&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Write the reactions to a file in binary format. </p>
+<p>This subroutine writes the reactions to a file in binary format. This is done for preparing a folder with all reaction rates that can be read in later on from many tracers.</p>
+<dl class="section author"><dt>Author</dt><dd>M. Reichert </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>21.06.2023 </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">path</td><td>Path to the output directory </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="nuflux__class_8f90_source.html#l00773">773</a> of file <a class="el" href="nuflux__class_8f90_source.html">nuflux_class.f90</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="namespacenuflux__class_a018b8a9dca8d3cf7be07a527c293dd5f_cgraph.svg" width="100%" height="361"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+</div>
+
+</div>
+</div>
+<a id="a80ae126dbf78f193c391178d5bedb438"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a80ae126dbf78f193c391178d5bedb438">&#9670;&nbsp;</a></span>read_binary_neutrino_reaction_data()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">subroutine, private nuflux_class::read_binary_neutrino_reaction_data </td>
+          <td>(</td>
+          <td class="paramtype">character(len=*), intent(in)&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Read the reactions from a file in binary format. </p>
+<p>This subroutine reads neutrino reactions and all neutrino data from a binary file. This file has to be previously prepared.</p>
+<dl class="section author"><dt>Author</dt><dd>M. Reichert </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>21.06.2023 </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">path</td><td>Path to the output directory </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="nuflux__class_8f90_source.html#l00735">735</a> of file <a class="el" href="nuflux__class_8f90_source.html">nuflux_class.f90</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="namespacenuflux__class_a80ae126dbf78f193c391178d5bedb438_cgraph.svg" width="100%" height="361"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div>
 
@@ -521,7 +612,7 @@ Here is the call graph for this function:</div>
  004 nue    (cc)  0p 0n 1a
  005 nue    (cc)  2p 0n 0a
  ...</pre><p> where the type "cc" stands for charged current and "nc" for neutral current. The particle emission is the number of particles emitted in the reaction. The first line is a header line and is ignored.</p>
-<dl class="section see"><dt>See also</dt><dd><a href="https://iopscience.iop.org/article/10.3847/1538-4357/aadd48">Sieverding et al 2018</a>, <a class="el" href="namespacenuflux__class.html#ae7a5cf7e2f89eb84f4dbc8b999bb21a6">read_reactions_sieverding</a></dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a href="https://iopscience.iop.org/article/10.3847/1538-4357/aadd48">Sieverding et al 2018</a>, <a class="el" href="namespacenuflux__class.html#a46583d0423ea4dfb7d4aa832f9070117">read_reactions_sieverding</a></dd></dl>
 <dl class="section author"><dt>Author</dt><dd>M. Reichert </dd></dl>
 <dl class="section date"><dt>Date</dt><dd>12.02.2023 </dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -531,7 +622,7 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="nuflux__class_8f90_source.html#l00987">987</a> of file <a class="el" href="nuflux__class_8f90_source.html">nuflux_class.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="nuflux__class_8f90_source.html#l01065">1065</a> of file <a class="el" href="nuflux__class_8f90_source.html">nuflux_class.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -541,16 +632,24 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="aecce62a44d76c3407077af69277eaf86"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aecce62a44d76c3407077af69277eaf86">&#9670;&nbsp;</a></span>read_neutrino_rates()</h2>
+<a id="aabfb6442d6a36a5e1613aa0c91bfc777"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aabfb6442d6a36a5e1613aa0c91bfc777">&#9670;&nbsp;</a></span>read_neutrino_rates()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">subroutine nuflux_class::read_neutrino_rates</td>
+          <td class="memname">subroutine, private nuflux_class::read_neutrino_rates</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Read neutrino reactions and fill the <a class="el" href="namespaceglobal__class.html#acbe9f81eabe5989357462091807de3da" title="neutrino rates">global_class::nurate</a> array. </p>
@@ -560,24 +659,27 @@ Here is the call graph for this function:</div>
 <li>23.01.21, MR - Moved it to this subroutine from <a class="el" href="namespacenetwork__init__module.html" title="Module to prepare the reaction network.">network_init_module</a></li>
 </ul>
 
-<p class="definition">Definition at line <a class="el" href="nuflux__class_8f90_source.html#l00621">621</a> of file <a class="el" href="nuflux__class_8f90_source.html">nuflux_class.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="nuflux__class_8f90_source.html#l00632">632</a> of file <a class="el" href="nuflux__class_8f90_source.html">nuflux_class.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="namespacenuflux__class_aecce62a44d76c3407077af69277eaf86_cgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="namespacenuflux__class_aabfb6442d6a36a5e1613aa0c91bfc777_cgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div>
 
 </div>
 </div>
-<a id="ae7a5cf7e2f89eb84f4dbc8b999bb21a6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae7a5cf7e2f89eb84f4dbc8b999bb21a6">&#9670;&nbsp;</a></span>read_reactions_sieverding()</h2>
+<a id="a46583d0423ea4dfb7d4aa832f9070117"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a46583d0423ea4dfb7d4aa832f9070117">&#9670;&nbsp;</a></span>read_reactions_sieverding()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">subroutine nuflux_class::read_reactions_sieverding </td>
+          <td class="memname">subroutine, private nuflux_class::read_reactions_sieverding </td>
           <td>(</td>
           <td class="paramtype">character(len=*), intent(in)&#160;</td>
           <td class="paramname"><em>reaction_file_path</em>, </td>
@@ -594,6 +696,11 @@ Here is the call graph for this function:</div>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Read the reactions from a file in the format of Sieverding et al 2018. </p>
@@ -613,11 +720,11 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="nuflux__class_8f90_source.html#l00738">738</a> of file <a class="el" href="nuflux__class_8f90_source.html">nuflux_class.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="nuflux__class_8f90_source.html#l00816">816</a> of file <a class="el" href="nuflux__class_8f90_source.html">nuflux_class.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="namespacenuflux__class_ae7a5cf7e2f89eb84f4dbc8b999bb21a6_cgraph.svg" width="100%" height="378"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="namespacenuflux__class_a46583d0423ea4dfb7d4aa832f9070117_cgraph.svg" width="100%" height="378"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div>
 
@@ -697,7 +804,7 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="nuflux__class_8f90_source.html#l01152">1152</a> of file <a class="el" href="nuflux__class_8f90_source.html">nuflux_class.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="nuflux__class_8f90_source.html#l01230">1230</a> of file <a class="el" href="nuflux__class_8f90_source.html">nuflux_class.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -756,7 +863,7 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="nuflux__class_8f90_source.html#l01331">1331</a> of file <a class="el" href="nuflux__class_8f90_source.html">nuflux_class.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="nuflux__class_8f90_source.html#l01412">1412</a> of file <a class="el" href="nuflux__class_8f90_source.html">nuflux_class.f90</a>.</p>
 
 </div>
 </div>
@@ -785,7 +892,7 @@ Here is the call graph for this function:</div>
 <dl class="section author"><dt>Author</dt><dd>M. Reichert </dd></dl>
 <dl class="section date"><dt>Date</dt><dd>27.01.21 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="nuflux__class_8f90_source.html#l00580">580</a> of file <a class="el" href="nuflux__class_8f90_source.html">nuflux_class.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="nuflux__class_8f90_source.html#l00591">591</a> of file <a class="el" href="nuflux__class_8f90_source.html">nuflux_class.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1113,6 +1220,32 @@ Here is the call graph for this function:</div>
 <p>Length of the neutrino rate grid. </p>
 
 <p class="definition">Definition at line <a class="el" href="nuflux__class_8f90_source.html#l00062">62</a> of file <a class="el" href="nuflux__class_8f90_source.html">nuflux_class.f90</a>.</p>
+
+</div>
+</div>
+<a id="a4a14d8fde646e3411a6380a9e3466f4c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4a14d8fde646e3411a6380a9e3466f4c">&#9670;&nbsp;</a></span>nu_binary_name</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">character(len=*), parameter, private nuflux_class::nu_binary_name = &quot;nu_binary.windat&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Name of the neutrino binary file. </p>
+
+<p class="definition">Definition at line <a class="el" href="nuflux__class_8f90_source.html#l00098">98</a> of file <a class="el" href="nuflux__class_8f90_source.html">nuflux_class.f90</a>.</p>
 
 </div>
 </div>

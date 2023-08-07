@@ -182,6 +182,7 @@ $(document).ready(function(){initNavTree('parameters.html',''); initResizable();
 <li class="level1"><a href="#nunucleo_rates_file">nunucleo_rates_file</a></li>
 <li class="level1"><a href="#nurates_file">nurates_file</a></li>
 <li class="level1"><a href="#out_every">out_every</a></li>
+<li class="level1"><a href="#prepared_network_path">prepared_network_path</a></li>
 <li class="level1"><a href="#reaclib_file">reaclib_file</a></li>
 <li class="level1"><a href="#read_initial_composition">read_initial_composition</a></li>
 <li class="level1"><a href="#rho_analytic">rho_analytic</a></li>
@@ -215,6 +216,7 @@ $(document).ready(function(){initNavTree('parameters.html',''); initResizable();
 <li class="level1"><a href="#use_detailed_balance_q_reac">use_detailed_balance_q_reac</a></li>
 <li class="level1"><a href="#use_htpf">use_htpf</a></li>
 <li class="level1"><a href="#use_neutrino_loss_file">use_neutrino_loss_file</a></li>
+<li class="level1"><a href="#use_prepared_network">use_prepared_network</a></li>
 <li class="level1"><a href="#use_tabulated_rates">use_tabulated_rates</a></li>
 <li class="level1"><a href="#use_thermal_nu_loss">use_thermal_nu_loss</a></li>
 <li class="level1"><a href="#use_timmes_mue">use_timmes_mue</a></li>
@@ -295,7 +297,7 @@ bfission_file</h1>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="namespaceparameter__class.html#a52e3721f291ca3ef1beb4c2b46771a25" title="Fission table for beta-delayed and spontaneous fission.">parameter_class::bfission_file</a>, <a class="el" href="namespacefission__rate__module.html">fission_rate_module</a>, <a class="el" href="parameters.html#nfission_file">nfission_file</a>, <a class="el" href="parameters.html#fissflag">fissflag</a></dd></dl>
 <h1><a class="anchor" id="nfission_file"></a>
 nfission_file</h1>
-<p>Fission fragment probabilities of neutron induced fission. In case of <a class="el" href="parameters.html#fissflag">fissflag</a> equal to 4 (ABLA) this file has to be in the identical format as the <a class="el" href="parameters.html#bfission_file">bfission_file</a>. For <a class="el" href="parameters.html#fissflag">fissflag</a> equal to 3, the file format has to be as given in <a href="https://journals.aps.org/prc/supplemental/10.1103/PhysRevC.101.054607">Mumpower et al. 2020</a>. An example is given by: </p><pre style="border:1px dashed grey; display: inline-block; background: #e8e8e8">
+<p>Fission fragment probabilities of neutron induced fission. For <a class="el" href="parameters.html#fissflag">fissflag</a> equal to 3, the file format has to be as given in <a href="https://journals.aps.org/prc/supplemental/10.1103/PhysRevC.101.054607">Mumpower et al. 2020</a>. An example is given by: </p><pre style="border:1px dashed grey; display: inline-block; background: #e8e8e8">
      93  220  574
      0 0 0
      019  048  1.96607e-06
@@ -412,10 +414,8 @@ fissflag</h1>
 <td>2 </td><td>Kodama-Takahashi </td><td><a class="el" href="parameters.html#fission_rates">fission_rates</a> </td><td><a href="https://ui.adsabs.harvard.edu/abs/1975NuPhA.239..489K/abstract">Kodama &amp; Takahashi 1975</a> </td></tr>
 <tr>
 <td>3 </td><td>Mumpower &amp; Kodama-Takahashi </td><td><a class="el" href="parameters.html#fission_rates">fission_rates</a>, <a class="el" href="parameters.html#nfission_file">nfission_file</a> </td><td><a href="https://ui.adsabs.harvard.edu/abs/2020PhRvC.101e4607M/abstract">Mumpower et al. 2020</a>, <a href="https://ui.adsabs.harvard.edu/abs/1975NuPhA.239..489K/abstract">Kodama &amp; Takahashi 1975</a> </td></tr>
-<tr>
-<td>4 </td><td>ABLA </td><td><a class="el" href="parameters.html#fission_rates">fission_rates</a>, <a class="el" href="parameters.html#nfission_file">nfission_file</a>, <a class="el" href="parameters.html#bfission_file">bfission_file</a> </td><td><a href="https://ui.adsabs.harvard.edu/abs/2009arXiv0906.4193K/abstract">Kelic et al. 2009</a>, <a href="https://ui.adsabs.harvard.edu/abs/2001NuPhA.688..587P/abstract">Panov et al. 2001</a> </td></tr>
 </table>
-<p>For fission flag 3, the fragments of <a href="https://ui.adsabs.harvard.edu/abs/2020PhRvC.101e4607M/abstract">Mumpower et al. 2020</a> are used for beta delayed and neutron induced fission. For spontaneous fission the fragments of <a href="https://ui.adsabs.harvard.edu/abs/1975NuPhA.239..489K/abstract">Kodama &amp; Takahashi 1975</a> are used. Also in case of a missing fragment distribution for the rate, the scheme relies on <a href="https://ui.adsabs.harvard.edu/abs/1975NuPhA.239..489K/abstract">Kodama &amp; Takahashi 1975</a>. In the case of ABLA, the fragment of <a href="https://ui.adsabs.harvard.edu/abs/2001NuPhA.688..587P/abstract">Panov et al., Nuc. Phys. A688 2001</a> is used for missing fragment distributions.</p>
+<p>For fission flag 3, the fragments of <a href="https://ui.adsabs.harvard.edu/abs/2020PhRvC.101e4607M/abstract">Mumpower et al. 2020</a> are used for beta delayed and neutron induced fission. For spontaneous fission the fragments of <a href="https://ui.adsabs.harvard.edu/abs/1975NuPhA.239..489K/abstract">Kodama &amp; Takahashi 1975</a> are used. Also in case of a missing fragment distribution for the rate, the scheme relies on <a href="https://ui.adsabs.harvard.edu/abs/1975NuPhA.239..489K/abstract">Kodama &amp; Takahashi 1975</a>.</p>
 <dl class="section user"><dt>Example template line:</dt><dd><code>fissflag= 1</code> </dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="namespacefission__rate__module.html">fission_rate_module</a>, <a class="el" href="namespaceparameter__class.html#a2712ffb256d17f2971f60346fe008f97" title="defines type of fission fragment distribution used">parameter_class::fissflag</a>, <a class="el" href="parameters.html#bfission_file">bfission_file</a>, <a class="el" href="parameters.html#nfission_file">nfission_file</a>, <a class="el" href="parameters.html#fission_rates">fission_rates</a>, <a href="https://ui.adsabs.harvard.edu/abs/2001NuPhA.688..587P/abstract">Panov et al. 2001</a>, <a href="https://ui.adsabs.harvard.edu/abs/1975NuPhA.239..489K/abstract">Kodama &amp; Takahashi 1975</a>, <a href="https://ui.adsabs.harvard.edu/abs/2009arXiv0906.4193K/abstract">Kelic et al. 2009</a>, <a href="https://ui.adsabs.harvard.edu/abs/2020PhRvC.101e4607M/abstract">Mumpower et al. 2020</a></dd></dl>
 <h1><a class="anchor" id="fission_rates"></a>
@@ -746,7 +746,7 @@ net_source</h1>
    li9
    ...</pre><dl class="section note"><dt>Note</dt><dd>Specific energy states of Al26 can be given as "Al*6" and "Al-6". If these are present, "Al26" should not be added to the <a class="el" href="parameters.html#net_source">net_source</a> file!</dd></dl>
 <dl class="section user"><dt>Example template line:</dt><dd><code>net_source= "@WINNET@/data/sunet_complete"</code></dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespaceparameter__class.html#a44494f1d0e9a6d992113965a7d8f1bc7" title="list of isotopes included in the network (sunet)">parameter_class::net_source</a>, <a class="el" href="namespacebenam__class.html#a1174d48cdb5933abdf83174e48d185c5" title="Reads isotope names from file &#39;net_source&#39; and saves them in net_names(). Returns number of isotopes ...">benam_class::load_network</a></dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespaceparameter__class.html#a44494f1d0e9a6d992113965a7d8f1bc7" title="list of isotopes included in the network (sunet)">parameter_class::net_source</a>, <a class="el" href="namespacebenam__class.html#ab2f30d9af7c94727fc2af1ebe7b839d0" title="Reads isotope names from file &#39;net_source&#39; and saves them in net_names(). Returns number of isotopes ...">benam_class::load_network</a></dd></dl>
 <h1><a class="anchor" id="neutrino_loss_file"></a>
 neutrino_loss_file</h1>
 <p>Path to a file that contains the information of the average neutrino energy that gets produced by \( \beta \)-decays. This is only relevant if <a class="el" href="parameters.html#heating_mode">heating_mode</a> is greater than 0. An example of the file could look like: </p><pre style="border:1px dashed grey; display: inline-block; background: #e8e8e8">...
@@ -962,6 +962,11 @@ out_every</h1>
     1  2.0000000E-12 10.9650000  8.7095999E+12    0.0094639
    ... </pre></div><dl class="section user"><dt>Example template line:</dt><dd><code>out_every= 10</code> </dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="namespaceparameter__class.html#a0a894c243b449ba4fac98ec59417a049" title="– runtime parameters set when reading parameter file">parameter_class::out_every</a>, <a class="el" href="namespaceanalysis.html#a274b0ba4a8a4a40ef0d092f99aee4b02" title="Periodic output of analysis data for current iteration.">analysis::output_iteration</a></dd></dl>
+<h1><a class="anchor" id="prepared_network_path"></a>
+prepared_network_path</h1>
+<p>File to a previously created folder with reaction rate and nuclear data. For more information see the description of the parameter <a class="el" href="parameters.html#use_prepared_network">use_prepared_network</a>.</p>
+<dl class="section user"><dt>Example template line:</dt><dd><code>prepared_network_path= network_data/</code> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="parameters.html#use_prepared_network">use_prepared_network</a></dd></dl>
 <h1><a class="anchor" id="reaclib_file"></a>
 reaclib_file</h1>
 <p>Path to a mandatory reaction rate file (<a href="https://ui.adsabs.harvard.edu/abs/2010ApJS..189..240C">Cyburt et al.2010</a>). It contains reaction rates in order to solve the reaction network. WinNet is only able to handle the Reaclib 1 (R1) original format without chapter 9, 10, 11. All rates in the REACLIB database are fitted by the function</p>
@@ -1347,6 +1352,14 @@ use_neutrino_loss_file</h1>
 <p>Use the information of an external file for the average energy of released neutrinos when a nucleus beta-decays. This parameter is only relevant if <a class="el" href="parameters.html#heating_mode">heating_mode</a> is greater than 0. If it is enabled, <a class="el" href="parameters.html#neutrino_loss_file">neutrino_loss_file</a> has to be set.</p>
 <dl class="section user"><dt>Example template line:</dt><dd><code>use_neutrino_loss_file = yes</code> </dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="parameters.html#use_neutrino_loss_file">use_neutrino_loss_file</a> , <a class="el" href="parameters.html#neutrino_loss_file">neutrino_loss_file</a> , <a class="el" href="parameters.html#heating_mode">heating_mode</a> , <a class="el" href="parameters.html#heating_frac">heating_frac</a> , <a class="el" href="parameters.html#beta_decay_file">beta_decay_file</a></dd></dl>
+<h1><a class="anchor" id="use_prepared_network"></a>
+use_prepared_network</h1>
+<p>Whether or not to use a previously prepared folder that contains reaction rates and network data. This is particularly useful if running many trajectories with the same nuclear input as it can significantly speed up the initialization. A folder that contains the data in the necessary format can be created by running winnet with two inputs, i.e.,</p>
+<p><code>./winnet Example.par network_data</code></p>
+<p>This will create a folder "network_data" with the same nuclear properties that are given in Example.par. The path to this created folder has then to be given within the <a class="el" href="parameters.html#prepared_network_path">prepared_network_path</a> parameter. The makerun.py is able to automatically prepare all necessary files for a run with many trajectories with the &ndash;prepared flag. For more information see the example cases and the help of the makerun.py (accessible via python makerun.py &ndash;help).</p>
+<dl class="section warning"><dt>Warning</dt><dd>When enabling this option certain other parameters that specify the path to reaction rate files or nuclear data may get ignored. </dd></dl>
+<dl class="section user"><dt>Example template line:</dt><dd><code>use_prepared_network = yes</code> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="parameters.html#prepared_network_path">prepared_network_path</a></dd></dl>
 <h1><a class="anchor" id="use_tabulated_rates"></a>
 use_tabulated_rates</h1>
 <p>Whether to use a file with tabulated rates or not. If this parameter is enabled, <a class="el" href="parameters.html#tabulated_rates_file">tabulated_rates_file</a> should be a path to a valid file.</p>

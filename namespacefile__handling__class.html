@@ -109,6 +109,12 @@ Functions/Subroutines</h2></td></tr>
 <tr class="memitem:af02196bd5eaf70ecd5ab4cc650094d5e"><td class="memItemLeft" align="right" valign="top">integer function, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacefile__handling__class.html#af02196bd5eaf70ecd5ab4cc650094d5e">get_next_io_unit</a> ()</td></tr>
 <tr class="memdesc:af02196bd5eaf70ecd5ab4cc650094d5e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finds the next unused unit number.  <a href="namespacefile__handling__class.html#af02196bd5eaf70ecd5ab4cc650094d5e">More...</a><br /></td></tr>
 <tr class="separator:af02196bd5eaf70ecd5ab4cc650094d5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3396a31619e5149278d09cdd614d3497"><td class="memItemLeft" align="right" valign="top">integer function, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacefile__handling__class.html#a3396a31619e5149278d09cdd614d3497">open_unformatted_outfile</a> (file_name)</td></tr>
+<tr class="memdesc:a3396a31619e5149278d09cdd614d3497"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shorthand for opening a new unformatted file for writing (output file)  <a href="namespacefile__handling__class.html#a3396a31619e5149278d09cdd614d3497">More...</a><br /></td></tr>
+<tr class="separator:a3396a31619e5149278d09cdd614d3497"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a25b51db64738e74a129daae7428c8163"><td class="memItemLeft" align="right" valign="top">integer function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacefile__handling__class.html#a25b51db64738e74a129daae7428c8163">open_unformatted_infile</a> (file_name)</td></tr>
+<tr class="memdesc:a25b51db64738e74a129daae7428c8163"><td class="mdescLeft">&#160;</td><td class="mdescRight">Open an unformatted file for reading.  <a href="namespacefile__handling__class.html#a25b51db64738e74a129daae7428c8163">More...</a><br /></td></tr>
+<tr class="separator:a25b51db64738e74a129daae7428c8163"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeddf55e8478d6220dc04310665427c3a"><td class="memItemLeft" align="right" valign="top">integer function, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacefile__handling__class.html#aeddf55e8478d6220dc04310665427c3a">open_outfile</a> (file_name)</td></tr>
 <tr class="memdesc:aeddf55e8478d6220dc04310665427c3a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shorthand for opening a new file for writing (output file)  <a href="namespacefile__handling__class.html#aeddf55e8478d6220dc04310665427c3a">More...</a><br /></td></tr>
 <tr class="separator:aeddf55e8478d6220dc04310665427c3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -177,7 +183,7 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="file__handling__class_8f90_source.html#l00112">112</a> of file <a class="el" href="file__handling__class_8f90_source.html">file_handling_class.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="file__handling__class_8f90_source.html#l00143">143</a> of file <a class="el" href="file__handling__class_8f90_source.html">file_handling_class.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -224,7 +230,7 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="file__handling__class_8f90_source.html#l00160">160</a> of file <a class="el" href="file__handling__class_8f90_source.html">file_handling_class.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="file__handling__class_8f90_source.html#l00191">191</a> of file <a class="el" href="file__handling__class_8f90_source.html">file_handling_class.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -249,7 +255,7 @@ Here is the call graph for this function:</div>
 <p>Finds the next unused unit number. </p>
 <p>In case there is no open slot for a new file this subroutine will call an error. For example if there are more files open than <a class="el" href="namespacefile__handling__class.html#a167780cf6e87dfbc3713c3b5d4126e63">max_unit</a>, this error will get called. </p><dl class="section return"><dt>Returns</dt><dd>the next available unit number </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="file__handling__class_8f90_source.html#l00038">38</a> of file <a class="el" href="file__handling__class_8f90_source.html">file_handling_class.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="file__handling__class_8f90_source.html#l00039">39</a> of file <a class="el" href="file__handling__class_8f90_source.html">file_handling_class.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -284,7 +290,7 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>unit number </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="file__handling__class_8f90_source.html#l00094">94</a> of file <a class="el" href="file__handling__class_8f90_source.html">file_handling_class.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="file__handling__class_8f90_source.html#l00125">125</a> of file <a class="el" href="file__handling__class_8f90_source.html">file_handling_class.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -319,11 +325,81 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>unit number </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="file__handling__class_8f90_source.html#l00076">76</a> of file <a class="el" href="file__handling__class_8f90_source.html">file_handling_class.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="file__handling__class_8f90_source.html#l00107">107</a> of file <a class="el" href="file__handling__class_8f90_source.html">file_handling_class.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="namespacefile__handling__class_aeddf55e8478d6220dc04310665427c3a_cgraph.svg" width="100%" height="361"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+</div>
+
+</div>
+</div>
+<a id="a25b51db64738e74a129daae7428c8163"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a25b51db64738e74a129daae7428c8163">&#9670;&nbsp;</a></span>open_unformatted_infile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">integer function file_handling_class::open_unformatted_infile </td>
+          <td>(</td>
+          <td class="paramtype">character(len=*), intent(in)&#160;</td>
+          <td class="paramname"><em>file_name</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Open an unformatted file for reading. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">file_name</td><td>path to open </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>unit number </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="file__handling__class_8f90_source.html#l00088">88</a> of file <a class="el" href="file__handling__class_8f90_source.html">file_handling_class.f90</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="namespacefile__handling__class_a25b51db64738e74a129daae7428c8163_cgraph.svg" width="100%" height="361"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+</div>
+
+</div>
+</div>
+<a id="a3396a31619e5149278d09cdd614d3497"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3396a31619e5149278d09cdd614d3497">&#9670;&nbsp;</a></span>open_unformatted_outfile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">integer function, public file_handling_class::open_unformatted_outfile </td>
+          <td>(</td>
+          <td class="paramtype">character(len=*), intent(in)&#160;</td>
+          <td class="paramname"><em>file_name</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Shorthand for opening a new unformatted file for writing (output file) </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">file_name</td><td>path to open </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>unit number </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="file__handling__class_8f90_source.html#l00073">73</a> of file <a class="el" href="file__handling__class_8f90_source.html">file_handling_class.f90</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="namespacefile__handling__class_a3396a31619e5149278d09cdd614d3497_cgraph.svg" width="100%" height="361"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div>
 

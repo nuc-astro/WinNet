@@ -48,7 +48,7 @@ if (edges && edges.length) {
 <script type="text/javascript">
 var viewWidth = 903;
 var viewHeight = 329;
-var sectionId = 'dynsection-6';
+var sectionId = 'dynsection-8';
 </script>
 <script xlink:href="svgpan.js"/>
 <svg id="graph" class="graph">
@@ -130,7 +130,7 @@ var sectionId = 'dynsection-6';
 <!-- Node9 -->
 <g id="node9" class="node">
 <title>Node9</title>
-<g id="a_node9"><a xlink:href="namespacenuflux__class.html#ae7a5cf7e2f89eb84f4dbc8b999bb21a6" target="_top" xlink:title="Read the reactions from a file in the format of Sieverding et al 2018.">
+<g id="a_node9"><a xlink:href="namespacenuflux__class.html#a46583d0423ea4dfb7d4aa832f9070117" target="_top" xlink:title="Read the reactions from a file in the format of Sieverding et al 2018.">
 <polygon fill="white" stroke="black" points="145,-126.5 145,-156.5 256,-156.5 256,-126.5 145,-126.5"/>
 <text text-anchor="start" x="153" y="-144.5" font-family="Helvetica,sans-Serif" font-size="10.00">nuflux_class::read</text>
 <text text-anchor="middle" x="200.5" y="-133.5" font-family="Helvetica,sans-Serif" font-size="10.00">_reactions_sieverding</text>
@@ -383,7 +383,7 @@ var sectionId = 'dynsection-6';
         </g>
         <svg viewBox="0 0 15 15" width="100%" height="30px" preserveAspectRatio="xMaxYMin meet">
          <g id="arrow_out" transform="scale(0.3 0.3)">
-          <a xlink:href="namespacenuflux__class_aecce62a44d76c3407077af69277eaf86_cgraph_org.svg" target="_base">
+          <a xlink:href="namespacenuflux__class_aabfb6442d6a36a5e1613aa0c91bfc777_cgraph_org.svg" target="_base">
            <rect id="button" ry="5" rx="5" y="6" x="6" height="38" width="38"
                 fill="#f2f5e9" fill-opacity="0.5" stroke="#606060" stroke-width="1.0"/>
            <path id="arrow"

@@ -1,0 +1,7 @@
+<map id="fission_rate_module::output_binary_fission_reaction_data" name="fission_rate_module::output_binary_fission_reaction_data">
+<area shape="rect" id="node1" title="Save the fission data to a unformatted binary file." alt="" coords="5,27,155,83"/>
+<area shape="rect" id="node2" href="$namespacefile__handling__class.html#a3396a31619e5149278d09cdd614d3497" title="Shorthand for opening a new unformatted file for writing (output file)" alt="" coords="203,35,376,76"/>
+<area shape="rect" id="node3" href="$namespacefile__handling__class.html#af02196bd5eaf70ecd5ab4cc650094d5e" title="Finds the next unused unit number." alt="" coords="424,5,555,47"/>
+<area shape="rect" id="node4" href="$namespaceerror__msg__class.html#a2453d3b7cb363115c046840baa1dfb75" title="Raise a exception with a given error message." alt="" coords="603,35,755,76"/>
+<area shape="rect" id="node5" href="$namespaceerror__msg__class.html#a7e065585cc806a5c264de1f088266498" title="Converts a given integer to a string." alt="" coords="803,35,941,76"/>
+</map>

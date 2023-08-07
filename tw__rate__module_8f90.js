@@ -5,7 +5,9 @@ var tw__rate__module_8f90 =
     [ "init_theoretical_weak_rates", "tw__rate__module_8f90.html#abbdd50e533f6aa8fe22b8104e00bcbaa", null ],
     [ "initialize_cubic_interp", "tw__rate__module_8f90.html#a67d6cd5f4fe826b464106347b21bb477", null ],
     [ "merge_theoretical_weak_rates", "tw__rate__module_8f90.html#a4d6d65076148eba68fa26254b615f35d", null ],
+    [ "output_binary_weak_reaction_data", "tw__rate__module_8f90.html#a9cccd46db1f1be3e5543d04ae2d6d0ff", null ],
     [ "output_n_p", "tw__rate__module_8f90.html#a603e1c2b1e9a8baa1b7d409bfae94bef", null ],
+    [ "read_binary_weak_reaction_data", "tw__rate__module_8f90.html#a9bc2872f0ebd60c52de3e6a797c37cb3", null ],
     [ "read_theoretical_weak_rates", "tw__rate__module_8f90.html#a248686b384413e5158c45ad1573f112e", null ],
     [ "readweak_logft", "tw__rate__module_8f90.html#aa8edd1fc29f46e7564d308ac68d43e55", null ],
     [ "reload_exp_weak_rates", "tw__rate__module_8f90.html#af565bf58e38d8c8ff547fc2b29e43cf1", null ],
@@ -23,6 +25,7 @@ var tw__rate__module_8f90 =
     [ "nweak", "tw__rate__module_8f90.html#a8d04a0f41645d602e96fa6c7364dfcff", null ],
     [ "rrate_weak", "tw__rate__module_8f90.html#a9487fb89ac898a2343b444757bdcb622", null ],
     [ "weak", "tw__rate__module_8f90.html#a01b731e61d4d703b12fcb65513a22c20", null ],
+    [ "weak_binary_name", "tw__rate__module_8f90.html#aeafa013d68ae6bc429bd1847108be3a3", null ],
     [ "weak_rate", "tw__rate__module_8f90.html#aa8a7470a14889a01d6b29fff2be84978", null ],
     [ "wk_index", "tw__rate__module_8f90.html#ab5925e34c35cdd32fb1e5409e07390cb", null ]
 ];

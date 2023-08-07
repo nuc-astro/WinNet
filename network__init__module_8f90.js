@@ -1,5 +1,6 @@
 var network__init__module_8f90 =
 [
+    [ "create_rate_folder", "network__init__module_8f90.html#aaf3bd289b2c82334bdad093a68201954", null ],
     [ "getnames", "network__init__module_8f90.html#a8d688d52d55fd0eb8acd5c463954bcf8", null ],
     [ "network_init", "network__init__module_8f90.html#a00e15ede5004dd5dff28a7cc4d5d1541", null ],
     [ "prepare_simulation", "network__init__module_8f90.html#ae87a2e05ad7d7bab90960082179405e5", null ],

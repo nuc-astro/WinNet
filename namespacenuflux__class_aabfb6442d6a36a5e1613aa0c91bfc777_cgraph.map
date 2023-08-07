@@ -4,7 +4,7 @@
 <area shape="rect" id="node3" href="$namespacemergesort__module.html#afdba6e49a853cbc2b93f08758ab87cf6" title="Merges two tables of neutrino rates (of type global_class::nurate_type)." alt="" coords="616,60,812,87"/>
 <area shape="rect" id="node6" href="$namespacefile__handling__class.html#aab870caaf9cbaaf635d537708efbf793" title="Same for reading (input file)" alt="" coords="427,122,557,163"/>
 <area shape="rect" id="node8" href="$namespacenuflux__class.html#a0e6d31694c86416d2766c5decc2422e1" title="Read the channels from a file in the format of Sieverding et al 2018." alt="" coords="211,158,335,199"/>
-<area shape="rect" id="node9" href="$namespacenuflux__class.html#ae7a5cf7e2f89eb84f4dbc8b999bb21a6" title="Read the reactions from a file in the format of Sieverding et al 2018." alt="" coords="199,223,347,265"/>
+<area shape="rect" id="node9" href="$namespacenuflux__class.html#a46583d0423ea4dfb7d4aa832f9070117" title="Read the reactions from a file in the format of Sieverding et al 2018." alt="" coords="199,223,347,265"/>
 <area shape="rect" id="node11" href="$namespacenuflux__class.html#a36ed0c2924e75dea4015e928ee424303" title="Reads neutrino&#45;nuclei reaction file." alt="" coords="197,289,349,316"/>
 <area shape="rect" id="node16" href="$namespacemergesort__module.html#a350624bb77af754147cd68332b16b9e5" title="Sorts chapter one of the rate array." alt="" coords="177,340,368,367"/>
 <area shape="rect" id="node17" href="$namespacenuflux__class.html#a7913cb5d1c5cdb8217a26ed63f2d9166" title="Set the type of a neutrino reaction." alt="" coords="191,391,354,417"/>

@@ -131,6 +131,7 @@ var NAVTREE =
       [ "nunucleo_rates_file", "parameters.html#nunucleo_rates_file", null ],
       [ "nurates_file", "parameters.html#nurates_file", null ],
       [ "out_every", "parameters.html#out_every", null ],
+      [ "prepared_network_path", "parameters.html#prepared_network_path", null ],
       [ "reaclib_file", "parameters.html#reaclib_file", null ],
       [ "read_initial_composition", "parameters.html#read_initial_composition", null ],
       [ "rho_analytic", "parameters.html#rho_analytic", null ],
@@ -164,6 +165,7 @@ var NAVTREE =
       [ "use_detailed_balance_q_reac", "parameters.html#use_detailed_balance_q_reac", null ],
       [ "use_htpf", "parameters.html#use_htpf", null ],
       [ "use_neutrino_loss_file", "parameters.html#use_neutrino_loss_file", null ],
+      [ "use_prepared_network", "parameters.html#use_prepared_network", null ],
       [ "use_tabulated_rates", "parameters.html#use_tabulated_rates", null ],
       [ "use_thermal_nu_loss", "parameters.html#use_thermal_nu_loss", null ],
       [ "use_timmes_mue", "parameters.html#use_timmes_mue", null ],
@@ -220,16 +222,17 @@ var NAVTREEINDEX =
 [
 "Example__AGB__cescutti_2scripts_2Plot__me_8py.html",
 "Example__hydrostatic__hydrogen__burning_2scripts_2Plot__me_8py.html#ac7357445c06434ff331e649d04dc97d3",
-"classbin_1_1class__files_1_1nucleus__class_1_1nucleus.html#a573e39e9abcc558507c819571995aa81",
-"classbin_1_1create__neutrino__nucleon__file_1_1nunucleon.html#a342e402b3659ee866ec301d22e8d3deb",
-"dir_13e138d54eb8818da29c3992edef070a.html",
-"functions_a.html",
-"hdf5__module_8f90.html#aa75e3a247809bd0f2b2ce1f70115d743",
-"namespacebin_1_1class__files_1_1nucleus__multiple__class.html",
-"nucleus__example_8py.html",
-"parameters.html#calc_nsep_energy",
-"read__trajectory_8py.html#adc117bdd9d007074d1f276e7e25b93d8",
-"structtw__rate__module_1_1weakrate__type.html#ac39f3d4664e5a93e3d5f818cf6598a90"
+"classbin_1_1class__files_1_1nucleus__class_1_1nucleus.html#a42a2ae2f10ab54acf7a7b9cd58f1c70f",
+"classbin_1_1class__files_1_1winvn__class_1_1winvn.html#af76b2ff92a4ef7ea6c20e0cf39ed397b",
+"dir_0966041ea5dfb297dc9adad652b3003d.html",
+"funct__fermi1_8f90.html#af82041e491d8de3bf2cf55654d37af46",
+"hdf5__module_8f90.html#aa27c26238d2ec2d7c2766ef323a5f350",
+"namespacebin_1_1class__files.html",
+"nuclear__heating_8f90.html#aefda632c80e48e00e6acdf01059ef2d1",
+"parameters.html#Lx",
+"reaclib__rate__module_8f90.html#ac2f58552dc460fe5d6ff0ed58b887c31",
+"structparameter__class_1_1unit__type.html#ab655dbc9b4885b7c969fafd09975a2fa",
+"winnse__module_8f90.html#aa0fde7155a497990a93e46a69e745dcf"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

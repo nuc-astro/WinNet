@@ -206,7 +206,7 @@ var sectionId = 'dynsection-0';
 <!-- Node7 -->
 <g id="node7" class="node">
 <title>Node7</title>
-<g id="a_node7"><a xlink:href="namespacenuflux__class.html#a6002e8efbcc88144d8963d3909aa49e9" target="_top" xlink:title="Calculates the cross section times the neutrino flux.">
+<g id="a_node7"><a xlink:href="namespacenuflux__class.html#ac04f6b0dca8f9120cb839749cc2dbbe0" target="_top" xlink:title="Calculates the cross section times the neutrino flux.">
 <polygon fill="white" stroke="black" points="333,-538.71 333,-568.71 446,-568.71 446,-538.71 333,-538.71"/>
 <text text-anchor="start" x="341" y="-556.71" font-family="Helvetica,sans-Serif" font-size="10.00">nuflux_class::calculate</text>
 <text text-anchor="middle" x="389.5" y="-545.71" font-family="Helvetica,sans-Serif" font-size="10.00">_nu_rate</text>

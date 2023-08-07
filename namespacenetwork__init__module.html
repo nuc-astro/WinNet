@@ -111,6 +111,9 @@ Functions/Subroutines</h2></td></tr>
 <tr class="memitem:ae87a2e05ad7d7bab90960082179405e5"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacenetwork__init__module.html#ae87a2e05ad7d7bab90960082179405e5">prepare_simulation</a></td></tr>
 <tr class="memdesc:ae87a2e05ad7d7bab90960082179405e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">All the necessary initializations and settings before the main loop.  <a href="namespacenetwork__init__module.html#ae87a2e05ad7d7bab90960082179405e5">More...</a><br /></td></tr>
 <tr class="separator:ae87a2e05ad7d7bab90960082179405e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaf3bd289b2c82334bdad093a68201954"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacenetwork__init__module.html#aaf3bd289b2c82334bdad093a68201954">create_rate_folder</a> (path)</td></tr>
+<tr class="memdesc:aaf3bd289b2c82334bdad093a68201954"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a folder with binary files that contain all necessary reaction data.  <a href="namespacenetwork__init__module.html#aaf3bd289b2c82334bdad093a68201954">More...</a><br /></td></tr>
+<tr class="separator:aaf3bd289b2c82334bdad093a68201954"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a36efa77da8a1f8da66a21ec4279e00ac"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacenetwork__init__module.html#a36efa77da8a1f8da66a21ec4279e00ac">switch_evolution_mode</a> (init)</td></tr>
 <tr class="memdesc:a36efa77da8a1f8da66a21ec4279e00ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Switches between NSE and network modes (EM_NSE / EM_NETHOT / EM_NETCOLD)  <a href="namespacenetwork__init__module.html#a36efa77da8a1f8da66a21ec4279e00ac">More...</a><br /></td></tr>
 <tr class="separator:a36efa77da8a1f8da66a21ec4279e00ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -128,6 +131,37 @@ Functions/Subroutines</h2></td></tr>
 <div class="textblock"><p>Module to prepare the reaction network. </p>
 <p>This module contains subroutines that call other modules initialization. In addition it reads reaction rates and many other things. </p>
 </div><h2 class="groupheader">Function/Subroutine Documentation</h2>
+<a id="aaf3bd289b2c82334bdad093a68201954"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaf3bd289b2c82334bdad093a68201954">&#9670;&nbsp;</a></span>create_rate_folder()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">subroutine network_init_module::create_rate_folder </td>
+          <td>(</td>
+          <td class="paramtype">character(len=*), intent(in)&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Create a folder with binary files that contain all necessary reaction data. </p>
+<p>This routine creates binary files in the exact format that WinNet needs to initialize the rate arrays. The reading of these files can be done much faster then reading the original files. The files are stored in the folder specified by the path argument. The folder is created if it does not exist. Using these files is specifically useful when running many trajectories.</p>
+<dl class="section author"><dt>Author</dt><dd>M. Reichert </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>21.07.23 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="network__init__module_8f90_source.html#l00446">446</a> of file <a class="el" href="network__init__module_8f90_source.html">network_init_module.f90</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="namespacenetwork__init__module_aaf3bd289b2c82334bdad093a68201954_cgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+</div>
+
+</div>
+</div>
 <a id="a8d688d52d55fd0eb8acd5c463954bcf8"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8d688d52d55fd0eb8acd5c463954bcf8">&#9670;&nbsp;</a></span>getnames()</h2>
 
@@ -172,7 +206,7 @@ Functions/Subroutines</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="network__init__module_8f90_source.html#l00896">896</a> of file <a class="el" href="network__init__module_8f90_source.html">network_init_module.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="network__init__module_8f90_source.html#l00945">945</a> of file <a class="el" href="network__init__module_8f90_source.html">network_init_module.f90</a>.</p>
 
 </div>
 </div>
@@ -233,7 +267,7 @@ Here is the call graph for this function:</div>
 <li>OK 27.08.2017</li>
 </ul>
 
-<p class="definition">Definition at line <a class="el" href="network__init__module_8f90_source.html#l00169">169</a> of file <a class="el" href="network__init__module_8f90_source.html">network_init_module.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="network__init__module_8f90_source.html#l00164">164</a> of file <a class="el" href="network__init__module_8f90_source.html">network_init_module.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -283,7 +317,7 @@ Here is the call graph for this function:</div>
  -1 -1  1  1  0  0      1.000
      F    F    F
  ...</pre> 
-<p class="definition">Definition at line <a class="el" href="network__init__module_8f90_source.html#l00866">866</a> of file <a class="el" href="network__init__module_8f90_source.html">network_init_module.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="network__init__module_8f90_source.html#l00915">915</a> of file <a class="el" href="network__init__module_8f90_source.html">network_init_module.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -332,7 +366,7 @@ Here is the call graph for this function:</div>
 <li>MR: 21.01.21 - included interface (get_net_name) to net_names instead of accessing it directly </li>
 </ul>
 
-<p class="definition">Definition at line <a class="el" href="network__init__module_8f90_source.html#l00599">599</a> of file <a class="el" href="network__init__module_8f90_source.html">network_init_module.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="network__init__module_8f90_source.html#l00648">648</a> of file <a class="el" href="network__init__module_8f90_source.html">network_init_module.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -389,7 +423,7 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="network__init__module_8f90_source.html#l00471">471</a> of file <a class="el" href="network__init__module_8f90_source.html">network_init_module.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="network__init__module_8f90_source.html#l00520">520</a> of file <a class="el" href="network__init__module_8f90_source.html">network_init_module.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">

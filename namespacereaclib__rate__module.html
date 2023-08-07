@@ -112,6 +112,12 @@ Functions/Subroutines</h2></td></tr>
 <tr class="memitem:a3aadb882cafc2c5bdde04ede5f3b33fc"><td class="memItemLeft" align="right" valign="top">subroutine, private&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacereaclib__rate__module.html#a3aadb882cafc2c5bdde04ede5f3b33fc">write_reac_verbose_out</a> ()</td></tr>
 <tr class="memdesc:a3aadb882cafc2c5bdde04ede5f3b33fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write the amount of individual reactions to the out.  <a href="namespacereaclib__rate__module.html#a3aadb882cafc2c5bdde04ede5f3b33fc">More...</a><br /></td></tr>
 <tr class="separator:a3aadb882cafc2c5bdde04ede5f3b33fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abfda6e6fa5be3b871093e7900ff7af18"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacereaclib__rate__module.html#abfda6e6fa5be3b871093e7900ff7af18">read_binary_reaclib_reaction_data</a> (path)</td></tr>
+<tr class="memdesc:abfda6e6fa5be3b871093e7900ff7af18"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the complete rrate array from a binary file.  <a href="namespacereaclib__rate__module.html#abfda6e6fa5be3b871093e7900ff7af18">More...</a><br /></td></tr>
+<tr class="separator:abfda6e6fa5be3b871093e7900ff7af18"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aea05c0c87253750ad35edea12319e3b2"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacereaclib__rate__module.html#aea05c0c87253750ad35edea12319e3b2">output_binary_reaclib_reaction_data</a> (path)</td></tr>
+<tr class="memdesc:aea05c0c87253750ad35edea12319e3b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Save the complete rrate array to a binary file.  <a href="namespacereaclib__rate__module.html#aea05c0c87253750ad35edea12319e3b2">More...</a><br /></td></tr>
+<tr class="separator:aea05c0c87253750ad35edea12319e3b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a531d2052a5c27ee57c14c22159d1fbfe"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacereaclib__rate__module.html#a531d2052a5c27ee57c14c22159d1fbfe">calculate_reacl_rate</a> (rrate, rat_calc)</td></tr>
 <tr class="memdesc:a531d2052a5c27ee57c14c22159d1fbfe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate a reaclib rate.  <a href="namespacereaclib__rate__module.html#a531d2052a5c27ee57c14c22159d1fbfe">More...</a><br /></td></tr>
 <tr class="separator:a531d2052a5c27ee57c14c22159d1fbfe"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -182,6 +188,9 @@ Variables</h2></td></tr>
 <tr class="memitem:a30917757d0be8e44ac3164002dfb75a6"><td class="memItemLeft" align="right" valign="top">type(<a class="el" href="structglobal__class_1_1reactionrate__type.html">reactionrate_type</a>), dimension(:), allocatable, private&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacereaclib__rate__module.html#a30917757d0be8e44ac3164002dfb75a6">rrate_reaclib</a></td></tr>
 <tr class="memdesc:a30917757d0be8e44ac3164002dfb75a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reaclib reaction rates.  <a href="namespacereaclib__rate__module.html#a30917757d0be8e44ac3164002dfb75a6">More...</a><br /></td></tr>
 <tr class="separator:a30917757d0be8e44ac3164002dfb75a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a858a6960305ad382d7131beceeca5c78"><td class="memItemLeft" align="right" valign="top">character(len= *), parameter, private&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacereaclib__rate__module.html#a858a6960305ad382d7131beceeca5c78">rrate_binary_name</a> = &quot;rrate.windat&quot;</td></tr>
+<tr class="memdesc:a858a6960305ad382d7131beceeca5c78"><td class="mdescLeft">&#160;</td><td class="mdescRight">Name of the binary file for rrate array.  <a href="namespacereaclib__rate__module.html#a858a6960305ad382d7131beceeca5c78">More...</a><br /></td></tr>
+<tr class="separator:a858a6960305ad382d7131beceeca5c78"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5f80f27cbe3a3fd208b234f01b809de9"><td class="memItemLeft" align="right" valign="top">real(<a class="el" href="macros_8h.html#a3e504da5bba4b12ec3e39594fa54d992">r_kind</a>), private&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacereaclib__rate__module.html#a5f80f27cbe3a3fd208b234f01b809de9">infty</a></td></tr>
 <tr class="separator:a5f80f27cbe3a3fd208b234f01b809de9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -231,7 +240,7 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="reaclib__rate__module_8f90_source.html#l00153">153</a> of file <a class="el" href="reaclib__rate__module_8f90_source.html">reaclib_rate_module.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="reaclib__rate__module_8f90_source.html#l00228">228</a> of file <a class="el" href="reaclib__rate__module_8f90_source.html">reaclib_rate_module.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -267,7 +276,7 @@ Here is the call graph for this function:</div>
 <li>25.01.21, MR - Moved this routine from <a class="el" href="namespacenetwork__init__module.html" title="Module to prepare the reaction network.">network_init_module</a> to this new subroutine</li>
 </ul>
 
-<p class="definition">Definition at line <a class="el" href="reaclib__rate__module_8f90_source.html#l00686">686</a> of file <a class="el" href="reaclib__rate__module_8f90_source.html">reaclib_rate_module.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="reaclib__rate__module_8f90_source.html#l00764">764</a> of file <a class="el" href="reaclib__rate__module_8f90_source.html">reaclib_rate_module.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -294,7 +303,7 @@ Here is the call graph for this function:</div>
 <dl class="section author"><dt>Author</dt><dd>M. Reichert </dd></dl>
 <dl class="section date"><dt>Date</dt><dd>25.01.21 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="reaclib__rate__module_8f90_source.html#l00043">43</a> of file <a class="el" href="reaclib__rate__module_8f90_source.html">reaclib_rate_module.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="reaclib__rate__module_8f90_source.html#l00044">44</a> of file <a class="el" href="reaclib__rate__module_8f90_source.html">reaclib_rate_module.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -343,11 +352,73 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="reaclib__rate__module_8f90_source.html#l00194">194</a> of file <a class="el" href="reaclib__rate__module_8f90_source.html">reaclib_rate_module.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="reaclib__rate__module_8f90_source.html#l00269">269</a> of file <a class="el" href="reaclib__rate__module_8f90_source.html">reaclib_rate_module.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><iframe scrolling="no" frameborder="0" src="namespacereaclib__rate__module_ac2f58552dc460fe5d6ff0ed58b887c31_cgraph.svg" width="543" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
+</div>
+
+</div>
+</div>
+<a id="aea05c0c87253750ad35edea12319e3b2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aea05c0c87253750ad35edea12319e3b2">&#9670;&nbsp;</a></span>output_binary_reaclib_reaction_data()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">subroutine reaclib_rate_module::output_binary_reaclib_reaction_data </td>
+          <td>(</td>
+          <td class="paramtype">character(len=*), intent(in)&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Save the complete rrate array to a binary file. </p>
+<p>This subroutine saves the complete rrate array to a binary file.</p>
+<dl class="section author"><dt>Author</dt><dd>M. Reichert </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>21.07.23 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="reaclib__rate__module_8f90_source.html#l00193">193</a> of file <a class="el" href="reaclib__rate__module_8f90_source.html">reaclib_rate_module.f90</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="namespacereaclib__rate__module_aea05c0c87253750ad35edea12319e3b2_cgraph.svg" width="100%" height="367"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+</div>
+
+</div>
+</div>
+<a id="abfda6e6fa5be3b871093e7900ff7af18"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abfda6e6fa5be3b871093e7900ff7af18">&#9670;&nbsp;</a></span>read_binary_reaclib_reaction_data()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">subroutine reaclib_rate_module::read_binary_reaclib_reaction_data </td>
+          <td>(</td>
+          <td class="paramtype">character(len=*), intent(in)&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Read the complete rrate array from a binary file. </p>
+<p>This subroutine reads the complete rrate array from a binary file. The binary file has to be created beforehand. If the binary data is read, no other data has to be read</p>
+<dl class="section author"><dt>Author</dt><dd>M. Reichert </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>21.07.23 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="reaclib__rate__module_8f90_source.html#l00153">153</a> of file <a class="el" href="reaclib__rate__module_8f90_source.html">reaclib_rate_module.f90</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="namespacereaclib__rate__module_abfda6e6fa5be3b871093e7900ff7af18_cgraph.svg" width="100%" height="405"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div>
 
@@ -387,7 +458,7 @@ Here is the call graph for this function:</div>
 <li>28.07.22, MR - Introduced new chapters</li>
 </ul>
 
-<p class="definition">Definition at line <a class="el" href="reaclib__rate__module_8f90_source.html#l00259">259</a> of file <a class="el" href="reaclib__rate__module_8f90_source.html">reaclib_rate_module.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="reaclib__rate__module_8f90_source.html#l00337">337</a> of file <a class="el" href="reaclib__rate__module_8f90_source.html">reaclib_rate_module.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -428,7 +499,7 @@ Here is the call graph for this function:</div>
 <dl class="section author"><dt>Author</dt><dd>M. Reichert </dd></dl>
 <dl class="section date"><dt>Date</dt><dd>31.03.2023 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="reaclib__rate__module_8f90_source.html#l00383">383</a> of file <a class="el" href="reaclib__rate__module_8f90_source.html">reaclib_rate_module.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="reaclib__rate__module_8f90_source.html#l00461">461</a> of file <a class="el" href="reaclib__rate__module_8f90_source.html">reaclib_rate_module.f90</a>.</p>
 
 </div>
 </div>
@@ -513,7 +584,7 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="reaclib__rate__module_8f90_source.html#l00490">490</a> of file <a class="el" href="reaclib__rate__module_8f90_source.html">reaclib_rate_module.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="reaclib__rate__module_8f90_source.html#l00568">568</a> of file <a class="el" href="reaclib__rate__module_8f90_source.html">reaclib_rate_module.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -548,7 +619,7 @@ Here is the call graph for this function:</div>
 <dl class="section author"><dt>Author</dt><dd>M. Reichert </dd></dl>
 <dl class="section date"><dt>Date</dt><dd>27.01.21 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="reaclib__rate__module_8f90_source.html#l00081">81</a> of file <a class="el" href="reaclib__rate__module_8f90_source.html">reaclib_rate_module.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="reaclib__rate__module_8f90_source.html#l00086">86</a> of file <a class="el" href="reaclib__rate__module_8f90_source.html">reaclib_rate_module.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -579,7 +650,7 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="reaclib__rate__module_8f90_source.html#l00023">23</a> of file <a class="el" href="reaclib__rate__module_8f90_source.html">reaclib_rate_module.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="reaclib__rate__module_8f90_source.html#l00024">24</a> of file <a class="el" href="reaclib__rate__module_8f90_source.html">reaclib_rate_module.f90</a>.</p>
 
 </div>
 </div>
@@ -1092,6 +1163,32 @@ Here is the call graph for this function:</div>
 <p>Amount of reaclib rates. </p>
 
 <p class="definition">Definition at line <a class="el" href="reaclib__rate__module_8f90_source.html#l00017">17</a> of file <a class="el" href="reaclib__rate__module_8f90_source.html">reaclib_rate_module.f90</a>.</p>
+
+</div>
+</div>
+<a id="a858a6960305ad382d7131beceeca5c78"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a858a6960305ad382d7131beceeca5c78">&#9670;&nbsp;</a></span>rrate_binary_name</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">character(len=*), parameter, private reaclib_rate_module::rrate_binary_name = &quot;rrate.windat&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Name of the binary file for rrate array. </p>
+
+<p class="definition">Definition at line <a class="el" href="reaclib__rate__module_8f90_source.html#l00023">23</a> of file <a class="el" href="reaclib__rate__module_8f90_source.html">reaclib_rate_module.f90</a>.</p>
 
 </div>
 </div>

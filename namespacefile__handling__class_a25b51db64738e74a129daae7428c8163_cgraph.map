@@ -1,0 +1,6 @@
+<map id="file_handling_class::open_unformatted_infile" name="file_handling_class::open_unformatted_infile">
+<area shape="rect" id="node1" title="Open an unformatted file for reading." alt="" coords="5,35,171,76"/>
+<area shape="rect" id="node2" href="$namespacefile__handling__class.html#af02196bd5eaf70ecd5ab4cc650094d5e" title="Finds the next unused unit number." alt="" coords="219,5,349,47"/>
+<area shape="rect" id="node3" href="$namespaceerror__msg__class.html#a2453d3b7cb363115c046840baa1dfb75" title="Raise a exception with a given error message." alt="" coords="397,35,549,76"/>
+<area shape="rect" id="node4" href="$namespaceerror__msg__class.html#a7e065585cc806a5c264de1f088266498" title="Converts a given integer to a string." alt="" coords="597,35,736,76"/>
+</map>

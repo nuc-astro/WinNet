@@ -1,0 +1,17 @@
+<map id="benam_class::read_ascii_network_data" name="benam_class::read_ascii_network_data">
+<area shape="rect" id="node1" title="Reads nuclear properties (name,a,n,z,spin,mass excess,partition functions) from file &#39;winvn&#39; and htpf..." alt="" coords="5,216,169,258"/>
+<area shape="rect" id="node2" href="$namespacefile__handling__class.html#a01ba26324d7662cc0fb2e0eb306cd3e2" title="Close an external file." alt="" coords="691,23,821,64"/>
+<area shape="rect" id="node4" href="$namespaceerror__msg__class.html#a2453d3b7cb363115c046840baa1dfb75" title="Raise a exception with a given error message." alt="" coords="880,255,1032,296"/>
+<area shape="rect" id="node5" href="$namespacenucstuff__class.html#a2c1904ab59fa22ca27e7a4b6eda76529" title="Function to decide whether a given isotope is stable or not." alt="" coords="263,132,386,174"/>
+<area shape="rect" id="node6" href="$namespacebenam__class.html#ab2f30d9af7c94727fc2af1ebe7b839d0" title="Reads isotope names from file &#39;net_source&#39; and saves them in net_names(). Returns number of isotopes ..." alt="" coords="233,81,416,108"/>
+<area shape="rect" id="node8" href="$namespacefile__handling__class.html#aab870caaf9cbaaf635d537708efbf793" title="Same for reading (input file)" alt="" coords="491,343,621,384"/>
+<area shape="rect" id="node12" href="$namespacebenam__class.html#a470f2c9e8dd0a6b9a447dda9f4e10dac" title="Read the file with high&#45;temperature partition function (normally datafile2.dat). An example of the fi..." alt="" coords="245,300,404,326"/>
+<area shape="rect" id="node13" href="$namespacebenam__class.html#a66521b1701ea14a0f6062955e0021f27" title="Read a file with neutrino loss energy." alt="" coords="217,249,432,276"/>
+<area shape="rect" id="node14" href="$namespacebenam__class.html#a7302351a3858d65f88b5424ee17746d8" title="Reads nuclear properties (name,a,n,z,spin,mass excess,partition functions) from file &#39;winvn&#39; and writ..." alt="" coords="239,198,410,225"/>
+<area shape="rect" id="node3" href="$namespaceerror__msg__class.html#a7e065585cc806a5c264de1f088266498" title="Converts a given integer to a string." alt="" coords="1080,23,1219,64"/>
+<area shape="rect" id="node7" href="$namespacebenam__class.html#ad20c821347dd5f7c08dff59c98e69657" title="Returns the index number of isotope &#39;name&#39;." alt="" coords="484,140,628,166"/>
+<area shape="rect" id="node10" href="$namespaceerror__msg__class.html#a339dd5b38c125b6a04653762c94a91f2" title="Write data to the standard output (usually OUT)" alt="" coords="480,74,632,115"/>
+<area shape="rect" id="node9" href="$namespacefile__handling__class.html#af02196bd5eaf70ecd5ab4cc650094d5e" title="Finds the next unused unit number." alt="" coords="691,394,821,435"/>
+<area shape="rect" id="node11" href="$namespaceerror__msg__class.html#af62b9a0c5997255e792b9ebd7322a6a3" title="Write the header of the standard output (usually OUT)" alt="" coords="680,88,832,130"/>
+<area shape="rect" id="node15" href="$namespacebenam__class.html#aea8a78ad9767e22772a94d7475dedbbb" title="Checks if sunet file contains valid isotope names." alt="" coords="687,226,825,267"/>
+</map>

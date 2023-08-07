@@ -171,28 +171,36 @@ $(document).ready(function(){initNavTree('run__tests_8py_source.html',''); initR
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;      n_failed += 1</div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;      <span class="keywordflow">continue</span></div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;   res= t.launch()</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;   <span class="keywordflow">if</span> res!=0:</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;      print(<span class="stringliteral">&quot;ERROR: when launching test &quot;</span>+tc)</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;      n_failed += 1</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;      <span class="keywordflow">continue</span></div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160; </div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;   t.monitor()</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;   res= t.analyze()</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;   <span class="keywordflow">if</span> res!=0:</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;      print(<span class="stringliteral">&quot;\r [&quot;</span> + t.whichtest + <span class="stringliteral">&quot;] &quot;</span> + tc \</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                  + <span class="stringliteral">&quot;: ..&quot;</span>+<span class="stringliteral">&quot;.&quot;</span>*t.len_spaces + <span class="stringliteral">&quot;... [FAIL]    &quot;</span>)</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;   <span class="comment"># Enable a callback function for some tests</span></div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;   <span class="keywordflow">try</span>:</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;      <span class="comment"># Method exists and was used.</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;      t.prepare_function()</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;   <span class="keywordflow">except</span> AttributeError:</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;      <span class="comment"># If the method does not exist</span></div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;      <span class="keywordflow">pass</span></div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;   res= t.launch()</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;   <span class="keywordflow">if</span> res!=0:</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;      print(<span class="stringliteral">&quot;ERROR: when launching test &quot;</span>+tc)</div>
 <div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;      n_failed += 1</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;   <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;      print(<span class="stringliteral">&quot;\r [&quot;</span> + t.whichtest + <span class="stringliteral">&quot;] &quot;</span> + tc \</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;                  + <span class="stringliteral">&quot;: ..&quot;</span>+<span class="stringliteral">&quot;.&quot;</span>*t.len_spaces + <span class="stringliteral">&quot;... [ OK ]    &quot;</span>)</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;      <span class="keywordflow">if</span> options.cleanup_after_test:</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;         t.cleanup() <span class="comment"># only if passed</span></div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160; </div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;<span class="keywordflow">if</span> n_failed&gt;0:</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;   print(<span class="stringliteral">&quot; - %d out of %d tests have failed.&quot;</span> % (n_failed, n_tests))</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;<span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;   print(<span class="stringliteral">&quot; - all tests have passed successfully!&quot;</span>)</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;      <span class="keywordflow">continue</span></div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160; </div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;   t.monitor()</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;   res= t.analyze()</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;   <span class="keywordflow">if</span> res!=0:</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;      print(<span class="stringliteral">&quot;\r [&quot;</span> + t.whichtest + <span class="stringliteral">&quot;] &quot;</span> + tc \</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                  + <span class="stringliteral">&quot;: ..&quot;</span>+<span class="stringliteral">&quot;.&quot;</span>*t.len_spaces + <span class="stringliteral">&quot;... [FAIL]    &quot;</span>)</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;      n_failed += 1</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;   <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;      print(<span class="stringliteral">&quot;\r [&quot;</span> + t.whichtest + <span class="stringliteral">&quot;] &quot;</span> + tc \</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;                  + <span class="stringliteral">&quot;: ..&quot;</span>+<span class="stringliteral">&quot;.&quot;</span>*t.len_spaces + <span class="stringliteral">&quot;... [ OK ]    &quot;</span>)</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;      <span class="keywordflow">if</span> options.cleanup_after_test:</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;         t.cleanup() <span class="comment"># only if passed</span></div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160; </div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;<span class="keywordflow">if</span> n_failed&gt;0:</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;   print(<span class="stringliteral">&quot; - %d out of %d tests have failed.&quot;</span> % (n_failed, n_tests))</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;<span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;   print(<span class="stringliteral">&quot; - all tests have passed successfully!&quot;</span>)</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="aclassbin_1_1testcase__class_1_1testcase_html"><div class="ttname"><a href="classbin_1_1testcase__class_1_1testcase.html">bin.testcase_class.testcase</a></div><div class="ttdef"><b>Definition:</b> <a href="testcase__class_8py_source.html#l00303">testcase_class.py:303</a></div></div>

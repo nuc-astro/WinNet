@@ -1,22 +1,24 @@
 <map id="nuflux_class::init_nuflux" name="nuflux_class::init_nuflux">
-<area shape="rect" id="node1" title="Initialize nuflux module." alt="" coords="5,226,121,267"/>
-<area shape="rect" id="node2" href="$namespacefile__handling__class.html#aeddf55e8478d6220dc04310665427c3a" title="Shorthand for opening a new file for writing (output file)" alt="" coords="591,129,721,170"/>
-<area shape="rect" id="node6" href="$namespacenuflux__class.html#aecce62a44d76c3407077af69277eaf86" title="Read neutrino reactions and fill the global_class::nurate array." alt="" coords="169,226,293,267"/>
-<area shape="rect" id="node20" href="$namespacenuflux__class.html#ab1da7d099980f713b1537e3ba6f0e671" title="Write the amount of individual reactions to the out." alt="" coords="371,517,503,558"/>
-<area shape="rect" id="node3" href="$namespacefile__handling__class.html#af02196bd5eaf70ecd5ab4cc650094d5e" title="Finds the next unused unit number." alt="" coords="813,193,943,234"/>
-<area shape="rect" id="node4" href="$namespaceerror__msg__class.html#a2453d3b7cb363115c046840baa1dfb75" title="Raise a exception with a given error message." alt="" coords="1024,251,1176,293"/>
-<area shape="rect" id="node5" href="$namespaceerror__msg__class.html#a7e065585cc806a5c264de1f088266498" title="Converts a given integer to a string." alt="" coords="1224,357,1363,398"/>
-<area shape="rect" id="node7" href="$namespacebenam__class.html#af8144ea43fb40187e32fb83da48458f1" title="Returns the 1/n! factor where n is the number of equal isotopes entering a reaction...." alt="" coords="343,447,531,473"/>
-<area shape="rect" id="node8" href="$namespacemergesort__module.html#afdba6e49a853cbc2b93f08758ab87cf6" title="Merges two tables of neutrino rates (of type global_class::nurate_type)." alt="" coords="780,312,976,339"/>
-<area shape="rect" id="node9" href="$namespacefile__handling__class.html#aab870caaf9cbaaf635d537708efbf793" title="Same for reading (input file)" alt="" coords="591,194,721,235"/>
-<area shape="rect" id="node10" href="$namespacenuflux__class.html#a0e6d31694c86416d2766c5decc2422e1" title="Read the channels from a file in the format of Sieverding et al 2018." alt="" coords="375,193,499,234"/>
-<area shape="rect" id="node11" href="$namespacenuflux__class.html#ae7a5cf7e2f89eb84f4dbc8b999bb21a6" title="Read the reactions from a file in the format of Sieverding et al 2018." alt="" coords="363,258,511,299"/>
-<area shape="rect" id="node13" href="$namespacenuflux__class.html#a36ed0c2924e75dea4015e928ee424303" title="Reads neutrino&#45;nuclei reaction file." alt="" coords="361,396,513,423"/>
-<area shape="rect" id="node18" href="$namespacemergesort__module.html#a350624bb77af754147cd68332b16b9e5" title="Sorts chapter one of the rate array." alt="" coords="341,40,532,67"/>
-<area shape="rect" id="node19" href="$namespacenuflux__class.html#a7913cb5d1c5cdb8217a26ed63f2d9166" title="Set the type of a neutrino reaction." alt="" coords="355,91,518,117"/>
-<area shape="rect" id="node12" href="$namespacebenam__class.html#ad2f566697809a5731e560509d2ca7062" title="Finds an isotope index in the network table, given its A and Z. In case it was not found,..." alt="" coords="587,263,725,289"/>
-<area shape="rect" id="node14" href="$namespacebenam__class.html#ad20c821347dd5f7c08dff59c98e69657" title="Returns the index number of isotope &#39;name&#39;." alt="" coords="584,415,728,441"/>
-<area shape="rect" id="node15" href="$namespacebenam__class.html#aef0b2a649260779b20729f29b8ec4a67" title="Identifies the nuclide names and indices corresponding to z,n combinations (z1,n1),..." alt="" coords="589,465,723,492"/>
-<area shape="rect" id="node16" href="$namespaceerror__msg__class.html#a339dd5b38c125b6a04653762c94a91f2" title="Write data to the standard output (usually OUT)" alt="" coords="580,517,732,558"/>
-<area shape="rect" id="node17" href="$namespaceerror__msg__class.html#af62b9a0c5997255e792b9ebd7322a6a3" title="Write the header of the standard output (usually OUT)" alt="" coords="802,517,954,558"/>
+<area shape="rect" id="node1" title="Initialize nuflux module." alt="" coords="5,140,121,182"/>
+<area shape="rect" id="node2" href="$namespacefile__handling__class.html#aeddf55e8478d6220dc04310665427c3a" title="Shorthand for opening a new file for writing (output file)" alt="" coords="675,144,805,186"/>
+<area shape="rect" id="node6" href="$namespacenuflux__class.html#a80ae126dbf78f193c391178d5bedb438" title="Read the reactions from a file in binary format." alt="" coords="169,91,371,132"/>
+<area shape="rect" id="node8" href="$namespacenuflux__class.html#aabfb6442d6a36a5e1613aa0c91bfc777" title="Read neutrino reactions and fill the global_class::nurate array." alt="" coords="208,238,332,279"/>
+<area shape="rect" id="node22" href="$namespacenuflux__class.html#ab1da7d099980f713b1537e3ba6f0e671" title="Write the amount of individual reactions to the out." alt="" coords="448,627,580,668"/>
+<area shape="rect" id="node3" href="$namespacefile__handling__class.html#af02196bd5eaf70ecd5ab4cc650094d5e" title="Finds the next unused unit number." alt="" coords="903,208,1034,250"/>
+<area shape="rect" id="node4" href="$namespaceerror__msg__class.html#a2453d3b7cb363115c046840baa1dfb75" title="Raise a exception with a given error message." alt="" coords="1115,292,1267,334"/>
+<area shape="rect" id="node5" href="$namespaceerror__msg__class.html#a7e065585cc806a5c264de1f088266498" title="Converts a given integer to a string." alt="" coords="1315,518,1453,559"/>
+<area shape="rect" id="node7" href="$namespacefile__handling__class.html#a25b51db64738e74a129daae7428c8163" title="Open an unformatted file for reading." alt="" coords="657,210,823,251"/>
+<area shape="rect" id="node9" href="$namespacebenam__class.html#af8144ea43fb40187e32fb83da48458f1" title="Returns the 1/n! factor where n is the number of equal isotopes entering a reaction...." alt="" coords="420,93,608,120"/>
+<area shape="rect" id="node10" href="$namespacemergesort__module.html#afdba6e49a853cbc2b93f08758ab87cf6" title="Merges two tables of neutrino rates (of type global_class::nurate_type)." alt="" coords="871,401,1067,428"/>
+<area shape="rect" id="node11" href="$namespacefile__handling__class.html#aab870caaf9cbaaf635d537708efbf793" title="Same for reading (input file)" alt="" coords="675,296,805,338"/>
+<area shape="rect" id="node12" href="$namespacenuflux__class.html#a0e6d31694c86416d2766c5decc2422e1" title="Read the channels from a file in the format of Sieverding et al 2018." alt="" coords="452,296,576,338"/>
+<area shape="rect" id="node13" href="$namespacenuflux__class.html#a46583d0423ea4dfb7d4aa832f9070117" title="Read the reactions from a file in the format of Sieverding et al 2018." alt="" coords="440,362,588,403"/>
+<area shape="rect" id="node15" href="$namespacenuflux__class.html#a36ed0c2924e75dea4015e928ee424303" title="Reads neutrino&#45;nuclei reaction file." alt="" coords="438,525,590,552"/>
+<area shape="rect" id="node20" href="$namespacemergesort__module.html#a350624bb77af754147cd68332b16b9e5" title="Sorts chapter one of the rate array." alt="" coords="419,144,609,170"/>
+<area shape="rect" id="node21" href="$namespacenuflux__class.html#a7913cb5d1c5cdb8217a26ed63f2d9166" title="Set the type of a neutrino reaction." alt="" coords="433,194,595,221"/>
+<area shape="rect" id="node14" href="$namespacebenam__class.html#ad2f566697809a5731e560509d2ca7062" title="Finds an isotope index in the network table, given its A and Z. In case it was not found,..." alt="" coords="671,369,809,396"/>
+<area shape="rect" id="node16" href="$namespacebenam__class.html#ad20c821347dd5f7c08dff59c98e69657" title="Returns the index number of isotope &#39;name&#39;." alt="" coords="668,576,812,602"/>
+<area shape="rect" id="node17" href="$namespacebenam__class.html#aef0b2a649260779b20729f29b8ec4a67" title="Identifies the nuclide names and indices corresponding to z,n combinations (z1,n1),..." alt="" coords="673,474,807,501"/>
+<area shape="rect" id="node18" href="$namespaceerror__msg__class.html#a339dd5b38c125b6a04653762c94a91f2" title="Write data to the standard output (usually OUT)" alt="" coords="664,627,816,668"/>
+<area shape="rect" id="node19" href="$namespaceerror__msg__class.html#af62b9a0c5997255e792b9ebd7322a6a3" title="Write the header of the standard output (usually OUT)" alt="" coords="893,627,1045,668"/>
 </map>
