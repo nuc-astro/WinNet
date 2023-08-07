@@ -123,7 +123,7 @@ jobs:
         make -f Makefile.example clean
         sed 's/-fopenmp/-fopenmp\ -g\ -Wall\ -fcheck=all/g' -i Makefile.example
         sed 's/-O3/-O0/g' -i Makefile.example
-        sed 's/FC\ =\ ifx/FC\ =\ h5fc/g' -i Makefile.example
+        sed 's/FC\ =\ ifort/FC\ =\ h5fc/g' -i Makefile.example
         make -f Makefile.example -j2
 
 

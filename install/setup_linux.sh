@@ -59,8 +59,8 @@ then
 	sudo echo "deb https://apt.repos.intel.com/oneapi all main" | sudo tee /etc/apt/sources.list.d/oneAPI.list
 	sudo apt-get update
 	sudo apt-get install -y intel-oneapi-common-vars
-	sudo apt-get install -y intel-oneapi-compiler-fortran
-	sudo apt-get install -y intel-oneapi-mkl
+	sudo apt-get install -y intel-oneapi-compiler-fortran-2023.1.0
+	sudo apt-get install -y intel-oneapi-mkl-2023.1.0
 
   # Source the compiler by default
   echo 'source /opt/intel/oneapi/setvars.sh >/dev/null' >> ~/.bashrc
