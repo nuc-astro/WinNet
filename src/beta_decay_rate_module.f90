@@ -72,7 +72,7 @@ contains
    !! @date 25.01.21
    subroutine init_ext_beta_rates()
       use parameter_class, only: beta_decay_file,use_beta_decay_file,&
-                                 beta_decay_src_ignore
+                                 beta_decay_src_ignore, use_prepared_network
       use nucstuff_class,  only: analyze_src_string
       use file_handling_class
       implicit none
@@ -82,7 +82,7 @@ contains
       ! External beta decay flag
       ext_decays = .False.
 
-      if (use_beta_decay_file) then
+      if (use_beta_decay_file .and. (.not. use_prepared_network)) then
          ! Flag that external beta decays are used
          ext_decays = .True.
 
@@ -123,6 +123,7 @@ contains
    subroutine merge_beta_decays(rrate_array,rrate_length)
       use error_msg_class,  only: raise_exception
       use mergesort_module, only: rrate_ms,rrate_sort
+      use parameter_class,  only: use_prepared_network
       implicit none
       type(reactionrate_type),dimension(:),allocatable,intent(inout) :: rrate_array  !< Large rate array, containing all reactions
       integer,intent(inout)                                          :: rrate_length !< length of rrate_array
@@ -130,7 +131,7 @@ contains
 
 
 
-      if (ext_decays) then
+      if (ext_decays .and. (.not. use_prepared_network)) then
         if (nbeta_pn .ne. 0) then
            if (.not. allocated(rrate_array)) then
               ! Create an array in the correct format

@@ -245,7 +245,7 @@ class examplecase(object):
         s+= bcolors.BOLD  +"Run it with:\n"+bcolors.ENDC
         s+= bcolors.OKBLUE+"python makerun.py -p Example_BigBang.par -r Example_BigBang\n"+bcolors.ENDC
         s+= "To calculate many runs with"+bcolors.OKCYAN+" different photon to baryon ratios"+bcolors.ENDC+" you can run:\n"
-        s+= bcolors.OKBLUE+"python makerun.py --many -p Example_BigBang_many.par -r Example_BigBang_many\n"+bcolors.ENDC
+        s+= bcolors.OKBLUE+"python makerun.py --many --prepare -p Example_BigBang_many.par -r Example_BigBang_many\n"+bcolors.ENDC
         s+= bcolors.BOLD  +"Literature:\n"+bcolors.ENDC
         s+= "-\n"
         s+= '\n\n\n'
@@ -266,7 +266,7 @@ class examplecase(object):
         s+= "Or in case you want to run this trajectory with three different fission fragment distributions:\n"
         s+= bcolors.OKBLUE+"python makerun.py -p Example_NSM_dyn_ejecta_fission_rosswog.par -r Example_NSM_dyn_ejecta_fission_rosswog --many --val 1,2,3\n"+bcolors.ENDC
         s+= "In case you want to run all available trajectories (30), run the following command. Be aware that this will most likely take more than one hour:\n"
-        s+= bcolors.OKBLUE+"python makerun.py --many -p Example_NSM_dyn_ejecta_ns10ns10_rosswog.par -r Example_NSM_dyn_ejecta_ns10ns10_rosswog"+bcolors.ENDC+"\n"
+        s+= bcolors.OKBLUE+"python makerun.py --many --prepare -p Example_NSM_dyn_ejecta_ns10ns10_rosswog.par -r Example_NSM_dyn_ejecta_ns10ns10_rosswog"+bcolors.ENDC+"\n"
         s+= bcolors.BOLD  +"Literature:\n"+bcolors.ENDC
         s+= self.__link_lit("- Korobkin et al. 2012","https://ui.adsabs.harvard.edu/abs/2012MNRAS.426.1940K/abstract")+"\n"
         s+= self.__link_lit("- Rosswog et al. 2013","https://ui.adsabs.harvard.edu/abs/2013MNRAS.430.2585R/abstract")+"\n"
@@ -289,7 +289,7 @@ class examplecase(object):
         s+= bcolors.OKBLUE+"python makerun.py -p Example_NSM_wind_martin.par -r Example_NSM_wind_martin\n"+bcolors.ENDC
         s+= "Or alternatively run all different directional bins (4 tracers). \n"
         s+= bcolors.BOLD  +"Run it with:\n"+bcolors.ENDC
-        s+= bcolors.OKBLUE+"python makerun.py --many -p Example_NSM_wind_bins_martin.par -r Example_NSM_wind_bins_martin\n"+bcolors.ENDC
+        s+= bcolors.OKBLUE+"python makerun.py --many --prepare -p Example_NSM_wind_bins_martin.par -r Example_NSM_wind_bins_martin\n"+bcolors.ENDC
         s+= bcolors.BOLD  +"Literature:\n"+bcolors.ENDC
         s+= self.__link_lit("- Perego et al. 2014","https://ui.adsabs.harvard.edu/abs/2014MNRAS.443.3134P/abstract")+"\n"
         s+= self.__link_lit("- Martin et al. 2015","https://ui.adsabs.harvard.edu/abs/2015ApJ...813....2M/abstract")+"\n"
@@ -299,7 +299,7 @@ class examplecase(object):
         s+= "Representative trajectories (10) of the "+bcolors.OKCYAN+"viscous/disk ejecta"+bcolors.ENDC+" (model S-def) of a neutron star merger. "\
             "The model has also been investigated in Lippuner et al. 2017.\n"
         s+= bcolors.BOLD  +"Run it with:\n"+bcolors.ENDC
-        s+= bcolors.OKBLUE+"python makerun.py --many -p Example_NSM_disk_wu.par -r Example_NSM_disk_wu\n"+bcolors.ENDC
+        s+= bcolors.OKBLUE+"python makerun.py --many --prepare -p Example_NSM_disk_wu.par -r Example_NSM_disk_wu\n"+bcolors.ENDC
         s+= bcolors.BOLD  +"Literature:\n"+bcolors.ENDC
         s+= self.__link_lit("- Wu et al. 2016","https://ui.adsabs.harvard.edu/abs/2016MNRAS.463.2323W/abstract")+"\n"
         s+= self.__link_lit("- Lippuner et al. 2017","https://ui.adsabs.harvard.edu/abs/2017MNRAS.472..904L/abstract")+"\n"
@@ -317,7 +317,7 @@ class examplecase(object):
             "https://compact-merger.astro.su.se/downloads_fluid_trajectories.html. "\
             "Due to the amount of calculations, this example case may take a while.\n"
         s+= bcolors.BOLD  +"Run it with:\n"+bcolors.ENDC
-        s+= bcolors.OKBLUE+"python makerun.py --many -p Example_NSBH_rosswog.par -r Example_NSBH_rosswog"+bcolors.ENDC
+        s+= bcolors.OKBLUE+"python makerun.py --many --prepare -p Example_NSBH_rosswog.par -r Example_NSBH_rosswog"+bcolors.ENDC
         s+= '\n'
         s+= bcolors.BOLD  +"Literature:\n"+bcolors.ENDC
         s+= self.__link_lit("- Korobkin et al. 2012","https://ui.adsabs.harvard.edu/abs/2012MNRAS.426.1940K/abstract")+"\n"
@@ -470,7 +470,7 @@ class examplecase(object):
         s+="different temperatures (between 1e7 K and 4e7 K). To be able to plot the output, the hdf5 output has to "
         s+="be enabled and configured in the Makefile.\n"
         s+= bcolors.BOLD  +"Run it with:\n"+bcolors.ENDC
-        s+= bcolors.OKBLUE+"python makerun.py -p Example_hydrostatic_hydrogen_burning.par -r Example_hydrostatic_hydrogen_burning --many --val_min=1 --val_max=4 --val_it=0.1\n"+bcolors.ENDC
+        s+= bcolors.OKBLUE+"python makerun.py -p Example_hydrostatic_hydrogen_burning.par -r Example_hydrostatic_hydrogen_burning --many --prepare --val_min=1 --val_max=4 --val_it=0.1\n"+bcolors.ENDC
         s+= bcolors.BOLD  +"Literature:\n"+bcolors.ENDC
         s+= "-\n"
         s+= '\n\n'

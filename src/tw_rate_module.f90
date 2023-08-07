@@ -66,13 +66,13 @@ module tw_rate_module
    integer,parameter,private                                   :: nu_loss_ident=4   !< Identifier for the neutrino loss
 
    integer,private :: n_ec, n_o !< individual reaction types
-
+   character(len=*), private, parameter                        :: weak_binary_name='weak_rates.windat' !< Filename of binary file to save weak rates
     !
     ! Public and private fields and methods of the module
     !
     public:: &
         init_theoretical_weak_rates, weak_index, weak_inter, reload_exp_weak_rates, &
-        calculate_twr_rate
+        calculate_twr_rate, output_binary_weak_reaction_data
     private:: &
         readweak_logft, read_theoretical_weak_rates,&
         sort, write_reac_verbose_out
@@ -88,7 +88,8 @@ contains
    !! @author Moritz Reichert
    !! @date 24.01.21
    subroutine init_theoretical_weak_rates()
-      use parameter_class, only: iwformat
+      use parameter_class, only: iwformat, use_prepared_network, &
+                                 prepared_network_path
       implicit none
 
       ! Set the amount to zero, later it is set in readweak_logft
@@ -97,10 +98,18 @@ contains
       n_ec=0; n_o=0
 
       weak= (iwformat.ne.0)
-      if (weak) call read_theoretical_weak_rates()
-      if (weak) call initialize_cubic_interp()
-      if (weak) call write_reac_verbose_out()
-      if (weak) call output_n_p()
+
+      if (weak) then
+        if (use_prepared_network) then
+          call read_binary_weak_reaction_data(prepared_network_path)
+        else
+            call read_theoretical_weak_rates()
+            call initialize_cubic_interp()
+        end if
+        ! Output info
+        call write_reac_verbose_out()
+        call output_n_p()
+      end if
    end subroutine init_theoretical_weak_rates
 
 
@@ -200,6 +209,7 @@ contains
       use error_msg_class,  only: raise_exception
       use mergesort_module, only: rrate_ms,rrate_sort
       use global_class,     only: common_weak_rates, only_theo_weak_rates
+      use parameter_class,  only: use_prepared_network
       implicit none
       type(reactionrate_type),dimension(:),allocatable,intent(inout) :: rrate_array  !< Large rate array, containing all reactions
       integer,intent(inout)                                          :: rrate_length !< length of rrate_array
@@ -207,7 +217,7 @@ contains
       integer                                                        :: alloc_stat   !< Allocation state
       integer                                                        :: new_length   !< New length of the array
 
-      if (weak) then
+      if (weak .and. (.not. use_prepared_network)) then
          if (.not. allocated(rrate_array)) then
             !-- Allocate the reaclib rate array
             allocate(rrate_array(nweak),stat=alloc_stat)
@@ -235,6 +245,225 @@ contains
       end if
 
    end subroutine merge_theoretical_weak_rates
+
+
+
+
+
+  !> Read the theoretical weak rates from a unformatted binary file
+  !!
+  !! In case the binary file is read, no other data has to be read.
+  !!
+  !! @author M. Reichert
+  !! @date 27.07.21
+  subroutine read_binary_weak_reaction_data(path)
+    use file_handling_class, only: open_unformatted_infile
+    use parameter_class,     only: iwformat, weak_rates_file, max_fname_len
+    use global_class,        only: common_weak_rates, only_theo_weak_rates,rrate_weak_exp
+    use error_msg_class,     only: raise_exception
+    implicit none
+    character(len=*), intent(in)        :: path            !< Path to binary file
+    integer                             :: file_id         !< File identifier
+    integer                             :: i               !< Loop variable
+    logical                             :: allocated_or_not!< Logical to check if array is allocated
+    integer                             :: status          !< Status of allocation
+
+
+    file_id = open_unformatted_infile(trim(adjustl(path))//trim(adjustl(weak_binary_name)))
+
+    read(file_id) nweak
+    read(file_id) n_ec
+    read(file_id) n_o
+    read(file_id) common_weak_rates
+    read(file_id) only_theo_weak_rates
+
+    allocate(weak_rate(nweak),stat=status)
+    if (status /= 0) call raise_exception('Allocation of "weak_rate" failed.',&
+                                          "read_binary_weak_reaction_data",440001)
+
+    do i=1, nweak
+        read(file_id) weak_rate(i)%parts
+        read(file_id) weak_rate(i)%is_ec
+        read(file_id) weak_rate(i)%source
+        read(file_id) weak_rate(i)%n_points
+        read(file_id) weak_rate(i)%n_temp_grid
+        read(file_id) weak_rate(i)%n_rho_grid
+        read(file_id) weak_rate(i)%q_value
+        read(file_id) weak_rate(i)%min_rho
+        read(file_id) weak_rate(i)%max_rho
+        read(file_id) weak_rate(i)%min_temp
+        read(file_id) weak_rate(i)%max_temp
+        read(file_id) allocated_or_not
+        if (allocated_or_not) then
+            allocate(weak_rate(i)%temp_grid(weak_rate(i)%n_temp_grid))
+            read(file_id) weak_rate(i)%temp_grid
+        end if
+        read(file_id) allocated_or_not
+        if (allocated_or_not) then
+            allocate(weak_rate(i)%rho_grid(weak_rate(i)%n_rho_grid))
+            read(file_id) weak_rate(i)%rho_grid
+        end if
+        read(file_id) allocated_or_not
+        if (allocated_or_not) then
+            allocate(weak_rate(i)%mue_kin(weak_rate(i)%n_temp_grid,weak_rate(i)%n_rho_grid))
+            read(file_id) weak_rate(i)%mue_kin
+        end if
+        read(file_id) allocated_or_not
+        if (allocated_or_not) then
+            allocate(weak_rate(i)%dmue_kin_dT(weak_rate(i)%n_temp_grid,weak_rate(i)%n_rho_grid))
+            read(file_id) weak_rate(i)%dmue_kin_dT
+        end if
+        read(file_id) allocated_or_not
+        if (allocated_or_not) then
+            allocate(weak_rate(i)%dmue_kin_dR(weak_rate(i)%n_temp_grid,weak_rate(i)%n_rho_grid))
+            read(file_id) weak_rate(i)%dmue_kin_dR
+        end if
+        read(file_id) allocated_or_not
+        if (allocated_or_not) then
+            allocate(weak_rate(i)%dmue_kin_dT_dR(weak_rate(i)%n_temp_grid,weak_rate(i)%n_rho_grid))
+            read(file_id) weak_rate(i)%dmue_kin_dT_dR
+        end if
+        read(file_id) allocated_or_not
+        if (allocated_or_not) then
+            allocate(weak_rate(i)%beta_rate(weak_rate(i)%n_temp_grid,weak_rate(i)%n_rho_grid))
+            read(file_id) weak_rate(i)%beta_rate
+        end if
+        read(file_id) allocated_or_not
+        if (allocated_or_not) then
+            allocate(weak_rate(i)%dbeta_dT(weak_rate(i)%n_temp_grid,weak_rate(i)%n_rho_grid))
+            read(file_id) weak_rate(i)%dbeta_dT
+        end if
+        read(file_id) allocated_or_not
+        if (allocated_or_not) then
+            allocate(weak_rate(i)%dbeta_dR(weak_rate(i)%n_temp_grid,weak_rate(i)%n_rho_grid))
+            read(file_id) weak_rate(i)%dbeta_dR
+        end if
+        read(file_id) allocated_or_not
+        if (allocated_or_not) then
+            allocate(weak_rate(i)%dbeta_dT_dR(weak_rate(i)%n_temp_grid,weak_rate(i)%n_rho_grid))
+            read(file_id) weak_rate(i)%dbeta_dT_dR
+        end if
+        read(file_id) allocated_or_not
+        if (allocated_or_not) then
+            allocate(weak_rate(i)%ft_rate(weak_rate(i)%n_temp_grid,weak_rate(i)%n_rho_grid))
+            read(file_id) weak_rate(i)%ft_rate
+        end if
+        read(file_id) allocated_or_not
+        if (allocated_or_not) then
+            allocate(weak_rate(i)%dft_dT(weak_rate(i)%n_temp_grid,weak_rate(i)%n_rho_grid))
+            read(file_id) weak_rate(i)%dft_dT
+        end if
+        read(file_id) allocated_or_not
+        if (allocated_or_not) then
+            allocate(weak_rate(i)%dft_dR(weak_rate(i)%n_temp_grid,weak_rate(i)%n_rho_grid))
+            read(file_id) weak_rate(i)%dft_dR
+        end if
+        read(file_id) allocated_or_not
+        if (allocated_or_not) then
+            allocate(weak_rate(i)%dft_dT_dR(weak_rate(i)%n_temp_grid,weak_rate(i)%n_rho_grid))
+            read(file_id) weak_rate(i)%dft_dT_dR
+        end if
+        read(file_id) allocated_or_not
+        if (allocated_or_not) then
+            allocate(weak_rate(i)%nu_loss(weak_rate(i)%n_temp_grid,weak_rate(i)%n_rho_grid))
+            read(file_id) weak_rate(i)%nu_loss
+        end if
+    end do
+
+    read(file_id) common_weak_rates
+    allocate(rrate_weak_exp(common_weak_rates),stat=status)
+    if (status /= 0) call raise_exception('Allocation of "rrate_weak_exp" failed.',&
+                                          "read_binary_weak_reaction_data",440001)
+    read(file_id) rrate_weak_exp
+
+    close(file_id)
+
+  end subroutine read_binary_weak_reaction_data
+
+
+
+
+  !> Save the theoretical weak rates to a unformatted binary file
+  !!
+  !! @author M. Reichert
+  !! @date 27.07.21
+  subroutine output_binary_weak_reaction_data(path)
+    use file_handling_class, only: open_unformatted_outfile
+    use parameter_class,     only: iwformat, weak_rates_file, max_fname_len
+    use global_class,        only: common_weak_rates, only_theo_weak_rates,rrate_weak_exp
+    implicit none
+    character(len=*), intent(in) :: path
+    integer                             :: i
+    integer                             :: file_id
+
+    if (.not. weak) return
+
+    ! Open an unformatted file
+    file_id = open_unformatted_outfile(trim(adjustl(path))//trim(adjustl(weak_binary_name)))
+    ! Save the data
+    write(file_id) nweak
+    write(file_id) n_ec
+    write(file_id) n_o
+    write(file_id) common_weak_rates
+    write(file_id) only_theo_weak_rates
+
+
+    do i=1,nweak
+      ! First write all things that are not allocatable
+      write(file_id) weak_rate(i)%parts
+      write(file_id) weak_rate(i)%is_ec
+      write(file_id) weak_rate(i)%source
+      write(file_id) weak_rate(i)%n_points
+      write(file_id) weak_rate(i)%n_temp_grid
+      write(file_id) weak_rate(i)%n_rho_grid
+      write(file_id) weak_rate(i)%q_value
+      write(file_id) weak_rate(i)%min_rho
+      write(file_id) weak_rate(i)%max_rho
+      write(file_id) weak_rate(i)%min_temp
+      write(file_id) weak_rate(i)%max_temp
+      ! Now take care of allocatable parts
+      write(file_id) allocated(weak_rate(i)%temp_grid)
+      if (allocated(weak_rate(i)%temp_grid)) write(file_id) weak_rate(i)%temp_grid
+        write(file_id) allocated(weak_rate(i)%rho_grid)
+        if (allocated(weak_rate(i)%rho_grid)) write(file_id) weak_rate(i)%rho_grid
+        write(file_id) allocated(weak_rate(i)%mue_kin)
+        if (allocated(weak_rate(i)%mue_kin)) write(file_id) weak_rate(i)%mue_kin
+        write(file_id) allocated(weak_rate(i)%dmue_kin_dT)
+        if (allocated(weak_rate(i)%dmue_kin_dT)) write(file_id) weak_rate(i)%dmue_kin_dT
+        write(file_id) allocated(weak_rate(i)%dmue_kin_dR)
+        if (allocated(weak_rate(i)%dmue_kin_dR)) write(file_id) weak_rate(i)%dmue_kin_dR
+        write(file_id) allocated(weak_rate(i)%dmue_kin_dT_dR)
+        if (allocated(weak_rate(i)%dmue_kin_dT_dR)) write(file_id) weak_rate(i)%dmue_kin_dT_dR
+        write(file_id) allocated(weak_rate(i)%beta_rate)
+        if (allocated(weak_rate(i)%beta_rate)) write(file_id) weak_rate(i)%beta_rate
+        write(file_id) allocated(weak_rate(i)%dbeta_dT)
+        if (allocated(weak_rate(i)%dbeta_dT)) write(file_id) weak_rate(i)%dbeta_dT
+        write(file_id) allocated(weak_rate(i)%dbeta_dR)
+        if (allocated(weak_rate(i)%dbeta_dR)) write(file_id) weak_rate(i)%dbeta_dR
+        write(file_id) allocated(weak_rate(i)%dbeta_dT_dR)
+        if (allocated(weak_rate(i)%dbeta_dT_dR)) write(file_id) weak_rate(i)%dbeta_dT_dR
+        write(file_id) allocated(weak_rate(i)%ft_rate)
+        if (allocated(weak_rate(i)%ft_rate)) write(file_id) weak_rate(i)%ft_rate
+        write(file_id) allocated(weak_rate(i)%dft_dT)
+        if (allocated(weak_rate(i)%dft_dT)) write(file_id) weak_rate(i)%dft_dT
+        write(file_id) allocated(weak_rate(i)%dft_dR)
+        if (allocated(weak_rate(i)%dft_dR)) write(file_id) weak_rate(i)%dft_dR
+        write(file_id) allocated(weak_rate(i)%dft_dT_dR)
+        if (allocated(weak_rate(i)%dft_dT_dR)) write(file_id) weak_rate(i)%dft_dT_dR
+        write(file_id) allocated(weak_rate(i)%nu_loss)
+        if (allocated(weak_rate(i)%nu_loss)) write(file_id) weak_rate(i)%nu_loss
+    end do
+
+    ! Now output also the expermental rates rrate_weak_exp
+    write(file_id) common_weak_rates
+    write(file_id) rrate_weak_exp
+
+    close(file_id)
+
+
+   end subroutine output_binary_weak_reaction_data
+
+
 
 
    !> Calculate the theoretical weak rate.

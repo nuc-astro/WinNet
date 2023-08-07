@@ -23,6 +23,10 @@
 # and check the plotting script in the produced run folder (runs/Example_BigBang_many/Plot_me.py)
 
 
+use_prepared_network=no
+#prepared_network_file=test
+
+
 ###########################
 #   General input files   #
 ###########################

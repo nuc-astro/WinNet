@@ -72,6 +72,14 @@ for i in range(len(args)):
       n_failed += 1
       continue
 
+   # Enable a callback function for some tests
+   try:
+      # Method exists and was used.
+      t.prepare_function()
+   except AttributeError:
+      # If the method does not exist
+      pass
+
    res= t.launch()
    if res!=0:
       print("ERROR: when launching test "+tc)

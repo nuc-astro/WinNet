@@ -8,7 +8,8 @@ program driver
 
   use global_class,        only: net_size
   use winnse_module,       only: pf
-  use error_msg_class,     only: raise_exception
+  use error_msg_class,     only: raise_exception, data_creation_mode, &
+                                 write_final_stats_rate_creation
   use nucstuff_class,      only: el_ab
   use file_handling_class, only: delete_io_file
   use gear_module,         only: init_gear_solver
@@ -26,6 +27,7 @@ program driver
 
   integer                    :: cnt             !< Iteration count
   character(max_fname_len)   :: parameter_file  !< Path to parameter file
+  character(max_fname_len)   :: binary_out_dir  !< Path to binary dir to safe the rates
   logical                    :: init            !< Flag to indicate whether the
                                                 !  time step has to be set to the
                                                 !  initial value.
@@ -33,12 +35,22 @@ program driver
 !---
 ! Parameter setup
 !---
-  if (iargc().ne.1) then
+  if (iargc().eq.1) then
+    call getarg(1, parameter_file)
+  elseif (iargc().eq.2) then
+    call getarg(1, parameter_file)
+    call getarg(2, binary_out_dir)
+    ! If the binary_out_dir is given,
+    ! the code is in rate creation mode
+    ! and the print statements will be different
+    data_creation_mode = .true.
+  else
     print '(A)', "ERROR: wrong number of command-line arguments"
-    print '(A)', "Syntax: ./winnet <parameter-file>"
+    print '(A)', "Syntax for network calculation: ./winnet <parameter-file>"
+    print '(A)', "Syntax for network data creation: ./winnet <parameter-file> <binary-out-dir>"
     stop
   endif
-  call getarg(1, parameter_file)
+
 
   call set_default_param()
   call read_param (trim(parameter_file))
@@ -47,8 +59,20 @@ program driver
 !---
 ! Initializations
 !---
-  init=.true.       !! local variable, TODO: get rid of it
-  call prepare_simulation()
+  if (iargc() .eq. 2) then
+    ! Dont use a prepared network when trying to prepare one
+    use_prepared_network = .false.
+    call create_rate_folder(trim(binary_out_dir))
+    ! Output final stats
+    call write_final_stats_rate_creation()
+    ! Dont run the network
+    stop
+  else
+    init=.true.       !! local variable, TODO: get rid of it
+    call prepare_simulation()
+  end if
+
+
 
 ! initial output
   call output_initial_step(time,T9,rhob,ent,Rkm,Y,pf)

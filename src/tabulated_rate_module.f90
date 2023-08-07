@@ -66,7 +66,8 @@ contains
    !! @date 24.01.21
    subroutine init_tabulated_rates()
       use parameter_class, only: use_tabulated_rates, &
-                                 tabulated_rates_file
+                                 tabulated_rates_file, &
+                                 use_prepared_network
       use file_handling_class
       implicit none
       integer :: tab_unit !< File unit id
@@ -76,7 +77,7 @@ contains
 
       ! Read and count tabulated rates
       ntab = 0
-      if (tabulated) then
+      if (tabulated .and. (.not. use_prepared_network)) then
          tab_unit= open_infile(tabulated_rates_file)
 
     !----- readtabulated returns number of tabulated rates
@@ -118,6 +119,7 @@ contains
    subroutine merge_tabulated_rates(rrate_array,rrate_length)
       use error_msg_class,  only: raise_exception
       use mergesort_module, only: rrate_qs_replace
+      use parameter_class,  only: use_prepared_network
       implicit none
       type(reactionrate_type),dimension(:),allocatable,intent(inout) :: rrate_array  !< Large rate array, containing all reactions
       integer,intent(inout)                                          :: rrate_length !< length of rrate_array
@@ -125,7 +127,7 @@ contains
       integer                                                        :: alloc_stat   !< Allocation state
       integer                                                        :: new_length   !< New length of rrate_array
 
-      if (tabulated) then
+      if (tabulated .and. (.not. use_prepared_network)) then
         if (ntab .ne. 0) then
            if (.not. allocated(rrate_array)) then
               rrate_length = ntab

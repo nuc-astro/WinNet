@@ -160,6 +160,7 @@ The error codes are translated to the following problems:
 <tr><td> W340007 <td> Init temperatures are inconsistent.
 <tr><td> W340008 <td> nr_mincount and nr_maxcount are inconsistent.
 <tr><td> W340009 <td> Inconsistent termination criterium.
+<tr><td> W340010 <td> Inconsistent binary files.
 <tr><td> W350003 <td> el(i) got NaN.
 <tr><td> W350004 <td> Unknown solver.
 <tr><td> W360001 <td> Allocation failure.

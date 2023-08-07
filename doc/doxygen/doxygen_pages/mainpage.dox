@@ -27,7 +27,7 @@ chmod +x setup_linux.sh
 Alternatively, you can follow the instruction below.
 
 \subsubsection fortran Fortran
-In order to compile the code either the intel fortran compiler (ifort) or the gnu
+In order to compile the code either the intel fortran compiler (ifort, since 2023 sometimes named ifx) or the gnu
 fortran compiler (gfortran) is needed. We recommend to install the ifort compiler
 as it comes already with the Math Kernel Library (MKL) that you need to run the
 network. An instruction how to install and download the ifort compiler can be found
@@ -41,8 +41,8 @@ rm GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB
 sudo echo "deb https://apt.repos.intel.com/oneapi all main" | sudo tee /etc/apt/sources.list.d/oneAPI.list
 sudo apt-get update
 sudo apt-get install -y intel-oneapi-common-vars
-sudo apt-get install -y intel-oneapi-compiler-fortran
-sudo apt-get install -y intel-oneapi-mkl
+sudo apt-get install -y intel-oneapi-compiler-fortran-2023.1.0
+sudo apt-get install -y intel-oneapi-mkl-2023.1.0
 echo 'source /opt/intel/oneapi/setvars.sh >/dev/null' >> ~/.bashrc
 ```
 After this, open a new terminal to apply the changes.

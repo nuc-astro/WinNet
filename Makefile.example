@@ -7,6 +7,8 @@
 
 
 #>>> Path to Intel MKL library
+# If the compiler libraries were sourced before, the following
+# line can be an arbitrary path.
 MKL_DIR = /opt/intel/mkl
 
 #>>> Machine architecture
@@ -23,8 +25,9 @@ ARCH = 64
 # You can take the correct one and fill the full path for "FC" in the lines
 # below.
 
-#>>> Compiler and linker: ifort, h5fc, or gfortran so far
+#>>> Compiler and linker: ifort, ifx, h5fc, h5pfc, or gfortran so far
 FC = ifort
+# FC = ifx
 # FC = h5fc
 # FC = h5pfc
 # FC = gfortran
@@ -69,8 +72,8 @@ else
     hdf5     = false
 endif
 
-
-ifeq ($(FCCOM),ifort)
+# Check if it is an intel compiler, either ifort or ifx
+ifeq ($(FCCOM),$(filter $(FCCOM),ifort ifx))
     #>>> Compiler flags: paranoid warning system
     # FFLAGS += -cpp -r8 -align -O0 -Warn all -fpe0 -check all -g -traceback -qopenmp -fp-stack-check -extend-source -heap-arrays -init=snan,arrays -DVERS=$(GIT_VERSION)
     #>>> .. vs more relaxed version
@@ -108,7 +111,7 @@ VPATH      += $(TOOL_PATH)
 VPATH      += $(MKL_INC)
 VPATH      += $(NUTH_PATH)
 
-ifeq ($(FCCOM),ifort)
+ifeq ($(FCCOM),$(filter $(FCCOM),ifort ifx))
     FFLAGS     += -module $(OBJ_PATH)
 else
     FFLAGS     += -J$(OBJ_PATH)
@@ -240,15 +243,14 @@ TESTS += tabulated_rates
 TESTS += ulimit
 TESTS += tw_rate
 TESTS += screening
-#TESTS += flow
 TESTS += beta_decay_format
 TESTS += fissfrag_kodtak
-TESTS += fissfrag_ABLA
 TESTS += fissfrag_panov
 TESTS += fissfrag_mumpower
 TESTS += neutral-current_reaction
 TESTS += charged-current_reaction
 TESTS += nc_cc_reaction
+TESTS += prepared_network
 
 # Physical reference cases
 TESTS += bigbang
