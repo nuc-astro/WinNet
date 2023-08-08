@@ -6,7 +6,7 @@ Use all scripts on your own risk!
 
 ------
 
-#### [convert_marketin_beta_decays.py](bin/convert_marketin_beta_decays.py)
+#### [convert_marketin_beta_decays.py](convert_marketin_beta_decays.py)
 
 **Description**\
 Convert beta decay file of Marketin into a WinNet readable format.
@@ -15,7 +15,7 @@ can be accessed [here](https://journals.aps.org/prc/supplemental/10.1103/PhysRev
 
 ------
 
-#### [create_alpha_decay_file.py](bin/create_alpha_decay_file.py)
+#### [create_alpha_decay_file.py](create_alpha_decay_file.py)
 
 **Description**\
 Creates a file with alpha decay half-lifes. The half-lifes
@@ -26,7 +26,7 @@ To create this file, a winvn file is needed.
 
 ------
 
-#### [create_neutrino_loss_file.py](bin/create_neutrino_loss_file.py)
+#### [create_neutrino_loss_file.py](create_neutrino_loss_file.py)
 
 **Description**\
 Script to download the neutrino loss data from the ENDSF database and to put it into a WinNet readable file format.
@@ -35,7 +35,7 @@ nuclear heating is enabled. A description about the data API can be found [here]
 
 ------
 
-#### [create_neutrino_nucleon_file.py](bin/create_neutrino_nucleon_file.py)
+#### [create_neutrino_nucleon_file.py](create_neutrino_nucleon_file.py)
 
 **Description**\
 Script to calculate the electron neutrino and electron antineutrino cross sections on nucleons according to 
@@ -45,7 +45,7 @@ the absorbed neutrino to consider it in the case that nuclear heating is enabled
 
 ------
 
-#### [create_spontaneous_fission_file.py](bin/create_spontaneous_fission_file.py)
+#### [create_spontaneous_fission_file.py](create_spontaneous_fission_file.py)
 
 **Description**\
 This file will create a file that contains entries for spontaneous fission reactions. These entries have to be copied
@@ -61,50 +61,50 @@ here used fit has to be changed and the correct fission barriers have to be used
 
 ------
 
-#### [examplecase_class.py](bin/examplecase_class.py)
+#### [examplecase_class.py](examplecase_class.py)
 
 **Description**\
-Script to deal with the example cases of WinNet. New example cases have to be added here. The script is used within the [makerun.py](makerun.py) 
+Script to deal with the example cases of WinNet. New example cases have to be added here. The script is used within the [makerun.py](../makerun.py.example) 
 when executing\
 ``` python makerun.py --example ```
 
 ------
 
-#### [nucleus_example.py](bin/nucleus_example.py)
+#### [nucleus_example.py](nucleus_example.py)
 
 **Description**\
-Example on how to use the helper script to deal with nuclei in python that is contained in [bin/class_files/nucleus_class.py](bin/class_files/nucleus_class.py). 
+Example on how to use the helper script to deal with nuclei in python that is contained in [class_files/nucleus_class.py](class_files/nucleus_class.py). 
 With this script it is possible to create a class that contains basic information of a nucleus such as neutron number, proton number, and mass number.
 
 ------
 
-#### [reaclib_example.py](bin/reaclib_example.py)
+#### [reaclib_example.py](reaclib_example.py)
 
 **Description**\
-Example on how to use the helper script to deal with reaclib reaction rates in python that is contained in [bin/class_files/reaclib_class.py](bin/class_files/reaclib_class.py). 
+Example on how to use the helper script to deal with reaclib reaction rates in python that is contained in [class_files/reaclib_class.py](class_files/reaclib_class.py). 
 With this script it is possible to create a class that contains basic information of a reaclib file. Also analyzing the reaction rates in terms of bad rate fits or erroneous 
 entries is possible. Additionally one can merge two different reaclib files.
 
 ------
 
-#### [run_tests.py](bin/run_tests.py)
+#### [run_tests.py](run_tests.py)
 
 **Description**\
 Script that is called when running the automatic test cases with\
 ``` make tests ```\
-It contains the basic comparison operations that are applied for the tests that are contained in the [test](test) folder.
+It contains the basic comparison operations that are applied for the tests that are contained in the [../test](../test) folder.
 
 ------
 
-#### [testcase_class.py](bin/testcase_class.py)
+#### [testcase_class.py](testcase_class.py)
 
 **Description**\
-Helper script for [run_tests.py](bin/run_tests.py) script.
+Helper script for [run_tests.py](run_tests.py) script.
 
 ------
 
 #### [winnet_example.py](winnet_example.py)
 
 **Description**\
-Example on how to use the helper script to deal with a WinNet run in python that is contained in [bin/class_files/winnet_class.py](bin/class_files/winnet_class.py). 
+Example on how to use the helper script to deal with a WinNet run in python that is contained in [class_files/winnet_class.py](class_files/winnet_class.py). 
 With this script it is possible to create a class that contains basic information of a WinNet run.
