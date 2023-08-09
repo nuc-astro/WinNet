@@ -9,7 +9,7 @@
 # the FRDM fit of Khuyagbaatar 2020 (https://ui.adsabs.harvard.edu/abs/2020NuPhA100221958K/abstract)
 # In contrast to Khuyagbaatar 2020, we also include odd nuclei, not only even ones.
 # Additionally we add experimentally determined rates that can be accessed from the ENDFS database
-# nds.iaea.org/relnsd/v1/data?/fields=ground_states&nuclides=all.
+# https://www-nds.iaea.org/relnsd/v1/data?fields=ground_states&nuclides=all.
 # It is in principle possible to also create spontaneous fission rates for the ETFSI model, but the
 # here used fit has to be changed and the correct fission barriers have to be used.
 import numpy       as np
