@@ -36,7 +36,8 @@ LD = $(FC)
 FCCOM = $(notdir $(FC))
 
 # Get the git Version
-GIT_VERSION:="$(shell git describe --abbrev=10 --always --tags)"
+GIT_TAG:="$(shell git describe --abbrev=0 --tags)"
+GIT_HASH:="$(shell git describe --abbrev=10 --always)"
 
 # Check if the compiler is able to deal with hdf5 files
 # So far h5fc and h5pfc are supported
@@ -75,9 +76,9 @@ endif
 # Check if it is an intel compiler, either ifort or ifx
 ifeq ($(FCCOM),$(filter $(FCCOM),ifort ifx))
     #>>> Compiler flags: paranoid warning system
-    # FFLAGS += -cpp -r8 -align -O0 -Warn all -fpe0 -check all -g -traceback -qopenmp -fp-stack-check -extend-source -heap-arrays -init=snan,arrays -DVERS=$(GIT_VERSION)
+    # FFLAGS += -cpp -r8 -align -O0 -Warn all -fpe0 -check all -g -traceback -qopenmp -fp-stack-check -extend-source -heap-arrays -init=snan,arrays -DGHASH=$(GIT_HASH) -DGTAG=$(GIT_TAG)
     #>>> .. vs more relaxed version
-    FFLAGS   += -cpp -r8 -align -O3 -w -g -parallel -traceback -qopenmp -heap-arrays -DVERS=$(GIT_VERSION)
+    FFLAGS   += -cpp -r8 -align -O3 -w -g -parallel -traceback -qopenmp -heap-arrays -DGHASH=$(GIT_HASH) -DGTAG=$(GIT_TAG)
 
     # Mac OS X user should further add -fp-stack-check -Wl,-stack_size,0x40000000,-stack_addr,0xf0000000
     # since the stack limit of mac can't be changed with ulimit -s unlimited. The above line will increase the stack limit to 1GB on Mac

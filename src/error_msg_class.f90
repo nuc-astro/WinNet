@@ -72,10 +72,16 @@ subroutine write_header()
    write_header_init = .False.
 
    ! Output the Git version if known
-#ifdef VERS
-   call write_data_to_std_out("Git Version",STR(VERS))
+#ifdef GTAG
+   call write_data_to_std_out("Release",STR(GTAG))
 #else
-   call write_data_to_std_out("Git Version","Unknown")
+   call write_data_to_std_out("Release","Unknown")
+#endif
+   ! Output the git hash if known
+#ifdef GHASH
+   call write_data_to_std_out("Git hash",STR(GHASH))
+#else
+   call write_data_to_std_out("Git hash","Unknown")
 #endif
 
 end subroutine write_header
