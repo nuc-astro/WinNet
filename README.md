@@ -10,7 +10,7 @@ See [WinNet-documentation](https://nuc-astro.github.io/WinNet/) for documentatio
 
 ## Literature
 [![arXiv](https://img.shields.io/badge/arxiv-2305.07048-b31b1b)](https://arxiv.org/abs/2305.07048) 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.8220550.svg)](https://doi.org/10.5281/zenodo.8220550)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.8220549.svg)](https://doi.org/10.5281/zenodo.8220549)
 
 
 
