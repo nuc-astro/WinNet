@@ -279,7 +279,7 @@
       @see parameter_class::enuebar, \ref nuflux_class
 
       \section Enux                        Enux
-         Function of the average muon-neutrino and tauon neutrino energies in MeV.
+         Function of the average muon-neutrino and tau neutrino energies in MeV.
          Only used when \ref neutrino_mode is set to "analytic" and
          \ref nuflag is 4 or 5.
          @par Example template line:
@@ -287,7 +287,7 @@
          @see parameter_class::enux, \ref nuflux_class
 
       \section Enuxbar                     Enuxbar
-      Function of the average muon-antineutrino and tauon antineutrino energies in MeV.
+      Function of the average muon-antineutrino and tau antineutrino energies in MeV.
       Only used when \ref neutrino_mode is set to "analytic" and
       \ref nuflag is 4 or 5.
       @par Example template line:
@@ -863,7 +863,7 @@
    @see parameter_class::lebar, \ref nuflux_class
 
    \section Lx                         Lx
-   Constant value or function for the summed value of muon-neutrino and tauon-neutrino luminosities in erg\f$\,\f$s\f$^{-1}\f$.
+   Constant value or function for the summed value of muon-neutrino and tau-neutrino luminosities in erg\f$\,\f$s\f$^{-1}\f$.
    Only used when \ref neutrino_mode is set to "analytic" and \ref nuflag is 4 or 5.
 
    @par Example template line:
@@ -871,7 +871,7 @@
    @see parameter_class::lx, \ref nuflux_class
 
    \section Lxbar                      Lxbar
-   Constant value or function for the summed value of muon-antineutrino and tauon-antineutrino luminosities in erg\f$\,\f$s\f$^{-1}\f$.
+   Constant value or function for the summed value of muon-antineutrino and tau-antineutrino luminosities in erg\f$\,\f$s\f$^{-1}\f$.
    Only used when \ref neutrino_mode is set to "analytic" and \ref nuflag is 4 or 5.
 
    @par Example template line:
@@ -1197,7 +1197,7 @@ An example file looks like:
 
    If neutrinos are included, neutrino reaction rates are read from the files \ref nunucleo_rates_file,
    \ref nuchannel_file, or \ref nurates_file (see table which parameter is necessary).
-   In case of neutral current reactions included (nuflag 3 or 4), also the luminosities and temperatures of muon/tauon neutrinos have to be given either
+   In case of neutral current reactions included (nuflag 3 or 4), also the luminosities and temperatures of muon/tau neutrinos have to be given either
    in the trajectory or in analytic form.
 
    @par Example template line:
@@ -1483,7 +1483,7 @@ An example file looks like:
 
    \section snapshot_file              snapshot_file
    Path to a file for providing points in time in days for custom snapshots.
-   This file is only used if \ref custom_snapshots_ are enabled. The file:
+   This file is only used if \ref custom_snapshots are enabled. The file:
    \file{
    0.04166666
    1
@@ -1776,12 +1776,12 @@ An example file looks like:
     <tr><td> tnue   <td> Electron neutrino temperatures (MeV)
     <tr><td> eanue  <td> Electron anti-neutrino energies (MeV)
     <tr><td> enue   <td> Electron Neutrino energies (MeV)
-    <tr><td> lanux  <td> Summed muon and tauon anti-neutrino luminosities (erg/s)
-    <tr><td> lnux   <td> Summed muon and tauon neutrino luminosities (erg/s)
-    <tr><td> tanux  <td> Muon and tauon anti-neutrino temperatures (MeV)
-    <tr><td> tnux   <td> Muon and tauon neutrino temperatures (MeV)
-    <tr><td> eanux  <td> Muon and tauon anti-neutrino energies (MeV)
-    <tr><td> enux   <td> Muon and tauon neutrino energies (MeV)
+    <tr><td> lanux  <td> Summed muon and tau anti-neutrino luminosities (erg/s)
+    <tr><td> lnux   <td> Summed muon and tau neutrino luminosities (erg/s)
+    <tr><td> tanux  <td> Muon and tau anti-neutrino temperatures (MeV)
+    <tr><td> tnux   <td> Muon and tau neutrino temperatures (MeV)
+    <tr><td> eanux  <td> Muon and tau anti-neutrino energies (MeV)
+    <tr><td> enux   <td> Muon and tau neutrino energies (MeV)
     <tr><td> skip   <td> skip a column
     </table>
 

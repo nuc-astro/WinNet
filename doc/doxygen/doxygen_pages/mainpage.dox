@@ -19,11 +19,11 @@ stress that this code comes with no warranty!
 To run WinNet you need a Fortran compiler and the Math Kernel Library (MKL).
 In the following we describe briefly how to install these things.
 On Linux you can install the compiler and all necessary python packages by using the script contained in the "install" folder:
-```
-cd path_to_winnet/install
-chmod +x setup_linux.sh
-./setup_linux.sh
-```
+
+    cd path_to_winnet/install
+    chmod +x setup_linux.sh
+    ./setup_linux.sh
+
 Alternatively, you can follow the instruction below.
 
 \subsubsection fortran Fortran
@@ -34,17 +34,17 @@ network. An instruction how to install and download the ifort compiler can be fo
 [here](https://software.intel.com/content/www/us/en/develop/articles/free-intel-software-developer-tools.html).
 You need the Intel® oneAPI Base Toolkit and Intel® oneAPI HPC Toolkit. In most of the cases in Linux you can
 download the compiler by typing the following commands in the terminal:
-```
-wget https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB
-sudo apt-key add GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB
-rm GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB
-sudo echo "deb https://apt.repos.intel.com/oneapi all main" | sudo tee /etc/apt/sources.list.d/oneAPI.list
-sudo apt-get update
-sudo apt-get install -y intel-oneapi-common-vars
-sudo apt-get install -y intel-oneapi-compiler-fortran-2023.1.0
-sudo apt-get install -y intel-oneapi-mkl-2023.1.0
-echo 'source /opt/intel/oneapi/setvars.sh >/dev/null' >> ~/.bashrc
-```
+
+    wget https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB
+    sudo apt-key add GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB
+    rm GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB
+    sudo echo "deb https://apt.repos.intel.com/oneapi all main" | sudo tee /etc/apt/sources.list.d/oneAPI.list
+    sudo apt-get update
+    sudo apt-get install -y intel-oneapi-common-vars
+    sudo apt-get install -y intel-oneapi-compiler-fortran-2023.1.0
+    sudo apt-get install -y intel-oneapi-mkl-2023.1.0
+    echo 'source /opt/intel/oneapi/setvars.sh >/dev/null' >> ~/.bashrc
+
 After this, open a new terminal to apply the changes.
 
 \subsubsection python Python
@@ -61,19 +61,19 @@ one has to modify the Makefile and install hdf5 support. To be more precise, the
 compiler is necessary (see, e.g, [here](https://command-not-found.com/h5fc)).
 For example, in linux with the "apt" package manager the following command in
 the terminal will make the h5fc command available:
-```
-sudo apt-get install libhdf5-serial-dev
-```
+
+    sudo apt-get install libhdf5-serial-dev
+
 By changing the compiler with 'FC = h5fc' or 'FC = path/to/h5fc' in the _Makefile_, all hdf5
 related parameters should work. There can be interferance with the h5fc instance that anaconda uses.
 This is visible when you type "which h5fc" into the terminal and it returns an anaconda path.
 In this case, you have to specify the full path in the _Makefile_. An example line in the _Makefile_
 could be, e.g.,
-```
-....
-FC = /usr/bin/h5fc
-....
-```
+
+    ....
+    FC = /usr/bin/h5fc
+    ....
+
 The correct path can be displayed by the terminal command "whereis -b -f h5fc".
 Possibly, there are further modifications of the compiler flags necessary.
 
@@ -89,20 +89,21 @@ If you have installed python, you can run "make tests" and all tests should pass
 \subsection parameter The parameter file
 The interface between the user and the code is given in the form of parameter files.
 Examples of those files can be found in the _par/_ folder. Within these files,
-you can change all the input to the code. An overview of all valid parameters is
-given [here](\ref parameters).
+you can change all the input to the code. There also exist a blank template file with all 
+parameters and a short description in par/template.par. An overview of all valid parameters is
+given [here](\ref parameters). 
 
 \subsection example_cases Example cases
 WinNet comes with a variety of example cases. To access them you can rename the _makerun.py.example_ into _makerun.py_.
 Afterwards, the list of examples is accessible by typing the command:
 
-```
-python makerun.py --example
-```
+
+    python makerun.py --example
+
 One example is executed by running
-```
-python makerun.py -p Example_BigBang.par -r Example_BigBang
-```
+
+    python makerun.py -p Example_BigBang.par -r Example_BigBang
+
 to calculate the primordial nucleosynthesis with WinNet.
 
 \subsection monitoring_simulations Monitoring simulations
@@ -112,16 +113,16 @@ If you used _makerun.py_ to launch your simulation, the script will report the p
 error of the run are written to _OUT_ and _ERR_ files in the run output directory.
 The _makerun.py_ script will also ask you if you want to monitor the simulation.
 Otherwise, you can monitor the progress using the "tail -f" command, for instance:
-```
-tail -f $WINNET/runs/Example_BigBang/OUT
-```
+
+    tail -f $WINNET/runs/Example_BigBang/OUT
+
 
 \subsection compile_docs Compiling a local version of the documentation
 If you have ***doxygen*** installed (see https://www.doxygen.nl/index.html) you can use it to
 create a local version of the documentation by executing
-```
-make doc
-```
+
+    make doc
+
 in the terminal. The compilation of the documentation was tested with doxygen version 1.8.17.
 
 \subsection publications List of publications
@@ -167,8 +168,10 @@ Here we try to list publications that direclty use a close version of the here p
 [Psaltis et al. (2022)](https://ui.adsabs.harvard.edu/abs/2022ApJ...935...27P/abstract),
 [Ristic et al. (2022b)](https://ui.adsabs.harvard.edu/abs/2022arXiv220602273R/abstract).
 [Setzer et al. (2023)](https://ui.adsabs.harvard.edu/abs/2023MNRAS.520.2829S/abstract),
-[Reichert et al. (2023)](https://ui.adsabs.harvard.edu/abs/2023MNRAS.518.1557R/abstract)
+[Navó et al. (2023)](https://ui.adsabs.harvard.edu/abs/2023ApJ...951..112N/abstract),
+[Reichert et al. (2023a)](https://ui.adsabs.harvard.edu/abs/2023MNRAS.518.1557R/abstract),
+[Reichert et al. (2023b)](https://ui.adsabs.harvard.edu/abs/2023arXiv230507048R/abstract)
 
-The list above (compiled on 15.07.22) is certainly not complete. It nevertheless shows the vast variety of usecases and the scientific relevance of WinNet.
+The list above is certainly not complete. It nevertheless shows the vast variety of usecases and the scientific relevance of WinNet.
 
 */

@@ -1,0 +1,724 @@
+########################################################
+# Template containing all possible parameters together #
+# with a brief description. For more information see   #
+# the documentation at:                                #
+# https://nuc-astro.github.io/WinNet/parameters.html   #
+#                                                      #
+# @date  : 22/08/2023                                  #
+# @author: M. Reichert                                 #
+########################################################
+
+##########################
+#   General parameters   #
+##########################
+
+# List of all isotopes used in the network
+# (sunet file)
+net_source =
+
+# Temperature in GK to freeze the reaction rates. Below this value,
+# all reaction rates will kept constant. The default value is 1e-2 GK.
+freeze_rate_temp =
+
+
+#######################
+#   Reaclib library   #
+#######################
+
+# The reaclib library containing most of the reaction rates
+reaclib_file  =
+
+# Database with the properties of all isotopes
+# (winvn file)
+isotopes_file =
+
+
+########################################
+# High temperature partition functions #
+########################################
+
+# Whether to use high temperature partition functions or not.
+# (yes/no)
+use_htpf =
+
+# Path to a file that contains high temperature partition functions
+# exceeding temperatures of 10 GK.
+htpf_file =
+
+
+####################################
+# Input for theoretical weak rates #
+####################################
+
+# Weak rates library
+weak_rates_file=
+
+# Whether the chem_pot_file should be used or not.
+# If the following is set to "no", the tabulation of the rate files
+# will be used to extract the chemical potential of the electrons.
+use_timmes_mue =
+
+# Tabulated chemical potential of electron-positron gas. Only used if
+# use_timmes_mue is enabled.
+chem_pot_file=
+
+# Flag for theoretical weak rates:
+# =0 : No theoretical weak rates are used
+# =1 : direct tabulation of theoretical weak rates are used
+# =2 : log(ft) theoretical weak rates are used
+iwformat =
+
+# Temp at which theoretical weak rates should be replaced
+# with experimental decays. The grid of most of the
+# theoretical reaction rates ends at 1d-2 GK.
+temp_reload_exp_weak_rates=
+
+# Interpolation method for the interpolation on the
+# T - rho*Ye grid.
+# iwinterp = 1: Bilinear interpolation
+# iwinterp = 2: Bicubic interpolation (deprecated)
+iwinterp =
+
+
+############################
+# Thermodynamic conditions #
+############################
+
+# Is this a trajectory run?
+# Possible options are:
+#   "from_file"  : Take a trajectory file to get temperature and density.
+#   "analytic"   : Take a analytic expression.
+trajectory_mode =
+
+
+### Case 1: trajectory_format = "from_file" ###
+
+# Path to the trajectory
+trajectory_file =
+
+# Trajectory format, valid entries are:
+#   time   : The time (s) of the trajectory
+#   temp   : The temperature (GK) of the trajectory
+#   dens   : The density (g/ccm) of the trajectory
+#   rad    : The radius (km) of the trajectory
+#   x,y,z  : x, y, and z coordinates (km) of the trajectory
+#   ye     : The electron fraction
+#   lanue  : Anti-electron neutrino luminosities (erg/s)
+#   lnue   : Electron neutrino luminosities (erg/s)
+#   tanue  : Electron anti-neutrino temperatures (MeV)
+#   tnue   : Electron neutrino temperatures (MeV)
+#   eanue  : Electron anti-neutrino energies (MeV)
+#   enue   : Electron Neutrino energies (MeV)
+#   lanux  : Summed muon and tau anti-neutrino luminosities (erg/s)
+#   lnux   : Summed muon and tau neutrino luminosities (erg/s)
+#   tanux  : Muon and tau anti-neutrino temperatures (MeV)
+#   tnux   : Muon and tau neutrino temperatures (MeV)
+#   eanux  : Muon and tau anti-neutrino energies (MeV)
+#   enux   : Muon and tau neutrino energies (MeV)
+#   skip   : skip a column
+#
+# Not all entries are mandatory. The units can be specified with a double point
+# behind the entry. Logarithmic columns are indicated by a log_ infront of the
+# entry.
+trajectory_format =
+
+# Mode to interpolate the quantities from the trajectory file. All interpolations
+# are performed in lin-log space.
+#   = 1: Linear interpolation;
+#   = 2: Cubic interpolation;
+#   = 3: Akima interpolation;
+#   = 4: mAkima interpolation;
+#   = 5: PCHIP interpolation;
+# The default interpolation is PCHIP (5).
+interp_mode =
+
+
+### Case 2: trajectory_format = "analytic" ###
+
+# Initial time in seconds for analytic trajectory mode.
+# This time is only assumed for constant hydrodynamic conditions.
+# Otherwise the calculation starts at the point where the
+# temperature is lower than initemp.
+t_analytic =
+
+# Analytic temperature evolution. The time (in seconds)
+# can be specified with the variable 'x'.
+T9_analytic =
+
+# Analytic density evolution. The time (in seconds)
+# can be specified with the variable 'x'.
+rho_analytic =
+
+# Analytic radius evolution. The time (in seconds)
+# can be specified with the variable 'x'.
+Rkm_analytic =
+
+# Analytic electron fraction evolution. The time (in seconds)
+# can be specified with the variable 'x'.
+Ye_analytic =
+
+
+###########################
+# Additional alpha-decays #
+###########################
+
+# Supplement rates with additional alpha-decays
+# (yes/no)
+use_alpha_decay_file =
+
+# Alpha-decays that have been calculated with
+# the Viola-Seaborg formula
+alpha_decay_file =
+
+# Flag to decide if any alpha-decay that is contained in the reaclib_file
+# should get replaced or not. If this parameter is set to 'yes' (default),
+# all reaclib rates will have priority over the additional alpha-decay rates.
+# This parameter will only be relevant if use_alpha_decay_file is turned on.
+# If alpha_decay_ignore_all is turned on, alpha_decay_src_ignore will become
+# irrelevant.
+# (yes/no)
+alpha_decay_ignore_all =
+
+# Flag to decide if a alpha-decay that is contained in the reaclib_file should
+# get replaced or not. If the source label is given in this parameter here,
+# all rates with this source label will not get replaced. This parameter will
+# only be relevant if use_alpha_decay_file is turned on and alpha_decay_ignore_all
+# is set to "no". Per default, experimentally measured rates with the labels
+# wc07, wc12, and wc17 are not replaced. The labels have to be separated
+# with a ;, i.e., wc07;wc12;wc17
+alpha_decay_src_ignore =
+
+# Maximum proton number to include additional alpha-decays. This parameter will
+# only be relevant if use_alpha_decay_file is turned on.
+# The default value is 184.
+alpha_decay_zmax =
+
+# Minimum proton number to include additional alpha-decays.
+# This parameter will only be relevant if use_alpha_decay_file is turned on.
+# The default value is 20.
+alpha_decay_zmin =
+
+
+###################
+# Tabulated rates #
+###################
+
+# Whether or not to use tabulated rates.
+# (yes/no)
+use_tabulated_rates =
+
+# Path to a file with tabulated rates.
+tabulated_rates_file =
+
+
+##########################
+# Additional Beta decays #
+##########################
+
+# Whether to use or not use beta decays in another format
+# (yes/no)
+use_beta_decay_file =
+
+# Path to a file that contains beta decays with
+# beta delayed neutron probabilities.
+beta_decay_file =
+
+# Colon separated string with labels of rates that should not get replaced
+# by the beta_decays. Only the source string of the P0n channel of the reaclib
+# is hereby compared. Experimental rates are ignored per default.
+# This parameter is only relevant if use_beta_decay_file is enabled.
+# An example entry could be wc07;wc12;wc17
+beta_decay_src_ignore =
+
+
+###########################
+#   Neutrino reactions    #
+###########################
+
+# Flag for neutrino rates:
+#    = 0: No neutrinos;
+#    = 1: Neutrino reactions on nucleons;
+#    = 2: Neutrino reactions on nucleons, charged current reactions
+#         on heavy nuclei;
+#    = 3: Neutrino reactions on nucleons, neutral current reactions
+#         on heavy nuclei;
+#    = 4: Neutrino reactions on nucleons, charged and neutral current reactions
+#         on heavy nuclei;
+nuflag =
+
+# Path to a file containing the neutrino reactions on nucleons
+nunucleo_rates_file =
+
+# Path to a file that contains the neutrino reaction channels.
+# Only used for nuflag > 1
+nuchannel_file =
+
+# Path to a file that contains the neutrino reactions on heavy nuclei.
+# Only used for nuflag > 1
+nurates_file =
+
+# From where to take neutrino luminosities or energies.
+# Possible values are:
+#    neutrino_mode = 'from_file'
+#    neutrino_mode = 'analytic'
+# In the case that it is 'from_file' and nuflag>0, the trajectory file
+# has also to contain the neutrino information.
+neutrino_mode =
+
+
+### Case: neutrino_mode = 'analytic' ###
+
+# Analytic equation for the electron neutrino energy (in MeV). The time
+# can be given as variable x.
+Enue =
+
+# Analytic equation for the electron anti-neutrino energy (in MeV). The time
+# can be given as variable x.
+Enuebar =
+
+# Analytic of the average muon-neutrino and tau neutrino energies (in MeV).
+# The time can be given as variable x.
+Enux =
+
+# Analytic of the average muon-antineutrino and tau antineutrino energies (in MeV).
+# The time can be given as variable x.
+Enuxbar =
+
+# Analytic equation for the electron neutrino luminosity (in erg/s). The time
+# can be given as variable x.
+Le =
+
+# Analytic equation for the electron antineutrino luminosity (in erg/s). The time
+# can be given as variable x.
+Lebar =
+
+# Analytic of the average muon-neutrino and tau neutrino luminosities (in erg/s).
+# The time can be given as variable x.
+Lx =
+
+# Analytic of the average muon-antineutrino and tau antineutrino luminosities (in erg/s).
+# The time can be given as variable x.
+Lxbar =
+
+
+####################
+# Detailed balance #
+####################
+
+# Whether or not to replace inverse rates by detailed balance rates.
+# (yes/no)
+use_detailed_balance =
+
+# Flag to decide whether to use the Q-value from the reaction file (yes) or
+# from the used winvn (no). The ladder one is more consistent with NSE,
+# while the first one is consistent with the forward rate.
+# (yes/no)
+use_detailed_balance_q_reac =
+
+# The source labels given within this parameter will use the Q-value as given
+# in the rate file for the calculation of the inverse rate. This is independent
+# on whether use_detailed_balance_q_reac is enabled or not.
+# An example entry could be rath;kd02
+detailed_balance_src_q_reac=
+
+# The source labels given within this parameter will use the Q-value as given
+# in the isotopes_file (winvn) by the mass excess for the calculation of the
+# inverse rate. This is independent on whether use_detailed_balance_q_reac
+# is enabled or not.
+detailed_balance_src_q_winvn =
+
+# The source labels given within this parameter will be ignored by the detailed
+# balance calculation of WinNet, i.e., no rates will be removed or added for
+# any rates given within the provided source labels.
+# An example entry could be rath;kd02
+detailed_balance_src_ignore =
+
+
+###########
+# Fission #
+###########
+
+# Fission fragment distribution.
+#    =0: No fission;
+#    =1: Panov et al. 2001;
+#    =2: Kodama & Takahashi 1975;
+#    =3: Mumpower et al. 2020 & Kodama & Takahashi 1975 (sf);
+#    =4: Other fission with different fragments for neutron induced fission
+#        and beta-delayed/spontaneous fission (formerly used for ABLA);
+fissflag =
+
+# Path to fission rates
+fission_rates =
+
+
+### Case 1: fissflag = 3 or fissflag = 4 ###
+
+# File that contains the fission fragment probabilities of neutron induced
+# fission.
+nfission_file =
+
+
+### Case 2: fissflag = 4 ###
+
+# File that contains the fission fragment probabilities of beta-delayed
+# and spontaneous fission.
+bfission_file =
+
+
+#######################
+# Coulomb corrections #
+#######################
+
+# Which electron screening scheme to use?
+# Possible values are:
+#   = 0: No screening
+#   = 1: Screening as in Kravchuk & Yakovlev 2014
+screening_mode =
+
+
+################################
+# Prepared reaction rate files #
+################################
+
+# Whether or not to use a previously prepared folder that contains reaction
+# rates and network data. This is particularly useful if running many
+# trajectories with the same nuclear input as it can significantly speed up the
+# initialization. A folder that contains the data in the necessary format can be
+# created by running winnet with two inputs, i.e.,
+#   ./winnet Example.par network_data
+# This will create a folder "network_data" with the same nuclear properties
+# that are given in Example.par. The path to this created folder has then to be
+# given within the prepared_network_path parameter. The makerun.py is able to
+# automatically prepare all necessary files for a run with many trajectories
+# with the --prepared flag. For more information see the example cases and the
+# help of the makerun.py (accessible via python makerun.py --help).
+# (yes/no)
+use_prepared_network =
+
+# File to a previously created folder with reaction rate and nuclear data.
+prepared_network_path =
+
+
+###################
+# Nuclear heating #
+###################
+
+# Calculate energy generation due to nuclear burning?
+#    = 0: No feedback on the temperature;
+#    = 1: Update the entropy;
+#    = 2: Update the temperature with specific heat capacity
+#         and dT of the trajectory;
+#    = 3: Update the temperature with specific heat capacity
+#         and dT according to adiabatic expansion;
+heating_mode =
+
+# Whether or not to use an external neutrino loss file that gives the
+# energy of neutrinos per beta decay.
+# (yes/no)
+use_neutrino_loss_file =
+
+# Path to a valid neutrino loss file
+neutrino_loss_file =
+
+# Default fraction of energy to be radiated away.
+heating_frac =
+
+# Include thermal neutrino losses?
+# (yes/no)
+use_thermal_nu_loss =
+
+# Density to switch on nuclear heating.
+# (When matter becomes transparent for neutrinos)
+heating_density =
+
+
+#######################
+# Initial composition #
+#######################
+
+# Whether or not to read the initial composition from file
+# (yes/no)
+read_initial_composition =
+
+# Path to a file that contains the initial composition.
+seed_file =
+
+# Format of the seed file.
+# Possible entries are:
+#    A    : Mass number
+#    Z    : Proton number
+#    N    : Neutron number
+#    Name : Nucleus name
+#    X    : Mass fraction
+#    Y    : Abundance
+#    skip : Dummy column
+# The first rows of the seed file will be skipped if
+# they start with "#" or are blank.
+seed_format =
+
+
+#######################
+# Starting conditions #
+#######################
+
+# Maximum temperature to start at (in GK)
+initemp_hot  =
+
+# Minimum temperature to start at (in GK)
+initemp_cold =
+
+# Initial stepsize to take (in seconds)
+initial_stepsize =
+
+
+###################################
+# Nuclear statistical equilibrium #
+###################################
+
+# Used scheme to solve the NSE equations.
+# = 0: Newton-Raphson scheme
+# = 1: Powell's hybrid method
+nse_solver =
+
+# Initial temperature for NSE descend algorithm
+nse_descend_t9start=
+
+# Minimum temperature in GK when descending from nse_descend_t9start to the
+# desired temperature. If smaller temperatures are necessary,
+# an error is raised.
+nse_delt_t9min =
+
+# Temperature (in GK) transition from Network -> NSE
+nsetemp_hot =
+
+# Temperature (in GK) transition from NSE -> Network
+nsetemp_cold =
+
+# Recalculation of NSE abundances every nth iteration
+nse_calc_every =
+
+# Maximum amount of iterations to bring the NSE solver to convergence.
+# The default value is 25.
+nse_max_it =
+
+# Convergence criteria within the solving scheme of the NSE calculation.
+# The default value is 1d-6.
+nse_nr_tol =
+
+
+######################
+# Expansion settings #
+######################
+
+# How to extrapolate the thermodynamic quantities after the
+# trajectory has ended?
+# Possible values are
+#   = 1: Temperature adiabatic, density free (as in Korobkin et al. 2012);
+#   = 2: Exponential expansion;
+#   = 3: Expansion with constant velocity;
+#   = 4: Expansion with constant velocity (as in Fujimoto et al. 2008);
+expansiontype =
+
+# How many trajectory points to use in order to calculate the
+# expansion velocity?
+extrapolation_width =
+
+
+##########################
+# Termination conditions #
+##########################
+
+# When to end the simulation?:
+#    = 0: At the end of the trajectory;
+#    = 1: after final_time is reached;
+#    = 2: after final_temp is reached;
+#    = 3: after final_dens is reached;
+termination_criterion =
+
+# Final time in seconds (termination_criterion = 1)
+final_time =
+
+# Final temperature in GK (termination_criterion = 2)
+final_temp =
+
+# Final density in g/ccm (termination_criterion = 3)
+final_dens =
+
+
+###########################
+#     Output Settings     #
+###########################
+
+### ASCII output ###
+
+# Output frequency for OUT file (or screen if not started with output piped to OUT)
+out_every =
+
+# Output frequency for mainout.dat
+mainout_every =
+
+# Whether or not the mainout should contain also the average
+# neutron separation energies.
+# (yes/no)
+calc_nsep_energy =
+
+# Path to a file containing neutron separation energies. This is only
+# relevant if calc_nsep_energy is enabled.
+nsep_energies_file =
+
+# Output of the nuclear energy generation
+engen_every =
+
+# Integer parameter that specifies if top contributor to the nuclear energy
+# generation should get printed to the file toplist.dat
+top_engen_every =
+
+# Output frequency of the average timescales per reaction type
+timescales_every =
+
+# Frequency for nuclei that specifically should get tracked. Output will be
+# written to tracked_nuclei.dat
+track_nuclei_every =
+
+# Output frequency of flow files. This is saved into the folder flow/
+flow_every =
+
+# Output frequency of snapshots (full list of abundances). This is saved
+# into the folder snaps/
+snapshot_every =
+
+# Whether or not to use snapshots at specific times.
+# (yes/no)
+custom_snapshots =
+
+# Output frequency for thermal neutrino energies
+nu_loss_every =
+
+# Newton-raphson diagnosis output.
+nrdiag_every =
+
+
+### HDF5 output ###
+
+# Output frequency for the mainout data in hdf5 format
+h_mainout_every =
+
+# Output frequency of the nuclear energy generation in hdf5 format
+h_engen_every =
+
+# Parameter to specify if the energy generation from individual reaction types
+# should be written to the hdf5 files.
+# (yes/no)
+h_engen_detailed =
+
+# Integer parameter that specifies if top contributor to the nuclear energy
+# generation should get printed to the file toplist.dat
+top_engen_every =
+
+# Output frequency of the average timescales per reaction type in hdf5 format
+h_timescales_every =
+
+# Frequency for nuclei that specifically should get tracked. Output will be
+# written to the hdf5 file.
+h_track_nuclei_every =
+
+# Output frequency of flow data into the hdf5 file.
+h_flow_every =
+
+# Output frequency of snapshots (full list of abundances) into the hdf5 file.
+h_snapshot_every =
+
+# Whether or not to use snapshots at specific times to save into the hdf5.
+# (yes/no)
+h_custom_snapshots =
+
+# Output frequency for thermal neutrino energies in the hdf5 file.
+h_nu_loss_every =
+
+# Whether or not to save the final abundances in hdf5 format (yes) or
+# in ASCII format (no).
+# (yes/no)
+h_finab =
+
+
+### General path parameters for ASCII and HDF5 ###
+
+# Path to a file for providing points in time in days for custom snapshots.
+# This file is only used if custom_snapshots or h_custom_snapshots are enabled.
+snapshot_file =
+
+# Path to a file containing the nuclei that have to get tracked.
+# This path is only used if track_nuclei_every or h_track_nuclei_every is
+# greater than 0.
+track_nuclei_file =
+
+
+#######################
+# Numerical parameter #
+#######################
+
+# Limit of the timestep from trajectory?
+timestep_traj_limit =
+
+# Maximum allowed difference of temperature or density within one timestep.
+timestep_hydro_factor =
+
+# Maximum amount of adapting the time step in case the Newton-Raphson did not
+# converge within nr_maxcount
+adapt_stepsize_maxcount =
+
+# Integration method
+# = 0: Implicit Euler
+# = 1: Gear
+solver =
+
+
+### Case solver = 0 ###
+
+# Minimum number of Newton-Raphson iterations
+nr_mincount =
+
+# Maximum number of Newton-Raphson iterations
+nr_maxcount =
+
+# Exit accuracy of the Newton-Raphson algorithm.
+nr_tol =
+
+# Maximum allowed change of the timestep
+timestep_max =
+
+# Estimated change of abundances within one timestep
+timestep_factor =
+
+# Minimum of abundances taken into account for timestep calculations
+timestep_Ymin =
+
+
+### Case solver = 1 ###
+
+# Conservative time step factor. This factor should lie between 0.1 and 0.4.
+# The default value is 0.25.
+gear_cFactor =
+
+# Numerical parameter to control the abundance accuracy.
+gear_eps =
+
+# Numerical parameter to control the minimum abundance that is considered in
+# the calculation time step.
+gear_escale =
+
+# Parameter to decide whether the time step should be adapted in case the
+# Newton-Raphson did not converge optimally. The default is set to true and the
+# stepsize is therefore not changed when the newton-raphson reaches the maximum
+# amount of iterations.
+# (yes/no)
+gear_ignore_adapt_stepsize =
+
+# Numerical parameter to control the newton-raphson convergence criteria.
+gear_nr_eps =
+
+# Numerical parameter to control the minimum iterations of the newton-raphson.
+gear_nr_mincount =
+
+# Numerical parameter to control the maximum iterations of the newton-raphson.
+gear_nr_maxcount =
