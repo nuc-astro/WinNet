@@ -95,7 +95,7 @@ end subroutine flow_init
 !>
 !! Flow calculation from jacobian. It is calculated with the help of the Jacobian.
 !! \f[
-!! F_{ij} = |(1/h - J_{ij}) \times Y_j - (1/h - J_{ji}) \times Y_i|
+!! F_{ij} = |(1/h - J_{ij}) \times Y_i - (1/h - J_{ji}) \times Y_j|
 !! \f]
 !!
 !! @note Using the jacobian directly has the advantage
