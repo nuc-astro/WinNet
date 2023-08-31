@@ -75,7 +75,7 @@ program driver
 
 
 ! initial output
-  call output_initial_step(time,T9,rhob,ent,Rkm,Y,pf)
+  call output_initial_step(time,T9,rhob,ent,P,Rkm,Y,pf)
 
 !
 ! --- MAIN EVOLUTION LOOP
@@ -107,12 +107,13 @@ program driver
      dYdt(1:net_size)= (Y(1:net_size)-Y_p(1:net_size))/stepsize
 
      !-- Periodic output
-     call output_iteration(cnt+1,time,T9,rhob,ent,Rkm,Y,pf)
+     call output_iteration(cnt+1,time,T9,rhob,ent,P,Rkm,Y,pf)
 
      ! rotate timelevels
      Y_p(1:net_size)=   Y(1:net_size)
      Ye_p=   Ye
      ent_p=  ent
+     P_p=  P
      T9_p=   T9
      T9h_p=  T9h
      cnt=    cnt+1
@@ -122,7 +123,7 @@ program driver
   end do evolution_loop
 
   ! output final step
-  call output_final_step(cnt,time,T9,rhob,ent,Rkm,Y,pf)
+  call output_final_step(cnt,time,T9,rhob,ent,P,Rkm,Y,pf)
 
   ! decay to stability
   call el_ab(Y, Ye)

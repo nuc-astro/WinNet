@@ -417,6 +417,8 @@ logical                               :: init,converged
 
     ent = inistate%s
     ent_p= ent
+    P = inistate%p
+    P_P= P
     if (VERBOSE_LEVEL.ge.1)call write_data_to_std_out("Initial entropy",num_to_str(ent),"[kB/nuc]")
   ! initialize nuclear heating module
     if (heating_mode .ne. 0) then

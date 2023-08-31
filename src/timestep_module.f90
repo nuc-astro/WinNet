@@ -673,6 +673,7 @@ real(r_kind)           :: T9_nrlast    !< Last temperature of the NR
       Rkm     = Rkm_p
       time    = time_p + stepsize
       ent     = ent_p
+      P       = P_p
       T9      = T9_p
 
       call el_ab (Y, Ye)
@@ -763,9 +764,21 @@ real(r_kind)           :: T9_nrlast    !< Last temperature of the NR
             if(eos_status.ne.0) call raise_exception("An error occured in the EOS.",&
                                                      'advance_implicit_euler',430009)
             ent = state%s
+            P   = state%p
          else
             ! adiabatic expansion
             ent = ent_p
+            ! update pressure
+            if (T9 .gt. freeze_rate_temp*1.0000001) then
+                ! update entropy using the temperature
+                state%abar = sum(Y(1:net_size)*isotope(1:net_size)%mass) &
+                           / sum(Y(1:net_size))
+                call timmes_eos(ink,T9*1.d9,rhob,Ye,state,eos_status)
+                if(eos_status.ne.0) call raise_exception("An error occured in the EOS.",&
+                                                          'advance_gear',430009)
+                P   = state%p
+              end if
+
          end if
       else if (trim(adjustl(trajectory_mode)) .eq. "analytic") then
          if (T9 .gt. freeze_rate_temp*1.0000001) then
@@ -776,6 +789,7 @@ real(r_kind)           :: T9_nrlast    !< Last temperature of the NR
            if(eos_status.ne.0) call raise_exception("An error occured in the EOS.",&
                                                      'advance_implicit_euler',430009)
            ent = state%s
+           P   = state%p
          end if
       end if
    end if
@@ -866,6 +880,7 @@ real(r_kind)           :: T9_nrlast     !< Last temperature in NR
         Rkm     = Rkm_p
         time    = time_p + stepsize
         ent     = ent_p
+        P       = P_p
 
         call el_ab (Y, Ye)
 
@@ -991,11 +1006,23 @@ real(r_kind)           :: T9_nrlast     !< Last temperature in NR
                        / sum(Y(1:net_size))
             call timmes_eos(ink,T9*1.d9,rhob,Ye,state,eos_status)
             if(eos_status.ne.0) call raise_exception("An error occured in the EOS.",&
-                                                     'advance_implicit_euler',430009)
+                                                     'advance_gear',430009)
             ent = state%s
+            P   = state%p
          else
             ! adiabatic expansion
             ent = ent_p
+
+            if (T9 .gt. freeze_rate_temp*1.0000001) then
+                ! update entropy using the temperature
+                state%abar = sum(Y(1:net_size)*isotope(1:net_size)%mass) &
+                           / sum(Y(1:net_size))
+                call timmes_eos(ink,T9*1.d9,rhob,Ye,state,eos_status)
+                if(eos_status.ne.0) call raise_exception("An error occured in the EOS.",&
+                                                          'advance_gear',430009)
+                ! update pressure
+                P   = state%p
+              end if
          end if
       else if (trim(adjustl(trajectory_mode)) .eq. "analytic") then
          if (T9 .gt. freeze_rate_temp*1.0000001) then
@@ -1004,8 +1031,9 @@ real(r_kind)           :: T9_nrlast     !< Last temperature in NR
                       / sum(Y(1:net_size))
            call timmes_eos(ink,T9*1.d9,rhob,Ye,state,eos_status)
            if(eos_status.ne.0) call raise_exception("An error occured in the EOS.",&
-                                                     'advance_implicit_euler',430009)
+                                                     'advance_gear',430009)
            ent = state%s
+           P   = state%p
          end if
       end if
    end if

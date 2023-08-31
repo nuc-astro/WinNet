@@ -79,7 +79,7 @@ module hdf5_module
                                                !< extended to the datasets?
    integer,private           :: chunk_counter_mainout = 0 !< How full is the chunk already?
    integer,parameter,private :: chunk_size_mainout=500    !< Chunk size
-   real(r_kind),private,dimension(chunk_size_mainout,13)  :: chunk_store_mainout !< Storage for the
+   real(r_kind),private,dimension(chunk_size_mainout,14)  :: chunk_store_mainout !< Storage for the
                                                                                  !< chunk which is later
                                                                                  !< written to the file.
    integer,private,dimension(chunk_size_mainout)  :: chunk_store_int_mainout !< Storage for integers in chunk
@@ -127,6 +127,9 @@ module hdf5_module
    ! zbar
    character(len=*), parameter,private  :: mainout_dsetname_zbar = "zbar" !< Name of the dataset
    integer(HID_T),private               :: mainout_dset_id_zbar           !< Dataset identifier
+   ! Pressure
+   character(len=*), parameter,private  :: mainout_dsetname_pressure = "pressure" !< Name of the dataset
+   integer(HID_T),private               :: mainout_dset_id_pressure           !< Dataset identifier
 
 
    !---------- Track nuclei variables -------------!
@@ -1020,6 +1023,8 @@ contains
       mainout_dset_id_abar  = create_1d_dataset(mainout_dsetname_abar,mainout_group_id)
       ! zbar abundance dataset
       mainout_dset_id_zbar  = create_1d_dataset(mainout_dsetname_zbar,mainout_group_id)
+      ! pressure dataset
+      mainout_dset_id_pressure  = create_1d_dataset(mainout_dsetname_pressure,mainout_group_id)
    end subroutine init_mainout
 
 
@@ -1910,7 +1915,7 @@ contains
    !!
    !! @author Moritz Reichert
    !! @date 5.02.21
-   subroutine extend_mainout(cnt,time,temp,dens,entr,rad,Y)
+   subroutine extend_mainout(cnt,time,temp,dens,entr,pressure,rad,Y)
       use global_class, only: net_size,ipro,ihe4,ineu,isotope
       implicit none
       integer,intent(in)                          :: cnt     !< Iteration count
@@ -1918,6 +1923,7 @@ contains
       real(r_kind),intent(in)                     :: temp    !< Temperature [GK]
       real(r_kind),intent(in)                     :: dens    !< Density [g/ccm]
       real(r_kind),intent(in)                     :: entr    !< Entropy [kB/nuc]
+      real(r_kind),intent(in)                     :: pressure!< Pressure [dyn/cm^2]
       real(r_kind),intent(in)                     :: rad     !< Radius [km]
       real(r_kind),dimension(net_size),intent(in) :: Y       !< Abundances
       ! Helper variables
@@ -1961,6 +1967,7 @@ contains
       chunk_store_mainout(chunk_counter_mainout,11)= zbar
       chunk_store_mainout(chunk_counter_mainout,12)= ylight
       chunk_store_mainout(chunk_counter_mainout,13)= yheavies
+      chunk_store_mainout(chunk_counter_mainout,14)= pressure
       ! Same for iterations
       chunk_store_int_mainout(chunk_counter_mainout)= cnt
 
@@ -2024,6 +2031,9 @@ contains
                                  iter_mainout, chunk_counter_mainout)
       call extend_1d_dataset(    mainout_dset_id_yheavy,&
                                  chunk_store_mainout(1:chunk_counter_mainout,13) ,&
+                                 iter_mainout, chunk_counter_mainout)
+      call extend_1d_dataset(    mainout_dset_id_pressure,&
+                                 chunk_store_mainout(1:chunk_counter_mainout,14) ,&
                                  iter_mainout, chunk_counter_mainout)
       iter_mainout = iter_mainout + chunk_size_mainout
       chunk_counter_mainout = 0 !< reset the chunk counter
@@ -2154,6 +2164,9 @@ contains
                                                  "hdf5_module_finalize",240007)
          call h5dclose_f(mainout_dset_id_ya    , i_stat)
          if (i_stat .ne. 0) call raise_exception("Unable to close ya dataset.",&
+                                                 "hdf5_module_finalize",240007)
+         call h5dclose_f(mainout_dset_id_pressure, i_stat)
+         if (i_stat .ne. 0) call raise_exception("Unable to close pressure dataset.",&
                                                  "hdf5_module_finalize",240007)
       end if
 

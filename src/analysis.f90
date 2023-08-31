@@ -79,10 +79,11 @@ subroutine analysis_init()
   ! main output file: create, write header
   if (mainout_every .gt. 0) then
      mainout_unit= open_outfile("mainout.dat")
-     write(mainout_unit,'(3A)') &
+     write(mainout_unit,'(4A)') &
             '# 1:iteration 2:time[s], 3:T[GK], 4:rho[g/cm3], 5:Ye '//nl &
           , '# 6:R[km], 7:Y_n, 8:Y_p, 9:Y_alpha, 10:Y_lights '//nl  &
-          , '# 11:Y_heavies 12:<Z> 13:<A> 14:entropy [kB/baryon] (15:Sn [MeV])'
+          , '# 11:Y_heavies 12:<Z> 13:<A> 14:entropy [kB/baryon]'//nl &
+          , '# 15: Pressure [dyn/cm^2] (16:Sn [MeV])'
   endif
 
   ! read neutron separation energies
@@ -176,18 +177,19 @@ end subroutine analysis_init
 !! This routine calls output_iteration at the first step
 !!
 !! @see output_final_step
-subroutine output_initial_step(ctime,T9,rho_b,entropy,Rkm,Y,pf)
+subroutine output_initial_step(ctime,T9,rho_b,entropy,pressure,Rkm,Y,pf)
   implicit none
   real(r_kind),intent(in) :: ctime    !< actual time [s]
   real(r_kind),intent(in) :: T9       !< initial temperature [GK]
   real(r_kind),intent(in) :: rho_b    !< initial density [gcc]
   real(r_kind),intent(in) :: entropy  !< entropy [kB/nucleon]
+  real(r_kind),intent(in) :: pressure !< Pressure [dyn/cm**2]
   real(r_kind),intent(in) :: Rkm      !< Radius [km]
   real(r_kind),dimension(net_size),intent(in)   :: Y !< array of abundances (Y_i)
   real(r_kind),dimension(0:net_size),intent(inout) :: pf !< partition functions
 
   INFO_ENTRY('output_initial_step')
-  call output_iteration(0,ctime,T9,rho_b,entropy,Rkm,Y,pf)
+  call output_iteration(0,ctime,T9,rho_b,entropy,pressure,Rkm,Y,pf)
   INFO_EXIT('output_initial_step')
 
 end subroutine output_initial_step
@@ -200,7 +202,7 @@ end subroutine output_initial_step
 !!
 !! @see output_final_step
 !! \b Edited: OK 26.08.2017
-subroutine output_final_step(cnt,ctime,T9,rho_b,entropy,Rkm,Y,pf)
+subroutine output_final_step(cnt,ctime,T9,rho_b,entropy,pressure,Rkm,Y,pf)
   use parameter_class, only: out_every,snapshot_every,flow_every,mainout_every, &
                              track_nuclei_every,termination_criterion
   implicit none
@@ -209,6 +211,7 @@ subroutine output_final_step(cnt,ctime,T9,rho_b,entropy,Rkm,Y,pf)
   real(r_kind),intent(in) :: T9       !< initial temperature [GK]
   real(r_kind),intent(in) :: rho_b    !< initial density [gcc]
   real(r_kind),intent(in) :: entropy  !< entropy [kB/nucleon]
+  real(r_kind),intent(in) :: pressure !< Pressure [dyn/cm**2]
   real(r_kind),intent(in) :: Rkm      !< Radius [km]
   real(r_kind),dimension(net_size),intent(in)   :: Y  !< array of abundances (Y_i)
   real(r_kind),dimension(0:net_size),intent(inout) :: pf !< partition functions
@@ -223,7 +226,7 @@ subroutine output_final_step(cnt,ctime,T9,rho_b,entropy,Rkm,Y,pf)
   if (timescales_every.gt.0)   timescales_every= 1
   if (track_nuclei_every.gt.0) track_nuclei_every= 1
   print '("---------------")'
-  call output_iteration(cnt,ctime,T9,rho_b,entropy,Rkm,Y,pf)
+  call output_iteration(cnt,ctime,T9,rho_b,entropy,pressure,Rkm,Y,pf)
   print '("============================")'
   select case(termination_criterion)
   case(0)
@@ -251,7 +254,7 @@ end subroutine output_final_step
 !! \b Edited:
 !!       - MR : 19.01.21
 !! .
-subroutine output_iteration(cnt,ctime,T9,rho_b,entropy,Rkm,Y,pf)
+subroutine output_iteration(cnt,ctime,T9,rho_b,entropy,pressure,Rkm,Y,pf)
   use parameter_class,  only: out_every,snapshot_every,mainout_every, &
                               track_nuclei_every,heating_mode, &
                               custom_snapshots,flow_every,engen_every,&
@@ -276,6 +279,7 @@ subroutine output_iteration(cnt,ctime,T9,rho_b,entropy,Rkm,Y,pf)
   real(r_kind),intent(in) :: T9       !< temperature [GK]
   real(r_kind),intent(in) :: rho_b    !< density [gcc]
   real(r_kind),intent(in) :: entropy  !< entropy [kB/nucleon]
+  real(r_kind),intent(in) :: pressure !< Pressure [dyn/cm**2]
   real(r_kind),intent(in) :: Rkm      !< length scale [km]
   real(r_kind),dimension(net_size),intent(in)      :: Y  !< array of abundances (Y_i)
   real(r_kind),dimension(0:net_size),intent(inout) :: pf !< partition functions
@@ -316,7 +320,7 @@ subroutine output_iteration(cnt,ctime,T9,rho_b,entropy,Rkm,Y,pf)
   ! Store mainout in hdf5
   if (h_mainout_every.gt.0) then
      if (mod(cnt,h_mainout_every).eq. 0) then
-        call extend_mainout(cnt,ctime,T9,rho_b,entropy,Rkm,Y)
+        call extend_mainout(cnt,ctime,T9,rho_b,entropy,pressure,Rkm,Y)
      end if
   end if
 
@@ -395,7 +399,7 @@ subroutine output_iteration(cnt,ctime,T9,rho_b,entropy,Rkm,Y,pf)
   ! main data log
   if (mainout_every .gt.0) then
      if (mod(cnt,mainout_every).eq.0) then
-        call output_mainout(cnt,ctime,T9,rho_b,entropy,Rkm,Y)
+        call output_mainout(cnt,ctime,T9,rho_b,entropy,pressure,Rkm,Y)
      end if
   end if
 
@@ -565,7 +569,7 @@ end subroutine output_nu_loss
 !! ...}
 !!
 !!
-subroutine output_mainout(cnt,ctime,T9,rho_b,entropy,Rkm,Y)
+subroutine output_mainout(cnt,ctime,T9,rho_b,entropy,pressure,Rkm,Y)
   use parameter_class, only: calc_nsep_energy
   use global_class,    only: isotope
   implicit none
@@ -575,6 +579,7 @@ subroutine output_mainout(cnt,ctime,T9,rho_b,entropy,Rkm,Y)
   real(r_kind),intent(in) :: T9                          !< temperature [GK]
   real(r_kind),intent(in) :: rho_b                       !< density [gcc]
   real(r_kind),intent(in) :: entropy                     !< entropy [kB/nucleon]
+  real(r_kind),intent(in) :: pressure                    !< pressure [dyn/cm**2]
   real(r_kind),intent(in) :: Rkm                         !< length scale [km]
   real(r_kind),dimension(net_size),intent(in)      :: Y  !< array of abundances (Y_i)
   !
@@ -609,10 +614,10 @@ subroutine output_mainout(cnt,ctime,T9,rho_b,entropy,Rkm,Y)
 
   if (calc_nsep_energy) then
     write (mainout_unit,'(i8,X,100(es23.16,2X))') cnt,ctime,T9,rho_b,Ye,Rkm, &
-       Yneu,Ypro,Yhe4,ylight,yheavies,zbar,abar,entropy,Sn_ave
+       Yneu,Ypro,Yhe4,ylight,yheavies,zbar,abar,entropy,pressure,Sn_ave
   else
     write (mainout_unit,'(i8,X,100(es23.16,2X))') cnt,ctime,T9,rho_b,Ye,Rkm, &
-       Yneu,Ypro,Yhe4,ylight,yheavies,zbar,abar,entropy
+       Yneu,Ypro,Yhe4,ylight,yheavies,zbar,abar,entropy,pressure
   endif
 
 end subroutine output_mainout

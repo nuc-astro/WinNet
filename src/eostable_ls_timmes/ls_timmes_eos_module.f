@@ -50,7 +50,7 @@
       implicit none
 
       integer,intent(in)                      :: var
-      real(r_kind),intent(in)                         :: vin,d,Ye
+      real(r_kind),intent(in)                 :: vin,d,Ye
       type(timmes_eos_state),intent(inout)    :: state
       integer,intent(out)                     :: status
 

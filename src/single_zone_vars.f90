@@ -18,6 +18,7 @@ module single_zone_vars
    real(r_kind)                          :: Rkm, Rkm_p             !< Radius of the outflow [km]
    real(r_kind)                          :: Ye, Ye_p               !< Electron fraction [mol/g]
    real(r_kind)                          :: ent, ent_p             !< Entropy [kB/baryon]
+   real(r_kind)                          :: P, P_p                 !< Pressure [dyn/cm^2]
    real(r_kind),dimension(:),allocatable :: Y, Y_p                 !< Abundances
    real(r_kind),dimension(:),allocatable :: f, dYdt                !< Time derivative of the abundances
    integer                               :: evolution_mode         !< NSE, network hot/cold, etc.
