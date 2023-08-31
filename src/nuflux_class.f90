@@ -211,7 +211,7 @@ subroutine nuflux(time, rkm)
      nlum(1) = parse_string(Le,time)     ![erg/s]
      nlum(2) = parse_string(Lebar,time)  ![erg/s]
 
-     ! Also include heavier nuclei
+     ! Also include heavier neutrinos
      if (include_nc_reactions) then
         nlum(3) = parse_string(Lx,time)     ![erg/s]
         nlum(4) = parse_string(Lxbar,time)  ![erg/s]
