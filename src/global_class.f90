@@ -59,7 +59,6 @@ type,public :: reactionrate_type
    real(r_kind)              :: q_value        !< reaction Q-value [MeV]
    real(r_kind)              :: nu_frac        !< Energy fraction of neutrinos radiated away
    real(r_kind),dimension(9) :: param          !< REACLIB fit parameters
-   real(r_kind),dimension(30):: tabulated      !< tabulated rates
    real(r_kind)              :: cached         !< computed rate
    real(r_kind)              :: cached_p       !< computed rate without density, one_over_nfrac, pf, and screening
 end type reactionrate_type

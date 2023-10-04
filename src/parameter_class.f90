@@ -167,6 +167,7 @@ module parameter_class
   integer                 :: fission_frag_missing           !< Fragment distribution in case of missing fragments in case of custom fragments (fissflag=4)
   character(max_fname_len):: weak_rates_file                !< weak rates library (twr.dat)
   character(max_fname_len):: tabulated_rates_file           !< tabulated rates library (e.g. talysNGrates.dat)
+  character(max_fname_len):: tabulated_temperature_file     !< file containing grid of tabulated temperature file ("default" for default grid)
   character(max_fname_len):: chem_pot_file                  !< tabulated chemical potential of electron gas
   character(max_fname_len):: nsep_energies_file             !< neutron separation energies
   character(max_fname_len):: nunucleo_rates_file            !< neutrino reaction rates on nucleons
@@ -469,6 +470,7 @@ subroutine set_param(param_name,param_value)
       ":detailed_balance_src_q_reac" // &
       ":detailed_balance_src_q_winvn" // &
       ":tabulated_rates_file" // &
+      ":tabulated_temperature_file" // &
       ":beta_decay_src_ignore" // &
       ":neutrino_loss_file" // &
       ":prepared_network_path"
@@ -729,6 +731,8 @@ subroutine set_param(param_name,param_value)
      weak_rates_file= trim(str_value)
    elseif(param_name.eq."tabulated_rates_file") then
      tabulated_rates_file= trim(str_value)
+   elseif(param_name.eq."tabulated_temperature_file") then
+     tabulated_temperature_file= trim(str_value)
    elseif(param_name.eq."chem_pot_file") then
      chem_pot_file= trim(str_value)
    elseif(param_name.eq."nsep_energies_file") then
@@ -976,6 +980,7 @@ subroutine set_default_param
    t_analytic                  = 0.e0
    T9_analytic                 = "10.e0"
    tabulated_rates_file        = "talysNGrates.dat"
+   tabulated_temperature_file  = "default"
    temp_reload_exp_weak_rates  = 1.d-2
    termination_criterion       = 0
    timescales_every            = 0
@@ -1136,6 +1141,7 @@ subroutine output_param
      write(ofile,'(A,es14.7)') 't_analytic                  ='  , t_analytic
            write(ofile,'(3A)') 'T9_analytic                 = "', trim(T9_analytic),'"'
            write(ofile,'(3A)') 'tabulated_rates_file        = "', trim(tabulated_rates_file),'"'
+           write(ofile,'(3A)') 'tabulated_temperature_file  = "', trim(tabulated_temperature_file),'"'
      write(ofile,'(A,es14.7)') 'temp_reload_exp_weak_rates  = ' , temp_reload_exp_weak_rates
          write(ofile,'(A,I1)') 'termination_criterion       = ' , termination_criterion
          write(ofile,'(A,I5)') 'timescales_every            = ' , timescales_every
@@ -1560,6 +1566,7 @@ subroutine output_param_prepared_network(path)
       write(ofile,'(2A)') 'use_tabulated_rates         = ' , yesno(use_tabulated_rates)
       if (use_tabulated_rates) then
         write(ofile,'(3A)') 'tabulated_rates_file        = "', trim(tabulated_rates_file),'"'
+        write(ofile,'(3A)') 'tabulated_temperature_file  = "', trim(tabulated_temperature_file),'"'
       end if
       write(ofile,'(A)') ''
 
