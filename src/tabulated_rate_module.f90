@@ -47,8 +47,8 @@ module tabulated_rate_module
       3.0d-1,4.0d-1,5.0d-1,6.0d-1,7.0d-1,8.0d-1,9.0d-1,1.0d+0,1.5d+0,2.0d+0, &
       2.5d+0,3.0d+0,3.5d+0,4.0d+0,5.0d+0,6.0d+0,7.0d+0,8.0d+0,9.0d+0,1.0d+1 /) !< default Temperature grid of tabulated reaction rates [GK]
 
-   type(reactionrate_type),dimension(:),allocatable,public       :: rrates_tabulated !< array containing all tabulated reaction rates
-   type(tabulated_rate_type), dimension(:), allocatable, private :: tabulated_rate !< array containing all tabulated reaction rates
+   type(reactionrate_type),dimension(:),allocatable,public :: rrates_tabulated !< array containing all tabulated reaction rates
+   type(tabulated_rate_type), dimension(:), allocatable    :: tabulated_rate !< array containing all tabulated reaction rates
 
    !
    ! Public and private fields and methods of the module
