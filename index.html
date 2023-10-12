@@ -98,11 +98,7 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 </div><!--header-->
 <div class="contents">
 <div class="toc"><h3>Table of Contents</h3>
-<ul><li class="level1"><a href="#getting_started">Getting started</a><ul><li class="level2"><a href="#prerequisits">Prerequisits</a><ul><li class="level3"><a href="#fortran">Fortran</a></li>
-<li class="level3"><a href="#python">Python</a></li>
-</ul>
-</li>
-<li class="level2"><a href="#hdf5">Using hdf5 files as output</a></li>
+<ul><li class="level1"><a href="#getting_started">Getting started</a><ul><li class="level2"><a href="#prerequisits">Prerequisits</a></li>
 </ul>
 </li>
 <li class="level1"><a href="#start_running">Starting to run the code</a><ul><li class="level2"><a href="#parameter">The parameter file</a></li>
@@ -119,32 +115,7 @@ Getting started</h1>
 <p>WinNet is a single zone nuclear reaction network, capable of calculating many different nucleosynthesis processes (i.e., r-process, nup-process, explosive nucleosynthesis, and many more). Please read and cite <a href="https://ui.adsabs.harvard.edu/abs/2023arXiv230507048R/abstract">Reichert et al. 2023</a> when you use this network. A brief overview of the code is also given at the <a class="el" href="how_it_works.html">How it works</a> documentation page. When using the code check your parameter file if you used any other input file within your calculation that require you to cite. A list of input files with the respective literature can be found at the <a class="el" href="input_files.html">Input files</a> documentation page. We tried our best to produce a reliable code, but nevertheless we stress that this code comes with no warranty!</p>
 <h2><a class="anchor" id="prerequisits"></a>
 Prerequisits</h2>
-<p>To run WinNet you need a Fortran compiler and the Math Kernel Library (MKL). In the following we describe briefly how to install these things. On Linux you can install the compiler and all necessary python packages by using the script contained in the "install" folder: </p><pre class="fragment">cd path_to_winnet/install
-chmod +x setup_linux.sh
-./setup_linux.sh
-</pre><p>Alternatively, you can follow the instruction below.</p>
-<h3><a class="anchor" id="fortran"></a>
-Fortran</h3>
-<p>In order to compile the code either the intel fortran compiler (ifort, since 2023 sometimes named ifx) or the gnu fortran compiler (gfortran) is needed. We recommend to install the ifort compiler as it comes already with the Math Kernel Library (MKL) that you need to run the network. An instruction how to install and download the ifort compiler can be found <a href="https://software.intel.com/content/www/us/en/develop/articles/free-intel-software-developer-tools.html">here</a>. You need the Intel® oneAPI Base Toolkit and Intel® oneAPI HPC Toolkit. In most of the cases in Linux you can download the compiler by typing the following commands in the terminal: </p><pre class="fragment">wget https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB
-sudo apt-key add GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB
-rm GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB
-sudo echo "deb https://apt.repos.intel.com/oneapi all main" | sudo tee /etc/apt/sources.list.d/oneAPI.list
-sudo apt-get update
-sudo apt-get install -y intel-oneapi-common-vars
-sudo apt-get install -y intel-oneapi-compiler-fortran-2023.1.0
-sudo apt-get install -y intel-oneapi-mkl-2023.1.0
-echo 'source /opt/intel/oneapi/setvars.sh &gt;/dev/null' &gt;&gt; ~/.bashrc
-</pre><p>After this, open a new terminal to apply the changes.</p>
-<h3><a class="anchor" id="python"></a>
-Python</h3>
-<p>Even though not mandatory to run the network, the test suite and plotting routines use python. So we highly recommend to install the anaconda python package, which can be found <a href="https://www.anaconda.com/products/individual">here</a>. It comes with several packages (e.g., Matplotlib, ...) that are also used in the python scripts of WinNet. The used python packages are given in "install/requirements.txt".</p>
-<h2><a class="anchor" id="hdf5"></a>
-Using hdf5 files as output</h2>
-<p>It is not a mandatory requirement, but to be able to have hdf5 files as output, one has to modify the Makefile and install hdf5 support. To be more precise, the h5fc compiler is necessary (see, e.g, <a href="https://command-not-found.com/h5fc">here</a>). For example, in linux with the "apt" package manager the following command in the terminal will make the h5fc command available: </p><pre class="fragment">sudo apt-get install libhdf5-serial-dev
-</pre><p>By changing the compiler with 'FC = h5fc' or 'FC = path/to/h5fc' in the <em>Makefile</em>, all hdf5 related parameters should work. There can be interferance with the h5fc instance that anaconda uses. This is visible when you type "which h5fc" into the terminal and it returns an anaconda path. In this case, you have to specify the full path in the <em>Makefile</em>. An example line in the <em>Makefile</em> could be, e.g., </p><pre class="fragment">....
-FC = /usr/bin/h5fc
-....
-</pre><p>The correct path can be displayed by the terminal command "whereis -b -f h5fc". Possibly, there are further modifications of the compiler flags necessary.</p>
+<p>To run WinNet you need a Fortran compiler and the Math Kernel Library (MKL). The procedure of installing both can be different for Linux and Mac. Therefore, in order to install WinNet on Linux follow the instruction <a class="el" href="linux_install.html">here</a> and for Mac <a class="el" href="mac_install.html">here</a>.</p>
 <h1><a class="anchor" id="start_running"></a>
 Starting to run the code</h1>
 <p>The WinNet base folder includes the file <em>Makefile.example</em> that you can change in order to fit your needs. MAC user for example have to include additional compiler flags that are included as a comment in the Makefile. If you are satisfied with the <em>Makefile.example</em> you can rename the file to Makefile. Afterwards you can run the command "make", it should work without complaining. If you have installed python, you can run "make tests" and all tests should pass.</p>

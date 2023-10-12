@@ -29,7 +29,13 @@ var namespaces_dup =
     [ "rateseff.out", "input_files.html#ffn_rates", null ],
     [ "Reaclib_18_9_20", "input_files.html#reaclib", null ],
     [ "theoretical_weak_rates.dat", "input_files.html#ffn_rates2", null ],
-    [ "winvne_v2.0.dat", "input_files.html#winvn", null ],
+    [ "winvne_v2.0.dat", "input_files.html#winvn", [
+      [ "Fortran", "linux_install.html#fortran", null ],
+      [ "Python", "linux_install.html#python", null ]
+    ] ],
+    [ "Using hdf5 files as output", "linux_install.html#hdf5", [
+      [ "Issues", "mac_install.html#issues", null ]
+    ] ],
     [ "absorption_eq", "namespaceabsorption__eq.html", null ],
     [ "alpha_decay", "namespacealpha__decay.html", null ],
     [ "alpha_decay_rate_module", "namespacealpha__decay__rate__module.html", null ],

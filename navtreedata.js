@@ -27,11 +27,7 @@ var NAVTREE =
   [ "WinNet", "index.html", [
     [ "First steps", "index.html", [
       [ "Getting started", "index.html#getting_started", [
-        [ "Prerequisits", "index.html#prerequisits", [
-          [ "Fortran", "index.html#fortran", null ],
-          [ "Python", "index.html#python", null ]
-        ] ],
-        [ "Using hdf5 files as output", "index.html#hdf5", null ]
+        [ "Prerequisits", "index.html#prerequisits", null ]
       ] ],
       [ "Starting to run the code", "index.html#start_running", [
         [ "The parameter file", "index.html#parameter", null ],
@@ -45,6 +41,8 @@ var NAVTREE =
     [ "Error codes", "error_codes.html", null ],
     [ "How it works", "how_it_works.html", null ],
     [ "Input files", "input_files.html", null ],
+    [ "Linux installation", "linux_install.html", null ],
+    [ "Mac installation", "mac_install.html", null ],
     [ "Known issues", "known_issues.html", null ],
     [ "Parameters", "parameters.html", [
       [ "adapt_stepsize_maxcount", "parameters.html#adapt_stepsize_maxcount", null ],
@@ -227,12 +225,12 @@ var NAVTREEINDEX =
 "dir_0966041ea5dfb297dc9adad652b3003d.html",
 "funct__fermi1_8f90.html#af82041e491d8de3bf2cf55654d37af46",
 "hdf5__module_8f90.html#aa27c26238d2ec2d7c2766ef323a5f350",
-"namespacebin_1_1class__files.html",
-"nuclear__heating_8f90.html#aefda632c80e48e00e6acdf01059ef2d1",
-"parameters.html#Lx",
-"reaclib__rate__module_8f90.html#ac2f58552dc460fe5d6ff0ed58b887c31",
-"structparameter__class_1_1unit__type.html#ab655dbc9b4885b7c969fafd09975a2fa",
-"winnse__module_8f90.html#aa0fde7155a497990a93e46a69e745dcf"
+"namespacebin.html",
+"nuclear__heating_8f90.html#ad35a786c2400d724bf3580059c5ebfb3",
+"parameters.html#Enuxbar",
+"reaclib__rate__module_8f90.html#ab05d0b3ea07057d7c557302fb6d09c3c",
+"structparameter__class_1_1unit__type.html#a9796e707e411e2e43ce7110151906457",
+"winnse__module_8f90.html#a932eb9a7c638ea9ecc65f66703c3a1a4"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
