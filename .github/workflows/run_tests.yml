@@ -48,9 +48,9 @@ jobs:
       run: |
         source /opt/intel/oneapi/setvars.sh
         printenv >> $GITHUB_ENV
-        sed 's/-DVERS=$(GIT_VERSION)/-Warn\ all\ -check\ all\ -fp-stack-check\ -extend-source\ -init=snan,arrays\ -DVERS=$(GIT_VERSION)/g' -i Makefile.example
-        sed 's/-O3/-O0/g' -i Makefile.example
-        make -f Makefile.example -j2
+        sed 's/-DVERS=$(GIT_VERSION)/-Warn\ all\ -check\ all\ -fp-stack-check\ -extend-source\ -init=snan,arrays\ -DVERS=$(GIT_VERSION)/g' -i Makefile.example_linux
+        sed 's/-O3/-O0/g' -i Makefile.example_linux
+        make -f Makefile.example_linux -j2
 
     - name: "Test the code (ifort)"
       timeout-minutes: 5
@@ -65,7 +65,7 @@ jobs:
 
         # Get the ouput of the tests
         echo "Running tests..."
-        output_tests=$(make -f Makefile.example tests)
+        output_tests=$(make -f Makefile.example_linux tests)
         last_line=$(echo "$output_tests" | grep 'tests have')
         # Check that all tests have passed
         if [[ ${last_line} = *"successfully"* ]]; then
@@ -83,9 +83,9 @@ jobs:
     - name: Test verbose level 5 (ifort)
       timeout-minutes: 5
       run: |
-        sed 's/-DVERS=$(GIT_VERSION)/-DVERS=$(GIT_VERSION)\ -DVERBOSE_LEVEL=5/g' -i Makefile.example
-        make -f Makefile.example clean
-        make -f Makefile.example -j2
+        sed 's/-DVERS=$(GIT_VERSION)/-DVERS=$(GIT_VERSION)\ -DVERBOSE_LEVEL=5/g' -i Makefile.example_linux
+        make -f Makefile.example_linux clean
+        make -f Makefile.example_linux -j2
         echo "Running the tests using the Intel oneapi fortran compiler"
         echo "Using high verbose level"
         if [ ! -f bin/winnet ]; then
@@ -97,7 +97,7 @@ jobs:
 
         # Get the ouput of the tests
         echo "Running tests..."
-        output_tests=$(make -f Makefile.example tests)
+        output_tests=$(make -f Makefile.example_linux tests)
         last_line=$(echo "$output_tests" | grep 'tests have')
         # Check that all tests have passed
         if [[ ${last_line} = *"successfully"* ]]; then
@@ -120,11 +120,11 @@ jobs:
     - name: Compile (gfortran)
       timeout-minutes: 2
       run: |
-        make -f Makefile.example clean
-        sed 's/-fopenmp/-fopenmp\ -g\ -Wall\ -fcheck=all/g' -i Makefile.example
-        sed 's/-O3/-O0/g' -i Makefile.example
-        sed 's/FC\ =\ ifort/FC\ =\ h5fc/g' -i Makefile.example
-        make -f Makefile.example -j2
+        make -f Makefile.example_linux clean
+        sed 's/-fopenmp/-fopenmp\ -g\ -Wall\ -fcheck=all/g' -i Makefile.example_linux
+        sed 's/-O3/-O0/g' -i Makefile.example_linux
+        sed 's/FC\ =\ ifort/FC\ =\ h5fc/g' -i Makefile.example_linux
+        make -f Makefile.example_linux -j2
 
 
     - name: "Test the code (gfortran)"
@@ -140,7 +140,7 @@ jobs:
 
         # Get the ouput of the tests
         echo "Running tests..."
-        output_tests=$(make -f Makefile.example tests)
+        output_tests=$(make -f Makefile.example_linux tests)
         last_line=$(echo "$output_tests" | grep 'tests have')
         # Check that all tests have passed
         if [[ ${last_line} = *"successfully"* ]]; then

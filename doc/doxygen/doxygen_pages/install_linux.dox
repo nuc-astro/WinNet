@@ -1,0 +1,61 @@
+/** \page linux_install Linux installation
+On Linux you can install the compiler and all necessary python packages by using the script contained in the "install" folder:
+
+    cd path_to_winnet/install
+    chmod +x setup_linux.sh
+    ./setup_linux.sh
+
+Alternatively, you can follow the instruction below.
+
+\subsubsection fortran Fortran
+In order to compile the code either the intel fortran compiler (ifort, since 2023 sometimes named ifx) or the gnu
+fortran compiler (gfortran) is needed. We recommend to install the ifort compiler
+as it comes already with the Math Kernel Library (MKL) that you need to run the
+network. An instruction how to install and download the ifort compiler can be found
+[here](https://software.intel.com/content/www/us/en/develop/articles/free-intel-software-developer-tools.html).
+You need the Intel® oneAPI Base Toolkit and Intel® oneAPI HPC Toolkit. In most of the cases in Linux you can
+download the compiler by typing the following commands in the terminal:
+
+    wget https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB
+    sudo apt-key add GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB
+    rm GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB
+    sudo echo "deb https://apt.repos.intel.com/oneapi all main" | sudo tee /etc/apt/sources.list.d/oneAPI.list
+    sudo apt-get update
+    sudo apt-get install -y intel-oneapi-common-vars
+    sudo apt-get install -y intel-oneapi-compiler-fortran-2023.1.0
+    sudo apt-get install -y intel-oneapi-mkl-2023.1.0
+    echo 'source /opt/intel/oneapi/setvars.sh >/dev/null' >> ~/.bashrc
+
+After this, open a new terminal to apply the changes.
+
+\subsubsection python Python
+Even though not mandatory to run the network, the test suite and plotting routines
+use python. So we highly recommend to install the anaconda python package, which
+can be found [here](https://www.anaconda.com/products/individual). It comes with
+several packages (e.g., Matplotlib, ...) that are also used in the python scripts
+of WinNet. The used python packages are given in "install/requirements.txt".
+
+
+\subsection hdf5 Using hdf5 files as output
+It is not a mandatory requirement, but to be able to have hdf5 files as output,
+one has to modify the Makefile and install hdf5 support. To be more precise, the h5fc
+compiler is necessary (see, e.g, [here](https://command-not-found.com/h5fc)).
+For example, in linux with the "apt" package manager the following command in
+the terminal will make the h5fc command available:
+
+    sudo apt-get install libhdf5-serial-dev
+
+By changing the compiler with 'FC = h5fc' or 'FC = path/to/h5fc' in the _Makefile_, all hdf5
+related parameters should work. There can be interferance with the h5fc instance that anaconda uses.
+This is visible when you type "which h5fc" into the terminal and it returns an anaconda path.
+In this case, you have to specify the full path in the _Makefile_. An example line in the _Makefile_
+could be, e.g.,
+
+    ....
+    FC = /usr/bin/h5fc
+    ....
+
+The correct path can be displayed by the terminal command "whereis -b -f h5fc".
+Possibly, there are further modifications of the compiler flags necessary.
+
+*/
