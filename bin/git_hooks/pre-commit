@@ -7,8 +7,8 @@ echo "Preparing to run tests... "
 
 
 # Compile with the Makefile.example
-make -f Makefile.example clean > /dev/null 2>&1
-make -f Makefile.example -j4 > /dev/null 2>&1
+make -f Makefile.example_linux clean > /dev/null 2>&1
+make -f Makefile.example_linux -j4 > /dev/null 2>&1
 
 if [ ! -f bin/winnet ]; then
   echo "Could not compile the run!"
@@ -19,7 +19,7 @@ fi
 
 # Get the ouput of the tests
 echo "Running tests..."
-output_tests=$(make -f Makefile.example tests) 
+output_tests=$(make -f Makefile.example_linux tests) 
 last_line=$(echo "$output_tests" | grep 'tests have')
 # Check that all tests have passed
 if [[ ${last_line} = *"successfully"* ]]; then
