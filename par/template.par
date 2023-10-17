@@ -707,6 +707,9 @@ gear_eps =
 # the calculation time step.
 gear_escale =
 
+# Maximum allowed change of the timestep
+gear_timestep_max =
+
 # Parameter to decide whether the time step should be adapted in case the
 # Newton-Raphson did not converge optimally. The default is set to true and the
 # stepsize is therefore not changed when the newton-raphson reaches the maximum
