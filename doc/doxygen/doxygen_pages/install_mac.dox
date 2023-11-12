@@ -1,0 +1,36 @@
+/** \page mac_install Mac installation
+WinNet has been mainly used under Linux. However, it is possible to also run on a Mac. You can install the intel fortran compiler and mkl library as instructed below.
+
+\subsubsection fortran Fortran
+You will need to have the ifort compiler and the mkl library from intel oneapi. An instruction how to install and download the ifort compiler can be found [here](https://software.intel.com/content/www/us/en/develop/articles/free-intel-software-developer-tools.html). You need the Intel® oneAPI Base Toolkit and Intel® oneAPI HPC Toolkit.
+
+After the installation you may have to re-link the mkl library by
+
+    ln -s /opt/intel/oneapi/mkl/latest/lib/* /usr/local/lib
+    
+It is possible that there are some warnings such as
+
+    ld: warning: no platform load command found in '/opt/intel/oneapi/compiler/2023.2.0/mac/bin/intel64/../../compiler/lib/libirc.a[165](intel_avx_rep_memset.o)', assuming: macOS
+
+which you can ignore. 
+
+\subsubsection python Python
+Even though not mandatory to run the network, the test suite and plotting routines
+use python. So we highly recommend to install the anaconda python package, which
+can be found [here](https://www.anaconda.com/products/individual). It comes with
+several packages (e.g., Matplotlib, ...) that are also used in the python scripts
+of WinNet. The used python packages are given in "install/requirements.txt". 
+In case you have issues with the requirements you may update the packages to more recent versions.
+All packages can also be installed by using the install/setup_mac.sh script.
+
+
+
+\subsubsection issues Issues
+All test cases that can be run with
+   make tests
+   
+If you are on Mac, it can be that there are errors related to the unpacking of the tar files. The installation may nevertheless been correct. You can test it by running the following example:
+
+    python makerun.py -p Example_CO_burning.par -r Example_CO_burning
+
+*/
