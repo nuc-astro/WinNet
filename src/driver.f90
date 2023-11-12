@@ -95,7 +95,7 @@ program driver
      case(1)  ! Gear's method
         call advance_gear(cnt)
      case default
-        call raise_exception("Invalid solver. Choose either solver = 1 or 2.","driver",&
+        call raise_exception("Invalid solver. Choose either solver = 0 or 1.","driver",&
                              140003)
      end select
 
