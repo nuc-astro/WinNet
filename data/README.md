@@ -150,7 +150,7 @@ nuflag , nunucleo_rates_file
 #### See also
 [Burrows & Thompson 2002](https://ui.adsabs.harvard.edu/abs/2002astro.ph.11404B/abstract)
 #### Useful scripts
-[create_neutrino_nucleon_file.py](../bin/create_spontaneous_fission_file.py)
+[create_neutrino_nucleon_file.py](../bin/create_neutrino_nucleon_file.py)
 
 ------
 
