@@ -1,0 +1,10 @@
+/** \page windows_install Windows installation
+While running WinNet natively in a Windows environment is possible, many commands within the accompanying Python scripts are optimized for UNIX systems. In this section, we provide a brief overview of using an Ubuntu emulator under Windows. Since Windows 10, the Windows Subsystem for Linux (WSL) has been seamlessly integrated into Windows. A detailed installation guide can be found [here](https://learn.microsoft.com/en-us/windows/wsl/install).
+
+The installation process is straightforward and can be completed by opening PowerShell as an administrator and entering the following command:
+
+    wsl --install
+
+Once installed, you'll have the capability to launch a shell within an Ubuntu environment. From there, you can proceed to install WinNet by following the instructions outlined in the [Linux installation guide](\ref linux_install).
+
+*/
