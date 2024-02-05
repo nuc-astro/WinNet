@@ -406,7 +406,16 @@ end subroutine getcoefficients
 
 
 
-
+!> Read the general network information from a binary file
+!!
+!! This subroutine reads the information that is contained in
+!! the winvn and sunet from a previously saved binary file.
+!! This is necessary if the parameter \ref use_prepared_network
+!! is set to .true. and the network is read from a prepared
+!! network file.
+!!
+!! @author M. Reichert
+!! @date 21.07.23
 subroutine read_binary_network_data(path)
     use file_handling_class, only: open_unformatted_infile
     use global_class,        only: net_size, t9_data, isotope, &
@@ -477,7 +486,15 @@ subroutine read_binary_network_data(path)
 end subroutine read_binary_network_data
 
 
-
+!> Save the general network information to a binary file
+!!
+!! This subroutine saves the information that is contained in
+!! the winvn and sunet. This is necessary if the code is
+!! run in network preparation mode for the parameter
+!! \ref use_prepared_network .
+!!
+!! @author M. Reichert
+!! @date 21.07.23
 subroutine output_binary_network_data(path)
     use file_handling_class, only: open_unformatted_outfile
     use global_class,        only: net_size, t9_data, isotope, &
