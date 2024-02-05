@@ -36,7 +36,7 @@ LD = $(FC)
 FCCOM = $(notdir $(FC))
 
 # Get the git Version
-GIT_TAG:="$(shell git describe --abbrev=0 --tags)"
+GIT_TAG:="$(shell git describe --abbrev=0 --tags --always)"
 GIT_HASH:="$(shell git describe --abbrev=10 --always)"
 
 # Check if the compiler is able to deal with hdf5 files
