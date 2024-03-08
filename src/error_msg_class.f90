@@ -100,7 +100,7 @@ subroutine write_final_stats_rate_creation
     INFO_ENTRY('write_final_stats_rate_creation')
 
     write(*,'(A)') '----------------------------------'
-    write(*,'(A)') 'Finshed data creation succesfully.'
+    write(*,'(A)') 'Finished data creation successfully.'
 
 
     INFO_EXIT('write_final_stats_rate_creation')
