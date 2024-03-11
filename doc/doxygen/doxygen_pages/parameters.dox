@@ -1880,7 +1880,7 @@ An example file looks like:
 
 
   \section use_detailed_balance_q_reac        use_detailed_balance_q_reac
-   Flag to decide whether to use the Q-value from the reaction file (yes) or from the used winvn (no). The ladder one is more consistent with NSE,
+   Flag to decide whether to use the Q-value from the reaction file (yes) or from the used winvn (no). The latter one is more consistent with NSE,
    while the first one is consistent with the forward rate.
 
    @par Example template line:
