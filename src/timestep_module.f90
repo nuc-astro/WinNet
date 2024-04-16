@@ -377,8 +377,8 @@ real(r_kind):: h1
    do i = 1, net_size
       if (Y(i) .le. timestep_Ymin) cycle
       if (dYdt(i) .eq. 0.d0) cycle
-      if (dYdt(i)*h1 .gt. abs(Y(i))*timestep_factor) then
-         h1= timestep_factor * abs(Y(i)/dYdt(i))
+      if (dabs(dYdt(i)*h1) .gt. dabs(Y(i))*timestep_factor) then
+         h1= timestep_factor * dabs(Y(i)/dYdt(i))
       endif
    end do
    abchange_timestep= h1
