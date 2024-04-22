@@ -27,7 +27,7 @@
 <area shape="rect" id="node49" href="$namespacenetwork__init__module.html#a6fdb1e7cb024e4dafb72d61b83ef27ea" title="Print a debug file of the reaction." alt="" coords="217,478,359,519"/>
 <area shape="rect" id="node50" href="$namespacenetwork__init__module.html#a240c5b82d839908b42993f1c6da962a6" title="Print an overview of the reactions involved in the calculation." alt="" coords="217,413,359,454"/>
 <area shape="rect" id="node4" href="$namespacebenam__class.html#a95931751f9ab5819869210a561661790" title="Reads nuclear properties (name,a,n,z,spin,mass excess,partition functions) from file &#39;winvn&#39; and htpf..." alt="" coords="448,1002,612,1043"/>
-<area shape="rect" id="node9" href="$namespacebenam__class.html#a72485363e8459a51cc23724f0aa4291a" title=" " alt="" coords="445,1455,615,1497"/>
+<area shape="rect" id="node9" href="$namespacebenam__class.html#a72485363e8459a51cc23724f0aa4291a" title="Read the general network information from a binary file." alt="" coords="445,1455,615,1497"/>
 <area shape="rect" id="node5" href="$namespacefile__handling__class.html#a01ba26324d7662cc0fb2e0eb306cd3e2" title="Close an external file." alt="" coords="697,493,827,534"/>
 <area shape="rect" id="node7" href="$namespaceerror__msg__class.html#a2453d3b7cb363115c046840baa1dfb75" title="Raise a exception with a given error message." alt="" coords="893,1229,1045,1270"/>
 <area shape="rect" id="node8" href="$namespacefile__handling__class.html#aab870caaf9cbaaf635d537708efbf793" title="Same for reading (input file)" alt="" coords="697,762,827,803"/>

@@ -134,6 +134,7 @@ $(document).ready(function(){initNavTree('parameters.html',''); initResizable();
 <li class="level1"><a href="#gear_nr_eps">gear_nr_eps</a></li>
 <li class="level1"><a href="#gear_nr_maxcount">gear_nr_maxcount</a></li>
 <li class="level1"><a href="#gear_nr_mincount">gear_nr_mincount</a></li>
+<li class="level1"><a href="#gear_timestep_max">gear_timestep_max</a></li>
 <li class="level1"><a href="#h_custom_snapshots">h_custom_snapshots</a></li>
 <li class="level1"><a href="#h_engen_every">h_engen_every</a></li>
 <li class="level1"><a href="#h_engen_detailed">h_engen_detailed</a></li>
@@ -499,6 +500,10 @@ gear_nr_mincount</h1>
 <p>Numerical parameter to control the minimum iterations of the newton-raphson. This parameter is only used in case <a class="el" href="parameters.html#solver">solver</a> is set to 1. The default value is 1.</p>
 <dl class="section user"><dt>Example template line:</dt><dd><code>gear_nr_mincount= 2</code> </dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="parameters.html#solver">solver</a>, <a class="el" href="namespaceparameter__class.html#a105e1f4096135a749b021cb65cdcd0b3">parameter_class::gear_nr_mincount</a>, <a class="el" href="parameters.html#nr_mincount">nr_mincount</a>, <a href="https://ui.adsabs.harvard.edu/abs/2014A%26A...563A..67L/abstract">Longland et al. 2014</a>, <a href="https://tuprints.ulb.tu-darmstadt.de/6301/">Martin, D. 2017</a></dd></dl>
+<h1><a class="anchor" id="gear_timestep_max"></a>
+gear_timestep_max</h1>
+<p>Maximum allowed ratio of the new time step and the old time step, \(h_{\mathrm{new}} / h_{\mathrm{old}}\) for the gear solver. The default value is 10. </p><dl class="section user"><dt>Example template line:</dt><dd><code>gear_timestep_max = 5</code> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespaceparameter__class.html#a5e10bb3696a182c9eb43963fefd91e76" title="For gear solver.">parameter_class::gear_timestep_max</a>, <a class="el" href="namespacetimestep__module.html#a7f5f10b8fe48a4780ad1bbcfaa7fe3d1" title="Network timestepping along the thermodynamic trajectory, specified by {ztime, ztemp,...">timestep_module::timestep</a>, <a class="el" href="parameters.html#timestep_max">timestep_max</a></dd></dl>
 <h1><a class="anchor" id="h_custom_snapshots"></a>
 h_custom_snapshots</h1>
 <p>Same as <a class="el" href="parameters.html#custom_snapshots">custom_snapshots</a>, but the output is stored in an hdf5 file named "WinNet_data.hdf5". This only works if the hdf5 library is linked properly and the compilerflag -DUSE_HDF5 is set. In case you have installed the h5fc compiler you can change the makefile accordingly to use this compiler and the hdf5 output should work.</p>
@@ -1339,7 +1344,7 @@ use_detailed_balance</h1>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="namespaceparameter__class.html#ab9087785779a37d5933cd6bb95aac997" title="Calculate the inverse reactions via detailed balance rather than using them form file.">parameter_class::use_detailed_balance</a>, <a href="https://www.annualreviews.org/doi/10.1146/annurev.aa.05.090167.002521">Fowler, Caughlan, and Zimmerman (1967)</a>, <a class="el" href="namespacedetailed__balance.html">detailed_balance</a></dd></dl>
 <h1><a class="anchor" id="use_detailed_balance_q_reac"></a>
 use_detailed_balance_q_reac</h1>
-<p>Flag to decide whether to use the Q-value from the reaction file (yes) or from the used winvn (no). The ladder one is more consistent with NSE, while the first one is consistent with the forward rate.</p>
+<p>Flag to decide whether to use the Q-value from the reaction file (yes) or from the used winvn (no). The latter one is more consistent with NSE, while the first one is consistent with the forward rate.</p>
 <dl class="section user"><dt>Example template line:</dt><dd><code>use_detailed_balance_q_reac = yes</code> </dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="namespaceparameter__class.html#ab9087785779a37d5933cd6bb95aac997" title="Calculate the inverse reactions via detailed balance rather than using them form file.">parameter_class::use_detailed_balance</a>, <a href="https://www.annualreviews.org/doi/10.1146/annurev.aa.05.090167.002521">Fowler, Caughlan, and Zimmerman (1967)</a>, <a class="el" href="namespacedetailed__balance.html">detailed_balance</a></dd></dl>
 <h1><a class="anchor" id="use_htpf"></a>

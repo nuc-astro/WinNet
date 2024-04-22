@@ -84,7 +84,7 @@ var sectionId = 'dynsection-1';
 <!-- Node17 -->
 <g id="node17" class="node">
 <title>Node17</title>
-<g id="a_node17"><a xlink:href="namespacebenam__class.html#a72485363e8459a51cc23724f0aa4291a" target="_top" xlink:title=" ">
+<g id="a_node17"><a xlink:href="namespacebenam__class.html#a72485363e8459a51cc23724f0aa4291a" target="_top" xlink:title="Read the general network information from a binary file.">
 <polygon fill="white" stroke="black" points="340.5,-44.93 340.5,-74.93 468.5,-74.93 468.5,-44.93 340.5,-44.93"/>
 <text text-anchor="start" x="348.5" y="-62.93" font-family="Helvetica,sans-Serif" font-size="10.00">benam_class::read_binary</text>
 <text text-anchor="middle" x="404.5" y="-51.93" font-family="Helvetica,sans-Serif" font-size="10.00">_network_data</text>

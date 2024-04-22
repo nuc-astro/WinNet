@@ -43,6 +43,7 @@ var NAVTREE =
     [ "Input files", "input_files.html", null ],
     [ "Linux installation", "linux_install.html", null ],
     [ "Mac installation", "mac_install.html", null ],
+    [ "Windows installation", "windows_install.html", null ],
     [ "Known issues", "known_issues.html", null ],
     [ "Parameters", "parameters.html", [
       [ "adapt_stepsize_maxcount", "parameters.html#adapt_stepsize_maxcount", null ],
@@ -81,6 +82,7 @@ var NAVTREE =
       [ "gear_nr_eps", "parameters.html#gear_nr_eps", null ],
       [ "gear_nr_maxcount", "parameters.html#gear_nr_maxcount", null ],
       [ "gear_nr_mincount", "parameters.html#gear_nr_mincount", null ],
+      [ "gear_timestep_max", "parameters.html#gear_timestep_max", null ],
       [ "h_custom_snapshots", "parameters.html#h_custom_snapshots", null ],
       [ "h_engen_every", "parameters.html#h_engen_every", null ],
       [ "h_engen_detailed", "parameters.html#h_engen_detailed", null ],
@@ -227,10 +229,10 @@ var NAVTREEINDEX =
 "hdf5__module_8f90.html#aa27c26238d2ec2d7c2766ef323a5f350",
 "namespacebin.html",
 "nuclear__heating_8f90.html#ad35a786c2400d724bf3580059c5ebfb3",
-"parameters.html#Enuxbar",
-"reaclib__rate__module_8f90.html#ab05d0b3ea07057d7c557302fb6d09c3c",
-"structparameter__class_1_1unit__type.html#a9796e707e411e2e43ce7110151906457",
-"winnse__module_8f90.html#a932eb9a7c638ea9ecc65f66703c3a1a4"
+"parameters.html#Enux",
+"reaclib__rate__module_8f90.html#aa1849d70f489bf562e0265d24e34912f",
+"structparameter__class_1_1unit__type.html#a8f3a376858e5dc2e44e4c269924e92c1",
+"winnse__module_8f90.html#a72eefa0ccd8f0859c0019d2d18fad155"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

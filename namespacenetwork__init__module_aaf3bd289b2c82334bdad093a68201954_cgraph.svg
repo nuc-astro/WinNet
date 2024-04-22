@@ -132,7 +132,7 @@ var sectionId = 'dynsection-0';
 <!-- Node124 -->
 <g id="node45" class="node">
 <title>Node124</title>
-<g id="a_node45"><a xlink:href="namespacebenam__class.html#a62741f4cd06b3a90648a9bce8db6c52c" target="_top" xlink:title=" ">
+<g id="a_node45"><a xlink:href="namespacebenam__class.html#a62741f4cd06b3a90648a9bce8db6c52c" target="_top" xlink:title="Save the general network information to a binary file.">
 <polygon fill="white" stroke="black" points="168,-1278.76 168,-1308.76 279,-1308.76 279,-1278.76 168,-1278.76"/>
 <text text-anchor="start" x="176" y="-1296.76" font-family="Helvetica,sans-Serif" font-size="10.00">benam_class::output</text>
 <text text-anchor="middle" x="223.5" y="-1285.76" font-family="Helvetica,sans-Serif" font-size="10.00">_binary_network_data</text>
@@ -710,7 +710,7 @@ var sectionId = 'dynsection-0';
 <!-- Node22 -->
 <g id="node13" class="node">
 <title>Node22</title>
-<g id="a_node13"><a xlink:href="namespacebenam__class.html#a72485363e8459a51cc23724f0aa4291a" target="_top" xlink:title=" ">
+<g id="a_node13"><a xlink:href="namespacebenam__class.html#a72485363e8459a51cc23724f0aa4291a" target="_top" xlink:title="Read the general network information from a binary file.">
 <polygon fill="white" stroke="red" points="518,-338.76 518,-368.76 646,-368.76 646,-338.76 518,-338.76"/>
 <text text-anchor="start" x="526" y="-356.76" font-family="Helvetica,sans-Serif" font-size="10.00">benam_class::read_binary</text>
 <text text-anchor="middle" x="582" y="-345.76" font-family="Helvetica,sans-Serif" font-size="10.00">_network_data</text>

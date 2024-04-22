@@ -4,7 +4,7 @@
 <area shape="rect" id="node7" href="$namespacenetwork__init__module.html#a00e15ede5004dd5dff28a7cc4d5d1541" title="Main initialising subroutine. calls reading subroutines and fills the reactionrate array." alt="" coords="233,1073,374,1114"/>
 <area shape="rect" id="node40" href="$namespacetw__rate__module.html#a9cccd46db1f1be3e5543d04ae2d6d0ff" title="Save the theoretical weak rates to a unformatted binary file." alt="" coords="460,319,647,361"/>
 <area shape="rect" id="node44" href="$namespacefission__rate__module.html#add77a8d632b5e21361062f5fcf5095f6" title="Save the fission data to a unformatted binary file." alt="" coords="229,85,378,141"/>
-<area shape="rect" id="node45" href="$namespacebenam__class.html#a62741f4cd06b3a90648a9bce8db6c52c" title=" " alt="" coords="229,165,377,206"/>
+<area shape="rect" id="node45" href="$namespacebenam__class.html#a62741f4cd06b3a90648a9bce8db6c52c" title="Save the general network information to a binary file." alt="" coords="229,165,377,206"/>
 <area shape="rect" id="node46" href="$namespacenuflux__class.html#a018b8a9dca8d3cf7be07a527c293dd5f" title="Write the reactions to a file in binary format." alt="" coords="203,230,404,271"/>
 <area shape="rect" id="node47" href="$namespaceparameter__class.html#aa1b376aa50d6520d5605e6068d4cb2c1" title="Output the parameter data to a binary file." alt="" coords="223,295,383,337"/>
 <area shape="rect" id="node48" href="$namespacereaclib__rate__module.html#aea05c0c87253750ad35edea12319e3b2" title="Save the complete rrate array to a binary file." alt="" coords="228,5,379,61"/>
@@ -39,7 +39,7 @@
 <area shape="rect" id="node42" href="$namespacenetwork__init__module.html#a6fdb1e7cb024e4dafb72d61b83ef27ea" title="Print a debug file of the reaction." alt="" coords="483,770,624,811"/>
 <area shape="rect" id="node43" href="$namespacenetwork__init__module.html#a240c5b82d839908b42993f1c6da962a6" title="Print an overview of the reactions involved in the calculation." alt="" coords="483,705,624,746"/>
 <area shape="rect" id="node10" href="$namespacebenam__class.html#a95931751f9ab5819869210a561661790" title="Reads nuclear properties (name,a,n,z,spin,mass excess,partition functions) from file &#39;winvn&#39; and htpf..." alt="" coords="699,871,863,913"/>
-<area shape="rect" id="node13" href="$namespacebenam__class.html#a72485363e8459a51cc23724f0aa4291a" title=" " alt="" coords="696,1418,867,1459"/>
+<area shape="rect" id="node13" href="$namespacebenam__class.html#a72485363e8459a51cc23724f0aa4291a" title="Read the general network information from a binary file." alt="" coords="696,1418,867,1459"/>
 <area shape="rect" id="node11" href="$namespacefile__handling__class.html#a01ba26324d7662cc0fb2e0eb306cd3e2" title="Close an external file." alt="" coords="937,711,1067,753"/>
 <area shape="rect" id="node12" href="$namespacefile__handling__class.html#aab870caaf9cbaaf635d537708efbf793" title="Same for reading (input file)" alt="" coords="937,1002,1067,1043"/>
 <area shape="rect" id="node16" href="$namespacenucstuff__class.html#aaa645672174ccc163425da5aa3872aef" title="Analyze a string and split it with delimiter &quot;;&quot;." alt="" coords="925,1301,1079,1342"/>

@@ -1,7 +1,7 @@
 <map id="benam_class::get_nuclear_properties" name="benam_class::get_nuclear_properties">
 <area shape="rect" id="node1" title="Reads nuclear properties (name,a,n,z,spin,mass excess,partition functions) from file &#39;winvn&#39; and htpf..." alt="" coords="5,412,177,453"/>
 <area shape="rect" id="node2" href="$namespacebenam__class.html#a95931751f9ab5819869210a561661790" title="Reads nuclear properties (name,a,n,z,spin,mass excess,partition functions) from file &#39;winvn&#39; and htpf..." alt="" coords="225,283,389,324"/>
-<area shape="rect" id="node17" href="$namespacebenam__class.html#a72485363e8459a51cc23724f0aa4291a" title=" " alt="" coords="459,543,630,584"/>
+<area shape="rect" id="node17" href="$namespacebenam__class.html#a72485363e8459a51cc23724f0aa4291a" title="Read the general network information from a binary file." alt="" coords="459,543,630,584"/>
 <area shape="rect" id="node3" href="$namespacefile__handling__class.html#a01ba26324d7662cc0fb2e0eb306cd3e2" title="Close an external file." alt="" coords="924,5,1055,47"/>
 <area shape="rect" id="node5" href="$namespaceerror__msg__class.html#a2453d3b7cb363115c046840baa1dfb75" title="Raise a exception with a given error message." alt="" coords="1113,292,1265,333"/>
 <area shape="rect" id="node6" href="$namespacenucstuff__class.html#a2c1904ab59fa22ca27e7a4b6eda76529" title="Function to decide whether a given isotope is stable or not." alt="" coords="483,224,606,265"/>
