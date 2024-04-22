@@ -39,7 +39,7 @@ module gear_module
   use global_class, only: net_size
   use error_msg_class, only: raise_exception
   use parameter_class, only: gear_eps, gear_escale, gear_cFactor, &
-                             gear_nr_maxcount, gear_nr_eps
+                             gear_nr_maxcount, gear_nr_eps, gear_timestep_max
   implicit none
 
   integer,parameter  :: histsize = 13  !< length of history in tau, e, ...
@@ -554,12 +554,12 @@ subroutine geterrors
   errqp1(1:net_size) = errqp1(1:net_size)/max(dabs(z(1,1:net_size)),gear_escale)
 
   if(maxval(errq) < 1.d-100) then
-    hq = 10.d0*h
+    hq = gear_timestep_max*h
   else
     hq = gear_cFactor*h*((gear_eps/maxval(errq))**(1.0d0/(q+1.0d0)))
   endif
   if(maxval(errqm1) < 1.d-100) then
-    hqm1 = 10.d0*h
+    hqm1 = gear_timestep_max*h
   else
     hqm1 = gear_cFactor*h*((gear_eps/maxval(errqm1))**(1.0d0/q))
   endif
@@ -567,7 +567,7 @@ subroutine geterrors
   ! Take care that one does not increase the order for the maximum order
   if (q .ne. qmax) then
     if(maxval(errqp1) < 1.d-100) then
-      hqp1 = 10.d0*h
+      hqp1 = gear_timestep_max*h
     else
       hqp1 = gear_cFactor*h*((gear_eps/maxval(errqp1))**(1.0d0/(q+2.0d0))) ! see above
     endif
@@ -782,8 +782,11 @@ end subroutine cfun
 subroutine shiftorder
   implicit none
 
-  integer :: j, iback
+  integer      :: j, iback
+  real(r_kind) :: h_old
 
+  ! Store the old timestep
+  h_old = h
 
   if(hqm1 .ge. hq .and. hqm1 .ge. hqp1) then
 
@@ -813,6 +816,9 @@ subroutine shiftorder
     h = hq
     ! print *, "The order stayed the same!",q,h
   endif
+
+  ! Restrict timestep to the maximum allowed increase
+  h = min(h, h_old*gear_timestep_max)
 
   !gear_cFactor = get_cFactor(q)
 

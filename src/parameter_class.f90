@@ -137,6 +137,7 @@ module parameter_class
   real(r_kind)            :: gear_escale                    !< Normalization cutoff for gear solver, similar to timestep_Ymin for Euler
   real(r_kind)            :: gear_cFactor                   !< Conservative timestep factor for gear solver [0.1, ... , 0.4]
   real(r_kind)            :: gear_nr_eps                    !< Convergence criterion for the newton-raphson of the gear solver
+  real(r_kind)            :: gear_timestep_max              !< For gear solver
   integer                 :: gear_nr_maxcount               !< Maximum newton-raphson iterations for gear solver
   integer                 :: gear_nr_mincount               !< Minimum newton-raphson iterations for gear solver
   logical                 :: gear_ignore_adapt_stepsize     !< Flag whether gear should ignore the adapt stepsize loop
@@ -374,6 +375,7 @@ subroutine set_param(param_name,param_value)
       ":gear_cFactor"// &
       ":gear_nr_eps" // &
       ":timestep_max"// &
+      ":gear_timestep_max"// &
       ":timestep_factor"// &
       ":timestep_Ymin"// &
       ":nr_tol"// &
@@ -597,6 +599,8 @@ subroutine set_param(param_name,param_value)
      gear_cFactor= read_float_param(str_value,param_name)
    elseif(param_name.eq."gear_nr_eps") then
      gear_nr_eps= read_float_param(str_value,param_name)
+   elseif(param_name.eq."gear_timestep_max") then
+     gear_timestep_max= read_float_param(str_value,param_name)
    elseif(param_name.eq."timestep_max") then
      timestep_max= read_float_param(str_value,param_name)
    elseif(param_name.eq."timestep_factor") then
@@ -862,6 +866,7 @@ subroutine set_default_param
    gear_nr_mincount            = 1
    gear_nr_eps                 = 1.0d-6
    gear_ignore_adapt_stepsize  = .true.
+   gear_timestep_max           = 10d0
    h_engen_detailed            = .false.
    h_flow_every                = 0
    h_finab                     = .false.
@@ -1007,6 +1012,7 @@ subroutine output_param
      write(ofile,'(A,es14.7)') 'gear_nr_eps                 ='  , gear_nr_eps
          write(ofile,'(A,I5)') 'gear_nr_maxcount            = ' , gear_nr_maxcount
          write(ofile,'(A,I5)') 'gear_nr_mincount            = ' , gear_nr_mincount
+     write(ofile,'(A,es14.7)') 'gear_timestep_max           ='  , gear_timestep_max
            write(ofile,'(2A)') 'h_custom_snapshots          = ' , yesno(h_custom_snapshots)
            write(ofile,'(2A)') 'h_engen_detailed            = ' , yesno(h_engen_detailed)
          write(ofile,'(A,I5)') 'h_engen_every               = ' , h_engen_every

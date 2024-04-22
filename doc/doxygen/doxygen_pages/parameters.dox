@@ -527,6 +527,15 @@
         [Martin, D. 2017](https://tuprints.ulb.tu-darmstadt.de/6301/)
 
 
+
+
+   \section gear_timestep_max               gear_timestep_max
+   Maximum allowed ratio of the new time step and the old time step, \f$h_{\mathrm{new}} / h_{\mathrm{old}}\f$ for the gear solver. The default value is 10.
+   @par Example template line:
+   `` gear_timestep_max  = 5 ``
+   @see parameter_class::gear_timestep_max, timestep_module::timestep, \ref timestep_max
+
+
    \section h_custom_snapshots        h_custom_snapshots
    Same as \ref custom_snapshots, but the output is stored in an hdf5 file named "WinNet_data.hdf5". This only
    works if the hdf5 library is linked properly and the compilerflag -DUSE_HDF5 is set.
@@ -1871,7 +1880,7 @@ An example file looks like:
 
 
   \section use_detailed_balance_q_reac        use_detailed_balance_q_reac
-   Flag to decide whether to use the Q-value from the reaction file (yes) or from the used winvn (no). The ladder one is more consistent with NSE,
+   Flag to decide whether to use the Q-value from the reaction file (yes) or from the used winvn (no). The latter one is more consistent with NSE,
    while the first one is consistent with the forward rate.
 
    @par Example template line:
