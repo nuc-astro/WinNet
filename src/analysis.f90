@@ -1549,15 +1549,15 @@ subroutine calc_nuclear_heating(hdf5_mode, write_engen, write_toplist)
       !                                       engen_q_pa,engen_q_ap,engen_tot_pacap,&
       !                                       engen_fiss
       ! Write the output (more relaxed)
-      write(nuc_heat_file,'(*(es23.14,3x))') time,engen_tot_exc,entropy_src_term,&
-                                             engen_q_weak,&
-                                             engen_tot_ncap,&
-                                             engen_tot_pcap,&
-                                             engen_tot_acap,&
-                                             engen_tot_npcap,&
-                                             engen_tot_nacap,&
-                                             engen_tot_pacap,&
-                                             engen_fiss
+      write(nuc_heat_file,'(*(es23.14E3,3x))') time,engen_tot_exc,entropy_src_term,&
+                                               engen_q_weak,&
+                                               engen_tot_ncap,&
+                                               engen_tot_pcap,&
+                                               engen_tot_acap,&
+                                               engen_tot_npcap,&
+                                               engen_tot_nacap,&
+                                               engen_tot_pacap,&
+                                               engen_fiss
    end if
 
 #ifdef USE_HDF5
