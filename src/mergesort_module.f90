@@ -24,7 +24,7 @@ module mergesort_module
   !
   public:: &
       mergesort_init, nurate_ms, rrate_ms, mergesort_finalize, rrate_qs_replace, &
-      rrate_sort, bubblesort, reorder, reorder_int
+      rrate_sort, bubblesort, reorder, reorder_int, quicksort
   private:: &
       QSort
 
@@ -781,6 +781,115 @@ end subroutine nurate_ms
     end do
 
   end subroutine bubblesort
+
+
+
+  !> Quicksort of array.
+  !!
+  !! This subroutine performs a quicksort of an array.
+  !! A quicksort is a recursive sorting algorithm. An illustration of it is shown
+  !! in the following (Source en.wikipedia):
+  !! @image html https://upload.wikimedia.org/wikipedia/commons/6/6a/Sorting_quicksort_anim.gif "Illustration of the quicksort" width=300
+  !! In this gif, the red indicated number is the so called pivot-element.
+  !! In contrast to \ref QSort, this subroutine is able to sort an array that is not a derived type and comes in form of
+  !! an array of doubles.
+  !! The subroutine is able to run in 2 modes,
+  !! - mode 0 : Ascending order
+  !! - mode 1 : Descending order
+  !! .
+  !! Furthermore, a second array can be given which will return the indices of
+  !! the changes within the first array.
+  !!
+  !! @see [Rosettacode](http://rosettacode.org/wiki/Sorting_algorithms/Quicksort#Fortran),
+  !!
+  !! @see reorder
+  !!
+  !! @author M. Reichert
+  !! @date 08.05.24
+  recursive subroutine quicksort(mode, length, arr1, arr2, is_recursion)
+    use error_msg_class, only: int_to_str, raise_exception
+    implicit none
+    real(r_kind), dimension(:), intent(inout) :: arr1       !< Array to get sorted
+    integer, dimension(:), intent(out), optional :: arr2    !< Indices of the sort
+    integer, intent(in) :: length                           !< Length of the arrays
+    integer, intent(in) :: mode                             !< 0 descending; 1 ascending
+    logical, intent(in), optional :: is_recursion           !< Flag to indicate if the subroutine is called recursively
+    ! Internal helper variables
+    real(r_kind) :: pivot_value
+    integer :: pivot_index, i, j
+    logical :: recursive_call
+    real(r_kind) :: h
+
+    !Create indices in array2
+    if (present(is_recursion)) then
+        recursive_call = is_recursion
+    else
+        recursive_call = .False.
+    end if
+
+    if (.not. recursive_call) then
+        if (present(arr2)) then
+            arr2 = [(i, i=1,length)]
+        end if
+    end if
+
+    ! Check for base case
+    if (length <= 1) return
+
+    ! Choose pivot element
+    pivot_index = length / 2
+    pivot_value = arr1(pivot_index)
+
+    ! Partition step
+    i = 1
+    j = length
+
+    do while (i <= j)
+      if (mode == 1) then
+        do while (arr1(i) < pivot_value)
+          i = i + 1
+        end do
+        do while (arr1(j) > pivot_value)
+          j = j - 1
+        end do
+      else
+        do while (arr1(i) > pivot_value)
+          i = i + 1
+        end do
+        do while (arr1(j) < pivot_value)
+          j = j - 1
+        end do
+      end if
+
+      if (i <= j) then
+        ! Swap elements
+        h = arr1(i)
+        arr1(i) = arr1(j)
+        arr1(j) = h
+
+        if (present(arr2)) then
+          h = arr2(i)
+          arr2(i) = arr2(j)
+          arr2(j) = h
+        end if
+
+        i = i + 1
+        j = j - 1
+      end if
+    end do
+
+    ! Recursive calls
+    if (present(arr2)) then
+        call quicksort(mode, j, arr1, arr2, .True.)
+        call quicksort(mode, length - i + 1, arr1(i:), arr2(i:),.True.)
+    else
+        call quicksort(mode, j, arr1, is_recursion=.True.)
+        call quicksort(mode, length - i + 1, arr1(i:), is_recursion=.True.)
+    end if
+
+end subroutine quicksort
+
+
 
 
   !> Takes an array and an array with indices to reorder the first array

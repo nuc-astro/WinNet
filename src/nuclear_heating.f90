@@ -17,14 +17,6 @@ module nuclear_heating
   integer     , private :: engen_unit    !< Engen output file
   integer     , private :: debug_heatfrac!< Debug file for the heating fraction
 
-  ! an array for the top energy contributing isotopes
-  integer                              , private :: toplist_unit      !< File descriptor for toplist.dat
-  integer, parameter                   , private :: toplist_size = 10 !< Length of the toplist / btmlist
-  real(r_kind), dimension(toplist_size), private :: toplist_engen     !< Energies of the top produced isotopes
-  integer, dimension(toplist_size)     , private :: toplist_isotope   !< Isotope indices in the toplist
-  real(r_kind), dimension(toplist_size), private :: btmlist_engen     !< Energies of the top decaying isotopes (most negative energy)
-  integer, dimension(toplist_size)     , private :: btmlist_isotope   !< Isotope indices in the btmlist
-
   real(r_kind)                         , public, save :: qdot_bet = 0 !< Total energy radiated away by
   real(r_kind)                         , public, save :: qdot_nu  = 0 !< Total energy added to the system by neutrino
   real(r_kind)                         , public, save :: qdot_th  = 0 !< Total energy lost by thermal neutrinos
@@ -37,10 +29,9 @@ module nuclear_heating
   ! Public and private fields and methods of the module.
   !
   public:: &
-      output_nuclear_heating, nuclear_heating_update, nuclear_heating_init,&
-      output_top_contributor
+      output_nuclear_heating, nuclear_heating_update, nuclear_heating_init
   private:: &
-      update_top_contributor, nuclear_heating_energy, nuclear_heating_entropy,&
+      nuclear_heating_energy, nuclear_heating_entropy,&
       start_heating
 
 contains
@@ -48,11 +39,12 @@ contains
 !>
 !! Nuclear heating initialization routine
 !!
-!! This subroutine creates some files (e.g., _toplist.dat_) and
+!! This subroutine creates some files (e.g., debug_engen.dat_) and
 !! prepares the header for the _engen.dat_ file
 !!
 !! \b Edited:
 !!    - MR: 20.01.21 - Gave toplist file a header
+!!    - MR: 07.05.24 - Removed toplist and moved it to analysis module
 !! .
 subroutine nuclear_heating_init (T9, rho, Ye, Y, entropy)
   use global_class,    only: net_size,isotope,nreac,rrate,heating_switch
@@ -81,21 +73,6 @@ subroutine nuclear_heating_init (T9, rho, Ye, Y, entropy)
 
   engen_nuc= 0d0
   engen = 0d0
-
-  ! Initialize the toplist
-  if (top_engen_every .ne. 0) then
-    toplist_unit= open_outfile("toplist.dat")
-
-    ! initialize toplist and btmlist arrays
-    toplist_isotope(:) = 1
-    btmlist_isotope(:) = 1
-    ! Write header
-    write (toplist_unit,"(A)") "Iteration, Time [s], T [GK], Dens [g/ccm], List of 10 top contributing isotopes, "//&
-                               "List of 10 top negative contributing isotopes, "//&
-                               "Energy generation for the first 10 isotopes, "//&
-                               "Energy generation for the last 10 isotopes"
-  endif
-
 
   if (heating_mode .eq. 1) then
     if (VERBOSE_LEVEL .ge. 2) then
@@ -309,51 +286,6 @@ subroutine output_debug_nufrac(rrate_array,length)
 end subroutine output_debug_nufrac
 
 
-!> Maintains a list of top contributors
-!!
-!! This subroutine sorts the nuclei depending on
-!! their energy generation in separate lists
-!! (\ref toplist_engen, \ref toplist_isotope, \ref btmlist_engen,
-!! \ref btmlist_isotope).
-!!
-!! @see parameter_class::top_engen_every, nuclear_heating_update
-!!
-!! @returns Sorted list of nuclei that dominantly contribute to the energy
-!! generation.
-!!
-!! \b Edited
-!!       - MR: 20.01.21 - created this subroutine from code in nuclear_heating_update
-!! .
-subroutine update_top_contributor(ind,c_engen)
-   implicit none
-   integer, intent(in)     :: ind      !< Current index of nucleus
-   real(r_kind), intent(in):: c_engen  !< Current energy generation of nucleus
-   !
-   integer                 :: k,m      !< Loop variables
-   !! maintain the list of top contributors
-     do k=1,toplist_size
-        if(c_engen.gt.toplist_engen(k)) then
-           do m=toplist_size,k+1,-1
-              toplist_engen(m) = toplist_engen(m-1)
-              toplist_isotope(m) = toplist_isotope(m-1)
-           enddo
-           toplist_engen(k) = c_engen
-           toplist_isotope(k) = ind
-           exit
-        endif
-     enddo
-     do k=1,toplist_size
-        if(c_engen.lt.btmlist_engen(k)) then
-           do m=toplist_size,k+1,-1
-              btmlist_engen(m) = btmlist_engen(m-1)
-              btmlist_isotope(m) = btmlist_isotope(m-1)
-           enddo
-           btmlist_engen(k) = c_engen
-           btmlist_isotope(k) = ind
-           exit
-        endif
-     enddo
-end subroutine update_top_contributor
 
 
 !>
@@ -421,13 +353,6 @@ subroutine nuclear_heating_update(nr_count,rho,Ye,pf,Y_p,Y,entropy_p,entropy,T9_
 
     ! Save the old temperature
     T9_old = T9
-
-    if (top_engen_every .ne. 0) then
-        toplist_engen(:) = 0d0
-        toplist_isotope(:) = 1
-        btmlist_engen(:) = 0d0
-        btmlist_isotope(:) = 1
-    end if
 
     if (use_thermal_nu_loss) then
         ysum= sum(Y(1:net_size))
@@ -564,11 +489,6 @@ subroutine nuclear_heating_energy(rho,Ye,pf,Y_p,Y,entropy_p,entropy,T9_p,T9,T9_t
     do i=1,net_size
         tdot_i = -(isotope(i)%mass_exc)*(Y(i)-Y_p(i)) / (state%cv)
         tdot = tdot + tdot_i
-
-        ! Output the energy generation rate
-        if (top_engen_every .ne. 0) then
-            call update_top_contributor(i,tdot_i)
-         end if
     end do
 
     ! Radiate energy away
@@ -748,12 +668,6 @@ subroutine nuclear_heating_entropy(rho,Ye,pf,Y_p,Y,entropy_p,entropy,T9,eos_stat
 
           engen_i = -(mic2 + mui + isotope(i)%p_nr*mue)*(Y(i)-Y_p(i))  ! energy generated by species i [MeV/baryon]
           engen = engen + engen_i
-          ! Calculate the top contributors to the energy?
-          if (top_engen_every .ne. 0) then
-             call update_top_contributor(i,engen_i)
-          end if
-
-
        endif
     end do
 
@@ -818,6 +732,7 @@ end subroutine nuclear_heating_entropy
 !!
 !! \b Edited:
 !!   - MR: 20.1.21  - Modified format of _toplist.dat_
+!!   - MR: 07.5.24  - Removed _toplist.dat_ from here
 !! .
 subroutine output_nuclear_heating(cnt,ctime)
   use single_zone_vars, only: stepsize
@@ -843,43 +758,6 @@ subroutine output_nuclear_heating(cnt,ctime)
   INFO_EXIT("output_nuclear_heating")
 
 end subroutine output_nuclear_heating
-
-
-!! Outputs top contributing isotopes
-!!
-!! An example of the file _toplist.dat_ is given by:
-!! <div style="width:800px;overflow:scroll;padding:5px;
-!! background-color:#e8e8e8;scrollbar-base-color:#DEBB07;border:1px dashed grey;
-!! display: inline-block">
-!! <pre>
-!! Time [s], T [GK], Dens [g/ccm], List of 10 top contributing isotopes, List of 10 top negative contributing isotopes, Energy generation for the first 10 isotopes, Energy generation for the last 10 isotopes
-!!  0.00000E+00  1.09650E+01  8.70960E+12     n     n     n     n     n     n     n     n     n     n     n     n     n     n     n     n     n     n     n     n  0.00000E+00  0.00000E+00  0.00000E+00  0.00000E+00  0.00000E+00  0.00000E+00  0.00000E+00  0.00000E+00  0.00000E+00  0.00000E+00  0.00000E+00  0.00000E+00  0.00000E+00  0.00000E+00  0.00000E+00  0.00000E+00  0.00000E+00  0.00000E+00  0.00000E+00  0.00000E+00
-!!  2.00000E-12  1.09650E+01  8.70960E+12  ca72  ti80  ca73  cr86  fe92  ni99  ti79  ni98  ar66  ar67     n   v78  sc70  sc71  mn84  cu97  co90   v77  cu96   k65  8.59235E-11  7.89957E-11  6.38479E-11  1.59813E-11  1.14152E-11  1.11330E-11  9.77194E-12  6.04548E-12  5.18230E-12  4.59834E-12 -6.82466E-11 -3.86156E-11 -3.31344E-11 -2.91247E-11 -7.51819E-12 -5.44326E-12 -5.14437E-12 -4.22946E-12 -2.56968E-12 -2.20797E-12
-!!  6.00000E-12  1.09650E+01  8.70960E+12  ca72  ti80  ca73  cr86  fe92  ni99  ti79  ni98  ar66  ar67     n   v78  sc70  sc71  mn84  cu97  co90   v77  cu96   k65  1.71847E-10  1.57991E-10  1.27696E-10  3.19626E-11  2.28304E-11  2.22659E-11  1.95439E-11  1.20910E-11  1.03646E-11  9.19668E-12 -1.36501E-10 -7.72312E-11 -6.62695E-11 -5.82495E-11 -1.50364E-11 -1.08866E-11 -1.02888E-11 -8.45892E-12 -5.13959E-12 -4.41594E-12
-!!  1.40000E-11  1.09650E+01  8.70960E+12  ca72  ti80  ca73  cr86  fe92  ni99  ti79  ni98  ar66  ar67     n   v78  sc70  sc71  mn84  cu97  co90   v77  cu96   k65  3.43694E-10  3.15983E-10  2.55392E-10  6.39251E-11  4.56608E-11  4.45318E-11  3.90877E-11  2.41819E-11  2.07292E-11  1.83934E-11 -2.72993E-10 -1.54462E-10 -1.32541E-10 -1.16499E-10 -3.00729E-11 -2.17734E-11 -2.05778E-11 -1.69179E-11 -1.02801E-11 -8.83189E-12
-!! ... </pre></div>
-!!
-!! \b Edited
-!!       - MR: 20.01.21 - created this subroutine from code in output_nuclear_heating
-!! .
-subroutine output_top_contributor(cnt,ctime,cT9,crho)
-   use global_class, only: isotope
-   implicit none
-   integer,intent(in)      :: cnt   !< current iteration
-   real(r_kind),intent(in) :: ctime !< current global time [s]
-   real(r_kind),intent(in) :: cT9   !< current temperature [GK]
-   real(r_kind),intent(in) :: crho  !< current density [gcc]
-   !
-   integer :: k,m                   !< Loop variables
-
-  ! output top contributing isotopes
-  write (toplist_unit,'(1pe13.5,2e13.5,20A6,20e13.5)') cnt, ctime, cT9, crho,  &
-       (isotope(toplist_isotope(k))%name, k=1,toplist_size ),  &
-       (isotope(btmlist_isotope(k))%name, k=1,toplist_size ),  &
-       (toplist_engen(m), m=1,toplist_size), &
-       (btmlist_engen(m), m=1,toplist_size)
-
-end subroutine output_top_contributor
 
 
 end module nuclear_heating

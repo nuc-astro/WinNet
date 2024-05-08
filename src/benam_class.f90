@@ -155,10 +155,10 @@ function reaction_string(reac)
       if (reac%parts(i) .ne. 0) then
          if (.not. s_prod) then
             reaction_string = trim(adjustl(reaction_string))//" + "//&
-                              get_net_name(reac%parts(i))
+                              trim(adjustl(get_net_name(reac%parts(i))))
          else
             reaction_string = trim(adjustl(reaction_string))//" "//&
-                              get_net_name(reac%parts(i))
+                              trim(adjustl(get_net_name(reac%parts(i))))
          end if
       end if
 

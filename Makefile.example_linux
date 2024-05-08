@@ -504,6 +504,7 @@ analysis.o                       :\
    parameter_class.o \
    global_class.o \
    fission_rate_module.o \
+   mergesort_module.o \
    tw_rate_module.o \
    file_handling_class.o \
    ls_timmes_eos_module.o \
