@@ -1,0 +1,80 @@
+/**
+ * @page DockerUsage GitHub Packages
+ *
+ * @tableofcontents
+ *
+ * This section provides step-by-step instructions on how to pull and run a Docker image from GitHub Packages for your project.
+ * Using Docker from GitHub Packages allows users to run their applications consistently across different platforms, ensuring portability and reducing compatibility issues.
+ * A list of possible versions of GitHub packages for WinNet can be accessed [here](https://github.com/orgs/nuc-astro/packages?repo_name=WinNet).
+ *
+ * @section prerequisites Prerequisites
+ *
+ * Before you begin, ensure you have the following:
+ *
+ * 1. **Docker**: Install Docker on your local machine. You can download and install Docker from [Docker's official website](https://www.docker.com/get-started).
+ * 2. **GitHub Account**: You need a GitHub account to access GitHub Packages.
+ * 3. **Personal Access Token**: Generate a personal access token (PAT) with the `read:packages` scope. You can create a PAT from your [GitHub settings](https://github.com/settings/tokens).
+ *
+ * @section steps Steps to Use the Dockerfile
+ *
+ * @subsection authenticate Authenticate Docker to GitHub Packages
+ *
+ * Run the following command to authenticate Docker to GitHub Packages using your GitHub username and personal access token:
+ *
+ * @code{.sh}
+ * echo $GITHUB_TOKEN | docker login ghcr.io -u YOUR_GITHUB_USERNAME --password-stdin
+ * @endcode
+ *
+ * Replace `YOUR_GITHUB_USERNAME` with your GitHub username and set the `GITHUB_TOKEN` environment variable to your personal access token.
+ *
+ * @subsection pull Pull the Docker Image
+ *
+ * Use the `docker pull` command to download the Docker image from GitHub Packages:
+ *
+ * @code{.sh}
+ * sudo docker pull ghcr.io/nuc-astro/WinNet:latest
+ * @endcode
+ *
+ * If you want a specific version, replace `latest` with the desired tag.
+ *
+ * @subsection run Run the Docker Container
+ *
+ * After pulling the image, run a container using the `docker run` command:
+ *
+ * @code{.sh}
+ * sudo docker run --net=host --env="DISPLAY=$DISPLAY" -it ghcr.io/nuc-astro/WinNet:latest
+ * @endcode
+ *
+ * @section example Example
+ *
+ * Here’s a complete example assuming your GitHub username is `winnet_user` and you saved your github token in
+ * the environment variable GITHUB_TOKEN:
+ *
+ * @code{.sh}
+ * # Authenticate Docker to GitHub Packages
+ * echo $GITHUB_TOKEN | docker login ghcr.io -u winnet_user --password-stdin
+ *
+ * # Pull the Docker image
+ * sudo docker pull ghcr.io/nuc-astro/WinNet:latest
+ *
+ * # Run the Docker container
+ * sudo docker run --net=host --env="DISPLAY=$DISPLAY" -it ghcr.io/nuc-astro/WinNet:latest
+ * @endcode
+ *
+ * @section additional_notes Additional Notes
+ *
+ * If your application requires persistent storage, you can mount volumes using the `-v` flag. For example:
+ *
+ * @code{.sh}
+ * sudo docker run --net=host --env="DISPLAY=$DISPLAY" -v /local/path:/container/path -it ghcr.io/nuc-astro/WinNet:latest
+ * @endcode
+ *
+ * Hence, you can make the run folder accessible to your system, using a folder called "run_test", by:
+ *
+ * @code{.sh}
+ * mkdir run_test
+ * sudo docker run --net=host --env="DISPLAY=$DISPLAY" -v ${PWD}/run_test/:/home/winnet/WinNet/runs/ -it ghcr.io/nuc-astro/WinNet:latest
+ * @endcode
+ *
+ * For more information on using Docker, refer to the [Docker documentation](https://docs.docker.com/).
+ */

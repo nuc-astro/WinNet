@@ -18,7 +18,7 @@ stress that this code comes with no warranty!
 
     
 \subsection prerequisits Prerequisits
-To run WinNet you need a Fortran compiler and the Math Kernel Library (MKL). The procedure of installing both can be different for Linux, Mac, and Windows. Therefore, in order to install WinNet on Linux follow the instruction [here](\ref linux_install), for Mac [here](\ref mac_install), and for Windows [here](\ref windows_install).
+To run WinNet you need a Fortran compiler and the Math Kernel Library (MKL). The procedure of installing both can be different for Linux, Mac, and Windows. Therefore, in order to install WinNet on Linux follow the instruction [here](\ref linux_install), for Mac [here](\ref mac_install), and for Windows [here](\ref windows_install). You can also follow the instructions [here](\ref DockerUsage) to directly download a Docker image from GitHub packages and run WinNet inside a docker container.
 
 
 

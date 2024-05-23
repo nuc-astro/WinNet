@@ -209,6 +209,15 @@ else:
                 snaps_every = 10
             if snaps_every!=0:
                 calc_snaps=True
+        if line.lower().find('custom_snapshots') != -1:
+            try:
+                custom_snapshots = line.split("=")[1].strip()
+                if custom_snapshots.lower() == "yes":
+                    calc_snaps = True
+            except:
+                # Better create the flow and snaps folder in case
+                # that something goes wrong
+                calc_snaps = True
         if line.lower().find('flow_every') != -1:
             try:
                 flow_every = int(line.split("=")[1].strip())
