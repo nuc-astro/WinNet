@@ -38,6 +38,20 @@ var NAVTREE =
       ] ]
     ] ],
     [ "Coding guidelines", "coding_conventions.html", null ],
+    [ "GitHub Packages", "DockerUsage.html", [
+      [ "Prerequisites", "DockerUsage.html#prerequisites", null ],
+      [ "Steps to Use the Dockerfile", "DockerUsage.html#steps", [
+        [ "Coding conventions", "coding_conventions.html#autotoc_md0", null ],
+        [ "Usage of git-hooks", "coding_conventions.html#autotoc_md1", null ],
+        [ "Doxygen styling conventions", "coding_conventions.html#autotoc_md2", null ],
+        [ "Pushing changes to master branch", "coding_conventions.html#autotoc_md3", null ],
+        [ "Authenticate Docker to GitHub Packages", "DockerUsage.html#authenticate", null ],
+        [ "Pull the Docker Image", "DockerUsage.html#pull", null ],
+        [ "Run the Docker Container", "DockerUsage.html#run", null ]
+      ] ],
+      [ "Example", "DockerUsage.html#example", null ],
+      [ "Additional Notes", "DockerUsage.html#additional_notes", null ]
+    ] ],
     [ "Error codes", "error_codes.html", null ],
     [ "How it works", "how_it_works.html", null ],
     [ "Input files", "input_files.html", null ],
@@ -220,19 +234,19 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"Example__AGB__cescutti_2scripts_2Plot__me_8py.html",
-"Example__hydrostatic__hydrogen__burning_2scripts_2Plot__me_8py.html#ac7357445c06434ff331e649d04dc97d3",
-"classbin_1_1class__files_1_1nucleus__class_1_1nucleus.html#a42a2ae2f10ab54acf7a7b9cd58f1c70f",
-"classbin_1_1class__files_1_1winvn__class_1_1winvn.html#af76b2ff92a4ef7ea6c20e0cf39ed397b",
-"dir_0966041ea5dfb297dc9adad652b3003d.html",
-"funct__fermi1_8f90.html#af82041e491d8de3bf2cf55654d37af46",
-"hdf5__module_8f90.html#aa27c26238d2ec2d7c2766ef323a5f350",
-"namespacebin.html",
-"nuclear__heating_8f90.html#ad35a786c2400d724bf3580059c5ebfb3",
-"parameters.html#Enux",
-"reaclib__rate__module_8f90.html#aa1849d70f489bf562e0265d24e34912f",
-"structparameter__class_1_1unit__type.html#a8f3a376858e5dc2e44e4c269924e92c1",
-"winnse__module_8f90.html#a72eefa0ccd8f0859c0019d2d18fad155"
+"DockerUsage.html",
+"Example__hydrostatic__hydrogen__burning_2scripts_2Plot__me_8py.html#aae6215e6246e894c74949ae707c2e7b3",
+"classbin_1_1class__files_1_1nucleus__class_1_1nucleus.html",
+"classbin_1_1class__files_1_1winnet__class_1_1winnet.html#afc6c47ec4da897882e02dfaff291a2ee",
+"detailed__balance_8py.html#ac5f46921ff34540b9ff17e1fac5000f9",
+"funct__fermi1_8f90.html#a450f7fef11735b5ef6c39c771fdd9f5c",
+"hdf5__module_8f90.html#a9ddb5b97449b7f6816bbcaddc4d02acd",
+"namespaceanalysis.html",
+"nuclear__heating_8f90.html#a639dbc88ab46216dff0ab000dbc81e9f",
+"parameter__class_8f90.html#afb7a7cda9bcd7aad9e6926da4f6005b6",
+"reaclib__rate__module_8f90.html#a531d2052a5c27ee57c14c22159d1fbfe",
+"structparameter__class_1_1unit__type.html#a1ad2e2e80dfcf97ee8373470cbfa6753",
+"winnet__monitor__run_8py_source.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

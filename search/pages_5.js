@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['input_20files_4181',['Input files',['../input_files.html',1,'']]]
+  ['how_20it_20works_4184',['How it works',['../how_it_works.html',1,'']]]
 ];

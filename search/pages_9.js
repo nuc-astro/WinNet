@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['parameters_4185',['Parameters',['../parameters.html',1,'']]]
+  ['mac_20installation_4188',['Mac installation',['../mac_install.html',1,'']]]
 ];

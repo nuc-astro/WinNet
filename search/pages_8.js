@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['mac_20installation_4184',['Mac installation',['../mac_install.html',1,'']]]
+  ['linux_20installation_4187',['Linux installation',['../linux_install.html',1,'']]]
 ];

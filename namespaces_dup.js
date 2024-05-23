@@ -1,9 +1,5 @@
 var namespaces_dup =
 [
-    [ "Coding conventions", "coding_conventions.html#autotoc_md0", null ],
-    [ "Usage of git-hooks", "coding_conventions.html#autotoc_md1", null ],
-    [ "Doxygen styling conventions", "coding_conventions.html#autotoc_md2", null ],
-    [ "Pushing changes to master branch", "coding_conventions.html#autotoc_md3", null ],
     [ "Error codes", "error_codes.html#autotoc_md4", [
       [ "File code", "error_codes.html#autotoc_md5", null ],
       [ "Error code translation", "error_codes.html#autotoc_md6", null ]

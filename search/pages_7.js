@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['linux_20installation_4183',['Linux installation',['../linux_install.html',1,'']]]
+  ['known_20issues_4186',['Known issues',['../known_issues.html',1,'']]]
 ];
