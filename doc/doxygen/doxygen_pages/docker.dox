@@ -32,7 +32,7 @@
  * Use the `docker pull` command to download the Docker image from GitHub Packages:
  *
  * @code{.sh}
- * sudo docker pull ghcr.io/nuc-astro/WinNet:latest
+ * sudo docker pull ghcr.io/nuc-astro/winnet:latest
  * @endcode
  *
  * If you want a specific version, replace `latest` with the desired tag.
@@ -42,7 +42,7 @@
  * After pulling the image, run a container using the `docker run` command:
  *
  * @code{.sh}
- * sudo docker run --net=host --env="DISPLAY=$DISPLAY" -it ghcr.io/nuc-astro/WinNet:latest
+ * sudo docker run --net=host --env="DISPLAY=$DISPLAY" -it ghcr.io/nuc-astro/winnet:latest
  * @endcode
  *
  * @section example Example
@@ -55,10 +55,10 @@
  * echo $GITHUB_TOKEN | docker login ghcr.io -u winnet_user --password-stdin
  *
  * # Pull the Docker image
- * sudo docker pull ghcr.io/nuc-astro/WinNet:latest
+ * sudo docker pull ghcr.io/nuc-astro/winnet:latest
  *
  * # Run the Docker container
- * sudo docker run --net=host --env="DISPLAY=$DISPLAY" -it ghcr.io/nuc-astro/WinNet:latest
+ * sudo docker run --net=host --env="DISPLAY=$DISPLAY" -it ghcr.io/nuc-astro/winnet:latest
  * @endcode
  *
  * @section additional_notes Additional Notes
@@ -66,14 +66,14 @@
  * If your application requires persistent storage, you can mount volumes using the `-v` flag. For example:
  *
  * @code{.sh}
- * sudo docker run --net=host --env="DISPLAY=$DISPLAY" -v /local/path:/container/path -it ghcr.io/nuc-astro/WinNet:latest
+ * sudo docker run --net=host --env="DISPLAY=$DISPLAY" -v /local/path:/container/path -it ghcr.io/nuc-astro/winnet:latest
  * @endcode
  *
  * Hence, you can make the run folder accessible to your system, using a folder called "run_test", by:
  *
  * @code{.sh}
  * mkdir run_test
- * sudo docker run --net=host --env="DISPLAY=$DISPLAY" -v ${PWD}/run_test/:/home/winnet/WinNet/runs/ -it ghcr.io/nuc-astro/WinNet:latest
+ * sudo docker run --net=host --env="DISPLAY=$DISPLAY" -v ${PWD}/run_test/:/home/winnet/WinNet/runs/ -it ghcr.io/nuc-astro/winnet:latest
  * @endcode
  *
  * For more information on using Docker, refer to the [Docker documentation](https://docs.docker.com/).
