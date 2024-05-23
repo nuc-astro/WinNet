@@ -1,283 +1,79 @@
 {  "creators": [
       {
-        "affiliations": [
-          {
-            "name": "Universitat de Valencia"
-          }
-        ],
-        "person_or_org": {
-          "family_name": "Reichert",
-          "given_name": "Moritz",
-          "identifiers": [
-            {
-              "identifier": "0000-0001-6653-7538",
-              "scheme": "orcid"
-            }
-          ],
-          "name": "Reichert, Moritz",
-          "type": "personal"
-        }
+        "orcid": "0000-0001-6653-7538",
+        "affiliation": "University of Valencia",
+        "name": "Reichert, Moritz"
       },
       {
-        "affiliations": [
-          {
-            "name": "University of Basel"
-          }
-        ],
-        "person_or_org": {
-          "family_name": "Winteler",
-          "given_name": "Christian",
-          "name": "Winteler, Christian",
-          "type": "personal"
-        }
+        "affiliation": "University of Basel",
+        "name": "Winteler, Christian"
       },
       {
-        "affiliations": [
-          {
-            "name": "Los Alamos National Laboratory"
-          }
-        ],
-        "person_or_org": {
-          "family_name": "Korobkin",
-          "given_name": "Oleg",
-          "identifiers": [
-            {
-              "identifier": "0000-0003-4156-5342",
-              "scheme": "orcid"
-            }
-          ],
-          "name": "Korobkin, Oleg",
-          "type": "personal"
-        }
+        "orcid": "0000-0003-4156-5342",
+        "affiliation": "Los Alamos National Laboratory",
+        "name": "Korobkin, Oleg"
       },
       {
-        "affiliations": [
-          {
-            "name": "Technical University of Darmstadt"
-          }
-        ],
-        "person_or_org": {
-          "family_name": "Arcones",
-          "given_name": "Almudena",
-          "identifiers": [
-            {
-              "identifier": "0000-0002-6995-3032",
-              "scheme": "orcid"
-            }
-          ],
-          "name": "Arcones, Almudena",
-          "type": "personal"
-        }
+        "orcid": "0000-0002-6995-3032",
+        "affiliation": "Technical University of Darmstadt",
+        "name": "Arcones, Almudena"
       },
       {
-        "affiliations": [
-          {
-            "name": "Technical University of Darmstadt"
-          }
-        ],
-        "person_or_org": {
-          "family_name": "Bliss",
-          "given_name": "Julia",
-          "name": "Bliss, Julia",
-          "type": "personal"
-        }
+        "affiliation": "Technical University of Darmstadt",
+        "name": "Bliss, Julia"
       },
       {
-        "affiliations": [
-          {
-            "name": "Technical University of Darmstadt"
-          }
-        ],
-        "person_or_org": {
-          "family_name": "Eichler",
-          "given_name": "Marius",
-          "identifiers": [
-            {
-              "identifier": "0000-0002-4445-8908",
-              "scheme": "orcid"
-            }
-          ],
-          "name": "Eichler, Marius",
-          "type": "personal"
-        }
+        "orcid": "0000-0002-4445-8908",
+        "affiliation": "Technical University of Darmstadt",
+        "name": "Eichler, Marius"
       },
       {
-        "affiliations": [
-          {
-            "name": "University of Basel"
-          }
-        ],
-        "person_or_org": {
-          "family_name": "Frischknecht",
-          "given_name": "Urs",
-          "name": "Frischknecht, Urs",
-          "type": "personal"
-        }
+        "affiliation": "University of Basel",
+        "name": "Frischknecht, Urs"
       },
       {
-        "affiliations": [
-          {
-            "name": "North Carolina State University"
-          }
-        ],
-        "person_or_org": {
-          "family_name": "Fr\u00f6hlich",
-          "given_name": "Carla",
-          "identifiers": [
-            {
-              "identifier": "0000-0003-0191-2477",
-              "scheme": "orcid"
-            }
-          ],
-          "name": "Fr\u00f6hlich, Carla",
-          "type": "personal"
-        }
+        "orcid": "0000-0003-0191-2477",
+        "affiliation": "North Carolina State University",
+        "name": "Fröhlich, Carla"
       },
       {
-        "affiliations": [
-          {
-            "name": "Keele University"
-          }
-        ],
-        "person_or_org": {
-          "family_name": "Hirschi",
-          "given_name": "Raphael",
-          "identifiers": [
-            {
-              "identifier": "0000-0001-8764-6522",
-              "scheme": "orcid"
-            }
-          ],
-          "name": "Hirschi, Raphael",
-          "type": "personal"
-        }
+        "orcid": "0000-0001-8764-6522",
+        "affiliation": "Keele University",
+        "name": "Hirschi, Raphael"
       },
       {
-        "affiliations": [
-          {
-            "name": "Technical University of Darmstadt"
-          }
-        ],
-        "person_or_org": {
-          "family_name": "Jacobi",
-          "given_name": "Maximilian",
-          "identifiers": [
-            {
-              "identifier": "0000-0001-8168-4579",
-              "scheme": "orcid"
-            }
-          ],
-          "name": "Jacobi, Maximilian",
-          "type": "personal"
-        }
+        "orcid": "0000-0001-8168-4579",
+        "affiliation": "Technical University of Darmstadt",
+        "name": "Jacobi, Maximilian"
       },
       {
-        "affiliations": [
-          {
-            "name": "Technical University of Darmstadt"
-          }
-        ],
-        "person_or_org": {
-          "family_name": "Kuske",
-          "given_name": "Jan",
-          "identifiers": [
-            {
-              "identifier": "0009-0005-5121-7343",
-              "scheme": "orcid"
-            }
-          ],
-          "name": "Kuske, Jan",
-          "type": "personal"
-        }
+        "orcid": "0009-0005-5121-7343",
+        "affiliation": "Technical University of Darmstadt",
+        "name": "Kuske, Jan"
       },
       {
-        "affiliations": [
-          {
-            "name": "GSI Helmholtzzentrum f\u00fcr Schwerionenforschung GmbH"
-          }
-        ],
-        "person_or_org": {
-          "family_name": "Mart\u00ednez-Pinedo",
-          "given_name": "Gabriel",
-          "identifiers": [
-            {
-              "identifier": "0000-0002-3825-0131",
-              "scheme": "orcid"
-            }
-          ],
-          "name": "Mart\u00ednez-Pinedo, Gabriel",
-          "type": "personal"
-        }
+        "orcid": "0000-0002-3825-0131",
+        "affiliation": "GSI Helmholtzzentrum für Schwerionenforschung GmbH",
+        "name": "Martínez-Pinedo, Gabriel"
       },
       {
-        "affiliations": [
-          {
-            "name": "Technical University of Darmstadt"
-          }
-        ],
-        "person_or_org": {
-          "family_name": "Martin",
-          "given_name": "Dirk",
-          "identifiers": [
-            {
-              "identifier": "0000-0002-1988-9706",
-              "scheme": "orcid"
-            }
-          ],
-          "name": "Martin, Dirk",
-          "type": "personal"
-        }
+        "orcid": "0000-0002-1988-9706",
+        "affiliation": "Technical University of Darmstadt",
+        "name": "Martin, Dirk"
       },
       {
-        "affiliations": [
-          {
-            "name": "University of Basel"
-          }
-        ],
-        "person_or_org": {
-          "family_name": "Mocelj",
-          "given_name": "Darko",
-          "name": "Mocelj, Darko",
-          "type": "personal"
-        }
+        "affiliation": "University of Basel",
+        "name": "Mocelj, Darko"
       },
       {
-        "affiliations": [
-          {
-            "name": "University of Basel"
-          }
-        ],
-        "person_or_org": {
-          "family_name": "Rauscher",
-          "given_name": "Thomas",
-          "identifiers": [
-            {
-              "identifier": "0000-0002-1266-0642",
-              "scheme": "orcid"
-            }
-          ],
-          "name": "Rauscher, Thomas",
-          "type": "personal"
-        }
+        "orcid": "0000-0002-1266-0642",
+        "affiliation": "University of Basel",
+        "name": "Rauscher, Thomas"
       },
       {
-        "affiliations": [
-          {
-            "name": "University of Basel"
-          }
-        ],
-        "person_or_org": {
-          "family_name": "Thielemann",
-          "given_name": "Friedrich-Karl",
-          "identifiers": [
-            {
-              "identifier": "0000-0002-7256-9330",
-              "scheme": "orcid"
-            }
-          ],
-          "name": "Thielemann, Friedrich-Karl",
-          "type": "personal"
-        }
+        "orcid": "0000-0002-7256-9330",
+        "affiliation": "University of Basel",
+        "name": "Thielemann, Friedrich-Karl"
       }
     ],
     "description": "The WinNet nuclear reaction network.",
@@ -290,5 +86,5 @@
         "resource_type": "software",
         "scheme": "url"
     }
-  ]
+    ]
 }
