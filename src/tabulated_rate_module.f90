@@ -200,6 +200,7 @@ contains
    !!      - 23.01.21, MR - set the source to always "tabl"
    !!      - 17.07.22, MR - introduced custom reading format,
    !!                       depending on length of the temperature grid
+   !!      - 31.05.24, MR - Fixed bug related to reading rates.
    !! .
    subroutine readtabulated(sourcefile,cntTab)
      use error_msg_class, only: int_to_str
@@ -236,10 +237,29 @@ contains
              grp, parts(1:6), src, res, rev, qvalue
         if (read_stat /= 0) exit
         read(sourcefile,fmt_dyn) curTable
-        if (grp.ne.0) cycle talloc_loop
+
+        ! Check if reaction is in the network
+        select case (grp)
+        case (1:11)
+           group_index = grp
+           cycle
+        case default
+        parts_index = 0
+        tinner_loop_cnt: do j=1,6
+           if (parts(j) .eq. '     ') exit tinner_loop_cnt
+           parts_index(j) = benam(parts(j))
+           !----- parts_index(j)==0 means that nuclide j is not part of the network
+           if (parts_index(j) .eq. 0) cycle talloc_loop
+        end do tinner_loop_cnt
+        !----- if both participants are part of the network, write the rate into
+        !----- tabulated_rate
+        end select
+
         k=k+1
      end do talloc_loop
+
      ntab = k
+
    !----- allocate the array of tabulated reactions
      allocate(tabulated_rate(ntab),stat=alloc_stat)
      if ( alloc_stat /= 0)  call raise_exception('Allocation of "tabulated_rate" failed',&
@@ -247,6 +267,7 @@ contains
      rewind(sourcefile)
 
      k=1
+     cntTab=0
    !----- read the input file again and fill the array of tabulated reactions
      touter_loop: do
    !----- read names of participating nuclides and Q-value
@@ -287,6 +308,12 @@ contains
         ! Next rate
         k=k+1
      end do touter_loop
+
+     ! Make the reading bullet proof
+     if (ntab .ne. cntTab) then
+        call raise_exception('Number of tabulated rates does not match while reading!',&
+                             "readtabulated",420003)
+     end if
 
    ! get the correct coefficients to prevent double counting
    call getcoefficients(tabulated_rate,ntab)
