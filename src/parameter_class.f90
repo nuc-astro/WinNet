@@ -155,7 +155,12 @@ module parameter_class
   character(max_fname_len):: isotopes_file                  !< properties of all isotopes in the network: masses, partition functions etc. (winvn)
   character(max_fname_len):: htpf_file                      !< high-temperature partition functions (htpf.dat)
   character(max_fname_len):: reaclib_file                   !< reaction rate library (reaclib)
-  character(max_fname_len):: fission_rates                  !< reaction library for fission rates (same format as reaclib_file)
+  character(max_fname_len):: fission_rates_spontaneous      !< reaction library for spontaneous fission rates
+  character(max_fname_len):: fission_rates_n_induced        !< reaction library for neutron induced fission rates
+  character(max_fname_len):: fission_rates_beta_delayed     !< reaction library for beta delayed fission rates
+  integer                 :: fission_format_beta_delayed    !< Format of beta-delayed fission rates (0: Off, 1: Reaclib, 2: Halflifes, 3: Probability)
+  integer                 :: fission_format_n_induced       !< Format of neutron-induced fission rates (0: Off, 1: Reaclib)
+  integer                 :: fission_format_spontaneous     !< Format of spontaneous fission rates (0: Off, 1: Reaclib, 2: Halflifes)
   character(max_fname_len):: weak_rates_file                !< weak rates library (twr.dat)
   character(max_fname_len):: tabulated_rates_file           !< tabulated rates library (e.g. talysNGrates.dat)
   character(max_fname_len):: chem_pot_file                  !< tabulated chemical potential of electron gas
@@ -350,6 +355,9 @@ subroutine set_param(param_name,param_value)
       ":gear_nr_maxcount" // &
       ":iwinterp" // &
       ":heating_mode"//&
+      ":fission_format_spontaneous"//&
+      ":fission_format_beta_delayed"//&
+      ":fission_format_n_induced"//&
       ":nr_mincount" // &
       ":gear_nr_mincount" // &
       ":alpha_decay_zmin" // &
@@ -415,7 +423,9 @@ subroutine set_param(param_name,param_value)
       ":isotopes_file" // &
       ":htpf_file" // &
       ":reaclib_file" // &
-      ":fission_rates" // &
+      ":fission_rates_spontaneous" // &
+      ":fission_rates_beta_delayed" // &
+      ":fission_rates_n_induced" // &
       ":weak_rates_file" // &
       ":chem_pot_file" // &
       ":nsep_energies_file" // &
@@ -535,6 +545,12 @@ subroutine set_param(param_name,param_value)
      solver = read_integer_param(str_value,param_name)
    elseif(param_name.eq."heating_mode") then
      heating_mode = read_integer_param(str_value,param_name)
+   elseif(param_name.eq."fission_format_spontaneous") then
+     fission_format_spontaneous = read_integer_param(str_value,param_name)
+   elseif(param_name.eq."fission_format_beta_delayed") then
+     fission_format_beta_delayed = read_integer_param(str_value,param_name)
+   elseif(param_name.eq."fission_format_n_induced") then
+     fission_format_n_induced = read_integer_param(str_value,param_name)
    elseif(param_name.eq."screening_mode") then
      screening_mode = read_integer_param(str_value,param_name)
    elseif(param_name.eq."interp_mode") then
@@ -685,8 +701,12 @@ subroutine set_param(param_name,param_value)
      htpf_file= trim(str_value)
    elseif(param_name.eq."reaclib_file") then
      reaclib_file= trim(str_value)
-   elseif(param_name.eq."fission_rates") then
-     fission_rates= trim(str_value)
+   elseif(param_name.eq."fission_rates_beta_delayed") then
+     fission_rates_beta_delayed= trim(str_value)
+   elseif(param_name.eq."fission_rates_spontaneous") then
+     fission_rates_spontaneous= trim(str_value)
+   elseif(param_name.eq."fission_rates_n_induced") then
+     fission_rates_n_induced= trim(str_value)
    elseif(param_name.eq."weak_rates_file") then
      weak_rates_file= trim(str_value)
    elseif(param_name.eq."tabulated_rates_file") then
@@ -912,7 +932,12 @@ subroutine set_default_param
    nurates_file                = "nucross.dat"
    out_every                   = 10
    reaclib_file                = "Reaclib"
-   fission_rates               = "fissionrates_frdm"
+   fission_format_beta_delayed = 1
+   fission_format_n_induced    = 1
+   fission_format_spontaneous  = 1
+   fission_rates_beta_delayed  = "fission_rates_beta_delayed"
+   fission_rates_n_induced     = "fission_rates_n_induced"
+   fission_rates_spontaneous   = "fission_rates_spontaneous"
    read_initial_composition    = .false.
    rho_analytic                = "1.e12"
    Rkm_analytic                = "50.e0"
@@ -1002,7 +1027,12 @@ subroutine output_param
      write(ofile,'(A,es14.7)') 'final_temp                  ='  , final_temp
      write(ofile,'(A,es14.7)') 'final_time                  ='  , final_time
          write(ofile,'(A,I1)') 'fissflag                    = ' , fissflag
-           write(ofile,'(3A)') 'fission_rates               = "', trim(fission_rates),'"'
+         write(ofile,'(A,I1)') 'fission_format_beta_delayed = ' , fission_format_beta_delayed
+         write(ofile,'(A,I1)') 'fission_format_n_induced    = ' , fission_format_n_induced
+         write(ofile,'(A,I1)') 'fission_format_spontaneous  = ' , fission_format_spontaneous
+           write(ofile,'(3A)') 'fission_rates_beta_delayed  = "', trim(fission_rates_beta_delayed),'"'
+           write(ofile,'(3A)') 'fission_rates_n_induced     = "', trim(fission_rates_n_induced),'"'
+           write(ofile,'(3A)') 'fission_rates_spontaneous   = "', trim(fission_rates_spontaneous),'"'
          write(ofile,'(A,I5)') 'flow_every                  = ' , flow_every
      write(ofile,'(A,es14.7)') 'freeze_rate_temp            ='  , freeze_rate_temp
      write(ofile,'(A,es14.7)') 'gear_cFactor                ='  , gear_cFactor
@@ -1524,7 +1554,12 @@ subroutine output_param_prepared_network(path)
       ! Fission
       write(ofile,'(A,I1)') 'fissflag                    = ' , fissflag
       if (fissflag .gt. 0) then
-        write(ofile,'(3A)') 'fission_rates               = "', trim(fission_rates),'"'
+        write(ofile,'(3A)')  'fission_rates_beta_delayed  = "', trim(fission_rates_beta_delayed),'"'
+        write(ofile,'(3A)')  'fission_rates_n_induced     = "', trim(fission_rates_n_induced),'"'
+        write(ofile,'(3A)')  'fission_rates_spontaneous   = "', trim(fission_rates_spontaneous),'"'
+        write(ofile,'(A,I1)')'fission_format_beta_delayed = "', fission_format_beta_delayed
+        write(ofile,'(A,I1)')'fission_format_n_induced    = "', fission_format_n_induced
+        write(ofile,'(A,I1)')'fission_format_spontaneous  = "', fission_format_spontaneous
         if (fissflag .gt. 3) then
             write(ofile,'(3A)') 'nfission_file               = "', trim(nfission_file),'"'
         end if

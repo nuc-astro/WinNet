@@ -246,9 +246,13 @@ TESTS += ulimit
 TESTS += tw_rate
 TESTS += screening
 TESTS += beta_decay_format
+TESTS += fissrate_bdel
 TESTS += fissfrag_kodtak
 TESTS += fissfrag_panov
 TESTS += fissfrag_mumpower
+TESTS += fissfrag_kodtak_n_emission
+TESTS += fissfrag_panov_n_emission
+TESTS += fissfrag_mumpower_n_emission
 TESTS += neutral-current_reaction
 TESTS += charged-current_reaction
 TESTS += nc_cc_reaction
@@ -369,6 +373,7 @@ fission_rate_module.o                 :\
    file_handling_class.o \
    benam_class.o \
    mergesort_module.o \
+   nucstuff_class.o \
    format_class.o \
    global_class.o \
    error_msg_class.o

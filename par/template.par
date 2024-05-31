@@ -347,8 +347,33 @@ detailed_balance_src_ignore =
 #        and beta-delayed/spontaneous fission (formerly used for ABLA);
 fissflag =
 
-# Path to fission rates
-fission_rates =
+
+# Path to fission rates of beta-delayed fission
+fission_rates_beta_delayed =
+
+# Format of this beta-delayed fission file
+#    =0: No rates are read;
+#    =1: Reaclib format;
+#    =2: Half life format;
+#    =3: Probability format;
+fission_format_beta_delayed =
+
+# Path to fission rates of n-induced fission
+fission_rates_n_induced =
+
+# Format of this n-induced fission file
+#    =0: No rates are read;
+#    =1: Reaclib format;
+fission_format_n_induced =
+
+# Path to fission rates of spontaneous fission
+fission_rates_spontaneous =
+
+# Format of this spontaneous fission file
+#    =0: No rates are read;
+#    =1: Reaclib format;
+#    =2: Half life format;
+fission_format_spontaneous =
 
 
 ### Case 1: fissflag = 3 or fissflag = 4 ###

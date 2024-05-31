@@ -361,9 +361,9 @@
     <caption id="multi_row"></caption>
     <tr><th> fissflag <th> Treatment             <th> Necessary other parameters            <th> Reference
     <tr><td> 0  <td> No fission                  <td> -                                     <td> -
-    <tr><td> 1  <td> Panov                       <td>\ref fission_rates                     <td> [Panov et al. 2001](https://ui.adsabs.harvard.edu/abs/2001NuPhA.688..587P/abstract)
-    <tr><td> 2  <td> Kodama-Takahashi            <td>\ref fission_rates                     <td> [Kodama & Takahashi 1975](https://ui.adsabs.harvard.edu/abs/1975NuPhA.239..489K/abstract)
-    <tr><td> 3  <td> Mumpower & Kodama-Takahashi <td>\ref fission_rates, \ref nfission_file <td> [Mumpower et al. 2020](https://ui.adsabs.harvard.edu/abs/2020PhRvC.101e4607M/abstract), 
+    <tr><td> 1  <td> Panov                       <td>\ref fission_rates_beta_delayed, \ref fission_format_beta_delayed, \ref fission_rates_n_induced, \ref fission_format_n_induced, \ref fission_rates_spontaneous, \ref fission_format_spontaneous  <td> [Panov et al. 2001](https://ui.adsabs.harvard.edu/abs/2001NuPhA.688..587P/abstract)
+    <tr><td> 2  <td> Kodama-Takahashi            <td>\ref fission_rates_beta_delayed, \ref fission_format_beta_delayed, \ref fission_rates_n_induced, \ref fission_format_n_induced, \ref fission_rates_spontaneous, \ref fission_format_spontaneous  <td> [Kodama & Takahashi 1975](https://ui.adsabs.harvard.edu/abs/1975NuPhA.239..489K/abstract)
+    <tr><td> 3  <td> Mumpower & Kodama-Takahashi <td>\ref fission_rates_beta_delayed, \ref fission_format_beta_delayed, \ref fission_rates_n_induced, \ref fission_format_n_induced, \ref fission_rates_spontaneous, \ref fission_format_spontaneous, \ref nfission_file <td> [Mumpower et al. 2020](https://ui.adsabs.harvard.edu/abs/2020PhRvC.101e4607M/abstract), 
                                                                                                  [Kodama & Takahashi 1975](https://ui.adsabs.harvard.edu/abs/1975NuPhA.239..489K/abstract)
     </table>
 
@@ -373,47 +373,169 @@
 
     @par Example template line:
        ``` fissflag= 1 ```
-    @see \ref fission_rate_module, parameter_class::fissflag, \ref bfission_file, \ref nfission_file, \ref fission_rates,
+    @see \ref fission_rate_module, parameter_class::fissflag, \ref bfission_file, \ref nfission_file, \ref fission_rates_beta_delayed, 
+         \ref fission_format_beta_delayed, \ref fission_rates_n_induced, \ref fission_format_n_induced, \ref fission_rates_spontaneous, 
+         \ref fission_format_spontaneous,
          [Panov et al. 2001](https://ui.adsabs.harvard.edu/abs/2001NuPhA.688..587P/abstract),
          [Kodama & Takahashi 1975](https://ui.adsabs.harvard.edu/abs/1975NuPhA.239..489K/abstract),
          [Kelic et al. 2009](https://ui.adsabs.harvard.edu/abs/2009arXiv0906.4193K/abstract),
          [Mumpower et al. 2020](https://ui.adsabs.harvard.edu/abs/2020PhRvC.101e4607M/abstract)
 
-   \section fission_rates              fission_rates
-    A file that contains fission rates. The temperature dependence of these rates
-    is tabulated in the same format as the \ref reaclib_file. The rates are also
-    split into different chapters, but the amount of participants in the reaction
-    is not the same as in the REACLIB format. Based on the number of reactants,
-    spontaneous and \f$\beta\f$-delayed fission is assigned to REACLIB chapter 2,
-    whereas neutron-induced fission is assigned to chapter 6. WinNet includes
-    the possibility to change the fission fragment distribution that
-    is given by several theoretical models (see \ref fissflag).
-    An example file looks like:
-    \file{...
-       th256                                 ms99w     0.00000E+00
-    1.988512E-02 0.000000E+00 0.000000E+00 0.000000E+00
-    0.000000E+00 0.000000E+00 0.000000E+00
-       th257                                 ms99w     0.00000E+00
-    -1.483947E+00 0.000000E+00 0.000000E+00 0.000000E+00
-    0.000000E+00 0.000000E+00 0.000000E+00
-    ...}
 
-    The source labels here are important to decide which kind of reaction it is. The translation is given in the 
-    table below.
+
+   \section fission_format_beta_delayed              fission_format_beta_delayed
+    Format of the \f$\beta\f$-delayed fission file that is specified in \ref fission_rates_beta_delayed.
+    Possible values are:
     <table>
     <caption id="multi_row"></caption>
-    <tr><th> Label           <th> Reaction type
-    <tr><td> "fiss"          <td> Neutron induced fission
-    <tr><td> "mp01", "ms99"  <td> Beta delayed fission
-    <tr><td> "sfis"          <td> Spontaneous fission
+    <tr><th> format <th> Treatment             
+    <tr><td> 0      <td> No file is read      
+    <tr><td> 1      <td> Fission reactions are read in Reaclib format.                      
+    <tr><td> 2      <td> Fission reactions are read in half life format.   
+    <tr><td> 3      <td> Fission reactions are read in probability format.
     </table>
+    
+    An example entry in Reaclib format looks like:
+    \file{
+       th256                                 ms99w     0.00000E+00
+      1.988512E-02 0.000000E+00 0.000000E+00 0.000000E+00
+      0.000000E+00 0.000000E+00 0.000000E+00
+       th257                                 ms99w     0.00000E+00
+      -1.483947E+00 0.000000E+00 0.000000E+00 0.000000E+00
+      0.000000E+00 0.000000E+00 0.000000E+00
+    ...}
+    
+    An example entry in half life format looks like:
+    \file{
+       th198    4.760787e-09    kh20
+       th199    2.808520e-08    kh20
+       th200    2.841403e-08    kh20
+    ...}
+    
+    An example entry in probability format looks like:
+    \file{
+      pa291        mp18
+      0.000    0.008    0.000    0.015    0.000    0.018    0.000    0.025    0.000    0.003
+      pa292        mp18
+      0.000    0.001    0.002    0.000    0.004    0.000    0.006    0.000    0.018    0.000
+      pa293        mp18
+      0.239    0.001    0.000    0.009    0.000    0.010    0.000    0.014    0.000    0.009
+    ...}
+    Hereby the number of columns gives the probability for \f$\beta\f$-delayed neutrons before fissioning.
+    This number of columns is variable, but has to be consistent throughout the file.
+    Furthermore, when giving the rates in probability format, the half life that is given in the Reaclib
+    for the decay is kept constant and the above given fraction is put into a fission reaction.
+    
+    @par Example template line:
+       ``` fission_format_beta_delayed= 1 ```
+    @see \ref fission_rate_module, parameter_class::fission_format_beta_delayed, fission_rate_module::read_fission_rates,
+         \ref fission_rates_beta_delayed, \ref fission_format_n_induced, \ref fission_format_spontaneous
+    
 
-    @note Note that fission rates that are included in the Reaclib reaction rate file
-    will be ignored. Furthermore, the Q-value of the reaction from this file will be ignored.
+
+   \section fission_format_n_induced              fission_format_n_induced
+    Format of the \f$\beta\f$-delayed fission file that is specified in \ref fission_rates_n_induced.
+    Possible values are:
+    <table>
+    <caption id="multi_row"></caption>
+    <tr><th> format <th> Treatment             
+    <tr><td> 0      <td> No file is read      
+    <tr><td> 1      <td> Fission reactions are read in Reaclib format.                      
+    </table>
+    
+    An example entry in Reaclib format looks like:
+    \file{
+       th256                                 ms99w     0.00000E+00
+      1.988512E-02 0.000000E+00 0.000000E+00 0.000000E+00
+      0.000000E+00 0.000000E+00 0.000000E+00
+       th257                                 ms99w     0.00000E+00
+      -1.483947E+00 0.000000E+00 0.000000E+00 0.000000E+00
+      0.000000E+00 0.000000E+00 0.000000E+00
+    ...}
+   
+    
+    @par Example template line:
+       ``` fission_format_n_induced= 1 ```
+    @see \ref fission_rate_module, parameter_class::fission_format_n_induced, fission_rate_module::read_fission_rates,
+         \ref fission_rates_n_induced, \ref fission_format_beta_delayed, \ref fission_format_spontaneous
+         
+         
+
+   \section fission_format_spontaneous              fission_format_spontaneous
+    Format of the spontaneous fission file that is specified in \ref fission_rates_spontaneous.
+    Possible values are:
+    <table>
+    <caption id="multi_row"></caption>
+    <tr><th> format <th> Treatment             
+    <tr><td> 0      <td> No file is read      
+    <tr><td> 1      <td> Fission reactions are read in Reaclib format.                      
+    <tr><td> 2      <td> Fission reactions are read in half life format.   
+    </table>
+    
+    An example entry in Reaclib format looks like:
+    \file{
+       th256                                 ms99w     0.00000E+00
+      1.988512E-02 0.000000E+00 0.000000E+00 0.000000E+00
+      0.000000E+00 0.000000E+00 0.000000E+00
+       th257                                 ms99w     0.00000E+00
+      -1.483947E+00 0.000000E+00 0.000000E+00 0.000000E+00
+      0.000000E+00 0.000000E+00 0.000000E+00
+    ...}
+    
+    An example entry in half life format looks like:
+    \file{
+       th198    4.760787e-09    kh20
+       th199    2.808520e-08    kh20
+       th200    2.841403e-08    kh20
+    ...}
+   
+    
+    @par Example template line:
+       ``` fission_format_spontaneous= 1 ```
+    @see \ref fission_rate_module, parameter_class::fission_format_spontaneous, fission_rate_module::read_fission_rates,
+         \ref fission_rates_spontaenous, \ref fission_format_n_induced, \ref fission_format_beta_delayed
+    
+
+   \section fission_rates_beta_delayed              fission_rates_beta_delayed
+    A file that contains \f$\beta\f$-delayed fission rates. The format of this file
+    can be specified by the parameter \ref fission_format_beta_delayed.
+    This file is only read if \ref fissflag and \ref fission_rates_beta_delayed
+    is larger than 0.
+
+    @note The Q-value of the reaction from this file will be ignored.
 
     @par Example template line:
-       ``` fission_rates= "@WINNET@/data/fissionrates_frdm" ```
-    @see \ref fission_rate_module, parameter_class::fission_rates, fission_rate_module::read_fission_rates
+       ``` fission_rates_beta_delayed= "@WINNET@/data/fissionrates_frdm_bdel" ```
+    @see \ref fission_rate_module, parameter_class::fission_rates_beta_delayed, fission_rate_module::read_fission_rates,
+         \ref fission_format_beta_delayed, \ref fission_rates_n_induced, \ref fission_rates_spontaneous
+    
+    
+   \section fission_rates_n_induced              fission_rates_n_induced
+    A file that contains n-induced fission rates. The format of this file
+    can be specified by the parameter \ref fission_format_n_induced.
+    This file is only read if \ref fissflag and \ref fission_rates_n_induced
+    is larger than 0.
+
+    @note The Q-value of the reaction from this file will be ignored.
+
+    @par Example template line:
+       ``` fission_rates_n_induced= "@WINNET@/data/fissionrates_frdm_n_induced" ```
+    @see \ref fission_rate_module, parameter_class::fission_rates_n_induced, fission_rate_module::read_fission_rates,
+         \ref fission_format_n_induced, \ref fission_rates_beta_delayed, \ref fission_rates_spontaneous     
+         
+         
+   \section fission_rates_spontaneous              fission_rates_spontaneous
+    A file that contains spontaneous fission rates. The format of this file
+    can be specified by the parameter \ref fission_format_spontaneous.
+    This file is only read if \ref fissflag and \ref fission_format_spontaneous
+    is larger than 0.
+
+    @note The Q-value of the reaction from this file will be ignored.
+
+    @par Example template line:
+       ``` fission_rates_spontaneous= "@WINNET@/data/fissionrates_frdm_spontaneous" ```
+    @see \ref fission_rate_module, parameter_class::fission_rates_spontaneous, fission_rate_module::read_fission_rates,
+         \ref fission_format_spontaneous, \ref fission_rates_n_induced, \ref fission_rates_beta_delayed
 
    \section flow_every                flow_every
    Outputs the nuclear flow that is calculated by:
