@@ -161,6 +161,10 @@ module parameter_class
   integer                 :: fission_format_beta_delayed    !< Format of beta-delayed fission rates (0: Off, 1: Reaclib, 2: Halflifes, 3: Probability)
   integer                 :: fission_format_n_induced       !< Format of neutron-induced fission rates (0: Off, 1: Reaclib)
   integer                 :: fission_format_spontaneous     !< Format of spontaneous fission rates (0: Off, 1: Reaclib, 2: Halflifes)
+  integer                 :: fission_frag_spontaneous       !< Fragment distribution of spontaneous fission rates in case of custom fragments (fissflag=4)
+  integer                 :: fission_frag_n_induced         !< Fragment distribution of n-induced fission rates in case of custom fragments (fissflag=4)
+  integer                 :: fission_frag_beta_delayed      !< Fragment distribution of beta-delayed fission rates in case of custom fragments (fissflag=4)
+  integer                 :: fission_frag_missing           !< Fragment distribution in case of missing fragments in case of custom fragments (fissflag=4)
   character(max_fname_len):: weak_rates_file                !< weak rates library (twr.dat)
   character(max_fname_len):: tabulated_rates_file           !< tabulated rates library (e.g. talysNGrates.dat)
   character(max_fname_len):: chem_pot_file                  !< tabulated chemical potential of electron gas
@@ -169,8 +173,9 @@ module parameter_class
   character(max_fname_len):: nuchannel_file                 !< Contains neutrino channel information as in Sieverding et al. 2018
   character(max_fname_len):: nurates_file                   !< Neutrino reactions on heavy nuclei as in Sieverding et al. 2018
   character(max_fname_len):: snapshot_file                  !< File that contains days, where a snapshot should be made
+  character(max_fname_len):: bfission_file                  !< Fission table for beta-delayed fission
   character(max_fname_len):: nfission_file                  !< Fission table for neutron-induced fission
-  character(max_fname_len):: bfission_file                  !< Fission table for beta-delayed and spontaneous fission
+  character(max_fname_len):: sfission_file                  !< Fission table for spontaneous fission
   character(max_fname_len):: track_nuclei_file              !< File of nuclei to track. Gives an output similar to mainout.dat
   character(max_fname_len):: alpha_decay_file               !< File with additional alpha decays
   character(max_fname_len):: beta_decay_file                !< File for reading in beta decays in different format
@@ -355,6 +360,10 @@ subroutine set_param(param_name,param_value)
       ":gear_nr_maxcount" // &
       ":iwinterp" // &
       ":heating_mode"//&
+      ":fission_frag_beta_delayed"//&
+      ":fission_frag_n_induced"//&
+      ":fission_frag_spontaneous"//&
+      ":fission_frag_missing"//&
       ":fission_format_spontaneous"//&
       ":fission_format_beta_delayed"//&
       ":fission_format_n_induced"//&
@@ -434,6 +443,7 @@ subroutine set_param(param_name,param_value)
       ":nuchannel_file" // &
       ":nfission_file" // &
       ":bfission_file" // &
+      ":sfission_file" // &
       ":trajectory_mode" // &
       ":trajectory_format" // &
       ":track_nuclei_file" // &
@@ -545,6 +555,14 @@ subroutine set_param(param_name,param_value)
      solver = read_integer_param(str_value,param_name)
    elseif(param_name.eq."heating_mode") then
      heating_mode = read_integer_param(str_value,param_name)
+   elseif(param_name.eq."fission_frag_beta_delayed") then
+     fission_frag_beta_delayed = read_integer_param(str_value,param_name)
+   elseif(param_name.eq."fission_frag_missing") then
+     fission_frag_missing = read_integer_param(str_value,param_name)
+   elseif(param_name.eq."fission_frag_n_induced") then
+     fission_frag_n_induced = read_integer_param(str_value,param_name)
+   elseif(param_name.eq."fission_frag_spontaneous") then
+     fission_frag_spontaneous = read_integer_param(str_value,param_name)
    elseif(param_name.eq."fission_format_spontaneous") then
      fission_format_spontaneous = read_integer_param(str_value,param_name)
    elseif(param_name.eq."fission_format_beta_delayed") then
@@ -725,6 +743,8 @@ subroutine set_param(param_name,param_value)
      nfission_file= trim(str_value)
    elseif(param_name.eq."bfission_file") then
      bfission_file= trim(str_value)
+   elseif(param_name.eq."sfission_file") then
+     sfission_file= trim(str_value)
    elseif(param_name.eq."trajectory_format") then
      trajectory_format= trim(str_value)
    elseif(param_name.eq."track_nuclei_file") then
@@ -932,6 +952,10 @@ subroutine set_default_param
    nurates_file                = "nucross.dat"
    out_every                   = 10
    reaclib_file                = "Reaclib"
+   fission_frag_beta_delayed   = 1
+   fission_frag_missing        = 0
+   fission_frag_n_induced      = 1
+   fission_frag_spontaneous    = 1
    fission_format_beta_delayed = 1
    fission_format_n_induced    = 1
    fission_format_spontaneous  = 1
@@ -944,6 +968,7 @@ subroutine set_default_param
    screening_mode              = 1
    seed_file                   = "seed"
    seed_format                 = "Name X"
+   sfission_file               = "SFISSION"
    snapshot_every              = 0
    h_snapshot_every            = 0
    snapshot_file               = "snapshot_freq.dat"
@@ -1027,6 +1052,10 @@ subroutine output_param
      write(ofile,'(A,es14.7)') 'final_temp                  ='  , final_temp
      write(ofile,'(A,es14.7)') 'final_time                  ='  , final_time
          write(ofile,'(A,I1)') 'fissflag                    = ' , fissflag
+         write(ofile,'(A,I1)') 'fission_frag_beta_delayed   = ' , fission_frag_beta_delayed
+         write(ofile,'(A,I1)') 'fission_frag_missing        = ' , fission_frag_missing
+         write(ofile,'(A,I1)') 'fission_frag_n_induced      = ' , fission_frag_n_induced
+         write(ofile,'(A,I1)') 'fission_frag_spontaneous    = ' , fission_frag_spontaneous
          write(ofile,'(A,I1)') 'fission_format_beta_delayed = ' , fission_format_beta_delayed
          write(ofile,'(A,I1)') 'fission_format_n_induced    = ' , fission_format_n_induced
          write(ofile,'(A,I1)') 'fission_format_spontaneous  = ' , fission_format_spontaneous
@@ -1100,6 +1129,7 @@ subroutine output_param
          write(ofile,'(A,I1)') 'screening_mode              = ' , screening_mode
            write(ofile,'(3A)') 'seed_file                   = "', trim(seed_file),'"'
            write(ofile,'(3A)') 'seed_format                 = "', trim(seed_format),'"'
+           write(ofile,'(3A)') 'sfission_file               = "', trim(sfission_file),'"'
          write(ofile,'(A,I5)') 'snapshot_every              = ' , snapshot_every
            write(ofile,'(3A)') 'snapshot_file               = "', trim(snapshot_file),'"'
          write(ofile,'(A,I1)') 'solver                      = ' , solver
@@ -1565,6 +1595,7 @@ subroutine output_param_prepared_network(path)
         end if
         if (fissflag .eq. 4) then
             write(ofile,'(3A)') 'bfission_file               = "', trim(bfission_file),'"'
+            write(ofile,'(3A)') 'sfission_file               = "', trim(sfission_file),'"'
         end if
       end if
       write(ofile,'(A)') ''

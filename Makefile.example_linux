@@ -249,6 +249,7 @@ TESTS += fissrate_bdel
 TESTS += fissfrag_kodtak
 TESTS += fissfrag_panov
 TESTS += fissfrag_mumpower
+TESTS += fissfrag_custom
 TESTS += fissfrag_kodtak_n_emission
 TESTS += fissfrag_panov_n_emission
 TESTS += fissfrag_mumpower_n_emission

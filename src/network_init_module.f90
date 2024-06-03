@@ -70,6 +70,7 @@ subroutine network_init()
 
   !
   integer                    :: alloc_stat !< Allocation state
+  integer                    :: fisscount  !< Number of fission reactions
 !===========================procedure division==================================
   INFO_ENTRY("network_init")
 
@@ -123,13 +124,13 @@ subroutine network_init()
   !-- Merge neutrino reactions into rrate
   call merge_neutrino_rates(rrate,nreac)
   !-- Merge fission rates into rrate
-  call merge_fission_rates(rrate,nreac)
+  call merge_fission_rates(rrate,nreac,fisscount)
   !-- Merge inverse rates (detailed balance) into rrate
   call merge_inverse_rates(rrate,nreac)
 
   ! Tell how many rates there are
   if (VERBOSE_LEVEL.ge.1) then
-     call write_data_to_std_out("Total reactions after merge",int_to_str(nreac))
+     call write_data_to_std_out("Total reactions after merge",int_to_str(nreac+fisscount))
   endif
 
   ! Initialize screening

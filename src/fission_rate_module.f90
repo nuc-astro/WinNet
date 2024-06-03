@@ -14,7 +14,6 @@
 !!         the network and possibly as parts of other subroutines.
 #include "macros.h"
 module fission_rate_module
-   use global_class, only: reactionrate_type
    implicit none
 
 
@@ -27,6 +26,7 @@ module fission_rate_module
       integer                      :: dimens               !< dimension of fissparts array
       real(r_kind)                 :: cached               !< computed rate
       real(r_kind)                 :: averageQ             !< average Q value, weighted over all fragment channels
+      character(4)                 :: src                  !< Source of the reaction
       integer                      :: reac_type            !< "rrt_sf": spontaneous fission, "rrt_bf": beta-delayed fission, "rrt_nf": neutron-induced fission
       integer,dimension(:),allocatable      :: fissparts   !< corresponds to rrate()%parts() array
       integer,dimension(:,:),allocatable    :: cscf_ind    !< cscf_ind (i,j) gives the position of the entry \f$\frac{d\dot{Y}_{j}}{dY_{i}}\f$ in the cscf data array
@@ -37,13 +37,12 @@ module fission_rate_module
    end type fissionrate_type
 
    type(fissionrate_type),dimension(:),allocatable,public   :: fissrate !< Array storing fission reactions
-   type(reactionrate_type),dimension(:),allocatable,private :: rrate_fiss !< Array storing fission reactions in rrate array
 
    real(r_kind),dimension(:,:),allocatable,private :: beta_delayed_fiss_probs
    integer,private  :: amount_cols !< Amount of columns in the beta-delayed fission file
 
 
-   character(len=*), private, parameter                     :: fiss_binary_name='fiss_rates.windat' !< Name of the binary file containing the fission rates
+   character(len=*), private, parameter       :: fiss_binary_name='fiss_rates.windat' !< Name of the binary file containing the fission rates
 
 
     type,private                              :: fragtype
@@ -57,7 +56,9 @@ module fission_rate_module
         integer,dimension(:),allocatable      :: A        !< A of fragment
         real(r_kind),dimension(:),allocatable :: Y        !< Yields of fragment
     end type fragtype
-    type(fragtype),dimension(:),allocatable,private   :: fissfrags !< Array storing fragment distributions
+    type(fragtype),dimension(:),allocatable,private   :: fissfrags_n_induced    !< Array storing fragment distributions of neutron-induced fission from file
+    type(fragtype),dimension(:),allocatable,private   :: fissfrags_spontaneous  !< Array storing fragment distributions of spontaneous fission from file
+    type(fragtype),dimension(:),allocatable,private   :: fissfrags_beta_delayed !< Array storing fragment distributions of beta-delayed fission from file
 
 
 
@@ -78,7 +79,7 @@ module fission_rate_module
       init_fission_rates, merge_fission_rates, output_binary_fission_reaction_data
    private:: &
       count_fission_rates, read_fission_rates, fiss_dist, kodtakdist,&
-      abla_nfiss, abla_betafiss, read_mumpower_fissfile, mumpower_fiss,&
+      abla_nfiss, abla_betafiss, read_binary_fission_reaction_data,&
       reorder_fragments, read_fission_rates_halflife_format, read_fission_rates_probability_format,&
       read_fission_rates_reaclib_format, count_fission_rates_halflife_format,&
       count_fission_rates_probability_format, count_fission_rates_reaclib_format,&
@@ -89,8 +90,7 @@ contains
    !> Initialize the fission reactions
    !!
    !! This subroutine counts and reads fission reactions.
-   !! After calling it, the rate array \ref rrate_fiss and
-   !! \ref fissrate will be filled as well as the integer
+   !! After calling it \ref fissrate will be filled as well as the integer
    !! \ref nfiss will store the amount of fission reactions.
    !!
    !! @author M. Reichert
@@ -113,9 +113,6 @@ contains
          call count_fission_rates()
 
          !-- Allocate the fission rate arrays
-         allocate(rrate_fiss(nfiss),stat=alloc_stat)
-         if ( alloc_stat /= 0) call raise_exception('Allocation of "rrate_fiss" failed.',&
-                                                    "init_fission_rates",190001)
          allocate(fissrate(nfiss),stat=alloc_stat)
          if ( alloc_stat /= 0) call raise_exception('Allocation of "fissrate" failed.',&
                                                     "init_fission_rates",190001)
@@ -251,6 +248,7 @@ contains
       read(file_id) fissrate(i)%fissnuc_index
       read(file_id) fissrate(i)%channels
       read(file_id) fissrate(i)%mode
+      read(file_id) fissrate(i)%src
       read(file_id) fissrate(i)%dimens
       read(file_id) fissrate(i)%cached
       read(file_id) fissrate(i)%averageQ
@@ -338,6 +336,7 @@ contains
       write(file_id) fissrate(i)%fissnuc_index
       write(file_id) fissrate(i)%channels
       write(file_id) fissrate(i)%mode
+      write(file_id) fissrate(i)%src
       write(file_id) fissrate(i)%dimens
       write(file_id) fissrate(i)%cached
       write(file_id) fissrate(i)%averageQ
@@ -373,11 +372,10 @@ contains
 
    !> Merge fission rates with larger array.
    !!
-   !! This subroutine will merge the fission rates
-   !! that are represented by a usual \ref global_class::reactionrate_type
-   !! into the large rate array. As the reactions should not be
-   !! already included in the large array, it will simply append the reactions
-   !! behind the rrate_array array.
+   !! This subroutine will merge the fission rates.
+   !! Since fission rates are treated separately, there is not really much
+   !! to do. However, in case of beta-delayed fission, the half lifes
+   !! of the beta decays have to be modified to include the fission rates.
    !!
    !! @note The other fission rate array \ref fissrate will exist independently
    !!       and are used to calculate the correct equations for the
@@ -386,60 +384,34 @@ contains
    !!
    !! @author M. Reichert
    !! @date 25.01.21
-   subroutine merge_fission_rates(rrate_array,rrate_length)
+   subroutine merge_fission_rates(rrate_array,rrate_length,fiss_count)
       use error_msg_class, only: raise_exception
       use parameter_class, only: use_prepared_network, fission_format_beta_delayed
+      use global_class,    only: reactionrate_type
       implicit none
       type(reactionrate_type),dimension(:),allocatable,intent(inout) :: rrate_array  !< Large rate array, containing all reactions
       integer,intent(inout)                                          :: rrate_length !< length of rrate_array
-      type(reactionrate_type),dimension(:),allocatable               :: rrate_tmp    !< Temporary rate array
-      integer                                                        :: alloc_stat   !< Allocation state
+      integer,intent(out)                                            :: fiss_count   !< Amount of fission rates
       integer                                                        :: new_length   !< New length of rrate_array
 
       !-- Only do something if there are fission rates
-      if (allocated(rrate_fiss) .and. (.not. use_prepared_network)) then
+      if (allocated(fissrate) .and. (.not. use_prepared_network)) then
          ! New length of the array
-         new_length = rrate_length+nfiss
+         new_length = rrate_length
          if (nfiss .ne. 0) then
             ! Prepare something for the case that fission_format_beta_delayed is
             ! Set to probability format. In this case, the halflifes of the beta decays
             ! have to be modified.
             if (fission_format_beta_delayed .eq. 3) then
-                call modify_halflifes(rrate_array,rrate_length,fissrate,rrate_fiss,nfiss)
+                call modify_halflifes(rrate_array,rrate_length,fissrate,nfiss)
                 ! The length may have gotten modified
-                new_length = rrate_length+nfiss
+                new_length = rrate_length
             end if
-
-           if (.not. allocated(rrate_array)) then
-
-              !-- Allocate the reaclib rate array
-              allocate(rrate_array(nfiss),stat=alloc_stat)
-              if ( alloc_stat /= 0) call raise_exception('Allocation of "rrate_array" failed.',&
-                                                         "merge_fission_rates",190001)
-              rrate_array(1:nfiss) = rrate_fiss(1:nfiss)
-           else
-              !-- Allocate a temporary array to store the content of rrate_array
-              allocate(rrate_tmp(rrate_length),stat=alloc_stat)
-              if ( alloc_stat /= 0) call raise_exception('Allocation of "rrate_tmp" failed.',&
-                                                         "merge_fission_rates",190001)
-              rrate_tmp(1:rrate_length) = rrate_array(1:rrate_length)
-
-              !-- Deallocate the input array
-              deallocate(rrate_array)
-              allocate(rrate_array(new_length),stat=alloc_stat)
-              if ( alloc_stat /= 0) call raise_exception('Allocation of "rrate_array" failed.',&
-                                                         "merge_fission_rates",190001)
-              rrate_array(1:rrate_length)             = rrate_tmp(1:rrate_length)
-              rrate_array(rrate_length+1:new_length)  = rrate_fiss(1:nfiss)
-
-              deallocate(rrate_tmp)
-           end if
-           !-- Deallocate the fission rate array
-           deallocate(rrate_fiss)
            !-- Output the new length
            rrate_length = new_length
          end if
       end if
+      fiss_count = nfiss
    end subroutine merge_fission_rates
 
 
@@ -469,7 +441,7 @@ contains
    !!
    !! @author M. Reichert
    !! @date 30.05.24
-   subroutine modify_halflifes(rrate,rrate_length,fissrate_in,rrate_fiss_in,nfiss_in)
+   subroutine modify_halflifes(rrate,rrate_length,fissrate_in,nfiss_in)
     use global_class,    only: reactionrate_type, net_size, ineu, ipro, net_names
     use nucstuff_class,  only: get_nr_reactants
     use error_msg_class, only: int_to_str, raise_exception
@@ -477,7 +449,6 @@ contains
     type(reactionrate_type),dimension(:),allocatable,intent(inout) :: rrate            !< Large rate array, containing all reactions
     integer,intent(inout)                                          :: rrate_length     !< length of rrate_array
     type(fissionrate_type),dimension(:),allocatable,intent(inout)  :: fissrate_in      !< Fission rate array
-    type(reactionrate_type),dimension(:),allocatable,intent(inout) :: rrate_fiss_in    !< rrate array representative of fission
     integer,intent(inout)                                          :: nfiss_in         !< Amount of fission rates
     integer                                            :: i                !< Loop variable
     real(r_kind),dimension(net_size)                   :: lambdas          !< Lambdas of the beta decay
@@ -490,7 +461,6 @@ contains
     logical,dimension(nfiss_in)                        :: fissrate_mask    !< Mask for the fissrate array
     type(reactionrate_type),dimension(:),allocatable   :: rrate_tmp        !< Temporary array to store the rates
     type(fissionrate_type),dimension(:),allocatable    :: fissrate_tmp     !< Temporary array to store the fission rates
-    type(reactionrate_type),dimension(:),allocatable   :: rrate_fiss_tmp   !< Temporary array to store the fission rates in rrate array
     integer                                            :: new_rrate_length !< New length of the rrate array
     integer                                            :: new_nfiss_in     !< New amount of fission rates
     integer                                            :: alloc_stat       !< Allocation status
@@ -600,9 +570,6 @@ contains
             ! Fissrate
             fissrate_in(i)%param(:) = 0d0
             fissrate_in(i)%param(1) = dlog(Px * lambdas(parent_idx))
-            ! Same for rrate representative
-            rrate_fiss_in(i)%param(:) = 0d0
-            rrate_fiss_in(i)%param(1) = dlog(Px * lambdas(parent_idx))
         end if
     end do
 
@@ -615,23 +582,21 @@ contains
                        int_to_str(nfiss_in-new_nfiss_in)//" beta-delayed fission rates."
         end if
         ! Allocate a temporary array to store the content of fissrate
-        allocate(fissrate_tmp(new_nfiss_in),rrate_fiss_tmp(new_nfiss_in),stat=alloc_stat)
-        if ( alloc_stat /= 0) call raise_exception('Allocation of "fissrate_tmp" or "rrate_fiss_tmp" failed.',&
+        allocate(fissrate_tmp(new_nfiss_in),stat=alloc_stat)
+        if ( alloc_stat /= 0) call raise_exception('Allocation of "fissrate_tmp" failed.',&
                                                    "modify_halflifes",190001)
 
         fissrate_tmp(1:new_nfiss_in) = pack(fissrate_in,fissrate_mask)
-        rrate_fiss_tmp(1:new_nfiss_in) = pack(rrate_fiss_in,fissrate_mask)
-        deallocate(fissrate_in,rrate_fiss_in,stat=alloc_stat)
-        if ( alloc_stat /= 0) call raise_exception('Deallocation of "fissrate_in" or "rrate_fiss_in" failed.',&
+        deallocate(fissrate_in,stat=alloc_stat)
+        if ( alloc_stat /= 0) call raise_exception('Deallocation of "fissrate_in" failed.',&
                                                    "modify_halflifes",190002)
-        allocate(fissrate_in(new_nfiss_in),rrate_fiss_in(new_nfiss_in),stat=alloc_stat)
-        if ( alloc_stat /= 0) call raise_exception('Allocation of "fissrate_in" or "rrate_fiss_in" failed.',&
+        allocate(fissrate_in(new_nfiss_in),stat=alloc_stat)
+        if ( alloc_stat /= 0) call raise_exception('Allocation of "fissrate_in" or failed.',&
                                                    "modify_halflifes",190001)
 
         fissrate_in(1:new_nfiss_in) = fissrate_tmp(1:new_nfiss_in)
-        rrate_fiss_in(1:new_nfiss_in) = rrate_fiss_tmp(1:new_nfiss_in)
-        deallocate(fissrate_tmp,rrate_fiss_tmp,stat=alloc_stat)
-        if ( alloc_stat /= 0) call raise_exception('Deallocation of "fissrate_tmp" or "rrate_fiss_tmp" failed.',&
+        deallocate(fissrate_tmp,stat=alloc_stat)
+        if ( alloc_stat /= 0) call raise_exception('Deallocation of "fissrate_tmp" or failed.',&
                                                    "modify_halflifes",190002)
         nfiss_in = new_nfiss_in
     end if
@@ -980,12 +945,19 @@ contains
    !! This routine initializes the fission rates with the specified fragments.
    !! The fragments can differ for the types of fission.
    !!
+   !!
+   !!
+   !!
    !! \b Edited:
    !!     - 31.05.2024 (MR): Created this subroutine from code parts contained in other routines
    !! .
    subroutine add_fission_fragments()
     use parameter_class,     only: fissflag, &
-                                   nfission_file, bfission_file
+                                   nfission_file, bfission_file, sfission_file, &
+                                   fission_frag_n_induced, fission_frag_beta_delayed,&
+                                   fission_frag_spontaneous, fission_frag_missing, &
+                                   fission_format_beta_delayed, fission_format_n_induced, &
+                                   fission_format_spontaneous
     use global_class,        only: isotope
     use error_msg_class,     only: raise_exception, int_to_str
     use file_handling_class, only: open_infile, close_io_file
@@ -994,34 +966,65 @@ contains
     integer                    :: betafission=0 !< File IDs for abla fiss. distr. file
     integer                    :: fissindex     !< Index for current fission rate
     integer                    :: astat         !< Allocation status
-    character(4)               :: src           !< Reaclib source label
     real(r_kind)               :: q             !< Reaclib Q-Value
+    integer                    :: nfrac_distr   !< Number of fragment distributions in file
 
 
     !-- Open the abla files, containing probabilities of the fiss. fragments
     if (fissflag .eq. 3) then
-        call read_mumpower_fissfile(nfission_file)
+        call read_fiss_fragment_file(nfission_file, fissfrags_n_induced)
+        ! Create the same for beta-delayed fission without explicitely reading the file again
+        nfrac_distr = size(fissfrags_n_induced)
+        allocate(fissfrags_beta_delayed(nfrac_distr),stat=astat)
+        if (astat /= 0) call raise_exception('Allocation of "fissfrags_bdel" failed.',&
+                                             "add_fission_fragments",190001)
+        fissfrags_beta_delayed(:) = fissfrags_n_induced(:)
      else if (fissflag .eq. 4) then
+        ! Read the fission fragment files if necessary
+        ! n_induced
+        if ((fission_frag_n_induced .eq. 3) .and. (fission_format_n_induced .ne. 0)) then
+            call read_fiss_fragment_file(nfission_file, fissfrags_n_induced)
+        end if
+        ! beta-delayed
+        if ((fission_frag_beta_delayed .eq. 3)  .and. (fission_format_beta_delayed .ne. 0)) then
+            call read_fiss_fragment_file(bfission_file, fissfrags_beta_delayed)
+        end if
+        ! spontaneous
+        if ((fission_frag_spontaneous .eq. 3)  .and. (fission_format_spontaneous .ne. 0)) then
+            call read_fiss_fragment_file(sfission_file, fissfrags_spontaneous)
+        end if
+     else if (fissflag .eq. 5) then
         neutfission= open_infile(nfission_file)
         betafission= open_infile(bfission_file)
      end if
 
      ! Loop through reactions and add fission fragments
      do fissindex=1,nfiss
-        src = rrate_fiss(fissindex)%source
 
-        if (rrate_fiss(fissindex)%reac_type.eq.rrt_nf) then      ! neutron-induced fission
+        if (fissrate(fissindex)%reac_type.eq.rrt_nf) then      ! neutron-induced fission
             select case (fissflag)
             case(1)
-               call fiss_dist(fissindex,isotope(fissrate(fissindex)%fissnuc_index)%mass,    &
-                    isotope(fissrate(fissindex)%fissnuc_index)%p_nr,src,q)
+               call fiss_dist(fissrate(fissindex))
             case(2)
-               call kodtakdist(fissindex,isotope(fissrate(fissindex)%fissnuc_index)%mass,  &
-                    isotope(fissrate(fissindex)%fissnuc_index)%p_nr,src,q)
+               call kodtakdist(fissrate(fissindex))
             case(3)
-               call mumpower_fiss(fissindex,isotope(fissrate(fissindex)%fissnuc_index)%mass,  &
-                    isotope(fissrate(fissindex)%fissnuc_index)%p_nr,src,q)
+               call file_fiss_frag(fissrate(fissindex),2)
             case(4)
+                select case (fission_frag_n_induced)
+                case(1)
+                    call fiss_dist(fissrate(fissindex))
+                case(2)
+                    call kodtakdist(fissrate(fissindex))
+                case(3)
+                    call file_fiss_frag(fissrate(fissindex),fission_frag_missing)
+                case default
+                    call raise_exception("Fission fragment flag ("//trim(adjustl(int_to_str(fission_frag_n_induced)))&
+                                         //") not implemented yet. "//&
+                                         "Set it to a supported value!",&
+                                         "add_fission_fragments",&
+                                         190003)
+                end select
+            case(5)
                call abla_nfiss(fissindex,isotope(fissrate(fissindex)%fissnuc_index)%mass,  &
                     isotope(fissrate(fissindex)%fissnuc_index)%p_nr,neutfission,q)
              case default
@@ -1031,20 +1034,32 @@ contains
                                      "add_fission_fragments",&
                                      190003)
             end select
-        else if (rrate_fiss(fissindex)%reac_type.eq.rrt_sf) then  ! spontaneous fission
+        else if (fissrate(fissindex)%reac_type.eq.rrt_sf) then  ! spontaneous fission
             select case (fissflag)
             case(1)
-               call fiss_dist(fissindex,isotope(fissrate(fissindex)%fissnuc_index)%mass,    &
-                    isotope(fissrate(fissindex)%fissnuc_index)%p_nr,src,q)
+               call fiss_dist(fissrate(fissindex))
             case(2)
-               call kodtakdist(fissindex,isotope(fissrate(fissindex)%fissnuc_index)%mass,  &
-                    isotope(fissrate(fissindex)%fissnuc_index)%p_nr,src,q)
+               call kodtakdist(fissrate(fissindex))
             case(3)
-               call kodtakdist(fissindex,isotope(fissrate(fissindex)%fissnuc_index)%mass,  &
-                    isotope(fissrate(fissindex)%fissnuc_index)%p_nr,src,q)
+               call kodtakdist(fissrate(fissindex))
             case(4)
+                select case (fission_frag_spontaneous)
+                case(1)
+                    call fiss_dist(fissrate(fissindex))
+                case(2)
+                    call kodtakdist(fissrate(fissindex))
+                case(3)
+                    call file_fiss_frag(fissrate(fissindex),fission_frag_missing)
+                case default
+                    call raise_exception("Fission fragment flag ("//trim(adjustl(int_to_str(fission_frag_spontaneous)))&
+                                         //") not implemented yet. "//&
+                                         "Set it to a supported value!",&
+                                         "add_fission_fragments",&
+                                         190003)
+                end select
+            case(5)
                call abla_betafiss(fissindex,isotope(fissrate(fissindex)%fissnuc_index)%mass,  &
-                    isotope(fissrate(fissindex)%fissnuc_index)%p_nr,src,betafission,q)
+                    isotope(fissrate(fissindex)%fissnuc_index)%p_nr,betafission,q)
             case default
                 call raise_exception("Fission flag ("//trim(adjustl(int_to_str(fissflag)))&
                                         //") not implemented yet. "//&
@@ -1052,20 +1067,32 @@ contains
                                         "add_fission_fragments",&
                                         190003)
             end select
-        else if (rrate_fiss(fissindex)%reac_type.eq.rrt_bf) then  ! beta-delayed fission
+        else if (fissrate(fissindex)%reac_type.eq.rrt_bf) then  ! beta-delayed fission
             select case (fissflag)
             case(1)
-               call fiss_dist(fissindex,isotope(fissrate(fissindex)%fissnuc_index)%mass,    &
-                    isotope(fissrate(fissindex)%fissnuc_index)%p_nr,src,q)
+               call fiss_dist(fissrate(fissindex))
             case(2)
-               call kodtakdist(fissindex,isotope(fissrate(fissindex)%fissnuc_index)%mass,  &
-                    isotope(fissrate(fissindex)%fissnuc_index)%p_nr,src,q)
+               call kodtakdist(fissrate(fissindex))
             case(3)
-               call mumpower_fiss(fissindex,isotope(fissrate(fissindex)%fissnuc_index)%mass,  &
-                    isotope(fissrate(fissindex)%fissnuc_index)%p_nr,src,q)
+               call file_fiss_frag(fissrate(fissindex),2)
             case(4)
+                select case (fission_frag_beta_delayed)
+                case(1)
+                    call fiss_dist(fissrate(fissindex))
+                case(2)
+                    call kodtakdist(fissrate(fissindex))
+                case(3)
+                    call file_fiss_frag(fissrate(fissindex),fission_frag_missing)
+                case default
+                    call raise_exception("Fission fragment flag ("//trim(adjustl(int_to_str(fission_frag_beta_delayed)))&
+                                         //") not implemented yet. "//&
+                                         "Set it to a supported value!",&
+                                         "add_fission_fragments",&
+                                         190003)
+                end select
+            case(5)
                call abla_betafiss(fissindex,isotope(fissrate(fissindex)%fissnuc_index)%mass,  &
-                    isotope(fissrate(fissindex)%fissnuc_index)%p_nr,src,betafission,q)
+                    isotope(fissrate(fissindex)%fissnuc_index)%p_nr,betafission,q)
             case default
                 call raise_exception("Fission flag ("//trim(adjustl(int_to_str(fissflag)))&
                                         //") not implemented yet. "//&
@@ -1075,8 +1102,6 @@ contains
             end select
         end if
 
-        ! Set the Q-Value
-        rrate_fiss(fissindex)%q_value = q
 
      end do
 
@@ -1084,10 +1109,20 @@ contains
     ! Close the neutron and betafission files again
     if (neutfission.gt.0) call close_io_file(neutfission,nfission_file)
     if (betafission.gt.0) call close_io_file(betafission,bfission_file)
-    ! Deallocate the fission fragment arrays in case of fissflag 3
-    if (allocated(fissfrags)) then
-       deallocate(fissfrags,stat=astat)
-       if (astat.ne.0) call raise_exception("Could not deallocate fissfrags array.",&
+    ! Deallocate the fission fragment arrays in case they were read from file
+    if (allocated(fissfrags_beta_delayed)) then
+       deallocate(fissfrags_beta_delayed,stat=astat)
+       if (astat.ne.0) call raise_exception("Could not deallocate fissfrags_beta_delayed array.",&
+                                            "add_fission_fragments",190002)
+    end if
+    if (allocated(fissfrags_n_induced)) then
+       deallocate(fissfrags_n_induced,stat=astat)
+       if (astat.ne.0) call raise_exception("Could not deallocate fissfrags_n_induced array.",&
+                                            "add_fission_fragments",190002)
+    end if
+    if (allocated(fissfrags_spontaneous)) then
+       deallocate(fissfrags_spontaneous,stat=astat)
+       if (astat.ne.0) call raise_exception("Could not deallocate fissfrags_spontaneous array.",&
                                             "add_fission_fragments",190002)
     end if
    end subroutine add_fission_fragments
@@ -1202,7 +1237,7 @@ contains
    !! has an entry. The products are given by the respective fission fragment
    !! distribution.
    !!
-   !! @returns \ref fissrate and \ref rrate_fiss filled with fission rates
+   !! @returns \ref fissrate filled with fission rates
    !! @author M. Eichler
    !!
    !! \b Edited:
@@ -1266,15 +1301,12 @@ contains
          if (reac_type .eq. rrt_nf) n_nf=n_nf+1 !< count neutron induced fission
          if (reac_type .eq. rrt_sf) n_sf=n_sf+1 !< count spontaneous fission
          if (reac_type .eq. rrt_bf) n_bf=n_bf+1 !< count beta delayed fission
-         ! Save it in the fission rate as well
-         rrate_fiss(fissindex)%reac_type = reac_type
+
          ! Set the amount of released neutrons per default to 0
          fissrate(fissindex)%released_n = 0
 
-         if (rrate_fiss(fissindex)%reac_type.eq.rrt_nf) then      ! neutron-induced fission
-            rrate_fiss(fissindex)%is_const = .false.
-            rrate_fiss(fissindex)%is_weak  = .false.
-            fissrate(fissindex)%reac_type = rrate_fiss(fissindex)%reac_type
+         if (reac_type.eq.rrt_nf) then      ! neutron-induced fission
+            fissrate(fissindex)%reac_type = reac_type
             fissrate(fissindex)%param = params
             ! Save fission nucleus index
             if (parts_index(1) .eq. ineu) then
@@ -1283,31 +1315,24 @@ contains
                fissrate(fissindex)%fissnuc_index = parts_index(1)
             end if
 
-         else if (rrate_fiss(fissindex)%reac_type.eq.rrt_sf) then  ! spontaneous fission
-            rrate_fiss(fissindex)%is_const = .true.
-            rrate_fiss(fissindex)%is_weak  = .true.
-            fissrate(fissindex)%reac_type = rrate_fiss(fissindex)%reac_type
+         else if (reac_type.eq.rrt_sf) then  ! spontaneous fission
+            fissrate(fissindex)%reac_type = reac_type
             fissrate(fissindex)%param = params
             ! Save fission nucleus index
             fissrate(fissindex)%fissnuc_index = parts_index(1)
 
-         else if (rrate_fiss(fissindex)%reac_type.eq.rrt_bf) then  ! beta-delayed fission
+         else if (reac_type.eq.rrt_bf) then  ! beta-delayed fission
             ! Check if there should be neutrons released
             fissrate(fissindex)%released_n = count(parts_index(:) .eq. ineu)
-            rrate_fiss(fissindex)%is_const = .true.
-            rrate_fiss(fissindex)%is_weak  = .true.
-            fissrate(fissindex)%reac_type = rrate_fiss(fissindex)%reac_type
+            fissrate(fissindex)%reac_type = reac_type
             fissrate(fissindex)%param = params
             ! Save fission nucleus index
             fissrate(fissindex)%fissnuc_index = parts_index(1)
 
 
          end if
-         rrate_fiss(fissindex)%group    = group_index
-         rrate_fiss(fissindex)%parts    = parts_index
-         rrate_fiss(fissindex)%source   = src
-         rrate_fiss(fissindex)%reac_src = rrs_fiss
-         rrate_fiss(fissindex)%param    = params
+         fissrate(fissindex)%src      = src
+
 
          fissindex = fissindex + 1
       end do fission_loop
@@ -1407,16 +1432,13 @@ contains
         do j=1,amount_cols
             if (Pnf(j) .eq. 0d0) cycle
 
-            rrate_fiss(fissindex)%reac_type = reac_type
             params(:) = 0d0
             params(1) = Pnf(j) ! This will be changed once the reactions are merged
             params(2) = j-1    ! Gives the amount of released neutrons
 
-            if (rrate_fiss(fissindex)%reac_type.eq.rrt_bf) then  ! beta-delayed fission
+            if (reac_type.eq.rrt_bf) then  ! beta-delayed fission
                 group_index = 2
-                rrate_fiss(fissindex)%is_const = .true.
-                rrate_fiss(fissindex)%is_weak  = .true.
-                fissrate(fissindex)%reac_type = rrate_fiss(fissindex)%reac_type
+                fissrate(fissindex)%reac_type = reac_type
                 fissrate(fissindex)%param = params
                 ! Save fission nucleus index
                 fissrate(fissindex)%fissnuc_index = parts_index(1)
@@ -1426,12 +1448,8 @@ contains
                                      "read_fission_rates_probability_format",&
                                      190011)
             end if
-
-            rrate_fiss(fissindex)%group    = group_index
-            rrate_fiss(fissindex)%parts    = parts_index
-            rrate_fiss(fissindex)%source   = src
-            rrate_fiss(fissindex)%reac_src = rrs_fiss
-            rrate_fiss(fissindex)%param    = params
+            ! Put also the source there
+            fissrate(fissindex)%src   = src
 
             ! Also save it in a separate array that is more easier to
             ! access by index
@@ -1516,23 +1534,17 @@ contains
        if (reac_type .eq. rrt_nf) n_nf=n_nf+1 ! count neutron induced fission
        if (reac_type .eq. rrt_sf) n_sf=n_sf+1 ! count spontaneous fission
        if (reac_type .eq. rrt_bf) n_bf=n_bf+1 ! count beta delayed fission
-       ! Save it in the fission rate as well
-       rrate_fiss(fissindex)%reac_type = reac_type
 
        ! Per default set number of released neutrons to zero (important for bdel fission)
        fissrate(fissindex)%released_n = 0
       if (reac_type .eq.rrt_sf) then  ! spontaneous fission
-          rrate_fiss(fissindex)%is_const = .true.
-          rrate_fiss(fissindex)%is_weak  = .true.
-          fissrate(fissindex)%reac_type = rrate_fiss(fissindex)%reac_type
+          fissrate(fissindex)%reac_type = reac_type
           fissrate(fissindex)%param = params
           ! Save fission nucleus index
           fissrate(fissindex)%fissnuc_index = parts_index(1)
 
        else if (reac_type .eq. rrt_bf) then  ! beta-delayed fission
-          rrate_fiss(fissindex)%is_const = .true.
-          rrate_fiss(fissindex)%is_weak  = .true.
-          fissrate(fissindex)%reac_type = rrate_fiss(fissindex)%reac_type
+          fissrate(fissindex)%reac_type = reac_type
           fissrate(fissindex)%param = params
           ! Save fission nucleus index
           fissrate(fissindex)%fissnuc_index = parts_index(1)
@@ -1546,12 +1558,8 @@ contains
        ! not have a halflife format
        group_index = 2
 
-       ! Put it into the rate
-       rrate_fiss(fissindex)%group    = group_index
-       rrate_fiss(fissindex)%parts    = parts_index
-       rrate_fiss(fissindex)%source   = src
-       rrate_fiss(fissindex)%reac_src = rrs_fiss
-       rrate_fiss(fissindex)%param    = params
+       ! Put the source to the rate
+       fissrate(fissindex)%src        = src
 
        fissindex = fissindex + 1
     end do fission_loop
@@ -1576,19 +1584,21 @@ contains
    !!
    !! @see [Panov et al., Nuc. Phys. A688 2001](https://ui.adsabs.harvard.edu/abs/2001NuPhA.688..587P/abstract)
    !! @author C. Winteler
-   subroutine fiss_dist(pos,mass,pnr,src,qval)
-      use global_class,    only: isotope,ineu
-      use benam_class,     only: minmax,findaz
-      use error_msg_class, only: raise_exception,int_to_str
-      integer,intent(in)            :: pos
-      integer,intent(in)            :: mass, pnr !< mass and proton number of fissioning nucleus
-      character(4),intent(in)       :: src
-      real(r_kind),intent(out)      :: qval      !< Q-value of the fission reaction
+   subroutine fiss_dist(fissrate_inout)
+      use global_class,    only: isotope, ineu
+      use benam_class,     only: minmax, findaz
+      use error_msg_class, only: raise_exception, int_to_str
+      implicit none
+      type(fissionrate_type),intent(inout)  :: fissrate_inout  !< Temporary fission rate
+      ! Internal variables
+      integer                       :: mass      !< mass of fissioning nucleus
+      integer                       :: pnr       !< proton number of fissioning nucleus
       integer                       :: af,zf     !< mass and proton number of "compound" nucleus
       integer                       :: a1,z1     !< mass and proton number of fragment 1
       integer                       :: a2,z2     !< mass and proton number of fragment 2
       integer                       :: nemiss    !< number of fission neutrons
       integer                       :: fiss_mode !< specifies fission mode
+      real(r_kind)                  :: qval      !< Qvalue of fission reaction
 
       INFO_ENTRY("fiss_dist")
 
@@ -1596,23 +1606,27 @@ contains
       ! fragment beyond dripline.
       nemiss = 0
 
+      ! Get the mass and proton number
+      mass = isotope(fissrate_inout%fissnuc_index)%mass
+      pnr  = isotope(fissrate_inout%fissnuc_index)%p_nr
+
       !neutron induced fission
-      if (fissrate(pos)%reac_type .eq. rrt_nf) then
+      if (fissrate_inout%reac_type .eq. rrt_nf) then
          fiss_mode = 1
          af = mass+1
          zf = pnr
       !spontaneous fission
-      else if (fissrate(pos)%reac_type .eq. rrt_sf) then
+      else if (fissrate_inout%reac_type .eq. rrt_sf) then
          fiss_mode = 2
          af = mass
          zf = pnr
         !beta delayed fission
-      else if (fissrate(pos)%reac_type .eq. rrt_bf) then
+      else if (fissrate_inout%reac_type .eq. rrt_bf) then
          fiss_mode = 3
          ! Take care of beta-delayed neutron emission fission
          ! The amount of neutrons is stored in the second parameter
          ! of the fission rate
-         nemiss = fissrate(pos)%released_n
+         nemiss = fissrate_inout%released_n
          af = mass-nemiss
          zf = pnr + 1
       end if
@@ -1658,67 +1672,68 @@ contains
       end if
       nufiss = nufiss + nemiss
 
-      fissrate(pos)%fissnuc_index  = findaz(mass,pnr)
-      fissrate(pos)%channels       = 1
-      allocate(fissrate(pos)%channelprob(1))
-      allocate(fissrate(pos)%q_value(1))
-      fissrate(pos)%channelprob(1) = 1.d0
-      fissrate(pos)%mode           = fiss_mode
+      fissrate_inout%fissnuc_index  = findaz(mass,pnr)
+      fissrate_inout%channels       = 1
+      ! TODO THROW ERROR HERE!!
+      allocate(fissrate_inout%channelprob(1))
+      allocate(fissrate_inout%q_value(1))
+      fissrate_inout%channelprob(1) = 1.d0
+      fissrate_inout%mode           = fiss_mode
 
       if (fiss_mode.eq.1) then
-         fissrate(pos)%dimens = 4
-         allocate(fissrate(pos)%fissparts(fissrate(pos)%dimens))
-         allocate(fissrate(pos)%ch_amount(fissrate(pos)%dimens))
-         fissrate(pos)%fissparts(1) = ineu
-         fissrate(pos)%ch_amount(1) = float(nemiss) - 1.d0
-         fissrate(pos)%fissparts(2) = fissrate(pos)%fissnuc_index
-         fissrate(pos)%ch_amount(2) = -1.d0
-         fissrate(pos)%fissparts(3) = findaz(a1,z1)
-         fissrate(pos)%ch_amount(3) = 1.d0
-         fissrate(pos)%fissparts(4) = findaz(a2,z2)
-         fissrate(pos)%ch_amount(4) = 1.d0
-         fissrate(pos)%q_value(1)   = (1-nemiss) * isotope(ineu)%mass_exc + &
-                                      isotope(fissrate(pos)%fissnuc_index)%mass_exc - &
-                                      isotope(fissrate(pos)%fissparts(3))%mass_exc - &
-                                      isotope(fissrate(pos)%fissparts(4))%mass_exc
+        fissrate_inout%dimens = 4
+         allocate(fissrate_inout%fissparts(fissrate_inout%dimens))
+         allocate(fissrate_inout%ch_amount(fissrate_inout%dimens))
+         fissrate_inout%fissparts(1) = ineu
+         fissrate_inout%ch_amount(1) = float(nemiss) - 1.d0
+         fissrate_inout%fissparts(2) = fissrate_inout%fissnuc_index
+         fissrate_inout%ch_amount(2) = -1.d0
+         fissrate_inout%fissparts(3) = findaz(a1,z1)
+         fissrate_inout%ch_amount(3) = 1.d0
+         fissrate_inout%fissparts(4) = findaz(a2,z2)
+         fissrate_inout%ch_amount(4) = 1.d0
+         fissrate_inout%q_value(1)   = (1-nemiss) * isotope(ineu)%mass_exc + &
+                                      isotope(fissrate_inout%fissnuc_index)%mass_exc - &
+                                      isotope(fissrate_inout%fissparts(3))%mass_exc - &
+                                      isotope(fissrate_inout%fissparts(4))%mass_exc
       else                                  ! fiss_mode 2 and 3
          if (nemiss .eq. 0) then            ! no fission neutrons
-            fissrate(pos)%dimens = 3
-            allocate(fissrate(pos)%fissparts(fissrate(pos)%dimens))
-            allocate(fissrate(pos)%ch_amount(fissrate(pos)%dimens))
+            fissrate_inout%dimens = 3
+            allocate(fissrate_inout%fissparts(fissrate_inout%dimens))
+            allocate(fissrate_inout%ch_amount(fissrate_inout%dimens))
          else                               ! fission neutrons are produced
-            fissrate(pos)%dimens = 4
-            allocate(fissrate(pos)%fissparts(fissrate(pos)%dimens))
-            allocate(fissrate(pos)%ch_amount(fissrate(pos)%dimens))
-            fissrate(pos)%fissparts(4) = ineu
-            fissrate(pos)%ch_amount(4) = float(nemiss)
+            fissrate_inout%dimens = 4
+            allocate(fissrate_inout%fissparts(fissrate_inout%dimens))
+            allocate(fissrate_inout%ch_amount(fissrate_inout%dimens))
+            fissrate_inout%fissparts(4) = ineu
+            fissrate_inout%ch_amount(4) = float(nemiss)
          end if
-         fissrate(pos)%fissparts(1) = fissrate(pos)%fissnuc_index
-         fissrate(pos)%ch_amount(1) = -1.d0
-         fissrate(pos)%fissparts(2) = findaz(a1,z1)
-         fissrate(pos)%ch_amount(2) = 1.d0
-         fissrate(pos)%fissparts(3) = findaz(a2,z2)
-         fissrate(pos)%ch_amount(3) = 1.d0
+         fissrate_inout%fissparts(1) = fissrate_inout%fissnuc_index
+         fissrate_inout%ch_amount(1) = -1.d0
+         fissrate_inout%fissparts(2) = findaz(a1,z1)
+         fissrate_inout%ch_amount(2) = 1.d0
+         fissrate_inout%fissparts(3) = findaz(a2,z2)
+         fissrate_inout%ch_amount(3) = 1.d0
 
-         if (fissrate(pos)%fissparts(2) .eq. -1) then
+         if (fissrate_inout%fissparts(2) .eq. -1) then
             call raise_exception("Fragment was not found in nucleus library, does your library have 'holes'? "//&
                                  "(A="//int_to_str(a1)//", Z="//int_to_str(z1)//")",&
                                  "fiss_dist",190013)
          end if
-         if (fissrate(pos)%fissparts(3) .eq. -1) then
+         if (fissrate_inout%fissparts(3) .eq. -1) then
             call raise_exception("Fragment was not found in nucleus library, does your library have 'holes'? "//&
                                  "(A="//int_to_str(a2)//", Z="//int_to_str(z2)//")",&
                                  "fiss_dist",190013)
          end if
 
-         fissrate(pos)%q_value(1)   = isotope(fissrate(pos)%fissparts(1))%mass_exc - &
-                                      isotope(fissrate(pos)%fissparts(2))%mass_exc - &
-                                      isotope(fissrate(pos)%fissparts(3))%mass_exc - &
+         fissrate_inout%q_value(1)   = isotope(fissrate_inout%fissparts(1))%mass_exc - &
+                                      isotope(fissrate_inout%fissparts(2))%mass_exc - &
+                                      isotope(fissrate_inout%fissparts(3))%mass_exc - &
                                       nemiss * isotope(ineu)%mass_exc
       end if
 
-      qval = fissrate(pos)%q_value(1)
-      fissrate(pos)%averageQ = qval
+      qval = fissrate_inout%q_value(1)
+      fissrate_inout%averageQ = qval
       INFO_EXIT("fiss_dist")
 
       return
@@ -1742,32 +1757,32 @@ contains
    !!      - 30.05.2024 (MR): Fixed bug related to neutron emission if fragment was not in Sunet
    !! .
    !! @author C. Winteler
-   subroutine kodtakdist(pos,mass,pnr,src,qval)
+   subroutine kodtakdist(fissrate_inout)
       use parameter_class, only: unit
       use global_class,    only: isotope,ineu
       use benam_class,     only: minmax,findaz
       use error_msg_class, only: raise_exception, int_to_str
-
-      integer,intent(in)       :: mass, pnr
-      character(4),intent(in)  :: src
-      integer,intent(in)       :: pos
-      real(r_kind),intent(out) :: qval     !< Q-value of the fission reaction (averaged and weighted over all channels)
-
-      integer                 :: nf        !< number of fission channels
-      integer                 :: fiss_mode
-      integer                 :: af,zf
-      integer                 :: a,z
+      implicit none
+      type(fissionrate_type),intent(inout)  :: fissrate_inout  !< Temporary fission rate
+      ! Internal variables
+      integer                 :: mass             !< Mass number of parent nucleus
+      integer                 :: pnr              !< Proton number of parent nucleus
+      integer                 :: nf               !< number of fission channels
+      integer                 :: fiss_mode        !< Fission mode (1: n-induced, 2: spontaneous, 3: beta-delayed fission)
+      integer                 :: af,zf            !< mass and proton number of fissioning nucleus
+      integer                 :: a,z              !< mass and proton number of fragment
       integer                 :: a1,a2,z1,z2
       real(r_kind)            :: paz,ptot
       real(r_kind)            :: za,al,ah,cz,ca
-      real(r_kind),parameter  :: lim = 1.d-6
-      integer                 :: nemiss
-      integer                 :: alloc_stat   !< Allocation status
-      integer                 :: i
-      integer                 :: dimens
-      integer                 :: neutronflag
-      real(r_kind)            :: nemiss_total
-      integer                 :: additional_neutrons
+      real(r_kind),parameter  :: lim = 1.d-6         !< Limit for fragments to be taken into account
+      integer                 :: nemiss              !< Neutrons missing in case of fragment beyond dripline for one fragment
+      integer                 :: alloc_stat          !< Allocation status
+      integer                 :: i                   !< Loop variable
+      integer                 :: dimens              !< Dimension of the parts in fission rate (amount fragments + 1)
+      integer                 :: neutronflag         !< Flag to check whether any fragment is beyond dripline
+      real(r_kind)            :: nemiss_total        !< Total number of neutrons emitted (sum of nemiss)
+      integer                 :: additional_neutrons !< Neutrons that may be emitted by beta decay
+      real(r_kind)            :: qval                !< Q-value of the fission reaction
 
       INFO_ENTRY("kodtakdist")
 
@@ -1775,24 +1790,27 @@ contains
       neutronflag = 0
       additional_neutrons = 0d0
 
+      ! Get the mass and proton number
+      mass = isotope(fissrate_inout%fissnuc_index)%mass
+      pnr  = isotope(fissrate_inout%fissnuc_index)%p_nr
 
       !neutron induced fission
-      if (fissrate(pos)%reac_type .eq. rrt_nf) then
+      if (fissrate_inout%reac_type .eq. rrt_nf) then
         fiss_mode = 1
         af = mass+1
         zf = pnr
       !spontaneous fission
-      else if (fissrate(pos)%reac_type .eq. rrt_sf) then
+      else if (fissrate_inout%reac_type .eq. rrt_sf) then
         fiss_mode = 2
         af = mass
         zf = pnr
       !beta delayed fission
-      else if (fissrate(pos)%reac_type .eq. rrt_bf) then
+      else if (fissrate_inout%reac_type .eq. rrt_bf) then
         fiss_mode = 3
         ! Take care of beta-delayed neutron emission fission
         ! The amount of neutrons is stored in the second parameter
         ! of the fission rate
-        additional_neutrons = fissrate(pos)%released_n
+        additional_neutrons = fissrate_inout%released_n
         af = mass-additional_neutrons
         zf = pnr + 1
       end if
@@ -1842,12 +1860,12 @@ contains
          end do
       end do
 
-      fissrate(pos)%channels       = nf
-      fissrate(pos)%fissnuc_index  = findaz(mass,pnr)
-      fissrate(pos)%mode           = fiss_mode
+      fissrate_inout%channels       = nf
+      fissrate_inout%fissnuc_index  = findaz(mass,pnr)
+      fissrate_inout%mode           = fiss_mode
 
       ! Allocate and complain in case of failure
-      allocate(fissrate(pos)%channelprob(nf),fissrate(pos)%q_value(nf), &
+      allocate(fissrate_inout%channelprob(nf),fissrate_inout%q_value(nf), &
                stat=alloc_stat)
       if (alloc_stat .ne. 0) call raise_exception("Allocation of fission rate prob. arrays failed.",&
                                                   "kodtakdist",190001)
@@ -1855,26 +1873,26 @@ contains
 
       select case (fiss_mode)
       case(1)
-         dimens = 2 * fissrate(pos)%channels + 2
-         fissrate(pos)%dimens = dimens
-         allocate(fissrate(pos)%fissparts(dimens),fissrate(pos)%ch_amount(dimens),&
+         dimens = 2 * fissrate_inout%channels + 2
+         fissrate_inout%dimens = dimens
+         allocate(fissrate_inout%fissparts(dimens),fissrate_inout%ch_amount(dimens),&
                   stat=alloc_stat)
          if (alloc_stat .ne. 0) call raise_exception("Allocation of fission rate parts failed.",&
                                                      "kodtakdist",190001)
 
-         fissrate(pos)%fissparts(1) = ineu
-         fissrate(pos)%fissparts(2) = fissrate(pos)%fissnuc_index
-         fissrate(pos)%ch_amount(2) = -1.d0
+         fissrate_inout%fissparts(1) = ineu
+         fissrate_inout%fissparts(2) = fissrate_inout%fissnuc_index
+         fissrate_inout%ch_amount(2) = -1.d0
       case(2:)
-         dimens = 2 * fissrate(pos)%channels + 1
+         dimens = 2 * fissrate_inout%channels + 1
          if (neutronflag.eq.1) dimens = dimens+1
-         fissrate(pos)%dimens = dimens
-         allocate(fissrate(pos)%fissparts(dimens),fissrate(pos)%ch_amount(dimens),&
+         fissrate_inout%dimens = dimens
+         allocate(fissrate_inout%fissparts(dimens),fissrate_inout%ch_amount(dimens),&
                   stat=alloc_stat)
          if (alloc_stat .ne. 0) call raise_exception("Allocation of fission rate parts failed.",&
                                                      "kodtakdist",190001)
-         fissrate(pos)%ch_amount(1) = -1.d0
-         fissrate(pos)%fissparts(1) = fissrate(pos)%fissnuc_index
+         fissrate_inout%ch_amount(1) = -1.d0
+         fissrate_inout%fissparts(1) = fissrate_inout%fissnuc_index
       end select
 
       ! Keep track of total number of neutrons emitted
@@ -1924,54 +1942,54 @@ contains
             ! fill in fissrate()%fissparts(); same as rrate()%parts(1:6), but with individual array sizes
             select case(fiss_mode)
             case(1)
-               fissrate(pos)%channelprob(i) = paz
-               fissrate(pos)%fissparts(i+2) = findaz(a1,z1)
+               fissrate_inout%channelprob(i) = paz
+               fissrate_inout%fissparts(i+2) = findaz(a1,z1)
                ! Check that the nucleus was really found!
-               if (fissrate(pos)%fissparts(i+2) .eq. -1) then
+               if (fissrate_inout%fissparts(i+2) .eq. -1) then
                 call raise_exception("Fragment was not found in nucleus library, does your library have 'holes'? "//&
                                      "(A="//int_to_str(a1)//", Z="//int_to_str(z1)//")",&
                                      "kodtakdist",190013)
                end if
 
-               fissrate(pos)%ch_amount(i+2) = fissrate(pos)%channelprob(i)   ! rate at which fragment is produced per destroyed parent nucleus
-               fissrate(pos)%fissparts(i+2+fissrate(pos)%channels) = findaz(a2,z2)
+               fissrate_inout%ch_amount(i+2) = fissrate_inout%channelprob(i)   ! rate at which fragment is produced per destroyed parent nucleus
+               fissrate_inout%fissparts(i+2+fissrate_inout%channels) = findaz(a2,z2)
                ! Check that the nucleus was really found!
-               if (fissrate(pos)%fissparts(i+2+fissrate(pos)%channels) .eq. -1) then
+               if (fissrate_inout%fissparts(i+2+fissrate_inout%channels) .eq. -1) then
                 call raise_exception("Fragment was not found in nucleus library, does your library have 'holes'? "//&
                                      "(A="//int_to_str(a2)//", Z="//int_to_str(z2)//")",&
                                      "kodtakdist",190013)
                end if
-               fissrate(pos)%ch_amount(i+2+fissrate(pos)%channels) = fissrate(pos)%channelprob(i)
-               fissrate(pos)%q_value(i) = isotope(fissrate(pos)%fissnuc_index)%mass_exc - &
+               fissrate_inout%ch_amount(i+2+fissrate_inout%channels) = fissrate_inout%channelprob(i)
+               fissrate_inout%q_value(i) = isotope(fissrate_inout%fissnuc_index)%mass_exc - &
                        (nemiss - 1) * isotope(ineu)%mass_exc - &                   ! (nemiss - 1) to account for one neutron that is destroyed
-                       isotope(fissrate(pos)%fissparts(i+2))%mass_exc - &
-                       isotope(fissrate(pos)%fissparts(i+2+fissrate(pos)%channels))%mass_exc
+                       isotope(fissrate_inout%fissparts(i+2))%mass_exc - &
+                       isotope(fissrate_inout%fissparts(i+2+fissrate_inout%channels))%mass_exc
             case(2:)
-               fissrate(pos)%channelprob(i) = paz
-               fissrate(pos)%fissparts(i+1) = findaz(a1,z1)
+               fissrate_inout%channelprob(i) = paz
+               fissrate_inout%fissparts(i+1) = findaz(a1,z1)
                ! Check that the nucleus was really found!
-               if (fissrate(pos)%fissparts(i+1) .eq. -1) then
+               if (fissrate_inout%fissparts(i+1) .eq. -1) then
                 call raise_exception("Fragment was not found in nucleus library, does your library have 'holes'?",&
                                      "kodtakdist",190013)
                end if
 
-               fissrate(pos)%ch_amount(i+1) = fissrate(pos)%channelprob(i)    ! rate at which fragment is produced per destroyed parent nucleus
-               fissrate(pos)%fissparts(i+1+fissrate(pos)%channels) = findaz(a2,z2)
+               fissrate_inout%ch_amount(i+1) = fissrate_inout%channelprob(i)    ! rate at which fragment is produced per destroyed parent nucleus
+               fissrate_inout%fissparts(i+1+fissrate_inout%channels) = findaz(a2,z2)
                ! Check that the nucleus was really found!
-               if (fissrate(pos)%fissparts(i+1+fissrate(pos)%channels) .eq. -1) then
+               if (fissrate_inout%fissparts(i+1+fissrate_inout%channels) .eq. -1) then
                 call raise_exception("Fragment was not found in nucleus library, does your library have 'holes'?",&
                                      "kodtakdist",190013)
                end if
 
-               fissrate(pos)%ch_amount(i+1+fissrate(pos)%channels) = fissrate(pos)%channelprob(i)
+               fissrate_inout%ch_amount(i+1+fissrate_inout%channels) = fissrate_inout%channelprob(i)
                if (neutronflag.eq.1) then
-                  fissrate(pos)%fissparts(dimens) = ineu
-                  fissrate(pos)%ch_amount(dimens) = real(nemiss)
+                  fissrate_inout%fissparts(dimens) = ineu
+                  fissrate_inout%ch_amount(dimens) = real(nemiss)
                end if
-               fissrate(pos)%q_value(i) = isotope(fissrate(pos)%fissnuc_index)%mass_exc - &
+               fissrate_inout%q_value(i) = isotope(fissrate_inout%fissnuc_index)%mass_exc - &
                        nemiss * isotope(ineu)%mass_exc - &
-                       isotope(fissrate(pos)%fissparts(i+1))%mass_exc - &
-                       isotope(fissrate(pos)%fissparts(i+1+fissrate(pos)%channels))%mass_exc
+                       isotope(fissrate_inout%fissparts(i+1))%mass_exc - &
+                       isotope(fissrate_inout%fissparts(i+1+fissrate_inout%channels))%mass_exc
             end select
          end do massloop
       end do
@@ -1979,19 +1997,19 @@ contains
       ! Set the neutrons correctly
       select case(fiss_mode)
       case(1)
-        fissrate(pos)%ch_amount(1)   = nemiss_total - 1.d0
+        fissrate_inout%ch_amount(1)   = nemiss_total - 1.d0
       case(2:)
         if (neutronflag.eq.1) then
-            fissrate(pos)%fissparts(dimens) = ineu
-            fissrate(pos)%ch_amount(dimens) = nemiss_total
+            fissrate_inout%fissparts(dimens) = ineu
+            fissrate_inout%ch_amount(dimens) = nemiss_total
         end if
       end select
 
       qval = 0.d0
-      do i=1,fissrate(pos)%dimens
-          qval = qval - isotope(fissrate(pos)%fissparts(i))%mass_exc*fissrate(pos)%ch_amount(i) ! weighted average Q-value
+      do i=1,fissrate_inout%dimens
+          qval = qval - isotope(fissrate_inout%fissparts(i))%mass_exc*fissrate_inout%ch_amount(i) ! weighted average Q-value
       end do
-      fissrate(pos)%averageQ = qval
+      fissrate_inout%averageQ = qval
 
       nufiss = nufiss + int(nemiss_total)
 
@@ -2005,7 +2023,7 @@ contains
    !> Read the fission distribution from a file
    !!
    !! The fission distribution is read from a file and stored in the
-   !! fissfrags array. The default file contains the fission distribution
+   !! fragment_array. The default file contains the fission distribution
    !! according to [Mumpower et al. (2020)](https://ui.adsabs.harvard.edu/abs/2020PhRvC.101e4607M/abstract).
    !! However, the format has been modified compared to the original publication.
    !! An example of the file looks like:
@@ -2020,7 +2038,7 @@ contains
    !! The first line contains the Z, A and number of the fissioning nucleus.
    !! The next line is a dummy line. Then followed by Z, A and the yield Y(Z,A).
    !! Note that \f$\sum Y(Z,A) \cdot A \f$ should be the mass number of the
-   !! parent nucleus. Furthermore,  \f$\sum Y(Z,A) = 2\f$.
+   !! parent nucleus. Furthermore,  \f$\sum Y(Z,A) = 2\f$ in case 2 fragments are created.
    !! A large part of the subroutine deals with the problem what to do if the fragment
    !! is not included in the network. In case of a nucleus heavier than the ones contained in
    !! the network, the fragment is split into a lighter isotope plus neutrons.
@@ -2032,12 +2050,14 @@ contains
    !!
    !! @author M. Reichert
    !! @date 14.02.23
-   subroutine read_mumpower_fissfile(file)
+   subroutine read_fiss_fragment_file(file,fragment_array)
     use file_handling_class
-    use benam_class, only: findaz, minmax
+    use benam_class,     only: findaz, minmax
+    use error_msg_class, only: raise_exception
     implicit none
 
-    character(len=*), intent(in) :: file !< File path to mumpower file
+    character(len=*), intent(in)                           :: file           !< File path to fission fragment file
+    type(fragtype), dimension(:), allocatable, intent(out) :: fragment_array !< Array of fission fragments
 
     integer :: file_id       !< Integer id of the file
     integer :: frag_counter  !< Count the number of distributions
@@ -2054,7 +2074,7 @@ contains
     integer :: mina,maxa     !< Minimum and maximum A
 
 
-    INFO_ENTRY("read_mumpower_fissfile")
+    INFO_ENTRY("read_fiss_fragment_file")
 
     ! Open the file
     file_id =open_infile(file)
@@ -2079,10 +2099,10 @@ contains
     end do
 
     ! Allocate the distribtions
-    allocate(fissfrags(frag_counter),stat=astat)
+    allocate(fragment_array(frag_counter),stat=astat)
     if (astat .ne. 0) then
-        call raise_exception("Could not allocate 'fissfrags'.", &
-                             "read_mumpower_fissfile",190001)
+        call raise_exception("Could not allocate 'fragment_array'.", &
+                             "read_fiss_fragment_file",190001)
     end if
 
     ! Read the file again
@@ -2107,20 +2127,20 @@ contains
 
 
         ! Allocate the fragments
-        allocate(fissfrags(i)%net_idx(nof),&
-                 fissfrags(i)%Z(nof),&
-                 fissfrags(i)%A(nof),&
-                 fissfrags(i)%Y(nof),&
+        allocate(fragment_array(i)%net_idx(nof),&
+                 fragment_array(i)%Z(nof),&
+                 fragment_array(i)%A(nof),&
+                 fragment_array(i)%Y(nof),&
                  stat=astat)
         if (astat .ne. 0) then
             call raise_exception("Could not allocate fragment properties.", &
-                                 "read_mumpower_fissfile",190001)
+                                 "read_fiss_fragment_file",190001)
         end if
 
         ! Store the properties
-        fissfrags(i)%nr_frags = nof
-        fissfrags(i)%Zp = zf
-        fissfrags(i)%Ap = af
+        fragment_array(i)%nr_frags = nof
+        fragment_array(i)%Zp = zf
+        fragment_array(i)%Ap = af
 
         ! Count the neutrons emitted
         nem = 0
@@ -2128,30 +2148,30 @@ contains
 
         ! Read the fragments
         do j=1,nof
-            read(file_id,*) fissfrags(i)%Z(j),fissfrags(i)%A(j),fissfrags(i)%Y(j)
-            fissfrags(i)%net_idx(j) =findaz(fissfrags(i)%A(j),fissfrags(i)%Z(j))
+            read(file_id,*) fragment_array(i)%Z(j),fragment_array(i)%A(j),fragment_array(i)%Y(j)
+            fragment_array(i)%net_idx(j) =findaz(fragment_array(i)%A(j),fragment_array(i)%Z(j))
 
             ! What to do when the fragment is not in the network?
             ! Ideally make neutrons until the fragment is in the network
-            if (fissfrags(i)%net_idx(j) .eq. -1) then
+            if (fragment_array(i)%net_idx(j) .eq. -1) then
                 ! Tell the world that this is done
                 if (VERBOSE_LEVEL .ge. 2) then
-                    write(*,*) "Fragment ",fissfrags(i)%Z(j),fissfrags(i)%A(j),&
+                    write(*,*) "Fragment ",fragment_array(i)%Z(j),fragment_array(i)%A(j),&
                                " not in network. Splitting into lighter isotope and neutrons."
                 end if
 
-                mina = minmax(fissfrags(i)%Z(j),1)
-                maxa = minmax(fissfrags(i)%Z(j),2)
-                if (fissfrags(i)%A(j) .gt. maxa) then
+                mina = minmax(fragment_array(i)%Z(j),1)
+                maxa = minmax(fragment_array(i)%Z(j),2)
+                if (fragment_array(i)%A(j) .gt. maxa) then
                     ! Rest goes to neutrons
-                    nem = nem + (fissfrags(i)%A(j)-maxa)
+                    nem = nem + (fragment_array(i)%A(j)-maxa)
                     ! Yield of neutrons is the amount scaled with the
                     ! yield of the not included fragment
                     ! Y * A should be conserved
-                    Ynem = Ynem + fissfrags(i)%Y(j)*(fissfrags(i)%A(j)-maxa)
-                    fissfrags(i)%Y(j) = fissfrags(i)%Y(j) ! THis stays conserved
-                    fissfrags(i)%A(j) = maxa
-                    fissfrags(i)%net_idx(j) = findaz(maxa,fissfrags(i)%Z(j))
+                    Ynem = Ynem + fragment_array(i)%Y(j)*(fragment_array(i)%A(j)-maxa)
+                    fragment_array(i)%Y(j) = fragment_array(i)%Y(j) ! THis stays conserved
+                    fragment_array(i)%A(j) = maxa
+                    fragment_array(i)%net_idx(j) = findaz(maxa,fragment_array(i)%Z(j))
                 end if
             end if
         end do
@@ -2159,25 +2179,25 @@ contains
         ! Check how many neutrons are avaiable and give it to the missing
         ! fragments
         do j=1,nof
-            if (fissfrags(i)%net_idx(j) .eq. -1) then
+            if (fragment_array(i)%net_idx(j) .eq. -1) then
 
                 ! Say something if verbose
                 if (VERBOSE_LEVEL .ge. 2) then
-                    write(*,*) "Fission fragment Z=",fissfrags(i)%Z(j), &
-                               "A=",fissfrags(i)%A(j), &
-                               "Y=",fissfrags(i)%Y(j), &
+                    write(*,*) "Fission fragment Z=",fragment_array(i)%Z(j), &
+                               "A=",fragment_array(i)%A(j), &
+                               "Y=",fragment_array(i)%Y(j), &
                                "not in network, trying to remap."
                 end if
 
                 ! Needed neutrons are:
-                mina = minmax(fissfrags(i)%Z(j),1)
-                bn = (mina-fissfrags(i)%A(j)) ! Amount of missing neutrons
+                mina = minmax(fragment_array(i)%Z(j),1)
+                bn = (mina-fragment_array(i)%A(j)) ! Amount of missing neutrons
 
                 ! Borrow neutrons, take heaviest fragment that has enough
                 ! abundance
                 do m=nof,1,-1
-                    if ((fissfrags(i)%net_idx(m) .ne. -1) .and. &
-                        ((bn*fissfrags(i)%Y(j) / fissfrags(i)%A(m)) .lt. fissfrags(i)%Y(m))) then
+                    if ((fragment_array(i)%net_idx(m) .ne. -1) .and. &
+                        ((bn*fragment_array(i)%Y(j) / fragment_array(i)%A(m)) .lt. fragment_array(i)%Y(m))) then
                         exit
                     end if
                 end do
@@ -2187,50 +2207,48 @@ contains
                     call raise_exception("Could not remap fission fragments, "// &
                                          "consider to include more nuclides in the network. "//&
                                          NEW_LINE('A')//&
-                                         "Nucleus Z="//trim(int_to_str(fissfrags(i)%Z(j)))// &
-                                         ", A="//trim(int_to_str(fissfrags(i)%A(j)))// &
+                                         "Nucleus Z="//trim(int_to_str(fragment_array(i)%Z(j)))// &
+                                         ", A="//trim(int_to_str(fragment_array(i)%A(j)))// &
                                          " was not included. "//NEW_LINE('A')//&
                                          "Need "//int_to_str(bn)//" neutrons.",&
-                                         "read_mumpower_fissfile",&
+                                         "read_fiss_fragment_file",&
                                          190008)
                 end if
 
                 ! Otherwise borrow the neutrons from the heavier fragment
-                fissfrags(i)%Y(m) = fissfrags(i)%Y(m) - (bn*fissfrags(i)%Y(j) / fissfrags(i)%A(m))
-                fissfrags(i)%Y(j) = fissfrags(i)%Y(j)
+                fragment_array(i)%Y(m) = fragment_array(i)%Y(m) - (bn*fragment_array(i)%Y(j) / fragment_array(i)%A(m))
+                fragment_array(i)%Y(j) = fragment_array(i)%Y(j)
                 ! Give the fragment a new identity
-                fissfrags(i)%A(j) = mina
-                fissfrags(i)%net_idx(j) = findaz(mina,fissfrags(i)%Z(j))
+                fragment_array(i)%A(j) = mina
+                fragment_array(i)%net_idx(j) = findaz(mina,fragment_array(i)%Z(j))
             end if
         end do
 
         ! Proof the yields, this should be Af!
         helper = Ynem
         do j=1,nof
-            helper = helper+fissfrags(i)%A(j)*fissfrags(i)%Y(j)
+            helper = helper+fragment_array(i)%A(j)*fragment_array(i)%Y(j)
         end do
-        if (abs(helper - float(fissfrags(i)%Ap)) .gt. 1e-2) then
+        if (abs(helper - float(fragment_array(i)%Ap)) .gt. 1e-2) then
             call raise_exception("Yield of fission fragments is not conserved. "// &
                                  "This happened for fragment distribution of "// &
-                                 "Nucleus Z="//trim(int_to_str(fissfrags(i)%Zp))// &
-                                 ", A="//trim(int_to_str(fissfrags(i)%Ap))// &
-                                 ". Ensure that the sum is 2.","read_mumpower_fissfile",&
+                                 "Nucleus Z="//trim(int_to_str(fragment_array(i)%Zp))// &
+                                 ", A="//trim(int_to_str(fragment_array(i)%Ap))// &
+                                 ". Ensure that the sum is 2.","read_fiss_fragment_file",&
                                  190009)
         end if
 
-        fissfrags(i)%neutrons = nem
-        fissfrags(i)%Yn       = Ynem
-        nufiss                = nufiss + Ynem
+        fragment_array(i)%neutrons = nem
+        fragment_array(i)%Yn       = Ynem
+        nufiss                     = nufiss + Ynem
     end do fragloop
 
     ! Close the file
     close(file_id)
 
-    INFO_EXIT("read_mumpower_fissfile")
+    INFO_EXIT("read_fiss_fragment_file")
 
-   end subroutine read_mumpower_fissfile
-
-
+   end subroutine read_fiss_fragment_file
 
 
    !> Fill the rates with the correct fragments
@@ -2239,23 +2257,24 @@ contains
    !! from [Mumpower et al. (2020)](https://ui.adsabs.harvard.edu/abs/2020PhRvC.101e4607M/abstract).
    !! This subroutine makes use of the fragtype struct.
    !! If no fragment is found, the fragment distribution is set to the
-   !! one of [Kodama & Takahashi 1975](https://ui.adsabs.harvard.edu/abs/1975NuPhA.239..489K/abstract)
+   !! one given by missing_frags.
    !! For beta-delayed fission the fissioning nucleus is the one of (Z+1, A)
    !! for neutron induced fission the nucleus with (Z, A+1), and for spontanous
    !! fission (not used within fissflag = 3) it is (Z,A).
    !!
    !! @author M. Reichert
    !! @date 14.02.2023
-   subroutine mumpower_fiss(pos,mass,pnr,src,qval)
+   subroutine file_fiss_frag(fissrate_inout,missing_frags)
     use global_class, only: isotope,ineu
     use benam_class, only: minmax,findaz
-    use error_msg_class, only: raise_exception
-       integer,intent(in)                     :: mass        !< Mass number of reacting nucleus
-       integer,intent(in)                     :: pnr         !< Proton number of reacting nucleus
-       integer, intent(in)                    :: pos         !< Position of the reaction
-       real(r_kind),intent(out)               :: qval        !< Q-value of the reaction
-       character(4), intent(in)               :: src         !< Source of the reaction
+    use error_msg_class, only: raise_exception, int_to_str
+    implicit none
+       type(fissionrate_type),intent(inout)   :: fissrate_inout !< Temporary fission rate
+       integer,optional, intent(in)           :: missing_frags!< Distribution to use if not in the file (1:panov, 2:kodama)
        ! Internal variables
+       integer                                :: mass         !< Mass number of reacting nucleus
+       integer                                :: pnr          !< Proton number of reacting nucleus
+       real(r_kind)                           :: qval         !< Q-value of the reaction
        integer                                :: nfrac_distr !< Number of fragment distributions
        integer                                :: i           !< Loop variable
        integer                                :: astat       !< Allocation status variable
@@ -2265,98 +2284,154 @@ contains
        type(fragtype)                         :: fissfrags_tmp!< Temporary fragment distribution
        logical                                :: found       !< Helper variable flag if the fragment
                                                              !  distribution was found
-       integer                                :: additional_neutrons !< Neutrons to be added for beta-delayed fission
+       integer                                :: additional_neutrons    !< Neutrons to be added for beta-delayed fission
+       integer                                :: missing_frags_internal !< Internal variable for missing fragments
 
-       INFO_ENTRY("mumpower_fiss")
+       INFO_ENTRY("file_fiss_frag")
+
+       ! Set the default missing fragments
+       if (.not. present(missing_frags)) then
+          missing_frags_internal = 0
+       else
+          missing_frags_internal = missing_frags
+       end if
+
+      ! Get the mass and proton number
+      mass = isotope(fissrate_inout%fissnuc_index)%mass
+      pnr  = isotope(fissrate_inout%fissnuc_index)%p_nr
 
       ! Loop through the fission fragments
-       nfrac_distr = size(fissfrags)
+       if (fissrate_inout%reac_type .eq. rrt_bf) then
+          nfrac_distr = size(fissfrags_beta_delayed)
+       else if (fissrate_inout%reac_type .eq. rrt_nf) then
+          nfrac_distr = size(fissfrags_n_induced)
+       else if (fissrate_inout%reac_type .eq. rrt_sf) then
+          nfrac_distr = size(fissfrags_spontaneous)
+       end if
 
        ! Assume first that there are no additional neutrons
-       additional_neutrons = fissrate(pos)%released_n
+       additional_neutrons = fissrate_inout%released_n
 
        ! Check which nuclei is fissioning
        zfiss = pnr
        afiss = mass - additional_neutrons
 
        ! Z-1 for beta delayed fission
-       if (fissrate(pos)%reac_type .eq. rrt_bf) then
+       if (fissrate_inout%reac_type .eq. rrt_bf) then
           zfiss = zfiss+1
        ! A+1 for neutron induced fission
-       elseif (fissrate(pos)%reac_type .eq. rrt_nf) then
+       elseif (fissrate_inout%reac_type .eq. rrt_nf) then
           afiss = afiss+1
        end if
        ! Don't change anything for spontaneous fission
 
        ! Find relevant indices
        ind_parent = findaz(mass,pnr)
-       fissrate(pos)%fissnuc_index = ind_parent
+       fissrate_inout%fissnuc_index = ind_parent
        found = .false.
         do i=1,nfrac_distr
-            if ((fissfrags(i)%Zp .eq. zfiss) .and. (fissfrags(i)%Ap .eq. afiss)) then
+
+            if (fissrate_inout%reac_type .eq. rrt_bf) then
+               fissfrags_tmp = fissfrags_beta_delayed(i)
+            else if (fissrate_inout%reac_type .eq. rrt_nf) then
+               fissfrags_tmp = fissfrags_n_induced(i)
+            else if (fissrate_inout%reac_type .eq. rrt_sf) then
+               fissfrags_tmp = fissfrags_spontaneous(i)
+            end if
+
+            if ((fissfrags_tmp%Zp .eq. zfiss) .and. (fissfrags_tmp%Ap .eq. afiss)) then
                 found = .true.
                 exit
             end if
         end do
 
-        ! Not found, do kodama in this case
+        ! Not found, check what to do
         if (.not. found) then
+
+            ! Raise an error when there is no alternative distribution specified
+            if (missing_frags_internal .eq. 0) then
+                call raise_exception("No fragment distribution found for Z="//int_to_str(zfiss)//", "//&
+                                     "A="//int_to_str(afiss)//" in fragment file. Either add it to the fission fragment file or set "//&
+                                     "'fission_frag_missing' to 1 (Panov et al. 2001) or 2 (Kodama & Takahashi 1975)",&
+                                     "file_fiss_frag", 190016)
+            end if
+
             ! Output this information
             if (VERBOSE_LEVEL .ge.2) then
                 write(*,*) "No fragment distribution found for Z=",zfiss,", A=",afiss
-                write(*,*) "Using Kodama & Takahashi 1975 instead."
+                if (missing_frags_internal .eq. 1) then
+                    write(*,*) "Using Panov 2001 instead."
+                else if (missing_frags_internal .eq. 2) then
+                    write(*,*) "Using Kodama & Takahashi 1975 instead."
+                end if
             end if
-            ! Get kodama distribution
-            call kodtakdist(pos,mass,pnr,src,qval)
+
+            if (missing_frags_internal .eq. 1) then
+                ! Get panov distribution
+                call fiss_dist(fissrate_inout)
+            else if (missing_frags_internal .eq. 2) then
+                ! Get kodama distribution
+                call kodtakdist(fissrate_inout)
+            else
+                call raise_exception("Unknown missing fragment distribution. "//&
+                                     "Got "//int_to_str(missing_frags_internal)//".",&
+                                     "file_fiss_frag",190015)
+            end if
         else
             ! Found, do mumpower
-            fissfrags_tmp = fissfrags(i)
+            if (fissrate_inout%reac_type .eq. rrt_bf) then
+                fissfrags_tmp = fissfrags_beta_delayed(i)
+             else if (fissrate_inout%reac_type .eq. rrt_nf) then
+                fissfrags_tmp = fissfrags_n_induced(i)
+             else if (fissrate_inout%reac_type .eq. rrt_sf) then
+                fissfrags_tmp = fissfrags_spontaneous(i)
+             end if
 
             ! Allocate the parts, the first two are the fissioning nucleus and neutrons
-            allocate(fissrate(pos)%fissparts(fissfrags_tmp%nr_frags+2),&
-                     fissrate(pos)%ch_amount(fissfrags_tmp%nr_frags+2),&
+            allocate(fissrate_inout%fissparts(fissfrags_tmp%nr_frags+2),&
+                     fissrate_inout%ch_amount(fissfrags_tmp%nr_frags+2),&
                      stat=astat)
             ! Complain if not possible
             if (astat .ne. 0) then
                 call raise_exception("Could not allocate memory for fission fragments.",&
-                                     "mumpower_fiss",190001)
+                                     "file_fiss_frag",190001)
             end if
 
             ! Set up the number of participants,
             ! Number of fragments + parent nucleus + neutrons
-            fissrate(pos)%dimens = fissfrags_tmp%nr_frags+2
+            fissrate_inout%dimens = fissfrags_tmp%nr_frags+2
 
             ! Use the correct order of the reacting nuclei
-            if (.not. (fissrate(pos)%reac_type .eq. rrt_nf)) then
-                fissrate(pos)%fissparts(1) = ind_parent
-                fissrate(pos)%fissparts(2) = ineu
-                fissrate(pos)%ch_amount(1) = -1d0
-                fissrate(pos)%ch_amount(2) = fissfrags_tmp%Yn+float(additional_neutrons)
+            if (.not. (fissrate_inout%reac_type .eq. rrt_nf)) then
+                fissrate_inout%fissparts(1) = ind_parent
+                fissrate_inout%fissparts(2) = ineu
+                fissrate_inout%ch_amount(1) = -1d0
+                fissrate_inout%ch_amount(2) = fissfrags_tmp%Yn+float(additional_neutrons)
             else
-                fissrate(pos)%fissparts(1) = ineu
-                fissrate(pos)%fissparts(2) = ind_parent
-                fissrate(pos)%ch_amount(1) = fissfrags_tmp%Yn-1d0+float(additional_neutrons)
-                fissrate(pos)%ch_amount(2) = -1d0
+                fissrate_inout%fissparts(1) = ineu
+                fissrate_inout%fissparts(2) = ind_parent
+                fissrate_inout%ch_amount(1) = fissfrags_tmp%Yn-1d0+float(additional_neutrons)
+                fissrate_inout%ch_amount(2) = -1d0
             end if
 
 
             do i=1,fissfrags_tmp%nr_frags
-                fissrate(pos)%fissparts(i+2) = fissfrags_tmp%net_idx(i)
-                fissrate(pos)%fissparts(i+2) = fissfrags_tmp%net_idx(i)
-                fissrate(pos)%ch_amount(i+2) = fissfrags_tmp%Y(i)
+                fissrate_inout%fissparts(i+2) = fissfrags_tmp%net_idx(i)
+                fissrate_inout%fissparts(i+2) = fissfrags_tmp%net_idx(i)
+                fissrate_inout%ch_amount(i+2) = fissfrags_tmp%Y(i)
             end do
         end if
 
         ! Calculate the Q-value
         qval = 0.d0
-        qvalue: do i=1,fissrate(pos)%dimens
-           qval = qval - isotope(fissrate(pos)%fissparts(i))%mass_exc*fissrate(pos)%ch_amount(i) ! weighted average Q-value
+        qvalue: do i=1,fissrate_inout%dimens
+           qval = qval - isotope(fissrate_inout%fissparts(i))%mass_exc*fissrate_inout%ch_amount(i) ! weighted average Q-value
         end do qvalue
-        fissrate(pos)%averageQ = qval
+        fissrate_inout%averageQ = qval
 
-       INFO_EXIT("mumpower_fiss")
+       INFO_EXIT("file_fiss_frag")
 
-    end subroutine mumpower_fiss
+    end subroutine file_fiss_frag
 
 
 
@@ -2598,12 +2673,11 @@ contains
    !! the ABLA07 model: Kelic, Ricciardi, & Schmidt (arXiv:0906.4193)
    !!
    !! @see [Kelic et al. 2009](https://ui.adsabs.harvard.edu/abs/2009arXiv0906.4193K/abstract)
-   subroutine abla_betafiss(pos,mass,pnr,src,betafission,qval)
+   subroutine abla_betafiss(pos,mass,pnr,betafission,qval)
       use global_class,    only: isotope,ineu
       use benam_class,     only: minmax,findaz
       use error_msg_class, only: raise_exception
          integer,intent(in)                     :: mass,pnr
-         character(4), intent(in)               :: src
          integer, intent(inout)                 :: pos
          real(r_kind),intent(out)               :: qval
          integer                                :: nemiss,fmass,fpnr
@@ -2647,9 +2721,9 @@ contains
 
              fissrate(pos)%channels       = nof
              fissrate(pos)%fissnuc_index  = findaz(mass,pnr)
-             if (src.eq.'sfis') then
+             if (fissrate(pos)%reac_type.eq. rrt_sf) then
                 fissrate(pos)%mode = 2                ! spontaneous fission
-             else
+             else if (fissrate(pos)%reac_type.eq. rrt_bf) then
                 fissrate(pos)%mode = 3                ! beta-delayed fission
              end if
 
@@ -2755,13 +2829,14 @@ contains
          allocate(z2(1),stat=alloc_stat)
 
          fmass = mass
-         if (src.eq.'sfis') then      ! spontaneous fission
+         if (fissrate(pos)%reac_type.eq. rrt_sf) then
             fpnr = pnr
-            fissrate(pos)%mode = 2
-         else                         ! beta-delayed fission
+            fissrate(pos)%mode = 2             ! spontaneous fission
+         else if (fissrate(pos)%reac_type.eq. rrt_bf) then
             fpnr  = pnr + 1
-            fissrate(pos)%mode = 3
+            fissrate(pos)%mode = 3              ! beta-delayed fission
          end if
+
          select case (fmass)
              case(:240) ! -> symmetric fission
                a2(1) = nint(fmass/2.d0)

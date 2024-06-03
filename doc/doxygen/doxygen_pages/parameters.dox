@@ -133,60 +133,39 @@
 \section bfission_file      bfission_file
 
    File that contains the fission fragment probabilities of \f$\beta\f$-delayed
-   and spontaneous fission. An example is given by:
+   fission in case that \ref fissflag is set to 4 and \ref fission_frag_beta_delayed is set to 3.  
+   An example is given by:
    \file{
-   90 231      39
-   7.800592E-07   0.000   0.180
-    79  31  0.0137
-    80  32  0.0191
-    81  32  0.0199
-    82  32  0.0258
+    93  220  574
+   0 0 0
+   019  048  1.96607e-06
+   020  048  2.24289e-05
+   020  049  1.88041e-05
+   020  050  7.65944e-06
+   020  051  1.62040e-06
+   021  048  1.17847e-05
+   021  049  3.62928e-05
+   021  050  5.43032e-05
    ...}
    Here, the first line specifies the fissioning nucleus
    (atomic number, mass number) and the amount of fission fragments (39).
-   The second line gives the rate of the reaction, the amount of incoming neutrons
-   and the amount of outcoming neutrons. It is not used within WinNet.
+   The second line is a dummy line which is not used within WinNet.
    From the third line onwards, the fission fragments are specified
-   (mass number, atomic number) together with their probability.
+   (atomic number, mass number) together with their yield.
    The third column therefore adds up to one over all fragments. This file
    is read only when \ref fissflag was set to four.
+   Noe that the following must hold: 
+   \f[
+   \sum Y(Z,A)\cdot A = A_\text{fiss}
+   \f]
+   with the mass number of the fissioning nucleus \f$ A_\text{fiss}\f$. Otherwise an error is
+   raised.
 
    @par Example template line:
-   `` fission_file= "@WINNET@/data/BFISSION" ``
+   `` bfission_file= "@WINNET@/data/BFISSION" ``
 
-   @see parameter_class::bfission_file, \ref fission_rate_module, \ref nfission_file, \ref fissflag
+   @see parameter_class::bfission_file, \ref fission_rate_module, \ref nfission_file, \ref sfission_file, \ref fissflag, \ref fission_frag_beta_delayed
    
-   
-   
-\section nfission_file      nfission_file
-
-   Fission fragment probabilities of neutron induced fission. 
-   For \ref fissflag equal to 3, the file format has to be as given in 
-   [Mumpower et al. 2020](https://journals.aps.org/prc/supplemental/10.1103/PhysRevC.101.054607).
-   An example is given by:
-   \file{
-     93  220  574
-     0 0 0
-     019  048  1.96607e-06
-     020  048  2.24289e-05
-     020  049  1.88041e-05
-     020  050  7.65944e-06
-     020  051  1.62040e-06
-     021  048  1.17847e-05
-     021  049  3.62928e-05
-   }
-   The first line contains the Z, A and number of the fissioning nucleus.
-   The next line is a dummy line. Then followed by Z, A and the yield Y(Z,A).
-   Note that \f$\sum Y(Z,A) \cdot A \f$ should be the mass number of the
-   parent nucleus. Furthermore,  \f$\sum Y(Z,A) = 2\f$.
-   
-
-   @par Example template line:
-   `` nfission_file= "@WINNET@/data/NFISSION" ``
-
-   @see parameter_class::nfission_file, \ref fission_rate_module, \ref bfission_file, \ref fissflag, 
-        [Mumpower et al. 2020](https://journals.aps.org/prc/supplemental/10.1103/PhysRevC.101.054607)
-
    
    
    
@@ -365,6 +344,7 @@
     <tr><td> 2  <td> Kodama-Takahashi            <td>\ref fission_rates_beta_delayed, \ref fission_format_beta_delayed, \ref fission_rates_n_induced, \ref fission_format_n_induced, \ref fission_rates_spontaneous, \ref fission_format_spontaneous  <td> [Kodama & Takahashi 1975](https://ui.adsabs.harvard.edu/abs/1975NuPhA.239..489K/abstract)
     <tr><td> 3  <td> Mumpower & Kodama-Takahashi <td>\ref fission_rates_beta_delayed, \ref fission_format_beta_delayed, \ref fission_rates_n_induced, \ref fission_format_n_induced, \ref fission_rates_spontaneous, \ref fission_format_spontaneous, \ref nfission_file <td> [Mumpower et al. 2020](https://ui.adsabs.harvard.edu/abs/2020PhRvC.101e4607M/abstract), 
                                                                                                  [Kodama & Takahashi 1975](https://ui.adsabs.harvard.edu/abs/1975NuPhA.239..489K/abstract)
+    <tr><td> 4  <td> Custom <td>\ref fission_rates_beta_delayed, \ref fission_format_beta_delayed, \ref fission_rates_n_induced, \ref fission_format_n_induced, \ref fission_rates_spontaneous, \ref fission_format_spontaneous, \ref fission_frag_n_induced, \ref fission_frag_spontaneous, \ref fission_frag_beta_delayed <td> -
     </table>
 
     For fission flag 3, the fragments of [Mumpower et al. 2020](https://ui.adsabs.harvard.edu/abs/2020PhRvC.101e4607M/abstract) are used for beta delayed and neutron induced fission. For spontaneous fission
@@ -495,7 +475,83 @@
     @see \ref fission_rate_module, parameter_class::fission_format_spontaneous, fission_rate_module::read_fission_rates,
          \ref fission_rates_spontaenous, \ref fission_format_n_induced, \ref fission_format_beta_delayed
     
-
+    
+    \section fission_frag_beta_delayed   fission_frag_beta_delayed
+   Fragment distribution for beta-delayed fission in case \ref fissflag was set to 4. Possible values are:
+     <table>
+    <caption id="multi_row"></caption>
+    <tr><th> Value     <th> Fission fragments                                                                            <th> Necessary other parameter
+    <tr><td> 1         <td> [Panov et al. 2001](https://ui.adsabs.harvard.edu/abs/2001NuPhA.688..587P/abstract)          <td> -
+    <tr><td> 2         <td> [Kodama & Takahashi 1975](https://ui.adsabs.harvard.edu/abs/1975NuPhA.239..489K/abstract)    <td> -           
+    <tr><td> 3         <td> From file                                                                                    <td> \ref bfission_file
+    </table>
+   The default value is 1. In case \ref fission_frag_beta_delayed is set to 3, one can specify the default fission fragment distribution with the parameter \ref fission_frag_missing
+   in case it was not found in the file. 
+   
+    @par Example template line:
+       ``` fission_frag_beta_delayed= 1 ```
+    @see \ref fission_rate_module, parameter_class::fission_frag_n_induced, \ref fissflag,
+         \ref bfission_file, \ref fission_frag_missing, \ref fission_frag_n_induced, 
+         \ref fission_frag_spontaneous   
+       
+       
+    \section fission_frag_missing   fission_frag_missing
+   Fragment distribution in case \ref fissflag was set to 4 and the specfied file (\ref sfission_file, \ref bfission_file, \ref nfission_file) was not
+   containing the necessary fragments. Possible values are:
+     <table>
+    <caption id="multi_row"></caption>
+    <tr><th> Value     <th> Fission fragments                                                                            
+    <tr><td> 0         <td> None, error is raised                                                                       
+    <tr><td> 1         <td> [Panov et al. 2001](https://ui.adsabs.harvard.edu/abs/2001NuPhA.688..587P/abstract)         
+    <tr><td> 2         <td> [Kodama & Takahashi 1975](https://ui.adsabs.harvard.edu/abs/1975NuPhA.239..489K/abstract)   
+    </table>
+   The default value is 0 and an error will be raised in case a fragment is missing.
+   
+    @par Example template line:
+       ``` fission_frag_spontaneous= 1 ```
+    @see \ref fission_rate_module, parameter_class::fission_frag_n_induced, \ref fissflag,
+         \ref sfission_file, \ref fission_frag_missing, \ref fission_frag_n_induced, 
+         \ref fission_frag_beta_delayed, \ref fission_frag_spontaneous 
+    
+    
+   \section fission_frag_n_induced   fission_frag_n_induced
+   Fragment distribution for neutron-induced fission in case \ref fissflag was set to 4. Possible values are:
+     <table>
+    <caption id="multi_row"></caption>
+    <tr><th> Value     <th> Fission fragments                                                                            <th> Necessary other parameter
+    <tr><td> 1         <td> [Panov et al. 2001](https://ui.adsabs.harvard.edu/abs/2001NuPhA.688..587P/abstract)          <td> -
+    <tr><td> 2         <td> [Kodama & Takahashi 1975](https://ui.adsabs.harvard.edu/abs/1975NuPhA.239..489K/abstract)    <td> -           
+    <tr><td> 3         <td> From file                                                                                    <td> \ref nfission_file
+    </table>
+   The default value is 1. In case \ref fission_frag_n_induced is set to 3, one can specify the default fission fragment distribution with the parameter \ref fission_frag_missing
+   in case it was not found in the file. 
+   
+    @par Example template line:
+       ``` fission_frag_n_induced= 1 ```
+    @see \ref fission_rate_module, parameter_class::fission_frag_n_induced, \ref fissflag,
+         \ref nfission_file, \ref fission_frag_missing, \ref fission_frag_beta_delayed, 
+         \ref fission_frag_spontaneous   
+       
+   
+    \section fission_frag_spontaneous   fission_frag_spontaneous
+   Fragment distribution for beta-delayed fission in case \ref fissflag was set to 4. Possible values are:
+     <table>
+    <caption id="multi_row"></caption>
+    <tr><th> Value     <th> Fission fragments                                                                            <th> Necessary other parameter
+    <tr><td> 1         <td> [Panov et al. 2001](https://ui.adsabs.harvard.edu/abs/2001NuPhA.688..587P/abstract)          <td> -
+    <tr><td> 2         <td> [Kodama & Takahashi 1975](https://ui.adsabs.harvard.edu/abs/1975NuPhA.239..489K/abstract)    <td> -           
+    <tr><td> 3         <td> From file                                                                                    <td> \ref sfission_file
+    </table>
+   The default value is 1. In case \ref fission_frag_spontaneous is set to 3, one can specify the default fission fragment distribution with the parameter \ref fission_frag_missing
+   in case it was not found in the file. 
+   
+    @par Example template line:
+       ``` fission_frag_spontaneous= 1 ```
+    @see \ref fission_rate_module, parameter_class::fission_frag_n_induced, \ref fissflag,
+         \ref sfission_file, \ref fission_frag_missing, \ref fission_frag_n_induced, 
+         \ref fission_frag_beta_delayed 
+             
+       
    \section fission_rates_beta_delayed              fission_rates_beta_delayed
     A file that contains \f$\beta\f$-delayed fission rates. The format of this file
     can be specified by the parameter \ref fission_format_beta_delayed.
@@ -1096,6 +1152,37 @@ Possible values are "analytic" or "from_file".
 @see parameter_class::neutrino_mode, \ref Le, \ref Lebar, \ref Enue, \ref Enuebar,
      \ref trajectory_format
 
+   
+\section nfission_file      nfission_file
+
+   Fission fragment probabilities of neutron induced fission. 
+   For \ref fissflag equal to 3 and 4, the file format has to be as given in 
+   [Mumpower et al. 2020](https://journals.aps.org/prc/supplemental/10.1103/PhysRevC.101.054607).
+   An example is given by:
+   \file{
+     93  220  574
+     0 0 0
+     019  048  1.96607e-06
+     020  048  2.24289e-05
+     020  049  1.88041e-05
+     020  050  7.65944e-06
+     020  051  1.62040e-06
+     021  048  1.17847e-05
+     021  049  3.62928e-05
+   }
+   The first line contains the Z, A and number of the fissioning nucleus.
+   The next line is a dummy line. Then followed by Z, A and the yield Y(Z,A).
+   Note that \f$\sum Y(Z,A) \cdot A \f$ should be the mass number of the
+   parent nucleus. Furthermore,  \f$\sum Y(Z,A) = 2\f$.
+   
+
+   @par Example template line:
+   `` nfission_file= "@WINNET@/data/NFISSION" ``
+
+   @see parameter_class::nfission_file, \ref fission_rate_module, \ref bfission_file, \ref sfission_file \ref fissflag, 
+        [Mumpower et al. 2020](https://journals.aps.org/prc/supplemental/10.1103/PhysRevC.101.054607)
+
+   
 
  \section nr_maxcount              nr_maxcount
  Maximum amount of iterations within the Newton-Raphson algorithm. This parameter
@@ -1595,6 +1682,42 @@ An example file looks like:
    `` seed_format = "A Z Y" ``
    @see parameter_class::seed_format, readini::read_seed, parameter_class::seed_file, \ref seed_file
 
+
+\section sfission_file      sfission_file
+
+   File that contains the fission fragment probabilities of spontaneous
+   fission in case that \ref fissflag is set to 4 and \ref fission_frag_spontaneous is set to 3. 
+   An example is given by:
+   \file{
+    93  220  574
+   0 0 0
+   019  048  1.96607e-06
+   020  048  2.24289e-05
+   020  049  1.88041e-05
+   020  050  7.65944e-06
+   020  051  1.62040e-06
+   021  048  1.17847e-05
+   021  049  3.62928e-05
+   021  050  5.43032e-05
+   ...}
+   Here, the first line specifies the fissioning nucleus
+   (atomic number, mass number) and the amount of fission fragments (39).
+   The second line is a dummy line which is not used within WinNet.
+   From the third line onwards, the fission fragments are specified
+   (atomic number, mass number) together with their yield.
+   The third column therefore adds up to one over all fragments. This file
+   is read only when \ref fissflag was set to four.
+   Noe that the following must hold: 
+   \f[
+   \sum Y(Z,A)\cdot A = A_\text{fiss}
+   \f]
+   with the mass number of the fissioning nucleus \f$ A_\text{fiss}\f$. Otherwise an error is
+   raised.
+
+   @par Example template line:
+   `` sfission_file= "@WINNET@/data/SFISSION" ``
+
+   @see parameter_class::sfission_file, \ref fission_rate_module, \ref nfission_file, \ref bfission_file, \ref fissflag, \ref fission_frag_spontaneous
 
    \section snapshot_every             snapshot_every
    Frequency of an output of all abundances. This output will be stored
