@@ -241,6 +241,7 @@ TESTS += read_neutrino
 TESTS += switch_evolution
 TESTS += expand
 TESTS += tabulated_rates
+TESTS += tabulated_rates_custom_grid
 TESTS += ulimit
 TESTS += tw_rate
 TESTS += screening
@@ -374,6 +375,7 @@ fission_rate_module.o                 :\
    nucstuff_class.o \
    benam_class.o \
    mergesort_module.o \
+   tabulated_rate_module.o \
    format_class.o \
    global_class.o \
    error_msg_class.o

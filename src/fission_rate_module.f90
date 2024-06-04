@@ -442,9 +442,10 @@ contains
    !! @author M. Reichert
    !! @date 30.05.24
    subroutine modify_halflifes(rrate,rrate_length,fissrate_in,nfiss_in)
-    use global_class,    only: reactionrate_type, net_size, ineu, ipro, net_names
-    use nucstuff_class,  only: get_nr_reactants
-    use error_msg_class, only: int_to_str, raise_exception
+    use global_class,          only: reactionrate_type, net_size, ineu, ipro, net_names
+    use nucstuff_class,        only: get_nr_reactants
+    use error_msg_class,       only: int_to_str, raise_exception
+    use tabulated_rate_module, only: multiply_tab_rate_by_factor, calculate_tab_rate, tabulated_index
     implicit none
     type(reactionrate_type),dimension(:),allocatable,intent(inout) :: rrate            !< Large rate array, containing all reactions
     integer,intent(inout)                                          :: rrate_length     !< length of rrate_array
@@ -505,10 +506,14 @@ contains
                             end if
                         ! Take care of tabulated rates
                         else if (rrate(i)%reac_src .eq. rrs_tabl)  then
-                            lambda_rate = rrate(i)%tabulated(1)
+
+                            ! The rate should be constant so just take 1GK
+                            call tabulated_index(1d0)
+                            call calculate_tab_rate(rrate(i),1d0,lambda_rate)
+                            ! Save it
                             lambdas(rrate(i)%parts(j)) = lambdas(rrate(i)%parts(j))+lambda_rate
                             if ((1d0-tot_fiss_prob) .ne. 0d0) then
-                                rrate(i)%tabulated(:) = rrate(i)%tabulated(:)*(1d0-tot_fiss_prob)
+                                call multiply_tab_rate_by_factor(rrate(i),1d0-tot_fiss_prob)
                             else
                                 ! Remove the rate, it will become a fission rate
                                 rrate_mask(i) = .False.

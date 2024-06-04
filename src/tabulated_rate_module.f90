@@ -48,16 +48,18 @@ module tabulated_rate_module
       2.5d+0,3.0d+0,3.5d+0,4.0d+0,5.0d+0,6.0d+0,7.0d+0,8.0d+0,9.0d+0,1.0d+1 /) !< default Temperature grid of tabulated reaction rates [GK]
 
    type(reactionrate_type),dimension(:),allocatable,public       :: rrates_tabulated !< array containing all tabulated reaction rates in rrate format
-   type(tabulated_rate_type), dimension(:), allocatable,public   :: tabulated_rate   !< array containing all tabulated reaction rates
+   type(tabulated_rate_type), dimension(:), allocatable,private  :: tabulated_rate   !< array containing all tabulated reaction rates
 
    !
    ! Public and private fields and methods of the module
    !
    public:: &
       init_tabulated_rates, merge_tabulated_rates, tabulated_index,&
-      calculate_tab_rate
+      calculate_tab_rate, multiply_tab_rate_by_factor, &
+      output_binary_tabulated_reaction_data, read_binary_tabulated_reaction_data
    private:: &
-      readtabulated,tabulated_inter
+      readtabulated, tabulated_inter, readtabulatedtemps,&
+      write_reac_verbose_out
 contains
 
    !> Initialize tabulated rates
@@ -194,11 +196,30 @@ contains
      real(r_kind),intent(out)            :: rat_calc !< rate value
 
      integer :: tab_rate_index !< index of the tabulated rate
-
      ! Interpolate the rate
      tab_rate_index = int(rrate%param(1))
      rat_calc = tabulated_inter(tabulated_rate(tab_rate_index)%tabulated,temp)
    end subroutine calculate_tab_rate
+
+
+   !> Multiply a tabulated rate by a factor
+   !!
+   !! This subroutine multiplies a tabulated rate by a factor.
+   !!
+   !! @author M. Reichert
+   !! @date 04.06.24
+   subroutine multiply_tab_rate_by_factor(rrate,factor)
+    implicit none
+    type(reactionrate_type),intent(in) :: rrate
+    real(r_kind),intent(in) :: factor
+    ! Internal variables
+    integer :: tab_rate_index !< index of the tabulated rate
+
+    tab_rate_index = int(rrate%param(1))
+    tabulated_rate(tab_rate_index)%tabulated(:) = tabulated_rate(tab_rate_index)%tabulated(:) * factor
+
+   end subroutine multiply_tab_rate_by_factor
+
 
 
    !> Reads tabulated reaction rate temperature grid.
@@ -317,6 +338,7 @@ contains
      !
      integer                         :: grp
      integer                         :: group_index
+     integer                         :: cnt_two
      character(5), dimension(6)      :: parts
      integer, dimension(6)           :: parts_index
      character(4)                    :: src
@@ -364,7 +386,6 @@ contains
      end do talloc_loop
 
      ntab = k
-
    !----- allocate the array of tabulated reactions
      allocate(rrates_tabulated(ntab),stat=alloc_stat)
    !----- allocate the array of tabulated rates
@@ -378,7 +399,7 @@ contains
      rewind(sourcefile)
 
      k=1
-     cntTab=0
+     cnt_two =0
    !----- read the input file again and fill the array of tabulated reactions
      touter_loop: do
    !----- read names of participating nuclides and Q-value
@@ -401,6 +422,7 @@ contains
    !----- if both participants are part of the network, write the rate into
    !----- tabulated_rate
         end select
+
         rrates_tabulated(k)%group       = group_index
         rrates_tabulated(k)%parts       = parts_index
         rrates_tabulated(k)%source      = src
@@ -415,7 +437,7 @@ contains
 
         tabulated_rate(k)%tabulated   = curTable
 
-        cntTab=k
+        cnt_two=k
         ! Set the reaction type
         call set_reaction_type(rrates_tabulated(k))
         ! Next rate
@@ -423,11 +445,12 @@ contains
      end do touter_loop
 
      ! Make the reading bullet proof
-     if (ntab .ne. cntTab) then
+     if (ntab .ne. cnt_two) then
         call raise_exception('Number of tabulated rates does not match while reading!',&
                              "readtabulated",420003)
      end if
 
+     cntTab = ntab
    ! get the correct coefficients to prevent double counting
    call getcoefficients(rrates_tabulated,ntab)
 
@@ -458,7 +481,7 @@ contains
    function tabulated_inter(rate,temp) result (tabr)
       implicit none
 
-      real(r_kind),dimension(:) :: rate  !< Rate entries
+      real(r_kind),dimension(:)      :: rate  !< Rate entries
       real(r_kind)                   :: temp  !< Temperature [GK]
       real(r_kind)                   :: tabr  !< Interpolated rate at temperature
 
