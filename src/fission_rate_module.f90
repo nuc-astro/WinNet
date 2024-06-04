@@ -1385,7 +1385,7 @@ contains
    !! @date 31.05.24
    subroutine read_fission_rates_probability_format(fission_path,reac_type,start_idx)
     use benam_class,     only: benam
-    use global_class,    only: isotope, ineu
+    use global_class,    only: isotope, ineu, net_names
     use error_msg_class, only: raise_exception
     use file_handling_class
     use format_class
@@ -1465,7 +1465,12 @@ contains
 
             fissindex = fissindex + 1
         end do
-
+        ! Check input
+        if (sum(beta_delayed_fiss_probs(idx_parent,:)) .gt. 1d0) then
+            call raise_exception("Sum of beta-delayed fission probabilities for "//net_names(idx_parent)//&
+                                 " is larger than one.", "read_fission_rates_probability_format",&
+                                 190017)
+        end if
     end do fission_prob
 
     ! Close the fission file again
