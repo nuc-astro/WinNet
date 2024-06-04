@@ -1813,7 +1813,23 @@ An example file looks like:
    @par Example template line:
    `` tabulated_rates_file  = tabl_rates.dat ``
    @see \ref use_tabulated_rates, \ref tabulated_rate_module.f90, \ref reaclib_file
-
+   
+   
+   \section tabulated_temperature_file tabulated_temperature_file
+   File with a temperature grid that is used for all tabulated rates. In case 'default' is given, 
+   the default temperature grid that is given by 30 points:
+   1.0d-4, 5.0d-4, 1.0d-3, 5.0d-3, 1.0d-2, 5.0d-2, 1.0d-1, 1.5d-1, 2.0d-1, 2.5d-1, 3.0d-1, 4.0d-1, 5.0d-1, 6.0d-1, 7.0d-1, 8.0d-1, 9.0d-1, 1.0d+0, 1.5d+0, 2.0d+0,
+   2.5d+0, 3.0d+0, 3.5d+0, 4.0d+0, 5.0d+0, 6.0d+0, 7.0d+0, 8.0d+0, 9.0d+0, 1.0d+1 GK
+   is used. This parameter is only used in case \ref use_tabulated_rates is set to 'yes'.
+   An example file could look like:
+   \file{
+   1d-3 1d-2 1d-1 1d0 2d0 3d0 4d0   
+   }
+   where each column contains a temperature in GK. Note that the tabulated rates given in \ref tabulated_rates_file must have the same number of entries.
+   
+      @par Example template line:
+   `` tabulated_temperature_file  = default ``
+   @see \ref use_tabulated_rates, \ref tabulated_rate_module.f90, \ref tabulated_rates_file
 
    \section temp_reload_exp_weak_rates temp_reload_exp_weak_rates
    The reaction rates are only valid above \f$10^{-2}\f$ GK.

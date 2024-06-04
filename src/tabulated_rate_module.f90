@@ -47,8 +47,8 @@ module tabulated_rate_module
       3.0d-1,4.0d-1,5.0d-1,6.0d-1,7.0d-1,8.0d-1,9.0d-1,1.0d+0,1.5d+0,2.0d+0, &
       2.5d+0,3.0d+0,3.5d+0,4.0d+0,5.0d+0,6.0d+0,7.0d+0,8.0d+0,9.0d+0,1.0d+1 /) !< default Temperature grid of tabulated reaction rates [GK]
 
-   type(reactionrate_type),dimension(:),allocatable,public :: rrates_tabulated !< array containing all tabulated reaction rates
-   type(tabulated_rate_type), dimension(:), allocatable    :: tabulated_rate !< array containing all tabulated reaction rates
+   type(reactionrate_type),dimension(:),allocatable,public       :: rrates_tabulated !< array containing all tabulated reaction rates in rrate format
+   type(tabulated_rate_type), dimension(:), allocatable,public   :: tabulated_rate   !< array containing all tabulated reaction rates
 
    !
    ! Public and private fields and methods of the module
@@ -71,6 +71,7 @@ contains
    !!
    !! \b Edited:
    !!   - 04.10.23, M. Jacobi - support for flexible tabulated temperature grids
+   !! .
    subroutine init_tabulated_rates()
       use parameter_class, only: use_tabulated_rates, &
                                  tabulated_rates_file, &
@@ -183,6 +184,7 @@ contains
    !!  - 26.07.22, MR: Created this subroutine to be in line with the other
    !!                  reaction rate types.
    !!  - 04.10.23, MJ: Added support for flexible tabulated temperature grids
+   !! .
    subroutine calculate_tab_rate(rrate, temp, rat_calc)
      use global_class, only: reactionrate_type
      implicit none
@@ -199,19 +201,19 @@ contains
    end subroutine calculate_tab_rate
 
 
-   !>
-   !! Reads tabulated reaction rate temperature grid.
+   !> Reads tabulated reaction rate temperature grid.
+   !!
    !! If tabulated_temperature_file is not given, a default
    !! temperature grid is used.
    !!
-   !! The tabulated reaction rate temperature file
-
    !! @see parameter_class::use_tabulated_rates,
    !!      parameter_class::tabulated_temperature_file
    !!
-   !! @author M. Jacobi
-   !!
+   !! \b Edited:
+   !!     - 04.06.24, MR: - Added check for monotonicity
    !! .
+   !!
+   !! @author M. Jacobi
    subroutine readtabulatedtemps()
      use error_msg_class, only: int_to_str
      use parameter_class, only: tabulated_temperature_file, max_fname_len
@@ -252,8 +254,8 @@ contains
 
      ! Count the number of space separated entries
      nt_tab = 0
-     do i = 1, len_trim(help_reader)
-       if (help_reader(i:i) == ' ') then
+     do i = 1, len_trim(help_reader)-1
+       if ((help_reader(i:i) == ' ') .and. (help_reader(i+1:i+1) .ne. ' ')) then
          nt_tab = nt_tab + 1
        end if
      end do
@@ -264,6 +266,16 @@ contains
 
      ! Read the temperature grid
      read(help_reader,*) temp_grid_tab
+
+     ! Check that it is monotonically increasing
+     do i = 1, nt_tab-1
+        if (temp_grid_tab(i) >= temp_grid_tab(i+1)) then
+            call raise_exception("Temperature grid is not monotonically increasing",&
+                                "readtabulatedtemps",420004)
+        end if
+     end do
+
+
    end subroutine readtabulatedtemps
 
    !>

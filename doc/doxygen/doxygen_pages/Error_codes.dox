@@ -207,8 +207,12 @@ The error codes are translated to the following problems:
 <tr><td> W400003 <td> Screening mode not implemented.
 <tr><td> W400004 <td> Screening derivatives not implemented.
 <tr><td> W420001 <td> Allocation failure.
+<<<<<<< HEAD
 <tr><td> W420002 <td> Deallocation failure.
 <tr><td> W420003 <td> Reading of tabulated rates failed.
+=======
+<tr><td> W420003 <td> Temperature grid has to be monotonically increasing.
+>>>>>>> (+) documentation, monotonicity check, test case
 <tr><td> W430003 <td> Timestep got NaN after ye_timestep.
 <tr><td> W430004 <td> Timestep got NaN after abchange_timestep.
 <tr><td> W430005 <td> Timestep got NaN after hydro_timestep.
