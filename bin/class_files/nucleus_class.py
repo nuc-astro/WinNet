@@ -42,16 +42,15 @@ class nucleus(object):
             self.__name = 'al26'
         if self.__name == 'al*6':
             self.__name = 'al26'
-        if 'cn' in self.__name:
-            self.__name = self.__name.replace('cn','ub')
 
         self.__elementname = ''
         self.__elname      = ('neutron','h','he','li','be','b','c','n','o','f','ne','na','mg','al','si','p','s','cl','ar','k','ca','sc','ti','v','cr','mn','fe',
           'co','ni','cu','zn','ga','ge','as','se','br','kr','rb','sr','y','zr','nb','mo','tc','ru','rh','pd','ag','cd','in','sn','sb',
           'te', 'i','xe','cs','ba','la','ce','pr','nd','pm','sm','eu','gd','tb','dy','ho','er','tm','yb','lu','hf','ta','w','re','os',
           'ir','pt','au','hg','tl','pb','bi','po','at','rn','fr','ra','ac','th','pa','u','np','pu','am','cm','bk','cf','es','fm','md',
-          'no','lr','rf','db','sg','bh','hs','mt','ds','rg','cn','ut','uq','up','uh','us','uo')
-        # Note: ub is also known as cn
+          'no','lr','rf','db','sg','bh','hs','mt','ds','rg','cn','nh','fl','mc','lv','ts','og',"uue","ubn","ubu","ubb","ubt","ubq","ubp",
+          "ubh","ubs","ubo","ube","utn","utu","utb","utt","utq","utp","uth","uts","uto","ute","uqn","uqu")
+
 
         if (Z!=-1 and N!=-1):
             if ((Z >= len(self.__elname)) and not self.__quiet):

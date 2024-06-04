@@ -1599,6 +1599,7 @@ contains
       integer                       :: nemiss    !< number of fission neutrons
       integer                       :: fiss_mode !< specifies fission mode
       real(r_kind)                  :: qval      !< Qvalue of fission reaction
+      integer                       :: alloc_stat!< Allocation status
 
       INFO_ENTRY("fiss_dist")
 
@@ -1674,16 +1675,20 @@ contains
 
       fissrate_inout%fissnuc_index  = findaz(mass,pnr)
       fissrate_inout%channels       = 1
-      ! TODO THROW ERROR HERE!!
-      allocate(fissrate_inout%channelprob(1))
-      allocate(fissrate_inout%q_value(1))
+
+      allocate(fissrate_inout%channelprob(1),fissrate_inout%q_value(1),stat=alloc_stat)
+      if (alloc_stat.ne.0) call raise_exception("Could not allocate memory for channelprob and q_value.",&
+                                                "fiss_dist",190001)
+
       fissrate_inout%channelprob(1) = 1.d0
       fissrate_inout%mode           = fiss_mode
 
       if (fiss_mode.eq.1) then
         fissrate_inout%dimens = 4
-         allocate(fissrate_inout%fissparts(fissrate_inout%dimens))
-         allocate(fissrate_inout%ch_amount(fissrate_inout%dimens))
+         allocate(fissrate_inout%fissparts(fissrate_inout%dimens), &
+                  fissrate_inout%ch_amount(fissrate_inout%dimens),stat=alloc_stat)
+         if (alloc_stat.ne.0) call raise_exception("Could not allocate 'fissparts' and 'ch_amount'.",&
+                                                   "fiss_dist",190001)
          fissrate_inout%fissparts(1) = ineu
          fissrate_inout%ch_amount(1) = float(nemiss) - 1.d0
          fissrate_inout%fissparts(2) = fissrate_inout%fissnuc_index
@@ -1699,12 +1704,16 @@ contains
       else                                  ! fiss_mode 2 and 3
          if (nemiss .eq. 0) then            ! no fission neutrons
             fissrate_inout%dimens = 3
-            allocate(fissrate_inout%fissparts(fissrate_inout%dimens))
-            allocate(fissrate_inout%ch_amount(fissrate_inout%dimens))
+            allocate(fissrate_inout%fissparts(fissrate_inout%dimens),&
+                     fissrate_inout%ch_amount(fissrate_inout%dimens),stat=alloc_stat)
+            if (alloc_stat.ne.0) call raise_exception("Could not allocate 'fissparts' and 'ch_amount'.",&
+                                                      "fiss_dist",190001)
          else                               ! fission neutrons are produced
             fissrate_inout%dimens = 4
-            allocate(fissrate_inout%fissparts(fissrate_inout%dimens))
-            allocate(fissrate_inout%ch_amount(fissrate_inout%dimens))
+            allocate(fissrate_inout%fissparts(fissrate_inout%dimens),&
+                     fissrate_inout%ch_amount(fissrate_inout%dimens),stat=alloc_stat)
+            if (alloc_stat.ne.0) call raise_exception("Could not allocate 'fissparts' and 'ch_amount'.",&
+                                                      "fiss_dist",190001)
             fissrate_inout%fissparts(4) = ineu
             fissrate_inout%ch_amount(4) = float(nemiss)
          end if
