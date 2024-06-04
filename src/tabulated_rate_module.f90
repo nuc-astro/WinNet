@@ -272,6 +272,7 @@ contains
         if (temp_grid_tab(i) >= temp_grid_tab(i+1)) then
             call raise_exception("Temperature grid is not monotonically increasing",&
                                 "readtabulatedtemps",420004)
+
         end if
      end do
 
