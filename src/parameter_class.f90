@@ -960,7 +960,7 @@ subroutine set_default_param
    fission_frag_missing        = 0
    fission_frag_n_induced      = 1
    fission_frag_spontaneous    = 1
-   fission_format_beta_delayed = 1
+   fission_format_beta_delayed = 3
    fission_format_n_induced    = 1
    fission_format_spontaneous  = 1
    fission_rates_beta_delayed  = "fission_rates_beta_delayed"
