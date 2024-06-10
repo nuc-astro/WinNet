@@ -98,6 +98,14 @@ The error codes are translated to the following problems:
 <tr><td> W190007 <td> Unable to rewind abla_beta fission file.
 <tr><td> W190008 <td> Unable to include fission fragment.
 <tr><td> W190009 <td> Fragment yield not conserved.
+<tr><td> W190010 <td> Fission format not implemented.
+<tr><td> W190011 <td> Fission type not implemented.
+<tr><td> W190012 <td> Unable to read fission rates in prob. format
+<tr><td> W190013 <td> Fragment not found in sunet
+<tr><td> W190014 <td> Unknown reac_src.
+<tr><td> W190015 <td> Unknown missing fragment distribution.
+<tr><td> W190016 <td> Fragment not specified in file.
+<tr><td> W190017 <td> Fission probability greater than 1.
 <tr><td> W220001 <td> Allocation failure.
 <tr><td> W240001 <td> Allocation failure.
 <tr><td> W240002 <td> Deallocation failure.
@@ -200,6 +208,9 @@ The error codes are translated to the following problems:
 <tr><td> W400003 <td> Screening mode not implemented.
 <tr><td> W400004 <td> Screening derivatives not implemented.
 <tr><td> W420001 <td> Allocation failure.
+<tr><td> W420002 <td> Deallocation failure.
+<tr><td> W420003 <td> Reading of tabulated rates failed.
+<tr><td> W420004 <td> Temperature grid has to be monotonically increasing.
 <tr><td> W430003 <td> Timestep got NaN after ye_timestep.
 <tr><td> W430004 <td> Timestep got NaN after abchange_timestep.
 <tr><td> W430005 <td> Timestep got NaN after hydro_timestep.

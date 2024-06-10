@@ -342,13 +342,37 @@ detailed_balance_src_ignore =
 #    =0: No fission;
 #    =1: Panov et al. 2001;
 #    =2: Kodama & Takahashi 1975;
-#    =3: Mumpower et al. 2020 & Kodama & Takahashi 1975 (sf);
-#    =4: Other fission with different fragments for neutron induced fission
-#        and beta-delayed/spontaneous fission (formerly used for ABLA);
+#    =3: Mumpower et al. 2020 (nf, bf) & Kodama & Takahashi 1975 (sf);
+#    =4: Custom fission fragments;
 fissflag =
 
-# Path to fission rates
-fission_rates =
+
+# Path to fission rates of beta-delayed fission
+fission_rates_beta_delayed =
+
+# Format of this beta-delayed fission file
+#    =0: No rates are read;
+#    =1: Reaclib format;
+#    =2: Half life format;
+#    =3: Probability format;
+fission_format_beta_delayed =
+
+# Path to fission rates of n-induced fission
+fission_rates_n_induced =
+
+# Format of this n-induced fission file
+#    =0: No rates are read;
+#    =1: Reaclib format;
+fission_format_n_induced =
+
+# Path to fission rates of spontaneous fission
+fission_rates_spontaneous =
+
+# Format of this spontaneous fission file
+#    =0: No rates are read;
+#    =1: Reaclib format;
+#    =2: Half life format;
+fission_format_spontaneous =
 
 
 ### Case 1: fissflag = 3 or fissflag = 4 ###
@@ -360,9 +384,39 @@ nfission_file =
 
 ### Case 2: fissflag = 4 ###
 
-# File that contains the fission fragment probabilities of beta-delayed
-# and spontaneous fission.
+# Treatment of fission fragments for n-induced fission
+#    =1: Panov et al. 2001;
+#    =2: Kodama & Takahashi 1975;
+#    =3: From file, using nfission_file
+fission_frag_n_induced = 
+
+
+# Treatment of fission fragments for beta-delayed fission
+#    =1: Panov et al. 2001;
+#    =2: Kodama & Takahashi 1975;
+#    =3: From file, using bfission_file
+fission_frag_beta_delayed = 
+
+# File containing fragments for beta-delayed fission
 bfission_file =
+
+
+# Treatment of fission fragments for spontaneous fission
+#    =1: Panov et al. 2001;
+#    =2: Kodama & Takahashi 1975;
+#    =3: From file, using sfission_file
+fission_frag_spontaneous = 
+
+# File containing fragments for spontaneous fission
+sfission_file =
+
+
+# Treatment of fission fragments for fragments that are not 
+# found in the given files (bfission_file, nfission_file, or sfission_file)
+#    =0: None, error raised;
+#    =1: Panov et al. 2001;
+#    =2: Kodama & Takahashi 1975;
+fission_frag_missing = 
 
 
 #######################

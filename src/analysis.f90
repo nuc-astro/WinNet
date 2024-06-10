@@ -19,6 +19,7 @@ module analysis
   integer                               :: mainout_unit                          !< file descriptor for the main analysis output file
   integer                               :: nrdiag_unit                           !< diagnostic output inside the Newton-Rhapson loop
   integer                               :: track_unit                            !< file id for tracked nuclei
+  integer                               :: toplist_unit                          !< file id for top nuclear energy contributors
   integer                               :: nu_loss_gain_unit                     !< file id for neutrino loss/gain
   integer                               :: cl_start, cl_end, cl_rate, cl_cmax    !< system clock variables
   integer,private                       :: tsfile                                !< timescale file unit
@@ -28,6 +29,7 @@ module analysis
   integer                               :: flowcnt                               !< flow printing counter
   real,dimension(:),allocatable         :: snapshot_time                         !< point in time for custom snapshot
   integer                               :: snapshot_amount                       !< Amount of custom snapshots
+  integer,parameter                     :: toplist_amount=10                     !< Amount of reactions in the toplist
 
   !
   ! Public and private fields and methods of the module
@@ -48,7 +50,8 @@ contains
 !!
 subroutine analysis_init()
   use parameter_class
-  use global_class,         only: net_names,track_nuclei_nr,track_nuclei_indices
+  use global_class,         only: net_names,track_nuclei_nr,track_nuclei_indices,nreac
+  use error_msg_class,      only: int_to_str
   use benam_class,          only: findaz
   use ls_timmes_eos_module
 #ifdef USE_HDF5
@@ -62,7 +65,8 @@ subroutine analysis_init()
   character     :: nl, buf(30)                !< newline character, buffer
   integer       :: i,k
   character*10,dimension(track_nuclei_nr) :: tmp_nucleinames !< Name of the nuclei that will be tracked
-
+  character*1500 :: head_toplist
+  character*5    :: help_char
   INFO_ENTRY("analysis_init")
 
 #ifdef USE_HDF5
@@ -122,6 +126,55 @@ subroutine analysis_init()
     ! Write the header
     track_unit = open_outfile('tracked_nuclei.dat')
     write(track_unit, '((A,20X,*(A,18X)))') "# time[s]",tmp_nucleinames(:)
+  end if
+
+  ! Write the header for the toplist
+  if (top_engen_every .gt. 0) then
+    toplist_unit= open_outfile("toplist.dat")
+
+    ! Give some hint on what is what
+    write (toplist_unit,"('#',31X,A,434X,A,413X,'|',5X,A,185X,A)") "Top nuclear energy producers for each reaction given in erg/g/s", &
+                                                               "Top nuclear energy consumers for each reaction given in erg/g/s", &
+                                                               "Top nuclear energy producers for each isotope given in erg/g/s", &
+                                                               "Top nuclear energy consumers for each isotope given in erg/g/s"
+
+    ! Construct the rather complicated header of the file
+    head_toplist ="#    Time[s]   Etot[erg/g/s]    Reaction_1"
+    do i=2,toplist_amount
+        head_toplist = trim(adjustl(head_toplist))//"                       Reaction_"//trim(adjustl(int_to_str(i)))
+    end do
+    head_toplist = trim(adjustl(head_toplist))//"                           Ereac_1"
+    do i=2,toplist_amount
+        head_toplist = trim(adjustl(head_toplist))//"        Ereac_"//trim(adjustl(int_to_str(i)))
+    end do
+    head_toplist = trim(adjustl(head_toplist))//"         Reaction_1"
+    do i=2,toplist_amount
+        head_toplist = trim(adjustl(head_toplist))//"                       Reaction_"//trim(adjustl(int_to_str(i)))
+    end do
+    head_toplist = trim(adjustl(head_toplist))//"                          Ereac_1"
+    do i=2,toplist_amount
+        head_toplist = trim(adjustl(head_toplist))//"        Ereac_"//trim(adjustl(int_to_str(i)))
+    end do
+    head_toplist = trim(adjustl(head_toplist))//"         |      Iso1"
+    do i=2,toplist_amount
+        help_char = "Iso"//trim(adjustl(int_to_str(i)))
+        head_toplist = trim(adjustl(head_toplist))//"   "//adjustr(help_char)
+    end do
+    head_toplist = trim(adjustl(head_toplist))//"        Eiso_1"
+    do i=2,toplist_amount
+        head_toplist = trim(adjustl(head_toplist))//"         Eiso_"//trim(adjustl(int_to_str(i)))
+    end do
+    head_toplist = trim(adjustl(head_toplist))//"           Iso1"
+    do i=2,toplist_amount
+        help_char = "Iso"//trim(adjustl(int_to_str(i)))
+        head_toplist = trim(adjustl(head_toplist))//"   "//adjustr(help_char)
+    end do
+    head_toplist = trim(adjustl(head_toplist))//"        Eiso_1"
+    do i=2,toplist_amount
+        head_toplist = trim(adjustl(head_toplist))//"         Eiso_"//trim(adjustl(int_to_str(i)))
+    end do
+    ! Finally write it out
+    write (toplist_unit,"(A)") trim(adjustl(head_toplist))
   end if
 
 
@@ -199,6 +252,7 @@ end subroutine output_initial_step
 !! This routine calls output_iteration at the last step
 !!
 !! @see output_final_step
+!!
 !! \b Edited: OK 26.08.2017
 subroutine output_final_step(cnt,ctime,T9,rho_b,entropy,Rkm,Y,pf)
   use parameter_class, only: out_every,snapshot_every,flow_every,mainout_every, &
@@ -260,7 +314,7 @@ subroutine output_iteration(cnt,ctime,T9,rho_b,entropy,Rkm,Y,pf)
                               h_timescales_every,h_flow_every,h_engen_every,&
                               nu_loss_every, h_nu_loss_every, unit, use_thermal_nu_loss
   use nucstuff_class,   only: inter_partf
-  use nuclear_heating,  only: output_nuclear_heating,output_top_contributor,&
+  use nuclear_heating,  only: output_nuclear_heating,&
                               qdot_nu, qdot_bet, qdot_th
   use thermal_neutrino_module, only: thermal_neutrinos
   use single_zone_vars, only: evolution_mode, stepsize
@@ -360,7 +414,7 @@ subroutine output_iteration(cnt,ctime,T9,rho_b,entropy,Rkm,Y,pf)
   ! Calculate and output generated energy
   if (h_engen_every .gt. 0) then
      if (mod(cnt,h_engen_every).eq.0) then
-        call calc_nuclear_heating(.True.)
+        call calc_nuclear_heating(.True., .True., .False.)
      end if
   end if
 
@@ -386,11 +440,6 @@ subroutine output_iteration(cnt,ctime,T9,rho_b,entropy,Rkm,Y,pf)
   end if
 
 #endif
-
-  ! Output list of isotopes that dominantly contribute to the energy generation
-  if ((top_engen_every .ne. 0) .and. (heating_mode .gt. 0)) then
-    if(mod(cnt,top_engen_every).eq.0) call output_top_contributor(cnt,ctime,T9,rho_b)
-  endif
 
   ! main data log
   if (mainout_every .gt.0) then
@@ -462,9 +511,17 @@ subroutine output_iteration(cnt,ctime,T9,rho_b,entropy,Rkm,Y,pf)
   ! Calculate generated energy
   if (engen_every .gt. 0) then
      if (mod(cnt,engen_every).eq.0) then
-        call calc_nuclear_heating(.False.)
+        call calc_nuclear_heating(.False., .True., .False.)
      end if
   end if
+
+    ! Calculate generated energy
+  if (top_engen_every .gt. 0) then
+    if (mod(cnt,top_engen_every).eq.0) then
+       call calc_nuclear_heating(.False., .False., .True.)
+    end if
+  end if
+
 
   INFO_EXIT("output_iteration")
 end subroutine output_iteration
@@ -886,25 +943,37 @@ end subroutine calc_nseparation_energy
 !! This subroutine calculates the generated energy of the nuclear reactions
 !! with the help of the Q-values. This energy is written to an output only.
 !! It is not fed back to the temperature and has therefore
-!! no impact on the final result.
+!! no impact on the final result. Also, depending on the input the
+!! subroutine can calculate the top contributors to the energy generation.
+!! These top contributors can be reactions and isotopes.
 !!
 !! @see \ref nuclear_heating
 !!
 !! @author: Moritz Reichert
 !! @date   29.02.20
-subroutine calc_nuclear_heating(hdf5_mode)
-   use global_class,        only: reactionrate_type,rrate,nreac,ihe4,ineu,ipro
+!!
+!! \b Edited:
+!!  - 08.05.24: M.R. Moved the top list calculation from the nuclear heating to this subroutine.
+!! .
+subroutine calc_nuclear_heating(hdf5_mode, write_engen, write_toplist)
+   use global_class,        only: reactionrate_type,rrate,nreac,ihe4,ineu,ipro, net_names
    use fission_rate_module, only: fissionrate_type, fissrate, nfiss
    use nucstuff_class,      only: isotope,inter_partf
    use single_zone_vars,    only: Y,Y_p,T9,rhob,time,stepsize,evolution_mode,Ye
    use parameter_class,     only: unit,fissflag,h_engen_detailed
+   use mergesort_module,    only: quicksort
+   use benam_class,         only: reaction_string
    use hdf5_module
    implicit none
-   logical, intent(in)     :: hdf5_mode  !< whether to store as hdf5 or ascii
+   ! Declare input variables
+   logical, intent(in)     :: hdf5_mode    !< whether to store as hdf5 or ascii
+   logical, intent(in)     :: write_engen  !< whether to write the energy generation
+   logical, intent(in)     :: write_toplist!< whether to write the energy toplist
+   ! Local variables
    type(reactionrate_type) :: rr_tmp     !< auxiliary shorthand for reaction
    type(fissionrate_type)  :: fr_tmp     !< auxiliary shorthand for fission reaction
    character*4  :: src                   !< reaction source
-   integer      :: i                     !< Loop variable
+   integer      :: i,j                   !< Loop variable
    integer      :: help_parts            !< Helper variable
    real(r_kind) :: rat                   !< storage of the cached reaction rate
    ! Heating variables
@@ -938,7 +1007,21 @@ subroutine calc_nuclear_heating(hdf5_mode)
    real(r_kind),dimension(net_size)  ::det_other_engen!< Energy of other reactions per parent nucleus
    real(r_kind),dimension(net_size)  ::det_fiss_engen !< Energy of fission per parent nucleus
    real(r_kind),dimension(net_size)  ::det_tot_engen  !< Total energy per parent nucleus
-
+   ! Toplist stuff
+   integer, dimension(nreac)         ::toplist_idx    !< Toplist indices of reactions
+   real(r_kind), dimension(nreac)    ::toplist_energy !< Energy of reactions
+   logical, dimension(nreac)         ::toplist_mask   !< Mask which energy has been calculated
+   character*30                      ::reac_dummy     !< reaction source
+   character*30, dimension(toplist_amount)::tplist_str !< Reduced list of top energies
+   real(r_kind), dimension(toplist_amount)::tplist     !< Reduced list of top energies
+   character*30, dimension(toplist_amount)::btlist_str !< Reduced list of top energies
+   real(r_kind), dimension(toplist_amount)::btlist     !< Reduced list of bottom energies
+   real(r_kind), dimension(net_size)      ::toplist_energy_iso  !< Reduced list of bottom energies
+   integer, dimension(net_size)           ::toplist_idx_iso     !< Indices of isotopes
+   character*5, dimension(toplist_amount) ::tplist_str_iso !< Reduced list of top energies
+   real(r_kind), dimension(toplist_amount)::tplist_iso     !< Reduced list of top energies
+   character*5, dimension(toplist_amount) ::btlist_str_iso !< Reduced list of top energies
+   real(r_kind), dimension(toplist_amount)::btlist_iso     !< Reduced list of bottom energies
 
    INFO_ENTRY("calc_nuclear_heating")
 
@@ -960,7 +1043,7 @@ subroutine calc_nuclear_heating(hdf5_mode)
    engen_fiss    = 0 ! Energy generated by fission [erg/g/s]
 
    ! Initialize decay energy
-   if (h_engen_detailed) then
+   if ((h_engen_detailed) .and. (write_engen)) then
        det_bet_engen(:)   = 0.0
        det_ag_engen(:)    = 0.0
        det_pg_engen(:)    = 0.0
@@ -973,271 +1056,302 @@ subroutine calc_nuclear_heating(hdf5_mode)
        det_tot_engen(:)   = 0.0
    end if
 
+   ! Initialize the energy for the top contributors
+   ! This list has one entry per reaction
+   if (write_toplist) then
+     toplist_energy(:) = 0d0
+     toplist_energy_iso(:) = 0d0
+     toplist_mask(:)   = .false.
+   end if
+
    ! For NSE the reaction rates are not cached and the generated energy would be therefore weird
    ! Set it to zero for this case
-   if (evolution_mode .ne. EM_NSE) then
-       ! Loop through all reactions
-       do i=1,nreac
-          rr_tmp = rrate(i)
-          src = rr_tmp%source
-          rat = rr_tmp%cached
+   ! Loop through all reactions
+   do i=1,nreac
+        rr_tmp = rrate(i)
+        src = rr_tmp%source
+        rat = rr_tmp%cached
 
-          ! Do nothing if the rate is zero
-          if (rat .eq. 0) cycle
+        if ((evolution_mode .eq. EM_NSE) .and. (.not. rr_tmp%is_weak)) cycle
 
-          ! dYdt depends on the reaclib chapter and we therefore have to separate them
-          select case (rr_tmp%group)
-          case(1:3,11)! Reaclib chapter 1-3 and 11
-             ! Energy per reaction
-             tmp_energy = rat*Y(rr_tmp%parts(1)) * rr_tmp%q_value
-             ! Total energy
-             engen_q_value = engen_q_value + tmp_energy
-             ! Seperate the reaction types, weak reactions and photodissociations should be in chapter 1-3
+        ! Do nothing if the rate is zero
+        if (rat .eq. 0) cycle
 
-             ! weak rates (only contained in chapter 1-3)
-             if (rr_tmp%is_weak) then
-                engen_q_weak = engen_q_weak + tmp_energy
-                if (h_engen_detailed) then
-                  det_bet_engen(rr_tmp%parts(1)) = det_bet_engen(rr_tmp%parts(1))+tmp_energy
-                end if
-             end if
-             ! (gamma,n) reactions
-             if(rr_tmp%reac_type.eq.rrt_gn) then
-                engen_q_gn = engen_q_gn + tmp_energy
-                ! Detailed output
-                if (h_engen_detailed) then
-                  if (rr_tmp%parts(2) .eq. ineu) then
-                    help_parts = rr_tmp%parts(3)
-                  else
-                    help_parts = rr_tmp%parts(2)
-                  end if
-                  det_ng_engen(help_parts) = det_ng_engen(help_parts)+tmp_energy
-                end if
-
-             endif
-             ! (gamma,p) reactions
-             if(rr_tmp%reac_type.eq.rrt_gp) then
-                engen_q_gp = engen_q_gp + tmp_energy
-                ! Detailed output
-                if (h_engen_detailed) then
-                  if (rr_tmp%parts(2) .eq. ipro) then
-                    help_parts = rr_tmp%parts(3)
-                  else
-                    help_parts = rr_tmp%parts(2)
-                  end if
-                  det_pg_engen(help_parts) = det_pg_engen(help_parts)+tmp_energy
-                end if
-             endif
-             ! (gamma,alpha) reactions
-             if(rr_tmp%reac_type.eq.rrt_ga) then
-                engen_q_ga = engen_q_ga + tmp_energy
-                ! Detailed output
-                if (h_engen_detailed) then
-                  if (rr_tmp%parts(2) .eq. ihe4) then
-                    help_parts = rr_tmp%parts(3)
-                  else
-                    help_parts = rr_tmp%parts(2)
-                  end if
-                  det_ag_engen(help_parts) = det_ag_engen(help_parts)+tmp_energy
-                end if
-             endif
-
-
-            if(rr_tmp%reac_type.eq.rrt_o) then
-              if (h_engen_detailed) then
-                det_other_engen(rr_tmp%parts(1)) = det_other_engen(rr_tmp%parts(1))+tmp_energy
-              end if
-            end if
-
-          case(4:7)! Reaclib chapter 4-7
-             ! Energy per reaction
-             tmp_energy = rat*Y(rr_tmp%parts(1)) * Y(rr_tmp%parts(2)) &
-                          * rr_tmp%q_value
-             ! Total energy
-             engen_q_value = engen_q_value + tmp_energy
-
-             ! Seperate the reaction types
-             ! (n-gamma) reactions
-             if(rr_tmp%reac_type.eq.rrt_ng) then
-                engen_q_ng = engen_q_ng + tmp_energy
-                ! Detailed output
-                if (h_engen_detailed) then
-                  if (rr_tmp%parts(2) .eq. ineu) then
-                    help_parts = rr_tmp%parts(1)
-                  else
-                    help_parts = rr_tmp%parts(2)
-                  end if
-                  det_ng_engen(help_parts) = det_ng_engen(help_parts)+tmp_energy
-                end if
-             endif
-             ! (p-gamma) reactions
-             if(rr_tmp%reac_type.eq.rrt_pg) then
-                engen_q_pg = engen_q_pg + tmp_energy
-                ! Detailed output
-                if (h_engen_detailed) then
-                  if (rr_tmp%parts(2) .eq. ipro) then
-                    help_parts = rr_tmp%parts(1)
-                  else
-                    help_parts = rr_tmp%parts(2)
-                  end if
-                  det_pg_engen(help_parts) = det_pg_engen(help_parts)+tmp_energy
-                end if
-             endif
-             ! (alpha gamma) reactions
-             if(rr_tmp%reac_type.eq.rrt_ag) then
-                engen_q_ag = engen_q_ag + tmp_energy
-                ! Detailed output
-                if (h_engen_detailed) then
-                  if (rr_tmp%parts(2) .eq. ihe4) then
-                    help_parts = rr_tmp%parts(1)
-                  else
-                    help_parts = rr_tmp%parts(2)
-                  end if
-                  det_ag_engen(help_parts) = det_ag_engen(help_parts)+tmp_energy
-                end if
-             endif
-             ! (p,alpha) reactions
-             if(rr_tmp%reac_type.eq.rrt_pa) then
-                engen_q_pa = engen_q_pa + tmp_energy
-                ! Detailed output
-                if (h_engen_detailed) then
-                  if (rr_tmp%parts(3) .eq. ihe4) then
-                    help_parts = rr_tmp%parts(4)
-                  else
-                    help_parts = rr_tmp%parts(3)
-                  end if
-                  det_ap_engen(help_parts) = det_ap_engen(help_parts)+tmp_energy
-                end if
-             endif
-             ! (alpha,p) reactions
-             if(rr_tmp%reac_type.eq.rrt_ap) then
-                engen_q_ap = engen_q_ap + tmp_energy
-                ! Detailed output
-                if (h_engen_detailed) then
-                  if (rr_tmp%parts(2) .eq. ihe4) then
-                    help_parts = rr_tmp%parts(1)
-                  else
-                    help_parts = rr_tmp%parts(2)
-                  end if
-                  det_ap_engen(help_parts) = det_ap_engen(help_parts)+tmp_energy
-                end if
-             endif
-             ! (n,p) reactions
-             if(rr_tmp%reac_type.eq.rrt_np) then
-                engen_q_np = engen_q_np + tmp_energy
-                ! Detailed output
-                if (h_engen_detailed) then
-                  if (rr_tmp%parts(3) .eq. ipro) then
-                    help_parts = rr_tmp%parts(4)
-                  else
-                    help_parts = rr_tmp%parts(3)
-                  end if
-                  det_pn_engen(help_parts) = det_pn_engen(help_parts)+tmp_energy
-                end if
-             endif
-             ! (p,n) reactions
-             if(rr_tmp%reac_type.eq.rrt_pn) then
-                engen_q_pn = engen_q_pn + tmp_energy
-                ! Detailed output
-                if (h_engen_detailed) then
-                  if (rr_tmp%parts(1) .eq. ipro) then
-                    help_parts = rr_tmp%parts(2)
-                  else
-                    help_parts = rr_tmp%parts(1)
-                  end if
-                  det_pn_engen(help_parts) = det_pn_engen(help_parts)+tmp_energy
-                end if
-             endif
-             ! (alpha,n) reactions
-             if(rr_tmp%reac_type.eq.rrt_an) then
-                engen_q_an = engen_q_an + tmp_energy
-                ! Detailed output
-                if (h_engen_detailed) then
-                  if (rr_tmp%parts(1) .eq. ihe4) then
-                    help_parts = rr_tmp%parts(2)
-                  else
-                    help_parts = rr_tmp%parts(1)
-                  end if
-                  det_an_engen(help_parts) = det_an_engen(help_parts)+tmp_energy
-                end if
-             endif
-             ! (n,alpha) reactions
-             if(rr_tmp%reac_type.eq.rrt_na) then
-                engen_q_na = engen_q_na + tmp_energy
-                ! Detailed output
-                if (h_engen_detailed) then
-                  if (rr_tmp%parts(3) .eq. ihe4) then
-                    help_parts = rr_tmp%parts(4)
-                  else
-                    help_parts = rr_tmp%parts(3)
-                  end if
-                  det_an_engen(help_parts) = det_an_engen(help_parts)+tmp_energy
-                end if
-             endif
-
-             if(rr_tmp%reac_type.eq.rrt_o) then
-               if (h_engen_detailed) then
-                 det_other_engen(rr_tmp%parts(1)) = det_other_engen(rr_tmp%parts(1))+tmp_energy
-               end if
-             end if
-
-          case(8:9)! Reaclib chapter 8-9
-             ! Total energy
-             engen_q_value = engen_q_value + rat*Y(rr_tmp%parts(1)) * Y(rr_tmp%parts(2)) &
-                  * Y(rr_tmp%parts(3)) * rr_tmp%q_value
-
-             if(rr_tmp%reac_type.eq.rrt_o) then
-               if (h_engen_detailed) then
-                 det_other_engen(rr_tmp%parts(1)) = det_other_engen(rr_tmp%parts(1))+tmp_energy
-               end if
-             end if
-
-          case(10)! Reaclib chapter 8
+        ! dYdt depends on the reaclib chapter and we therefore have to separate them
+        select case (rr_tmp%group)
+        case(1:3,11)! Reaclib chapter 1-3 and 11
+            ! Energy per reaction
+            tmp_energy = rat*Y(rr_tmp%parts(1)) * rr_tmp%q_value
             ! Total energy
-            engen_q_value = engen_q_value + rat*Y(rr_tmp%parts(1)) * Y(rr_tmp%parts(2)) &
-                          * Y(rr_tmp%parts(3)) * Y(rr_tmp%parts(4))* rr_tmp%q_value
+            engen_q_value = engen_q_value + tmp_energy
+            ! Seperate the reaction types, weak reactions and photodissociations should be in chapter 1-3
+
+            ! weak rates (only contained in chapter 1-3)
+            if (rr_tmp%is_weak) then
+            engen_q_weak = engen_q_weak + tmp_energy
+            if ((h_engen_detailed) .and. (write_engen)) then
+                det_bet_engen(rr_tmp%parts(1)) = det_bet_engen(rr_tmp%parts(1))+tmp_energy
+            end if
+            end if
+            ! (gamma,n) reactions
+            if(rr_tmp%reac_type.eq.rrt_gn) then
+            engen_q_gn = engen_q_gn + tmp_energy
+            ! Detailed output
+            if ((h_engen_detailed) .and. (write_engen)) then
+                if (rr_tmp%parts(2) .eq. ineu) then
+                help_parts = rr_tmp%parts(3)
+                else
+                help_parts = rr_tmp%parts(2)
+                end if
+                det_ng_engen(help_parts) = det_ng_engen(help_parts)+tmp_energy
+            end if
+
+            endif
+            ! (gamma,p) reactions
+            if(rr_tmp%reac_type.eq.rrt_gp) then
+            engen_q_gp = engen_q_gp + tmp_energy
+            ! Detailed output
+            if ((h_engen_detailed) .and. (write_engen)) then
+                if (rr_tmp%parts(2) .eq. ipro) then
+                help_parts = rr_tmp%parts(3)
+                else
+                help_parts = rr_tmp%parts(2)
+                end if
+                det_pg_engen(help_parts) = det_pg_engen(help_parts)+tmp_energy
+            end if
+            endif
+            ! (gamma,alpha) reactions
+            if(rr_tmp%reac_type.eq.rrt_ga) then
+            engen_q_ga = engen_q_ga + tmp_energy
+            ! Detailed output
+            if ((h_engen_detailed) .and. (write_engen)) then
+                if (rr_tmp%parts(2) .eq. ihe4) then
+                help_parts = rr_tmp%parts(3)
+                else
+                help_parts = rr_tmp%parts(2)
+                end if
+                det_ag_engen(help_parts) = det_ag_engen(help_parts)+tmp_energy
+            end if
+            endif
+
+
+        if(rr_tmp%reac_type.eq.rrt_o) then
+            if ((h_engen_detailed) .and. (write_engen)) then
+            det_other_engen(rr_tmp%parts(1)) = det_other_engen(rr_tmp%parts(1))+tmp_energy
+            end if
+        end if
+
+        case(4:7)! Reaclib chapter 4-7
+            ! Energy per reaction
+            tmp_energy = rat*Y(rr_tmp%parts(1)) * Y(rr_tmp%parts(2)) &
+                        * rr_tmp%q_value
+            ! Total energy
+            engen_q_value = engen_q_value + tmp_energy
+
+            ! Seperate the reaction types
+            ! (n-gamma) reactions
+            if(rr_tmp%reac_type.eq.rrt_ng) then
+            engen_q_ng = engen_q_ng + tmp_energy
+            ! Detailed output
+            if ((h_engen_detailed) .and. (write_engen)) then
+                if (rr_tmp%parts(2) .eq. ineu) then
+                help_parts = rr_tmp%parts(1)
+                else
+                help_parts = rr_tmp%parts(2)
+                end if
+                det_ng_engen(help_parts) = det_ng_engen(help_parts)+tmp_energy
+            end if
+            endif
+            ! (p-gamma) reactions
+            if(rr_tmp%reac_type.eq.rrt_pg) then
+            engen_q_pg = engen_q_pg + tmp_energy
+            ! Detailed output
+            if ((h_engen_detailed) .and. (write_engen)) then
+                if (rr_tmp%parts(2) .eq. ipro) then
+                help_parts = rr_tmp%parts(1)
+                else
+                help_parts = rr_tmp%parts(2)
+                end if
+                det_pg_engen(help_parts) = det_pg_engen(help_parts)+tmp_energy
+            end if
+            endif
+            ! (alpha gamma) reactions
+            if(rr_tmp%reac_type.eq.rrt_ag) then
+            engen_q_ag = engen_q_ag + tmp_energy
+            ! Detailed output
+            if ((h_engen_detailed) .and. (write_engen)) then
+                if (rr_tmp%parts(2) .eq. ihe4) then
+                help_parts = rr_tmp%parts(1)
+                else
+                help_parts = rr_tmp%parts(2)
+                end if
+                det_ag_engen(help_parts) = det_ag_engen(help_parts)+tmp_energy
+            end if
+            endif
+            ! (p,alpha) reactions
+            if(rr_tmp%reac_type.eq.rrt_pa) then
+            engen_q_pa = engen_q_pa + tmp_energy
+            ! Detailed output
+            if ((h_engen_detailed) .and. (write_engen)) then
+                if (rr_tmp%parts(3) .eq. ihe4) then
+                help_parts = rr_tmp%parts(4)
+                else
+                help_parts = rr_tmp%parts(3)
+                end if
+                det_ap_engen(help_parts) = det_ap_engen(help_parts)+tmp_energy
+            end if
+            endif
+            ! (alpha,p) reactions
+            if(rr_tmp%reac_type.eq.rrt_ap) then
+            engen_q_ap = engen_q_ap + tmp_energy
+            ! Detailed output
+            if ((h_engen_detailed) .and. (write_engen)) then
+                if (rr_tmp%parts(2) .eq. ihe4) then
+                help_parts = rr_tmp%parts(1)
+                else
+                help_parts = rr_tmp%parts(2)
+                end if
+                det_ap_engen(help_parts) = det_ap_engen(help_parts)+tmp_energy
+            end if
+            endif
+            ! (n,p) reactions
+            if(rr_tmp%reac_type.eq.rrt_np) then
+            engen_q_np = engen_q_np + tmp_energy
+            ! Detailed output
+            if ((h_engen_detailed) .and. (write_engen)) then
+                if (rr_tmp%parts(3) .eq. ipro) then
+                help_parts = rr_tmp%parts(4)
+                else
+                help_parts = rr_tmp%parts(3)
+                end if
+                det_pn_engen(help_parts) = det_pn_engen(help_parts)+tmp_energy
+            end if
+            endif
+            ! (p,n) reactions
+            if(rr_tmp%reac_type.eq.rrt_pn) then
+            engen_q_pn = engen_q_pn + tmp_energy
+            ! Detailed output
+            if ((h_engen_detailed) .and. (write_engen)) then
+                if (rr_tmp%parts(1) .eq. ipro) then
+                help_parts = rr_tmp%parts(2)
+                else
+                help_parts = rr_tmp%parts(1)
+                end if
+                det_pn_engen(help_parts) = det_pn_engen(help_parts)+tmp_energy
+            end if
+            endif
+            ! (alpha,n) reactions
+            if(rr_tmp%reac_type.eq.rrt_an) then
+            engen_q_an = engen_q_an + tmp_energy
+            ! Detailed output
+            if ((h_engen_detailed) .and. (write_engen)) then
+                if (rr_tmp%parts(1) .eq. ihe4) then
+                help_parts = rr_tmp%parts(2)
+                else
+                help_parts = rr_tmp%parts(1)
+                end if
+                det_an_engen(help_parts) = det_an_engen(help_parts)+tmp_energy
+            end if
+            endif
+            ! (n,alpha) reactions
+            if(rr_tmp%reac_type.eq.rrt_na) then
+            engen_q_na = engen_q_na + tmp_energy
+            ! Detailed output
+            if ((h_engen_detailed) .and. (write_engen)) then
+                if (rr_tmp%parts(3) .eq. ihe4) then
+                help_parts = rr_tmp%parts(4)
+                else
+                help_parts = rr_tmp%parts(3)
+                end if
+                det_an_engen(help_parts) = det_an_engen(help_parts)+tmp_energy
+            end if
+            endif
 
             if(rr_tmp%reac_type.eq.rrt_o) then
-              if (h_engen_detailed) then
+            if ((h_engen_detailed) .and. (write_engen)) then
                 det_other_engen(rr_tmp%parts(1)) = det_other_engen(rr_tmp%parts(1))+tmp_energy
-              end if
+            end if
+            end if
+
+        case(8:9)! Reaclib chapter 8-9
+            ! Energy per reaction
+            tmp_energy = rat*Y(rr_tmp%parts(1)) * Y(rr_tmp%parts(2)) &
+                            *Y(rr_tmp%parts(3)) * rr_tmp%q_value
+
+            ! Total energy
+            engen_q_value = engen_q_value + tmp_energy
+
+            if(rr_tmp%reac_type.eq.rrt_o) then
+                if ((h_engen_detailed) .and. (write_engen)) then
+                    det_other_engen(rr_tmp%parts(1)) = det_other_engen(rr_tmp%parts(1))+tmp_energy
+                end if
+            end if
+
+        case(10)! Reaclib chapter 8
+            ! Energy per reaction
+            tmp_energy = rat*Y(rr_tmp%parts(1)) * Y(rr_tmp%parts(2)) &
+                            *Y(rr_tmp%parts(3)) * Y(rr_tmp%parts(4))* rr_tmp%q_value
+            ! Total energy
+            engen_q_value = engen_q_value + tmp_energy
+
+            if(rr_tmp%reac_type.eq.rrt_o) then
+                if ((h_engen_detailed) .and. (write_engen)) then
+                det_other_engen(rr_tmp%parts(1)) = det_other_engen(rr_tmp%parts(1))+tmp_energy
+                end if
             end if
 
 
-          case default ! This should not happen
-             cycle
-          end select
-       end do
+        case default ! This should not happen
+            cycle
+        end select
 
-       ! Do the same for the fission reactions
-       if (fissflag.ne.0) then
-          fission:do i=1,nfiss
-             fr_tmp = fissrate(i)
-             rat = fr_tmp%cached
-             if (rat .eq. 0) cycle
-             if ((fr_tmp%mode.eq.2).or.(fr_tmp%mode.eq.3)) then  ! spont. and b-delayed fission
+        if (write_toplist) then
+            ! Store the energy of the top contributors
+            ! This list has one entry per reaction and will be later sorted
+            if (tmp_energy .ne. 0d0) then
+                toplist_energy(i) = tmp_energy
+                toplist_mask(i)   = .true.
+            end if
+        end if
+    end do
+
+    ! Do the same for the fission reactions
+    if (evolution_mode .ne. EM_NSE) then
+        if (fissflag.ne.0) then
+            fission:do i=1,nfiss
+                fr_tmp = fissrate(i)
+                rat = fr_tmp%cached
+                if (rat .eq. 0) cycle
+                if ((fr_tmp%mode.eq.2).or.(fr_tmp%mode.eq.3)) then  ! spont. and b-delayed fission
                 engen_q_value = engen_q_value + rat*Y(fissrate(i)%fissparts(1)) * fissrate(i)%averageQ
                 engen_fiss    = engen_fiss + rat*Y(fissrate(i)%fissparts(1)) * fissrate(i)%averageQ
                 tmp_energy    = rat*Y(fissrate(i)%fissparts(1)) * fissrate(i)%averageQ
-             else if (fr_tmp%mode.eq.1) then ! n-induced fission
+                else if (fr_tmp%mode.eq.1) then ! n-induced fission
                 engen_q_value = engen_q_value + rat*Y(fissrate(i)%fissparts(1))*Y(fissrate(i)%fissparts(2)) * fissrate(i)%averageQ
                 engen_fiss    = engen_fiss + rat*Y(fissrate(i)%fissparts(1))*Y(fissrate(i)%fissparts(2)) * fissrate(i)%averageQ
                 tmp_energy    = rat*Y(fissrate(i)%fissparts(1))*Y(fissrate(i)%fissparts(2)) * fissrate(i)%averageQ
-             end if
+                end if
 
-             if (h_engen_detailed) then
-               det_fiss_engen(fissrate(i)%fissparts(1)) = det_fiss_engen(fissrate(i)%fissparts(1))+tmp_energy
-             end if
+                if ((h_engen_detailed) .and. (write_engen)) then
+                det_fiss_engen(fissrate(i)%fissparts(1)) = det_fiss_engen(fissrate(i)%fissparts(1))+tmp_energy
+                end if
 
-          end do fission
-       end if
-   end if
+            end do fission
+        end if
+    end if
+
 
    engen_tot_exc = 0
    do i=1,net_size
      if (Y(i).gt.1d-25) then
-         engen_tot_exc = engen_tot_exc -(isotope(i)%mass_exc)*(Y(i)-Y_p(i))  ! energy generated by species i [MeV/baryon]
-         if (h_engen_detailed) then
+         tmp_energy = -(isotope(i)%mass_exc)*(Y(i)-Y_p(i))
+         engen_tot_exc = engen_tot_exc + tmp_energy  ! energy generated by species i [MeV/baryon]
+
+         if (write_toplist) then
+            toplist_energy_iso(i) = tmp_energy
+         end if
+
+         if ((h_engen_detailed) .and. (write_engen)) then
            det_tot_engen(i) = -(isotope(i)%mass_exc)*(Y(i)-Y_p(i))
          end if
      endif
@@ -1288,7 +1402,7 @@ subroutine calc_nuclear_heating(hdf5_mode)
    engen_q_ap    = engen_q_ap    / unit%hix
    engen_fiss    = engen_fiss    / unit%hix
    ! Detailed output
-   if (h_engen_detailed) then
+   if ((h_engen_detailed) .and. (write_engen)) then
      det_tot_engen   = det_tot_engen/stepsize / unit%hix
      det_bet_engen   = det_bet_engen   / unit%hix
      det_ag_engen    = det_ag_engen    / unit%hix
@@ -1309,7 +1423,122 @@ subroutine calc_nuclear_heating(hdf5_mode)
    engen_tot_nacap= engen_q_na + engen_q_an
    engen_tot_pacap= engen_q_pa + engen_q_ap
 
-   if (.not. hdf5_mode) then
+   if (write_toplist) then
+     ! Store the energy of the top contributors
+     ! This list has one entry per reaction and will be later sorted
+     toplist_energy(:)     = toplist_energy(:) / unit%hix
+     toplist_energy_iso(:) = toplist_energy_iso(:) /stepsize/ unit%hix
+
+     ! Sort the list
+     call quicksort(0,nreac,toplist_energy,toplist_idx)
+
+     if (toplist_energy(1) .lt. toplist_energy(2)) stop "there was a bug in the toplist"
+
+     i=0
+     j=1
+     tplist_str(:) = "---------"
+     tplist(:) = 0d0
+     do while(i<10)
+
+        if (j .gt. nreac) exit
+
+        if (toplist_mask(toplist_idx(j))) then
+            reac_dummy=trim(adjustl(reaction_string(rrate(toplist_idx(j)))))
+            tplist_str(i+1) = reaction_string(rrate(toplist_idx(j)))
+            tplist(i+1) = toplist_energy(j)
+            i = i+1
+        else
+            continue
+        end if
+
+        j = j+1
+     end do
+
+     if (tplist(1) .lt. tplist(2)) then
+        write(*,*) tplist(1), tplist(2)
+        write(*,*), toplist_energy(1),toplist_energy(2)
+        write(*,*), toplist_idx(1),toplist_idx(2)
+        stop "there was a bug in the tplist"
+     end if
+
+     i=0
+     j=1
+     btlist_str(:) = "---------"
+     btlist(:) = 0d0
+     do while(i<10)
+
+        if (j .gt. nreac) exit
+
+        if (toplist_mask(toplist_idx(nreac+1-j))) then
+            reac_dummy=trim(adjustl(reaction_string(rrate(toplist_idx(nreac+1-j)))))
+            btlist_str(i+1) = reaction_string(rrate(toplist_idx(nreac+1-j)))
+            btlist(i+1) = toplist_energy(nreac+1-j)
+            i = i+1
+        else
+            continue
+        end if
+
+        j = j+1
+     end do
+
+
+    ! Do the same for the isotopes
+    call quicksort(0,net_size,toplist_energy_iso,toplist_idx_iso)
+
+    i=0
+    j=1
+    tplist_str_iso(:) = "-----"
+    tplist_iso(:) = 0d0
+    do while(i<10)
+
+        if (j .gt. net_size) exit
+
+        if (toplist_energy_iso(j) .ne. 0d0) then
+            tplist_str_iso(i+1) = net_names(toplist_idx_iso(j))
+            tplist_iso(i+1) = toplist_energy_iso(j)
+            i = i+1
+        else
+            continue
+        end if
+
+        j = j+1
+    end do
+
+    i=0
+    j=1
+    btlist_str_iso(:) = "-----"
+    btlist_iso(:) = 0d0
+    do while(i<10)
+
+        if (j .gt. net_size) exit
+
+        if (toplist_energy_iso(net_size+1-j) .ne. 0d0) then
+            btlist_str_iso(i+1) = net_names(toplist_idx_iso(net_size+1-j))
+            btlist_iso(i+1) = toplist_energy_iso(net_size+1-j)
+            i = i+1
+        else
+            continue
+        end if
+
+        j = j+1
+    end do
+
+
+
+     write(toplist_unit,"(es12.4, 4X, es12.4, 4X, "//int_to_str(toplist_amount)//"(A,3X), 3X,"//&
+                        int_to_str(toplist_amount)//"(es12.4,3X), 4X, "//int_to_str(toplist_amount)//&
+                        "(A,3X), 2X,"//int_to_str(toplist_amount)//"(es12.4,3X),'    |     ',"//&
+                        int_to_str(toplist_amount)//"(A,3X), 3X,"//int_to_str(toplist_amount)//&
+                        "(es12.4,3X), 4X, "//int_to_str(toplist_amount)//&
+                        "(A,3X), 3X,"//int_to_str(toplist_amount)//"(es12.4,3X))" )&
+                        time,engen_tot_exc, tplist_str, tplist, btlist_str,btlist, tplist_str_iso, tplist_iso, &
+                        btlist_str_iso, btlist_iso
+
+   end if
+
+
+
+   if ((.not. hdf5_mode) .and. write_engen) then
       ! Write the output (detailed)
       !write(nuc_heat_file,'(*(es23.14,3x))') time,engen_q_value,engen_q_weak,&
       !                                       engen_q_ng,engen_q_gn,engen_tot_ncap,&
@@ -1320,18 +1549,19 @@ subroutine calc_nuclear_heating(hdf5_mode)
       !                                       engen_q_pa,engen_q_ap,engen_tot_pacap,&
       !                                       engen_fiss
       ! Write the output (more relaxed)
-      write(nuc_heat_file,'(*(es23.14,3x))') time,engen_tot_exc,entropy_src_term,&
-                                             engen_q_weak,&
-                                             engen_tot_ncap,&
-                                             engen_tot_pcap,&
-                                             engen_tot_acap,&
-                                             engen_tot_npcap,&
-                                             engen_tot_nacap,&
-                                             engen_tot_pacap,&
-                                             engen_fiss
+      write(nuc_heat_file,'(*(es23.14E3,3x))') time,engen_tot_exc,entropy_src_term,&
+                                               engen_q_weak,&
+                                               engen_tot_ncap,&
+                                               engen_tot_pcap,&
+                                               engen_tot_acap,&
+                                               engen_tot_npcap,&
+                                               engen_tot_nacap,&
+                                               engen_tot_pacap,&
+                                               engen_fiss
+   end if
 
 #ifdef USE_HDF5
-   else
+   if ((write_engen) .and. (hdf5_mode)) then
       call extend_engen(time,engen_tot_exc, entropy_src_term,engen_tot_ncap, &
                         engen_tot_pcap, engen_tot_acap,engen_tot_npcap, &
                         engen_tot_nacap, engen_tot_pacap, engen_q_weak, &
@@ -1341,9 +1571,10 @@ subroutine calc_nuclear_heating(hdf5_mode)
                         det_an_engen, det_other_engen, det_fiss_engen, &
                         det_tot_engen, &
                         h_engen_detailed)
+   end if
 #endif
 
-   end if
+
    INFO_EXIT("calc_nuclear_heating")
 
 end subroutine calc_nuclear_heating
@@ -1780,7 +2011,8 @@ end subroutine finab_sort
 !!     - 25.01.21
 !! .
 subroutine analysis_finalize()
-   use parameter_class, only: track_nuclei_every
+   use parameter_class, only: track_nuclei_every, top_engen_every, &
+                              timescales_every, nrdiag_every
    implicit none
 
    INFO_ENTRY('analysis_finalize')
@@ -1799,6 +2031,11 @@ subroutine analysis_finalize()
    if (track_nuclei_every .gt. 0) then
       call close_io_file(track_unit,"tracked_nuclei.dat")
    end if
+
+   ! Cleanup the toplist
+   if (top_engen_every .gt. 0) then
+    call close_io_file(toplist_unit,"toplist.dat")
+  end if
 
    INFO_EXIT('analysis_finalize')
 

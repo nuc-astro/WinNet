@@ -19,6 +19,7 @@
 !!
 !! \b Edited:
 !!    - 17.07.22, M.R., made the maximum temperature grid points a variable (nt_tab)
+!!    - 04.10.23  M. Jacobi : Tabulated rates of variable lenghts
 !! .
 !!
 !! @author Moritz Reichert
@@ -28,32 +29,37 @@ module tabulated_rate_module
    use global_class, only: reactionrate_type
    implicit none
 
+   type,private :: tabulated_rate_type !< type for tabulated reaction rates
+                                       !< so far contains only the tabulated reaction rates but can be extended
+      real(r_kind),dimension(:),allocatable:: tabulated !< tabulated reaction rates
+   end type tabulated_rate_type
 
    integer, private                :: ntab              !< number of tabulated rates (e.g. calculated with TALYS)
+   integer                         :: nt_tab            !< number of temperature grid points,
    logical, public                 :: tabulated         !< switch for tabulated rates
    integer,dimension(2), private   :: tab_index         !< Multi-index for the tabulated rates
-   type(reactionrate_type),dimension(:),allocatable,public :: tabulated_rate !< array containing all tabulated reaction rates
 
+   character(len=*), private, parameter                        :: tabulated_binary_name='tabulated_rates.windat' !< Filename of binary file to save weak rates
 
-   integer, parameter                       :: nt_tab = 30  !< Number of temperature grid points,
-                                                            !< this has to be still changed manually
-                                                            !< in the global clase
-   real(r_kind), dimension(nt_tab), private :: temp_grid_tab =                   &
+   real(r_kind), dimension(:), allocatable, private :: temp_grid_tab
+   real(r_kind), dimension(30), private             :: temp_grid_tab_default = &
     (/1.0d-4,5.0d-4,1.0d-3,5.0d-3,1.0d-2,5.0d-2,1.0d-1,1.5d-1,2.0d-1,2.5d-1, &
       3.0d-1,4.0d-1,5.0d-1,6.0d-1,7.0d-1,8.0d-1,9.0d-1,1.0d+0,1.5d+0,2.0d+0, &
-      2.5d+0,3.0d+0,3.5d+0,4.0d+0,5.0d+0,6.0d+0,7.0d+0,8.0d+0,9.0d+0,1.0d+1 /) !< Temperature grid of tabulated reaction rates [GK]
-                                                                               !< @warning This grid is hard-coded and has to be changed here
-                                                                               !< in case of a different grid when using tabulated rates
-                                                                               !< @see parameter_class::use_tabulated_rates,
-                                                                               !< parameter_class::tabulated_rates_file
+      2.5d+0,3.0d+0,3.5d+0,4.0d+0,5.0d+0,6.0d+0,7.0d+0,8.0d+0,9.0d+0,1.0d+1 /) !< default Temperature grid of tabulated reaction rates [GK]
+
+   type(reactionrate_type),dimension(:),allocatable,public       :: rrates_tabulated !< array containing all tabulated reaction rates in rrate format
+   type(tabulated_rate_type), dimension(:), allocatable,private  :: tabulated_rate   !< array containing all tabulated reaction rates
+
    !
    ! Public and private fields and methods of the module
    !
    public:: &
       init_tabulated_rates, merge_tabulated_rates, tabulated_index,&
-      calculate_tab_rate
+      calculate_tab_rate, multiply_tab_rate_by_factor, &
+      output_binary_tabulated_reaction_data, read_binary_tabulated_reaction_data
    private:: &
-      readtabulated,tabulated_inter
+      readtabulated, tabulated_inter, readtabulatedtemps,&
+      write_reac_verbose_out
 contains
 
    !> Initialize tabulated rates
@@ -64,10 +70,16 @@ contains
    !!
    !! @author Moritz Reichert
    !! @date 24.01.21
+   !!
+   !! \b Edited:
+   !!   - 04.10.23, M. Jacobi - support for flexible tabulated temperature grids
+   !! .
    subroutine init_tabulated_rates()
       use parameter_class, only: use_tabulated_rates, &
                                  tabulated_rates_file, &
-                                 use_prepared_network
+                                 use_prepared_network, &
+                                 prepared_network_path
+
       use file_handling_class
       implicit none
       integer :: tab_unit !< File unit id
@@ -77,12 +89,20 @@ contains
 
       ! Read and count tabulated rates
       ntab = 0
-      if (tabulated .and. (.not. use_prepared_network)) then
-         tab_unit= open_infile(tabulated_rates_file)
-
-    !----- readtabulated returns number of tabulated rates
-         call readtabulated(tab_unit,ntab)
-    !----- Give a verbose output
+      nt_tab = 0
+      if (tabulated) then
+        if (use_prepared_network) then
+            call read_binary_tabulated_reaction_data(prepared_network_path)
+        else
+           tab_unit= open_infile(tabulated_rates_file)
+           ! readtabulatedtemps reads in the tabulated rate
+           ! temperature grid or sets default if no specific
+           ! grid is given
+           call readtabulatedtemps()
+           ! readtabulated returns number of tabulated rates
+           call readtabulated(tab_unit,ntab)
+         end if
+         ! Give a verbose output
          call write_reac_verbose_out()
       endif
    end subroutine init_tabulated_rates
@@ -100,6 +120,7 @@ contains
       implicit none
 
       if (VERBOSE_LEVEL .ge. 1) then
+         call write_data_to_std_out("Size tabulated rate temperature grid",int_to_str(nt_tab))
          call write_data_to_std_out("Amount tabulated rates",int_to_str(ntab))
       end if
    end subroutine write_reac_verbose_out
@@ -135,10 +156,10 @@ contains
               allocate(rrate_array(ntab),stat=alloc_stat)
               if ( alloc_stat /= 0) call raise_exception('Allocation of "rrate_array" failed.',&
                                                          "merge_tabulated_rates",420001)
-              rrate_array(1:ntab) = tabulated_rate(1:ntab)
+              rrate_array(1:ntab) = rrates_tabulated(1:ntab)
            else
               !----- merge tabulated rates into rrate
-              call rrate_qs_replace(rrate_array(1:rrate_length),rrate_length,tabulated_rate(1:ntab),ntab,1,rrate_tmp,new_length)
+              call rrate_qs_replace(rrate_array(1:rrate_length),rrate_length,rrates_tabulated(1:ntab),ntab,1,rrate_tmp,new_length)
               rrate_length = new_length
               deallocate(rrate_array)
               allocate(rrate_array(rrate_length))
@@ -146,7 +167,7 @@ contains
               rrate_array(:) = rrate_tmp(:)
            end if
            !-- Deallocate the reaclib rate array
-           deallocate(tabulated_rate)
+           deallocate(rrates_tabulated)
            !-- Output the new length
         end if
       end if
@@ -164,6 +185,8 @@ contains
    !! \b Edited:
    !!  - 26.07.22, MR: Created this subroutine to be in line with the other
    !!                  reaction rate types.
+   !!  - 04.10.23, MJ: Added support for flexible tabulated temperature grids
+   !! .
    subroutine calculate_tab_rate(rrate, temp, rat_calc)
      use global_class, only: reactionrate_type
      implicit none
@@ -172,10 +195,110 @@ contains
      real(r_kind),intent(in)             :: temp     !< Temperature [GK]
      real(r_kind),intent(out)            :: rat_calc !< rate value
 
+     integer :: tab_rate_index !< index of the tabulated rate
      ! Interpolate the rate
-     rat_calc = tabulated_inter(rrate%tabulated,temp)
+     tab_rate_index = int(rrate%param(1))
+     rat_calc = tabulated_inter(tabulated_rate(tab_rate_index)%tabulated,temp)
    end subroutine calculate_tab_rate
 
+
+   !> Multiply a tabulated rate by a factor
+   !!
+   !! This subroutine multiplies a tabulated rate by a factor.
+   !!
+   !! @author M. Reichert
+   !! @date 04.06.24
+   subroutine multiply_tab_rate_by_factor(rrate,factor)
+    implicit none
+    type(reactionrate_type),intent(in) :: rrate
+    real(r_kind),intent(in) :: factor
+    ! Internal variables
+    integer :: tab_rate_index !< index of the tabulated rate
+
+    tab_rate_index = int(rrate%param(1))
+    tabulated_rate(tab_rate_index)%tabulated(:) = tabulated_rate(tab_rate_index)%tabulated(:) * factor
+
+   end subroutine multiply_tab_rate_by_factor
+
+
+
+   !> Reads tabulated reaction rate temperature grid.
+   !!
+   !! If tabulated_temperature_file is not given, a default
+   !! temperature grid is used.
+   !!
+   !! @see parameter_class::use_tabulated_rates,
+   !!      parameter_class::tabulated_temperature_file
+   !!
+   !! \b Edited:
+   !!     - 04.06.24, MR: - Added check for monotonicity
+   !! .
+   !!
+   !! @author M. Jacobi
+   subroutine readtabulatedtemps()
+     use error_msg_class, only: int_to_str
+     use parameter_class, only: tabulated_temperature_file, max_fname_len
+     use file_handling_class
+
+     implicit none
+
+     integer :: i
+     integer :: read_stat,alloc_stat
+     integer :: tabtemp_unit !< File unit id
+     character(max_fname_len) :: help_reader  !< Helper variable
+
+     INFO_ENTRY("readtabulated")
+
+     if (tabulated_temperature_file .eq. "default") then
+        nt_tab = 30
+        allocate(temp_grid_tab(30),stat=alloc_stat)
+        temp_grid_tab = temp_grid_tab_default
+        return
+     end if
+
+     ! Count how many lines to skip and how many are there
+     tabtemp_unit= open_infile(tabulated_temperature_file)
+
+     do ! determine the number of records
+        read(tabtemp_unit,"(A)",iostat=read_stat)help_reader
+        ! Go out, file ended
+        if (read_stat .ne. 0)exit
+        help_reader = trim(adjustl(help_reader))
+        ! Check if the line is to skip or not
+        if ((len_trim(help_reader) .eq. 0) .or. (help_reader(1:1) .eq. "#")) then
+          cycle
+        else
+          exit
+        end if
+     end do
+     close(tabtemp_unit)
+
+     ! Count the number of space separated entries
+     nt_tab = 0
+     do i = 1, len_trim(help_reader)-1
+       if ((help_reader(i:i) == ' ') .and. (help_reader(i+1:i+1) .ne. ' ')) then
+         nt_tab = nt_tab + 1
+       end if
+     end do
+     nt_tab = nt_tab + 1  ! Add 1 to account for the last entry
+
+     ! Allocate the temperature grid
+     allocate(temp_grid_tab(nt_tab),stat=alloc_stat)
+
+     ! Read the temperature grid
+     read(help_reader,*) temp_grid_tab
+
+     ! Check that it is monotonically increasing
+     do i = 1, nt_tab-1
+        if (temp_grid_tab(i) >= temp_grid_tab(i+1)) then
+            call raise_exception("Temperature grid is not monotonically increasing",&
+                                "readtabulatedtemps",420004)
+
+        end if
+     end do
+
+
+   end subroutine readtabulatedtemps
 
    !>
    !! Reads tabulated reaction rates.
@@ -200,6 +323,8 @@ contains
    !!      - 23.01.21, MR - set the source to always "tabl"
    !!      - 17.07.22, MR - introduced custom reading format,
    !!                       depending on length of the temperature grid
+   !!      - 04.10.23, MJ - support for flexible tabulated temperature grids
+   !!      - 31.05.24, MR - Fixed bug related to reading rates.
    !! .
    subroutine readtabulated(sourcefile,cntTab)
      use error_msg_class, only: int_to_str
@@ -213,17 +338,20 @@ contains
      !
      integer                         :: grp
      integer                         :: group_index
+     integer                         :: cnt_two
      character(5), dimension(6)      :: parts
      integer, dimension(6)           :: parts_index
      character(4)                    :: src
      character(1)                    :: res
      character(1)                    :: rev
-     real(r_kind),dimension(nt_tab)  :: curTable
+     real(r_kind),dimension(:), allocatable  :: curTable
      real(r_kind)                    :: qvalue
      integer                         :: j,k,read_stat,alloc_stat
      character(20)                   :: fmt_dyn
 
      INFO_ENTRY("readtabulated")
+
+     allocate(curTable(nt_tab),stat=alloc_stat)
 
      ! Create a custom format, depending on the length
      fmt_dyn = "("//int_to_str(nt_tab)//"f10.3)"
@@ -236,17 +364,42 @@ contains
              grp, parts(1:6), src, res, rev, qvalue
         if (read_stat /= 0) exit
         read(sourcefile,fmt_dyn) curTable
-        if (grp.ne.0) cycle talloc_loop
+
+        ! Check if reaction is in the network
+        select case (grp)
+        case (1:11)
+           group_index = grp
+           cycle
+        case default
+        parts_index = 0
+        tinner_loop_cnt: do j=1,6
+           if (parts(j) .eq. '     ') exit tinner_loop_cnt
+           parts_index(j) = benam(parts(j))
+           !----- parts_index(j)==0 means that nuclide j is not part of the network
+           if (parts_index(j) .eq. 0) cycle talloc_loop
+        end do tinner_loop_cnt
+        !----- if both participants are part of the network, write the rate into
+        !----- tabulated_rate
+        end select
+
         k=k+1
      end do talloc_loop
+
      ntab = k
    !----- allocate the array of tabulated reactions
+     allocate(rrates_tabulated(ntab),stat=alloc_stat)
+   !----- allocate the array of tabulated rates
      allocate(tabulated_rate(ntab),stat=alloc_stat)
+     do k=1, ntab
+        allocate(tabulated_rate(k)%tabulated(nt_tab),stat=alloc_stat)
+     end do
+
      if ( alloc_stat /= 0)  call raise_exception('Allocation of "tabulated_rate" failed',&
                                                  "readtabulated",420001)
      rewind(sourcefile)
 
      k=1
+     cnt_two =0
    !----- read the input file again and fill the array of tabulated reactions
      touter_loop: do
    !----- read names of participating nuclides and Q-value
@@ -269,27 +422,37 @@ contains
    !----- if both participants are part of the network, write the rate into
    !----- tabulated_rate
         end select
-        tabulated_rate(k)%group       = group_index
-        tabulated_rate(k)%parts       = parts_index
-        tabulated_rate(k)%source      = src
-        tabulated_rate(k)%q_value     = qvalue
-        tabulated_rate(k)%is_resonant = (res == "r")
-        tabulated_rate(k)%is_weak     = (res == "w")
-        tabulated_rate(k)%is_reverse  = (rev == "v")
-        tabulated_rate(k)%param       = 0.0
-        tabulated_rate(k)%tabulated   = curTable
-        tabulated_rate(k)%reac_src    = rrs_tabl
-        tabulated_rate(k)%cached      = -1
 
-        cntTab=k
+        rrates_tabulated(k)%group       = group_index
+        rrates_tabulated(k)%parts       = parts_index
+        rrates_tabulated(k)%source      = src
+        rrates_tabulated(k)%q_value     = qvalue
+        rrates_tabulated(k)%is_resonant = (res == "r")
+        rrates_tabulated(k)%is_weak     = (res == "w")
+        rrates_tabulated(k)%is_reverse  = (rev == "v")
+        rrates_tabulated(k)%param       = 0.0
+        rrates_tabulated(k)%param(1)    = dble(k)
+        rrates_tabulated(k)%reac_src    = rrs_tabl
+        rrates_tabulated(k)%cached      = -1
+
+        tabulated_rate(k)%tabulated   = curTable
+
+        cnt_two=k
         ! Set the reaction type
-        call set_reaction_type(tabulated_rate(k))
+        call set_reaction_type(rrates_tabulated(k))
         ! Next rate
         k=k+1
      end do touter_loop
 
+     ! Make the reading bullet proof
+     if (ntab .ne. cnt_two) then
+        call raise_exception('Number of tabulated rates does not match while reading!',&
+                             "readtabulated",420003)
+     end if
+
+     cntTab = ntab
    ! get the correct coefficients to prevent double counting
-   call getcoefficients(tabulated_rate,ntab)
+   call getcoefficients(rrates_tabulated,ntab)
 
    INFO_EXIT("readtabulated")
    end subroutine readtabulated
@@ -318,7 +481,7 @@ contains
    function tabulated_inter(rate,temp) result (tabr)
       implicit none
 
-      real(r_kind),dimension(nt_tab) :: rate  !< Rate entries
+      real(r_kind),dimension(:)      :: rate  !< Rate entries
       real(r_kind)                   :: temp  !< Temperature [GK]
       real(r_kind)                   :: tabr  !< Interpolated rate at temperature
 
@@ -348,7 +511,7 @@ contains
    !! Sets the indices for the tabulated rate interpolation
    !! in \ref tabulated_inter. Temperature values below or above the
    !! temperature grid will result in two equal indices
-   !! with either 1 or 30, respectively.
+   !! with either 1 or the last index, respectively.
    !!
    !! ### Example
    !!~~~~~~~~~~~~~~.f90
@@ -384,5 +547,82 @@ contains
 
    end subroutine tabulated_index
 
+
+  !> Read the tabulated rates from a unformatted binary file
+  !!
+  !! In case the binary file is read, no other data has to be read.
+  !!
+  !! @author M. Jacobi
+  !! @date 04.10.23
+  subroutine read_binary_tabulated_reaction_data(path)
+    use file_handling_class, only: open_unformatted_infile
+    use error_msg_class,     only: raise_exception
+    implicit none
+    character(len=*), intent(in)        :: path            !< Path to binary file
+    integer                             :: file_id         !< File identifier
+    integer                             :: i               !< Loop variable
+    integer                             :: status          !< Status of allocation
+
+
+    file_id = open_unformatted_infile(trim(adjustl(path))//trim(adjustl(tabulated_binary_name)))
+
+    read(file_id) ntab
+    read(file_id) nt_tab
+
+   !----- allocate the array containing the temperature grid
+     allocate(temp_grid_tab(nt_tab), stat=status)
+   !----- allocate the array of tabulated reactions
+     allocate(rrates_tabulated(ntab),stat=status)
+   !----- allocate the array of tabulated rates
+     allocate(tabulated_rate(ntab),stat=status)
+     do i=1, ntab
+        allocate(tabulated_rate(i)%tabulated(nt_tab),stat=status)
+     end do
+
+     if ( status /= 0)  call raise_exception('Allocation of "tabulated_rate" failed',&
+                                                 "readtabulated",420001)
+
+     read(file_id) temp_grid_tab
+
+     do i=1, ntab
+         read(file_id) tabulated_rate(i)%tabulated
+     end do
+
+
+     close(file_id)
+
+  end subroutine read_binary_tabulated_reaction_data
+
+
+
+
+  !> Save the theoretical tabulated rates to a unformatted binary file
+  !!
+  !! @author M. Jacobi
+  !! @date 04.10.23
+  subroutine output_binary_tabulated_reaction_data(path)
+    use file_handling_class, only: open_unformatted_outfile
+
+    implicit none
+    character(len=*), intent(in) :: path
+    integer                             :: i
+    integer                             :: file_id
+
+    if (.not. tabulated) return
+
+    ! Open an unformatted file
+    file_id = open_unformatted_outfile(trim(adjustl(path))//trim(adjustl(tabulated_binary_name)))
+    ! Save the data
+    write(file_id) ntab
+    write(file_id) nt_tab
+    write(file_id) temp_grid_tab
+
+    do i=1,ntab
+      write(file_id) tabulated_rate(i)%tabulated
+    end do
+
+    close(file_id)
+
+   end subroutine output_binary_tabulated_reaction_data
 
 end module tabulated_rate_module

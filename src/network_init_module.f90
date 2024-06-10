@@ -70,6 +70,7 @@ subroutine network_init()
 
   !
   integer                    :: alloc_stat !< Allocation state
+  integer                    :: fisscount  !< Number of fission reactions
 !===========================procedure division==================================
   INFO_ENTRY("network_init")
 
@@ -123,13 +124,13 @@ subroutine network_init()
   !-- Merge neutrino reactions into rrate
   call merge_neutrino_rates(rrate,nreac)
   !-- Merge fission rates into rrate
-  call merge_fission_rates(rrate,nreac)
+  call merge_fission_rates(rrate,nreac,fisscount)
   !-- Merge inverse rates (detailed balance) into rrate
   call merge_inverse_rates(rrate,nreac)
 
   ! Tell how many rates there are
   if (VERBOSE_LEVEL.ge.1) then
-     call write_data_to_std_out("Total reactions after merge",int_to_str(nreac))
+     call write_data_to_std_out("Total reactions after merge",int_to_str(nreac+fisscount))
   endif
 
   ! Initialize screening
@@ -444,15 +445,16 @@ end subroutine prepare_simulation
 !! @author M. Reichert
 !! @date 21.07.23
 subroutine create_rate_folder(path)
-    use global_class,        only: net_size
-    use tw_rate_module,      only: output_binary_weak_reaction_data
-    use reaclib_rate_module, only: output_binary_reaclib_reaction_data
-    use parameter_class,     only: unit_define, output_binary_parameter_data, &
-                                   max_fname_len, output_param_prepared_network
-    use mergesort_module,    only: mergesort_init
-    use fission_rate_module, only: output_binary_fission_reaction_data
-    use nuflux_class,        only: output_binary_neutrino_reaction_data
-    use benam_class,         only: output_binary_network_data
+    use global_class,          only: net_size
+    use tw_rate_module,        only: output_binary_weak_reaction_data
+    use reaclib_rate_module,   only: output_binary_reaclib_reaction_data
+    use parameter_class,       only: unit_define, output_binary_parameter_data, &
+                                     max_fname_len, output_param_prepared_network
+    use mergesort_module,      only: mergesort_init
+    use fission_rate_module,   only: output_binary_fission_reaction_data
+    use nuflux_class,          only: output_binary_neutrino_reaction_data
+    use benam_class,           only: output_binary_network_data
+    use tabulated_rate_module, only: output_binary_tabulated_reaction_data
     implicit none
     character(len=*), intent(in) :: path
     character(max_fname_len)     :: path_dir
@@ -478,6 +480,7 @@ subroutine create_rate_folder(path)
     call output_binary_reaclib_reaction_data(trim(adjustl(path_dir)))
     call output_binary_fission_reaction_data(trim(adjustl(path_dir)))
     call output_binary_neutrino_reaction_data(trim(adjustl(path_dir)))
+    call output_binary_tabulated_reaction_data(trim(adjustl(path_dir)))
 
     ! Give information
     call output_param_prepared_network(trim(adjustl(path_dir)))

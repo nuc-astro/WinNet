@@ -32,7 +32,7 @@
 #   Dong & Ren (2005, https://ui.adsabs.harvard.edu/abs/2005EPJA...26...69D/abstract).
 # * Electron chemical potentials from Timmes & Arnett (1999, https://ui.adsabs.harvard.edu/abs/1999ApJS..125..277T/abstract),
 #   accessed via Cococubed: https://cococubed.com/code_pages/chemical_potential.shtml
-# * Beta delayed fission rates from Panov et al (2005, https://ui.adsabs.harvard.edu/abs/2005NuPhA.747..633P/abstract),
+# * Beta delayed fission rates from Mumpower et al. (2022, https://ui.adsabs.harvard.edu/abs/2022PhRvC.106f5805M/abstract),
 #   neutron-induced fission rates from Panov et al. (2010, https://ui.adsabs.harvard.edu/abs/2010A%26A...513A..61P/abstract),
 #   and spontaneous fission rates that were calculated using the semi-empirical formula of
 #   Khuyagbaatar (2020, https://ui.adsabs.harvard.edu/abs/2020NuPhA100221958K/abstract) together with the fission barriers of
@@ -130,12 +130,27 @@ alpha_decay_file = "@WINNET@/data/alpha_decays.dat"
 # Fission #
 ###########
 
-# Fission fragments from:
-# =1: Panov
+# Fission fragment distributions:
+# =1: Panov et al. 2001
 fissflag = 1
 
-# Rates from Panov
-fission_rates = "@WINNET@/data/fissionrates_frdm"
+# Beta-delayed fission:
+# Fission format in probabilities
+fission_format_beta_delayed= 2
+# Rates from Mumpower et al. 2022:
+fission_rates_beta_delayed = "@WINNET@/data/fissionrates_beta_delayed_mp22"
+
+# n-induced fission:
+# Reaclib format
+fission_format_n_induced= 1
+# Also rates from Panov et al. 2010:
+fission_rates_n_induced = "@WINNET@/data/fissionrates_n_induced"
+
+# Spontaneous fission:
+# Reaclib format
+fission_format_spontaneous= 1
+# Rates from Khuyagbaatar 2020:
+fission_rates_spontaneous = "@WINNET@/data/fissionrates_spontaneous"
 
 
 ###################################

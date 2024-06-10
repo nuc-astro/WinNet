@@ -65,14 +65,14 @@ subroutine calculate_reaction_rate(time, temp, rho, Ye, rkm, rrate_array, idx, r
   use error_msg_class,        only: raise_exception,int_to_str
   implicit none
   ! Declare the pass
-  type(reactionrate_type),dimension(nreac),intent(inout) :: rrate_array!< Rate array
-  real(r_kind),intent(in)                                :: time       !< Time [s]
-  real(r_kind),intent(in)                                :: temp       !< Temperature
-  integer,intent(in)                                     :: idx        !< Index of rate in array
-  real(r_kind),intent(in)                                :: rho        !< Density
-  real(r_kind),intent(in)                                :: Ye         !< Electron fraction
-  real(r_kind),intent(in)                                :: rkm        !< Radius in km
-  real(r_kind),intent(out)                               :: rat_calc   !< Calculated reaction rate
+  type(reactionrate_type),dimension(nreac),intent(inout),optional :: rrate_array!< Rate array
+  real(r_kind),intent(in)                                         :: time       !< Time [s]
+  real(r_kind),intent(in)                                         :: temp       !< Temperature
+  integer,intent(in),optional                                     :: idx        !< Index of rate in array
+  real(r_kind),intent(in)                                         :: rho        !< Density
+  real(r_kind),intent(in)                                         :: Ye         !< Electron fraction
+  real(r_kind),intent(in)                                         :: rkm        !< Radius in km
+  real(r_kind),intent(out),optional                               :: rat_calc   !< Calculated reaction rate
   ! Internal variables
   character*4                         :: src          !< Source flag of reaction
   logical                             :: is_same_step !< Flag that determines if it is the same step
@@ -127,6 +127,9 @@ subroutine calculate_reaction_rate(time, temp, rho, Ye, rkm, rrate_array, idx, r
         call nucs()
      end if
   end if
+
+  ! If no rate is present exit here
+  if (present(rrate_array).eqv..false.) return
 
   ! Get the source flag and origin of the rate, depending on the flag the calculation
   ! of the rate differs
@@ -315,6 +318,10 @@ subroutine abchange (time, itemp, rho, Ye, rkm, Y, dYdt, evolution_mode)
    else
       temp = itemp
    end if
+
+   ! Be sure to call the reaction rate calculation at least ones to initialize
+   ! (important for fission later on)
+   call calculate_reaction_rate(time, temp, rho, Ye, rkm)
 
    ! Loop through all reactions
    outer: do i=1,nreac
@@ -605,6 +612,11 @@ subroutine jacobi_init (time, itemp, rho, rkm, Y, Y_p, dYdt, rhs, h, evolution_m
       end do
    endif
 
+
+   ! Be sure to call the reaction rate calculation at least ones to initialize
+   ! (important for fission later on)
+   call calculate_reaction_rate(time, temp, rho, Ye, rkm)
+
    ! Loop through reactions
    outer: do i=1,nreac
       rr_tmp = rrate(i)
@@ -715,13 +727,13 @@ subroutine jacobi_init (time, itemp, rho, rkm, Y, Y_p, dYdt, rhs, h, evolution_m
 
    end do outer
 
-   ! MR: Changed that fission reactions are not taken into account in NSE
+   !Fission reactions are not taken into account in NSE
    if ((fissflag.ne.0) .and. (evolution_mode.ne.EM_NSE)) then
       fissloop: do i=1,nfiss ! loop over fission reactions to implement correct equations for the fragments
          rat = 0.d0
          do j=1,9
             rat = rat +fissrate(i)%param(j)*t9_pow(j)
-         end do
+        end do
 
          ! Check overflows
          if (rat .lt. dlog(rate_max_cutoff)) then

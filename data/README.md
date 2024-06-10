@@ -99,32 +99,71 @@ fissflag , nfission_file
 
 ------
 
-### fissionrates_frdm
+### fissionrates_beta_delayed_mp22
 #### Contains:
 
-Fission rates for the FRDM mass model in Reaclib file format. Neutron-induced fission
-is given in [Panov et al. 2010](https://ui.adsabs.harvard.edu/abs/2010A%26A...513A..61P/abstract),
-beta-delayed fission in [Panov et al. 2005](https://ui.adsabs.harvard.edu/abs/2005NuPhA.747..633P/abstract),
-and spontaneous fission was calculated using the semi-empirical formula given in
+Fission rates of beta-delayed fission as given in [Mumpower et al. 2022](https://ui.adsabs.harvard.edu/abs/2022PhRvC.106f5805M/abstract)
+for the FRLDM fission barriers given in [Moeller et al. 2015](https://journals.aps.org/prc/supplemental/10.1103/PhysRevC.91.024310).
+The rates are given in probabilities of the total beta decay where each column represents one channel of decay (i.e., P0n, P1n, ...).
+
+#### Relevant parameters
+fissflag, fission_rates_beta_delayed, fission_format_beta_delayed
+#### Literature
+[Mumpower et al. 2022](https://ui.adsabs.harvard.edu/abs/2022PhRvC.106f5805M/abstract),
+[Manuscript supplemental](https://journals.aps.org/prc/supplemental/10.1103/PhysRevC.106.065805)
+#### Useful scripts
+[create_mumpower_bdf_file.py](../bin/create_mumpower_bdf_file.py)
+
+------
+
+### fissionrates_beta_delayed_pa05
+#### Contains:
+
+Fission rates of beta-delayed fission as given in [Panov et al. 2005](https://ui.adsabs.harvard.edu/abs/2005NuPhA.747..633P/abstract)
+for the Thomas-Fermi fission barriers given in [Myers & Swiatecki 1999](https://ui.adsabs.harvard.edu/abs/1999PhRvC..60a4606M/abstract).
+The rates are given in probabilities of the total beta decay.
+
+#### Relevant parameters
+fissflag, fission_rates_beta_delayed, fission_format_beta_delayed
+#### Literature
+[Panov et al. 2005](https://ui.adsabs.harvard.edu/abs/2005NuPhA.747..633P/abstract)
+
+------
+
+### fissionrates_spontaneous
+#### Contains:
+
+Fission rates of spontaneous fission which were calculated using the semi-empirical formula given in
 [Khuyagbaatar 2020](https://ui.adsabs.harvard.edu/abs/2020NuPhA100221958K/abstract) with the
 fission barriers of [Moeller et al. 2015](https://journals.aps.org/prc/supplemental/10.1103/PhysRevC.91.024310).
 
 #### Relevant parameters
-fissflag , fission_rates
+fissflag , fission_rates_spontaneous, fission_format_spontaneous
 #### Literature
-[Panov et al. 2005](https://ui.adsabs.harvard.edu/abs/2005NuPhA.747..633P/abstract),
-[Panov et al. 2010](https://ui.adsabs.harvard.edu/abs/2010A%26A...513A..61P/abstract)
-[Moeller et al. 2015](https://journals.aps.org/prc/supplemental/10.1103/PhysRevC.91.024310)
 [Khuyagbaatar 2020](https://ui.adsabs.harvard.edu/abs/2020NuPhA100221958K/abstract)
 #### Useful scripts
 [create_spontaneous_fission_file.py](../bin/create_spontaneous_fission_file.py)
 
 ------
 
+### fissionrates_n_induced
+#### Contains:
+
+Fission rates of neutron induced fission as given in [Panov et al. 2010](https://ui.adsabs.harvard.edu/abs/2010A%26A...513A..61P/abstract)
+for the FRDM mass model.
+
+#### Relevant parameters
+fissflag , fission_rates_n_induced, fission_format_n_induced
+#### Literature
+[Panov et al. 2010](https://ui.adsabs.harvard.edu/abs/2010A%26A...513A..61P/abstract),
+[Vizier database](https://vizier.cds.unistra.fr/viz-bin/VizieR-3?-source=J/A%2bA/513/A61/fitting)
+
+------
+
 ### frdm_sn.dat
 #### Contains:
 
-Table with neutron separation energies with the FRDM mass model.
+Table with neutron separation energies of the FRDM mass model.
 
 #### Relevant parameters
 calc_nsep_energy , nsep_energies_file

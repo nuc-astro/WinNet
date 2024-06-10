@@ -166,8 +166,8 @@ This test performs the \f$\beta\f$-delayed fission of \f$^{295}\mathrm{Am}\f$.
 The initial composition consists of \f$^{295}\mathrm{Am}\f$ only and the calculation 
 is done for \f$t=10^{-2}\, \mathrm{s}\f$. We compare the final abundances with the 
 fragment distribution of ABLA [(Kelic et al. 2009)](https://ui.adsabs.harvard.edu/abs/2009arXiv0906.4193K/abstract), 
-(Kodama & Takahashi 1976)[https://ui.adsabs.harvard.edu/abs/1975NuPhA.239..489K/abstract], and 
-(Panov et al. 2001)[https://ui.adsabs.harvard.edu/abs/2001NuPhA.688..587P/abstract].
+[Kodama & Takahashi 1976](https://ui.adsabs.harvard.edu/abs/1975NuPhA.239..489K/abstract), and 
+[Panov et al. 2001](https://ui.adsabs.harvard.edu/abs/2001NuPhA.688..587P/abstract).
 
 @image html fissfrag_test.png "Fission fragmet distribution of 295Am after 0.01 s" width=400
 
@@ -178,8 +178,8 @@ fragment distribution of ABLA [(Kelic et al. 2009)](https://ui.adsabs.harvard.ed
 The nuclear reaction rates in WinNet are implemented using the reaction rate database 
 JINA Reaclib. The format of this database restricts the reaction to a maximum number 
 of four products. However, the \f$\beta\f$-decay of very neutron rich nuclei involves 
-the release of many neutrons (e.g., up to $10$ neutrons in the calculation of 
-[(Moeller et al. 2019)](https://matthewmumpower.com/publications/paper/2019/moller/nuclear-properties-for-astrophysical-and-radioactive-ion-beam-applications-ii)). 
+the release of many neutrons (e.g., up to \f$10\f$ neutrons in the calculation of 
+[Moeller et al. 2019](https://matthewmumpower.com/publications/paper/2019/moller/nuclear-properties-for-astrophysical-and-radioactive-ion-beam-applications-ii)). 
 We therefore introduced another format to implement \f$\beta\f$-decays where all 
 reactions that are also given in the Reaclib file format are replaced. 
 The test calculates the decay of \f$^{73}\mathrm{Ca}\f$ given in \f$\beta\f$-decay 
