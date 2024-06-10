@@ -1,0 +1,8 @@
+<map id="fission_rate_module::file_fiss_frag" name="fission_rate_module::file_fiss_frag">
+<area shape="rect" id="node1" title="Fill the rates with the correct fragments." alt="" coords="5,90,143,131"/>
+<area shape="rect" id="node2" href="$namespacebenam__class.html#ad2f566697809a5731e560509d2ca7062" title="Finds an isotope index in the network table, given its A and Z. In case it was not found,..." alt="" coords="383,46,521,73"/>
+<area shape="rect" id="node3" href="$namespacefission__rate__module.html#acb8bde13a563d9a5f99739b6cdb1682b" title="Determines fission fragment mass distribution as described in Panov et al. 2001." alt="" coords="191,207,328,248"/>
+<area shape="rect" id="node4" href="$namespaceerror__msg__class.html#a7e065585cc806a5c264de1f088266498" title="Converts a given integer to a string." alt="" coords="576,119,715,160"/>
+<area shape="rect" id="node5" href="$namespaceerror__msg__class.html#a2453d3b7cb363115c046840baa1dfb75" title="Raise a exception with a given error message." alt="" coords="376,148,528,190"/>
+<area shape="rect" id="node6" href="$namespacefission__rate__module.html#aa9bd5afd5fef2fd78f7a26f5a401e854" title="Kodama&#45;Takahashi distribution." alt="" coords="191,90,328,131"/>
+</map>

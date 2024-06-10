@@ -1,4 +1,0 @@
-<map id="fission_rate_module::fiss_dist" name="fission_rate_module::fiss_dist">
-<area shape="rect" id="node1" title="Determines fission fragment mass distribution as described in Panov et al. 2001." alt="" coords="5,5,143,47"/>
-<area shape="rect" id="node2" href="$namespacebenam__class.html#ad2f566697809a5731e560509d2ca7062" title="Finds an isotope index in the network table, given its A and Z. In case it was not found,..." alt="" coords="191,13,329,39"/>
-</map>

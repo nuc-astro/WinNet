@@ -12,5 +12,7 @@ var structfission__rate__module_1_1fissionrate__type =
     [ "mode", "structfission__rate__module_1_1fissionrate__type.html#aa088c6db1d98acd438738d8a28f9df69", null ],
     [ "param", "structfission__rate__module_1_1fissionrate__type.html#ac83fedd80e6b4074f6d710d6b9ba5a91", null ],
     [ "q_value", "structfission__rate__module_1_1fissionrate__type.html#a02cd520fd72cb727db8cfba04bcf4b19", null ],
-    [ "reac_type", "structfission__rate__module_1_1fissionrate__type.html#ad90032f31f1518e48453610885176a89", null ]
+    [ "reac_type", "structfission__rate__module_1_1fissionrate__type.html#ad90032f31f1518e48453610885176a89", null ],
+    [ "released_n", "structfission__rate__module_1_1fissionrate__type.html#a0ec764532b31f1bac03402552d398806", null ],
+    [ "src", "structfission__rate__module_1_1fissionrate__type.html#ada13c593ec353c221b1d26541a41559b", null ]
 ];

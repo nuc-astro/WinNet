@@ -209,7 +209,7 @@ Variables</h2></td></tr>
 
 <p>Function to define constants. </p>
 <p>This function translates names of constants to numbers (real). For example, "pi" is translated to 3.1415. Define new constants (names and values) in this function.</p>
-<h3><a class="anchor" id="autotoc_md47"></a>
+<h3><a class="anchor" id="autotoc_md50"></a>
 Example</h3>
 <div class="fragment"><div class="line">b = common_variables(<span class="stringliteral">&quot;pi&quot;</span>)</div>
 </div><!-- fragment --><p>After this, will be 3.141592653589793</p>
@@ -264,7 +264,7 @@ Example</h3>
 
 <p>Function to perform a function operations. </p>
 <p>Depending on the input it will calculate, e.g., the square root (sqrt) or the sinus (sin). To add a function to the functionality of the parser, add the translation in this function here.</p>
-<h3><a class="anchor" id="autotoc_md45"></a>
+<h3><a class="anchor" id="autotoc_md48"></a>
 Example</h3>
 <div class="fragment"><div class="line">b = eval_function(4, <span class="stringliteral">&quot;sqrt&quot;</span>)</div>
 </div><!-- fragment --><p>b will be 2.</p>
@@ -312,7 +312,7 @@ Here is the call graph for this function:</div>
 
 <p>Evaluate a complex string expression. </p>
 <p>Evaluate expressions with brackets ( i.e., "(" and ")" ) and function names (i.e., "sin(5)" ).</p>
-<h3><a class="anchor" id="autotoc_md50"></a>
+<h3><a class="anchor" id="autotoc_md53"></a>
 Example</h3>
 <div class="fragment"><div class="line">parsing_string = <span class="stringliteral">&quot;2+sin(pi)-5*(1+1)&quot;</span></div>
 <div class="line"><span class="keyword">call </span>evaluate()</div>
@@ -376,7 +376,7 @@ Here is the call graph for this function:</div>
 
 <p>Finds a value of the variable for a given y-value. </p>
 <p>This function solves an equation, i.e., finds the value of variable "x" for expressions as, for example, "3*x+2+x^2 = 10" returns 1.701562. This works with a newton raphson to find the root of f(x) - 10.</p>
-<h3><a class="anchor" id="autotoc_md52"></a>
+<h3><a class="anchor" id="autotoc_md55"></a>
 Example</h3>
 <div class="fragment"><div class="line">input_string  = <span class="stringliteral">&quot;3*x+2+x^2&quot;</span></div>
 <div class="line">eq_value      = 10</div>
@@ -430,7 +430,7 @@ Here is the call graph for this function:</div>
 
 <p>Evaluate a simple string expression, without brackets and functions. </p>
 <p>This subroutine is able to evaluate simply expressions without brackets or functions. Only +- * / and ^ is allowed here. In addition a variable name or constant names may be given. For example "2+3-1" will store the result (4) in the first entry of the "numbers" array.</p>
-<h3><a class="anchor" id="autotoc_md49"></a>
+<h3><a class="anchor" id="autotoc_md52"></a>
 Example</h3>
 <div class="fragment"><div class="line">parsing_string = <span class="stringliteral">&quot;0-2-3^2&quot;</span></div>
 <div class="line"><span class="keyword">call </span>get_simple_result()</div>
@@ -473,7 +473,7 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 
 <p>Function to decide whether a character is a number or not (i.e., 0-9). </p>
-<h3><a class="anchor" id="autotoc_md38"></a>
+<h3><a class="anchor" id="autotoc_md41"></a>
 Example</h3>
 <div class="fragment"><div class="line">b = is_digit(<span class="stringliteral">&quot;5&quot;</span>)</div>
 <div class="line">c = is_digit(<span class="stringliteral">&quot;a&quot;</span>)</div>
@@ -517,7 +517,7 @@ Example</h3>
 </div><div class="memdoc">
 
 <p>Function to decide whether a character is "*" or "/". </p>
-<h3><a class="anchor" id="autotoc_md40"></a>
+<h3><a class="anchor" id="autotoc_md43"></a>
 Example</h3>
 <div class="fragment"><div class="line">b = is_dot_operator(<span class="stringliteral">&quot;+&quot;</span>)</div>
 <div class="line">c = is_dot_operator(<span class="stringliteral">&quot;*&quot;</span>)</div>
@@ -562,7 +562,7 @@ Example</h3>
 </div><div class="memdoc">
 
 <p>Function to decide whether a character is a "+" or "-". </p>
-<h3><a class="anchor" id="autotoc_md41"></a>
+<h3><a class="anchor" id="autotoc_md44"></a>
 Example</h3>
 <div class="fragment"><div class="line">b = is_line_operator(<span class="stringliteral">&quot;+&quot;</span>)</div>
 <div class="line">c = is_line_operator(<span class="stringliteral">&quot;*&quot;</span>)</div>
@@ -607,7 +607,7 @@ Example</h3>
 </div><div class="memdoc">
 
 <p>Function to decide whether a character is a mathematical operator or not. Functions (as e.g., sin) are not defined here! </p>
-<h3><a class="anchor" id="autotoc_md39"></a>
+<h3><a class="anchor" id="autotoc_md42"></a>
 Example</h3>
 <div class="fragment"><div class="line">b = is_operator(<span class="stringliteral">&quot;+&quot;</span>)</div>
 <div class="line">c = is_operator(<span class="stringliteral">&quot;5&quot;</span>)</div>
@@ -652,7 +652,7 @@ Example</h3>
 </div><div class="memdoc">
 
 <p>Function to decide whether a character is a "^". </p>
-<h3><a class="anchor" id="autotoc_md42"></a>
+<h3><a class="anchor" id="autotoc_md45"></a>
 Example</h3>
 <div class="fragment"><div class="line">b = is_power_operator(<span class="stringliteral">&quot;^&quot;</span>)</div>
 <div class="line">c = is_power_operator(<span class="stringliteral">&quot;-&quot;</span>)</div>
@@ -698,7 +698,7 @@ Example</h3>
 
 <p>Function to decide whether a character can be associated with a number. </p>
 <p>Allowed characters are ".", "d", and "e" (for scientific format of a number).</p>
-<h3><a class="anchor" id="autotoc_md43"></a>
+<h3><a class="anchor" id="autotoc_md46"></a>
 Example</h3>
 <div class="fragment"><div class="line">b = is_separator(<span class="stringliteral">&quot;,&quot;</span>)</div>
 <div class="line">c = is_separator(<span class="stringliteral">&quot;-&quot;</span>)</div>
@@ -740,7 +740,7 @@ Example</h3>
 
 <p>Subroutine to check the parsing string for consistency and correct it. </p>
 <p>This subroutine will convert all characters to lower case characters (e.g., 4E-1 -&gt; 4e-1) and will add a leading "0" in case the string starts with a mathematical operator (i.e., + or -, e.g., "-3+5" -&gt; "0-3+5"). Furthermore, it checks for "+-" (and "++", "--" and all combinations) and will correct it to "-". Additionally "**" is corrected to "^", in this way the power can be written by both (**, and ^).</p>
-<h3><a class="anchor" id="autotoc_md46"></a>
+<h3><a class="anchor" id="autotoc_md49"></a>
 Example</h3>
 <div class="fragment"><div class="line">parsing_string = <span class="stringliteral">&quot;-2+-3**2&quot;</span></div>
 <div class="line"><span class="keyword">call </span>make_pars_str_consistent()</div>
@@ -795,7 +795,7 @@ Example</h3>
 
 <p>Function to perform a simple mathematical operation. </p>
 <p>Depending on the input character, the function performs "+". "-", "*", "/", or "^". In case of a different character, an error is raised.</p>
-<h3><a class="anchor" id="autotoc_md44"></a>
+<h3><a class="anchor" id="autotoc_md47"></a>
 Example</h3>
 <div class="fragment"><div class="line">b = operation(10.3, 2.7, <span class="stringliteral">&quot;+&quot;</span>)</div>
 </div><!-- fragment --><p>b will be 13.</p>
@@ -853,7 +853,7 @@ Here is the call graph for this function:</div>
 
 <p>Takes a string and evaluates the expression. </p>
 <p>This function is accessible to the outside of the module. It serves as interface between other modules and this one. Also replaces <a class="el" href="namespaceparser__module.html#a7ff954c56933446e5b124988915e84ea">variable_name</a> with <a class="el" href="namespaceparser__module.html#a3520cf1b73afcf4d12c48569959ef2d8">variable_value</a>.</p>
-<h3><a class="anchor" id="autotoc_md51"></a>
+<h3><a class="anchor" id="autotoc_md54"></a>
 Example</h3>
 <div class="fragment"><div class="line">b = parse_string(<span class="stringliteral">&quot;-8+3*(2-1)-x&quot;</span>,10)</div>
 </div><!-- fragment --><p>After this, b will be -15.</p>
@@ -900,7 +900,7 @@ Here is the call graph for this function:</div>
 
 <p>Store mathematical operators (+-*/) and numbers in arrays. </p>
 <p>The result of this subroutine are two arrays, one containing all operators (e.g., for "3+2*2+1-1": ['+','*','+','-']) and one array containing all numbers (as real type, [3,2,2,1,1]).</p>
-<h3><a class="anchor" id="autotoc_md48"></a>
+<h3><a class="anchor" id="autotoc_md51"></a>
 Example</h3>
 <div class="fragment"><div class="line">parsing_string = <span class="stringliteral">&quot;0-2-3^2&quot;</span></div>
 <div class="line"><span class="keyword">call </span>store_digits_operator()</div>

@@ -130,6 +130,9 @@ Functions/Subroutines</h2></td></tr>
 <tr class="memitem:a68c6cd380e0fbe122d41846adf3f6a5d"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemergesort__module.html#a68c6cd380e0fbe122d41846adf3f6a5d">bubblesort</a> (mode, length, arr1, arr2)</td></tr>
 <tr class="memdesc:a68c6cd380e0fbe122d41846adf3f6a5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bubblesort of array.  <a href="namespacemergesort__module.html#a68c6cd380e0fbe122d41846adf3f6a5d">More...</a><br /></td></tr>
 <tr class="separator:a68c6cd380e0fbe122d41846adf3f6a5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abba3ce32dcc183025b2fdefc47abf5e2"><td class="memItemLeft" align="right" valign="top">recursive subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemergesort__module.html#abba3ce32dcc183025b2fdefc47abf5e2">quicksort</a> (mode, length, arr1, arr2, is_recursion)</td></tr>
+<tr class="memdesc:abba3ce32dcc183025b2fdefc47abf5e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Quicksort of array.  <a href="namespacemergesort__module.html#abba3ce32dcc183025b2fdefc47abf5e2">More...</a><br /></td></tr>
+<tr class="separator:abba3ce32dcc183025b2fdefc47abf5e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6276f21e37053ec65a8da23e55cd311c"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemergesort__module.html#a6276f21e37053ec65a8da23e55cd311c">reorder</a> (arr1, arr2, length)</td></tr>
 <tr class="memdesc:a6276f21e37053ec65a8da23e55cd311c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Takes an array and an array with indices to reorder the first array.  <a href="namespacemergesort__module.html#a6276f21e37053ec65a8da23e55cd311c">More...</a><br /></td></tr>
 <tr class="separator:a6276f21e37053ec65a8da23e55cd311c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -429,6 +432,86 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
+<a id="abba3ce32dcc183025b2fdefc47abf5e2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abba3ce32dcc183025b2fdefc47abf5e2">&#9670;&nbsp;</a></span>quicksort()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">recursive subroutine, public mergesort_module::quicksort </td>
+          <td>(</td>
+          <td class="paramtype">integer, intent(in)&#160;</td>
+          <td class="paramname"><em>mode</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer, intent(in)&#160;</td>
+          <td class="paramname"><em>length</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real(<a class="el" href="macros_8h.html#a3e504da5bba4b12ec3e39594fa54d992">r_kind</a>), dimension(:), intent(inout)&#160;</td>
+          <td class="paramname"><em>arr1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer, dimension(:), intent(out), optional&#160;</td>
+          <td class="paramname"><em>arr2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">logical, intent(in), optional&#160;</td>
+          <td class="paramname"><em>is_recursion</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Quicksort of array. </p>
+<p>This subroutine performs a quicksort of an array. A quicksort is a recursive sorting algorithm. An illustration of it is shown in the following (Source en.wikipedia): </p><div class="image">
+<img src="https://upload.wikimedia.org/wikipedia/commons/6/6a/Sorting_quicksort_anim.gif" alt="" width="300"/>
+<div class="caption">
+Illustration of the quicksort</div></div>
+<p> In this gif, the red indicated number is the so called pivot-element. In contrast to QSort, this subroutine is able to sort an array that is not a derived type and comes in form of an array of doubles. The subroutine is able to run in 2 modes,</p><ul>
+<li>mode 0 : Ascending order</li>
+<li>mode 1 : Descending order</li>
+</ul>
+<p>Furthermore, a second array can be given which will return the indices of the changes within the first array.</p>
+<dl class="section see"><dt>See also</dt><dd><a href="http://rosettacode.org/wiki/Sorting_algorithms/Quicksort#Fortran">Rosettacode</a>,</dd>
+<dd>
+<a class="el" href="namespacemergesort__module.html#a6276f21e37053ec65a8da23e55cd311c" title="Takes an array and an array with indices to reorder the first array.">reorder</a></dd></dl>
+<dl class="section author"><dt>Author</dt><dd>M. Reichert </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>08.05.24 </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">arr1</td><td>Array to get sorted </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">arr2</td><td>Indices of the sort </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">length</td><td>Length of the arrays </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">mode</td><td>0 descending; 1 ascending </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">is_recursion</td><td>Flag to indicate if the subroutine is called recursively </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="mergesort__module_8f90_source.html#l00809">809</a> of file <a class="el" href="mergesort__module_8f90_source.html">mergesort_module.f90</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="namespacemergesort__module_abba3ce32dcc183025b2fdefc47abf5e2_cgraph.svg" width="586" height="82"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
+</div>
+
+</div>
+</div>
 <a id="a6276f21e37053ec65a8da23e55cd311c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a6276f21e37053ec65a8da23e55cd311c">&#9670;&nbsp;</a></span>reorder()</h2>
 
@@ -473,7 +556,7 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="mergesort__module_8f90_source.html#l00791">791</a> of file <a class="el" href="mergesort__module_8f90_source.html">mergesort_module.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mergesort__module_8f90_source.html#l00900">900</a> of file <a class="el" href="mergesort__module_8f90_source.html">mergesort_module.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -528,7 +611,7 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="mergesort__module_8f90_source.html#l00822">822</a> of file <a class="el" href="mergesort__module_8f90_source.html">mergesort_module.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mergesort__module_8f90_source.html#l00931">931</a> of file <a class="el" href="mergesort__module_8f90_source.html">mergesort_module.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -754,7 +837,7 @@ Here is the call graph for this function:</div>
 
 <p>Sorts chapter one of the rate array. </p>
 <p>The sorting is based on the second nucleus in the rate array.</p>
-<h3><a class="anchor" id="autotoc_md32"></a>
+<h3><a class="anchor" id="autotoc_md35"></a>
 Example</h3>
 <pre>
  Rate 1: cl34 (Z=17) -&gt;  s34 (Z=16)

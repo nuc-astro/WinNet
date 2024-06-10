@@ -1,52 +1,52 @@
 <map id="timestep_module::advance_implicit_euler" name="timestep_module::advance_implicit_euler">
-<area shape="rect" id="node1" title="Advance system to the next step for the implicit Euler method." alt="" coords="5,1203,181,1244"/>
-<area shape="rect" id="node2" href="$namespacenucstuff__class.html#a0b78e98c4c09b4ae8c43c795b6aefcf0" title="Computes the electron fraction." alt="" coords="244,485,387,511"/>
-<area shape="rect" id="node3" href="$namespacejacobian__class.html#a6e0f79f200a99f37a2597186e29310c0" title="This subroutine calculates the entries in the jacobian and the right&#45;hand side of the numerical integ..." alt="" coords="229,535,401,562"/>
-<area shape="rect" id="node17" href="$namespaceerror__msg__class.html#a5bc9f3b670b725cc43276934b867d801" title="Converts a given real to a string with format &quot;(1pE10.2)&quot;." alt="" coords="951,732,1100,773"/>
-<area shape="rect" id="node27" href="$namespacenucstuff__class.html#a418807e98f2df2a3aa2b774539540f26" title="Total mass used to check the mass conservation." alt="" coords="231,1122,399,1149"/>
-<area shape="rect" id="node28" href="$namespacepardiso__class.html#a810a2da6812ef8117f69a107f3dc7e71" title="The solver core." alt="" coords="722,1554,879,1581"/>
-<area shape="rect" id="node29" href="$namespacenuclear__heating.html#a8eb125f364ac3382db4eeee8081939ca" title="Modifies the temperature and entropy to account for nuclear heating." alt="" coords="235,1315,396,1356"/>
-<area shape="rect" id="node31" href="$namespacels__timmes__eos__module.html#a7f522fa32c0a061060a07863c7a8b05c" title=" " alt="" coords="721,1612,880,1653"/>
-<area shape="rect" id="node40" href="$namespaceanalysis.html#a3b22ccac63cf543890d001f197da0ee1" title="Output of the Newton&#45;Raphson loop diagnostics." alt="" coords="251,1576,380,1617"/>
-<area shape="rect" id="node41" href="$namespacetimestep__module.html#a3f5daca614b12181736095bd8ffbd7e0" title="Returns temperature, density, and radius for a given time &quot;time_i&quot;." alt="" coords="232,1659,399,1700"/>
-<area shape="rect" id="node48" href="$namespacewinnse__module.html#a6c116c4da1815117e3dd1ae3ad23fcb1" title="Calculate NSE composition with an initial guess." alt="" coords="236,1173,395,1215"/>
-<area shape="rect" id="node4" href="$namespacenuclear__heating.html#aefda632c80e48e00e6acdf01059ef2d1" title=" " alt="" coords="452,99,655,126"/>
-<area shape="rect" id="node5" href="$namespacejacobian__class.html#a28af27c67392298788fdfa4023fe87c7" title="Subroutine to calculate the reaction rates." alt="" coords="470,419,637,460"/>
-<area shape="rect" id="node8" href="$namespaceerror__msg__class.html#a2453d3b7cb363115c046840baa1dfb75" title="Raise a exception with a given error message." alt="" coords="949,1052,1101,1093"/>
-<area shape="rect" id="node9" href="$namespaceerror__msg__class.html#a7e065585cc806a5c264de1f088266498" title="Converts a given integer to a string." alt="" coords="1179,1111,1317,1152"/>
-<area shape="rect" id="node12" href="$namespacebenam__class.html#a2e85786a53d55231776ae950b7b27953" title="Return a string to represent a given reaction." alt="" coords="950,55,1101,96"/>
-<area shape="rect" id="node21" href="$namespacegear__module.html#a04ed55c09cce855b43d99e3f0b5a20f7" title="The current l_1 (in Fortran: l(2))" alt="" coords="485,485,622,511"/>
-<area shape="rect" id="node22" href="$namespacegear__module.html#aab0ea1bdaa408c200a185fa0e1751709" title="Determines the predicted dydt_next." alt="" coords="449,535,657,562"/>
-<area shape="rect" id="node23" href="$namespacegear__module.html#a5f927a3868e935787daa27ab849bdc57" title="Determines the predicted y_next." alt="" coords="458,586,649,613"/>
-<area shape="rect" id="node24" href="$namespacenuclear__heating.html#a16554aba9a2d0d1629cd3232c2e36a56" title="Reset the qdot variable." alt="" coords="463,637,643,663"/>
-<area shape="rect" id="node25" href="$namespacejacobian__class.html#a95f6f4d14e95a44eb3589020bd1509f7" title="Function to decide whether a rate can contribute or not." alt="" coords="470,822,637,849"/>
-<area shape="rect" id="node6" href="$namespacenucstuff__class.html#a54b0d5681c0193e0b2276911713242e9" title="A helper to compute powers of temperature used in the reaction rates." alt="" coords="733,419,869,460"/>
-<area shape="rect" id="node7" href="$namespacedetailed__balance.html#a4c2ebb1580b34cd40aca41258ba5c8b7" title="Calculate the inverse rate from the forward one via detailed balance." alt="" coords="712,732,889,773"/>
-<area shape="rect" id="node10" href="$namespacenuflux__class.html#ac04f6b0dca8f9120cb839749cc2dbbe0" title="Calculates the cross section times the neutrino flux." alt="" coords="725,484,876,525"/>
-<area shape="rect" id="node11" href="$namespacereaclib__rate__module.html#a531d2052a5c27ee57c14c22159d1fbfe" title="Calculate a reaclib rate." alt="" coords="729,84,873,125"/>
-<area shape="rect" id="node14" href="$namespacetabulated__rate__module.html#a8cd4cb35a24c56fffef12bff3e785906" title="Calculates the tabulated rate." alt="" coords="724,549,877,591"/>
-<area shape="rect" id="node15" href="$namespacetw__rate__module.html#ae35ff1052a8049df8ab31be3f7f0b777" title="Calculate the theoretical weak rate." alt="" coords="715,615,887,656"/>
-<area shape="rect" id="node16" href="$chem__pot_8f90.html#a6e7fb350a916bae49d8520394fca6414" title="Given a temperature temp [K], density den [g/cm**3], and a composition characterized by y_e,..." alt="" coords="765,849,837,875"/>
-<area shape="rect" id="node18" href="$namespacenucstuff__class.html#a7f6b5ddec08f9564638a58091e6940d7" title="Calculates partition function." alt="" coords="732,1271,869,1312"/>
-<area shape="rect" id="node19" href="$namespacescreening__module.html#a849df594c989d90443acad283ef41bfb" title="This function calculates the screening coefficients hv." alt="" coords="715,302,887,329"/>
-<area shape="rect" id="node20" href="$namespacetabulated__rate__module.html#ab39e3f09d54fc4b3f8baf09c5621f303" title="Set tab_index for a given temperature." alt="" coords="724,353,877,395"/>
-<area shape="rect" id="node13" href="$namespacebenam__class.html#afd880df70f94c289b6bda0647f4494e3" title="Getter of net_names, translating indices to a nucleus name." alt="" coords="1155,62,1341,89"/>
-<area shape="rect" id="node26" href="$namespacenucstuff__class.html#a5fa1f79d38fd5b01a5d6d797fea0132d" title="Get number of reactants of the reaction based on the reaclib chapter." alt="" coords="735,900,866,941"/>
-<area shape="rect" id="node30" href="$namespacenuclear__heating.html#a9c895886b904977008cdfecbe3847f4b" title="Modifies the temperature to account for nuclear heating." alt="" coords="473,1343,634,1384"/>
-<area shape="rect" id="node37" href="$namespacenuclear__heating.html#a49033cfa463654768cc70d8ce9029fa1" title="Modifies the temperature and ent_p to account for nuclear heating." alt="" coords="473,1277,634,1319"/>
-<area shape="rect" id="node38" href="$namespacethermal__neutrino__module.html#afaf7b8d3d363265849c92607c3727a7d" title="Calculates the neutrino emissivity." alt="" coords="470,1408,637,1449"/>
-<area shape="rect" id="node36" href="$namespacenuclear__heating.html#a23b239f7fda7e3dece1f253a1a580372" title="Maintains a list of top contributors." alt="" coords="721,1336,880,1377"/>
-<area shape="rect" id="node32" href="$namespacels__timmes__eos__module.html#ac68ea6710f5164f7f29454fa4ffa6dcb" title=" " alt="" coords="946,1620,1105,1661"/>
-<area shape="rect" id="node33" href="$namespacels__timmes__eos__module.html#a6da1e3b6ba3967536745de1073565b65" title=" " alt="" coords="1169,1620,1327,1661"/>
-<area shape="rect" id="node35" href="$namespacels__timmes__eos__module.html#afd98ff063885638aaa5922c04fb9d6a9" title=" " alt="" coords="946,1555,1105,1596"/>
-<area shape="rect" id="node34" href="$eosfxt_8f.html#a7472b49a95882a089dc0b8e75b1abbfa" title=" " alt="" coords="1389,1627,1447,1654"/>
-<area shape="rect" id="node39" href="$sneut5_8f90.html#a25bf8d2fb646c098416e9fbd1738cf1c" title=" " alt="" coords="759,1402,842,1429"/>
-<area shape="rect" id="node42" href="$namespaceexpansion__module.html#a4f1f21da864d689ea4184f55a4e68198" title="Returns temperature, radius, density, and entropy after the trajectory has ended." alt="" coords="457,1575,650,1602"/>
-<area shape="rect" id="node43" href="$namespaceinter__module.html#a206d3ceb40bd2e40d41c462a31ad057e" title="Interface for 1D interpolation routines." alt="" coords="727,1790,875,1817"/>
-<area shape="rect" id="node47" href="$namespaceparser__module.html#a4b68bd8515796701c2b006fe79a0b162" title="Takes a string and evaluates the expression." alt="" coords="481,1677,626,1719"/>
-<area shape="rect" id="node44" href="$namespaceinter__module.html#a0f02e3fce3429d031516cf2f47f521de" title="Interpolation using prescription of Akima." alt="" coords="944,1787,1107,1814"/>
-<area shape="rect" id="node45" href="$namespaceinter__module.html#a5a696cd56302b2491c59781808af4c08" title="Cubic interpolation in log&#45;log space. Here, it is assumed that." alt="" coords="951,1838,1099,1865"/>
-<area shape="rect" id="node46" href="$namespaceinter__module.html#ac57284b6bef315c7066a880358ae0862" title="Linear interpolation in lin&#45;log space." alt="" coords="955,1889,1095,1915"/>
-<area shape="rect" id="node49" href="$namespacewinnse__module.html#a4bf79382f9c6599e04b48bf08e193270" title="Solves the nse&#45;equations." alt="" coords="705,1169,896,1195"/>
-<area shape="rect" id="node50" href="$namespacewinnse__module.html#a52f86665c1e1c3a34ef53095bf471308" title="This routine descends from an initially high temperature, at which the NSE abudances can be accuratel..." alt="" coords="474,1059,633,1100"/>
+<area shape="rect" id="node1" title="Advance system to the next step for the implicit Euler method." alt="" coords="5,1201,181,1242"/>
+<area shape="rect" id="node2" href="$namespacenucstuff__class.html#a0b78e98c4c09b4ae8c43c795b6aefcf0" title="Computes the electron fraction." alt="" coords="244,500,387,527"/>
+<area shape="rect" id="node3" href="$namespacejacobian__class.html#a6e0f79f200a99f37a2597186e29310c0" title="This subroutine calculates the entries in the jacobian and the right&#45;hand side of the numerical integ..." alt="" coords="229,551,401,578"/>
+<area shape="rect" id="node17" href="$namespaceerror__msg__class.html#a5bc9f3b670b725cc43276934b867d801" title="Converts a given real to a string with format &quot;(1pE10.2)&quot;." alt="" coords="956,700,1105,741"/>
+<area shape="rect" id="node27" href="$namespacenucstuff__class.html#a418807e98f2df2a3aa2b774539540f26" title="Total mass used to check the mass conservation." alt="" coords="231,1120,399,1147"/>
+<area shape="rect" id="node28" href="$namespacepardiso__class.html#a810a2da6812ef8117f69a107f3dc7e71" title="The solver core." alt="" coords="722,1498,879,1524"/>
+<area shape="rect" id="node29" href="$namespacenuclear__heating.html#a8eb125f364ac3382db4eeee8081939ca" title="Modifies the temperature and entropy to account for nuclear heating." alt="" coords="235,1314,396,1356"/>
+<area shape="rect" id="node31" href="$namespacels__timmes__eos__module.html#a7f522fa32c0a061060a07863c7a8b05c" title=" " alt="" coords="721,1574,880,1616"/>
+<area shape="rect" id="node39" href="$namespaceanalysis.html#a3b22ccac63cf543890d001f197da0ee1" title="Output of the Newton&#45;Raphson loop diagnostics." alt="" coords="251,1612,380,1653"/>
+<area shape="rect" id="node40" href="$namespacetimestep__module.html#a3f5daca614b12181736095bd8ffbd7e0" title="Returns temperature, density, and radius for a given time &quot;time_i&quot;." alt="" coords="232,1677,399,1718"/>
+<area shape="rect" id="node48" href="$namespacewinnse__module.html#a6c116c4da1815117e3dd1ae3ad23fcb1" title="Calculate NSE composition with an initial guess." alt="" coords="236,1172,395,1213"/>
+<area shape="rect" id="node4" href="$namespacenuclear__heating.html#aefda632c80e48e00e6acdf01059ef2d1" title=" " alt="" coords="452,100,655,127"/>
+<area shape="rect" id="node5" href="$namespacejacobian__class.html#a28af27c67392298788fdfa4023fe87c7" title="Subroutine to calculate the reaction rates." alt="" coords="470,434,637,476"/>
+<area shape="rect" id="node8" href="$namespaceerror__msg__class.html#a2453d3b7cb363115c046840baa1dfb75" title="Raise a exception with a given error message." alt="" coords="955,1120,1107,1161"/>
+<area shape="rect" id="node9" href="$namespaceerror__msg__class.html#a7e065585cc806a5c264de1f088266498" title="Converts a given integer to a string." alt="" coords="1189,1120,1328,1161"/>
+<area shape="rect" id="node12" href="$namespacebenam__class.html#a2e85786a53d55231776ae950b7b27953" title="Return a string to represent a given reaction." alt="" coords="955,56,1106,97"/>
+<area shape="rect" id="node21" href="$namespacegear__module.html#a04ed55c09cce855b43d99e3f0b5a20f7" title="The current l_1 (in Fortran: l(2))" alt="" coords="485,500,622,527"/>
+<area shape="rect" id="node22" href="$namespacegear__module.html#aab0ea1bdaa408c200a185fa0e1751709" title="Determines the predicted dydt_next." alt="" coords="449,551,657,578"/>
+<area shape="rect" id="node23" href="$namespacegear__module.html#a5f927a3868e935787daa27ab849bdc57" title="Determines the predicted y_next." alt="" coords="458,602,649,628"/>
+<area shape="rect" id="node24" href="$namespacenuclear__heating.html#a16554aba9a2d0d1629cd3232c2e36a56" title="Reset the qdot variable." alt="" coords="463,652,643,679"/>
+<area shape="rect" id="node25" href="$namespacejacobian__class.html#a95f6f4d14e95a44eb3589020bd1509f7" title="Function to decide whether a rate can contribute or not." alt="" coords="470,703,637,730"/>
+<area shape="rect" id="node6" href="$namespacenucstuff__class.html#a54b0d5681c0193e0b2276911713242e9" title="A helper to compute powers of temperature used in the reaction rates." alt="" coords="733,369,869,410"/>
+<area shape="rect" id="node7" href="$namespacedetailed__balance.html#a4c2ebb1580b34cd40aca41258ba5c8b7" title="Calculate the inverse rate from the forward one via detailed balance." alt="" coords="712,784,889,825"/>
+<area shape="rect" id="node10" href="$namespacenuflux__class.html#ac04f6b0dca8f9120cb839749cc2dbbe0" title="Calculates the cross section times the neutrino flux." alt="" coords="725,434,876,476"/>
+<area shape="rect" id="node11" href="$namespacereaclib__rate__module.html#a531d2052a5c27ee57c14c22159d1fbfe" title="Calculate a reaclib rate." alt="" coords="729,85,873,126"/>
+<area shape="rect" id="node14" href="$namespacetabulated__rate__module.html#a8cd4cb35a24c56fffef12bff3e785906" title="Calculates the tabulated rate." alt="" coords="724,500,877,541"/>
+<area shape="rect" id="node15" href="$namespacetw__rate__module.html#ae35ff1052a8049df8ab31be3f7f0b777" title="Calculate the theoretical weak rate." alt="" coords="715,565,887,606"/>
+<area shape="rect" id="node16" href="$chem__pot_8f90.html#a6e7fb350a916bae49d8520394fca6414" title="Given a temperature temp [K], density den [g/cm**3], and a composition characterized by y_e,..." alt="" coords="765,900,837,927"/>
+<area shape="rect" id="node18" href="$namespacenucstuff__class.html#a7f6b5ddec08f9564638a58091e6940d7" title="Calculates partition function." alt="" coords="732,1325,869,1366"/>
+<area shape="rect" id="node19" href="$namespacescreening__module.html#a849df594c989d90443acad283ef41bfb" title="This function calculates the screening coefficients hv." alt="" coords="715,631,887,658"/>
+<area shape="rect" id="node20" href="$namespacetabulated__rate__module.html#ab39e3f09d54fc4b3f8baf09c5621f303" title="Set tab_index for a given temperature." alt="" coords="724,304,877,345"/>
+<area shape="rect" id="node13" href="$namespacebenam__class.html#afd880df70f94c289b6bda0647f4494e3" title="Getter of net_names, translating indices to a nucleus name." alt="" coords="1165,63,1352,90"/>
+<area shape="rect" id="node26" href="$namespacenucstuff__class.html#a5fa1f79d38fd5b01a5d6d797fea0132d" title="Get number of reactants of the reaction based on the reaclib chapter." alt="" coords="735,952,866,993"/>
+<area shape="rect" id="node30" href="$namespacenuclear__heating.html#a9c895886b904977008cdfecbe3847f4b" title="Modifies the temperature to account for nuclear heating." alt="" coords="473,1408,634,1449"/>
+<area shape="rect" id="node36" href="$namespacenuclear__heating.html#a49033cfa463654768cc70d8ce9029fa1" title="Modifies the temperature and ent_p to account for nuclear heating." alt="" coords="473,1342,634,1384"/>
+<area shape="rect" id="node37" href="$namespacethermal__neutrino__module.html#afaf7b8d3d363265849c92607c3727a7d" title="Calculates the neutrino emissivity." alt="" coords="470,1225,637,1266"/>
+<area shape="rect" id="node32" href="$namespacels__timmes__eos__module.html#ac68ea6710f5164f7f29454fa4ffa6dcb" title=" " alt="" coords="951,1665,1110,1706"/>
+<area shape="rect" id="node33" href="$namespacels__timmes__eos__module.html#a6da1e3b6ba3967536745de1073565b65" title=" " alt="" coords="1179,1600,1338,1641"/>
+<area shape="rect" id="node35" href="$namespacels__timmes__eos__module.html#afd98ff063885638aaa5922c04fb9d6a9" title=" " alt="" coords="951,1600,1110,1641"/>
+<area shape="rect" id="node34" href="$eosfxt_8f.html#a7472b49a95882a089dc0b8e75b1abbfa" title=" " alt="" coords="1400,1607,1457,1634"/>
+<area shape="rect" id="node38" href="$sneut5_8f90.html#a25bf8d2fb646c098416e9fbd1738cf1c" title=" " alt="" coords="759,1271,842,1298"/>
+<area shape="rect" id="node41" href="$namespaceexpansion__module.html#a4f1f21da864d689ea4184f55a4e68198" title="Returns temperature, radius, density, and entropy after the trajectory has ended." alt="" coords="457,1626,650,1652"/>
+<area shape="rect" id="node42" href="$namespaceinter__module.html#a206d3ceb40bd2e40d41c462a31ad057e" title="Interface for 1D interpolation routines." alt="" coords="727,1782,875,1808"/>
+<area shape="rect" id="node47" href="$namespaceparser__module.html#a4b68bd8515796701c2b006fe79a0b162" title="Takes a string and evaluates the expression." alt="" coords="481,1677,626,1718"/>
+<area shape="rect" id="node43" href="$namespaceinter__module.html#a0f02e3fce3429d031516cf2f47f521de" title="Interpolation using prescription of Akima." alt="" coords="949,1782,1112,1808"/>
+<area shape="rect" id="node44" href="$namespaceinter__module.html#a5a696cd56302b2491c59781808af4c08" title="Cubic interpolation in log&#45;log space. Here, it is assumed that." alt="" coords="957,1832,1105,1859"/>
+<area shape="rect" id="node45" href="$namespaceinter__module.html#ac57284b6bef315c7066a880358ae0862" title="Linear interpolation in lin&#45;log space." alt="" coords="961,1883,1101,1910"/>
+<area shape="rect" id="node46" href="$namespaceinter__module.html#a338de641fc764e51a6ce814e25e70ef2" title="Interpolation using modified prescription of Akima." alt="" coords="944,1731,1117,1758"/>
+<area shape="rect" id="node49" href="$namespacewinnse__module.html#a4bf79382f9c6599e04b48bf08e193270" title="Solves the nse&#45;equations." alt="" coords="705,1170,896,1196"/>
+<area shape="rect" id="node50" href="$namespacewinnse__module.html#a52f86665c1e1c3a34ef53095bf471308" title="This routine descends from an initially high temperature, at which the NSE abudances can be accuratel..." alt="" coords="474,1057,633,1098"/>
 </map>

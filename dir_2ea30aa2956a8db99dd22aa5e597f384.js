@@ -5,6 +5,7 @@ var dir_2ea30aa2956a8db99dd22aa5e597f384 =
     [ "__init__.py", "____init_____8py.html", null ],
     [ "convert_marketin_beta_decays.py", "convert__marketin__beta__decays_8py.html", "convert__marketin__beta__decays_8py" ],
     [ "create_alpha_decay_file.py", "create__alpha__decay__file_8py.html", "create__alpha__decay__file_8py" ],
+    [ "create_mumpower_bdf_file.py", "create__mumpower__bdf__file_8py.html", "create__mumpower__bdf__file_8py" ],
     [ "create_neutrino_loss_file.py", "create__neutrino__loss__file_8py.html", "create__neutrino__loss__file_8py" ],
     [ "create_neutrino_nucleon_file.py", "create__neutrino__nucleon__file_8py.html", "create__neutrino__nucleon__file_8py" ],
     [ "create_spontaneous_fission_file.py", "create__spontaneous__fission__file_8py.html", "create__spontaneous__fission__file_8py" ],

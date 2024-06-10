@@ -5,6 +5,7 @@ var mergesort__module_8f90 =
     [ "mergesort_init", "mergesort__module_8f90.html#a520c03568b0375fe21d0542857601415", null ],
     [ "nurate_ms", "mergesort__module_8f90.html#afdba6e49a853cbc2b93f08758ab87cf6", null ],
     [ "qsort", "mergesort__module_8f90.html#ad562940666451021679ea5ee0338dfaf", null ],
+    [ "quicksort", "mergesort__module_8f90.html#abba3ce32dcc183025b2fdefc47abf5e2", null ],
     [ "ratesortkey", "mergesort__module_8f90.html#abd5c6789399ce78a2b89066e4d658078", null ],
     [ "reorder", "mergesort__module_8f90.html#a6276f21e37053ec65a8da23e55cd311c", null ],
     [ "reorder_int", "mergesort__module_8f90.html#acbae2585fc0a5f2f3d14238cb54614d6", null ],

@@ -1,20 +1,20 @@
 <map id="analysis::analysis_init" name="analysis::analysis_init">
-<area shape="rect" id="node1" title="Open files, write headers, allocate space etc." alt="" coords="5,257,152,283"/>
-<area shape="rect" id="node2" href="$namespacefile__handling__class.html#a01ba26324d7662cc0fb2e0eb306cd3e2" title="Close an external file." alt="" coords="635,5,765,47"/>
-<area shape="rect" id="node5" href="$namespacebenam__class.html#ad2f566697809a5731e560509d2ca7062" title="Finds an isotope index in the network table, given its A and Z. In case it was not found,..." alt="" coords="206,389,345,415"/>
-<area shape="rect" id="node6" href="$namespacehdf5__module.html#ac958193ae724ed16ed813c9805bde522" title="Initialize the hdf5 module." alt="" coords="200,323,351,364"/>
-<area shape="rect" id="node17" href="$namespacefile__handling__class.html#aeddf55e8478d6220dc04310665427c3a" title="Shorthand for opening a new file for writing (output file)" alt="" coords="419,121,550,163"/>
-<area shape="rect" id="node3" href="$namespaceerror__msg__class.html#a7e065585cc806a5c264de1f088266498" title="Converts a given integer to a string." alt="" coords="1029,303,1168,344"/>
-<area shape="rect" id="node4" href="$namespaceerror__msg__class.html#a2453d3b7cb363115c046840baa1dfb75" title="Raise a exception with a given error message." alt="" coords="829,332,981,373"/>
-<area shape="rect" id="node7" href="$namespacehdf5__module.html#ac23832e14905543a503a602cd3b3910a" title="Initialize the timescales hdf5 group." alt="" coords="415,355,555,396"/>
-<area shape="rect" id="node9" href="$namespacehdf5__module.html#aa156d83505172b391c98a12a60869ab2" title="Initialize energy generation output." alt="" coords="404,421,565,447"/>
-<area shape="rect" id="node11" href="$namespacehdf5__module.html#adcb03d9acc77a92623fb04cc70d368f8" title="Initialize the flow output." alt="" coords="625,187,775,214"/>
-<area shape="rect" id="node12" href="$namespacehdf5__module.html#ae48ccd578f598829fc412f843c0aff7d" title="Initialize the mainout hdf5 group." alt="" coords="399,635,571,662"/>
-<area shape="rect" id="node14" href="$namespacehdf5__module.html#ac4bc499f1766102e6dc6a461ee554d08" title="Initialize neutrino loss/gain output." alt="" coords="415,289,555,331"/>
-<area shape="rect" id="node15" href="$namespacehdf5__module.html#a66194278554c0d366251b3c2e15b16c2" title="Initialize the snapshot hdf5 group." alt="" coords="404,471,565,498"/>
-<area shape="rect" id="node16" href="$namespacehdf5__module.html#ab9fc032c08e349615fd44c7761a3470c" title="Initialize the tracked_nuclei hdf5 group." alt="" coords="407,523,562,564"/>
-<area shape="rect" id="node8" href="$namespacehdf5__module.html#aaee7540701e1025315a58592932552cc" title="Gets a dataset name and creates it." alt="" coords="631,441,769,483"/>
-<area shape="rect" id="node10" href="$namespacehdf5__module.html#afbf1071900336a7ed8fcb9b8980a6682" title="Create a hdf5 entry with constant values." alt="" coords="619,507,781,548"/>
-<area shape="rect" id="node13" href="$namespacehdf5__module.html#a9f787006556041c71ebaca1ae791f925" title="Gets a dataset name and creates an integer dataset." alt="" coords="631,675,769,716"/>
-<area shape="rect" id="node18" href="$namespacefile__handling__class.html#af02196bd5eaf70ecd5ab4cc650094d5e" title="Finds the next unused unit number." alt="" coords="635,71,765,112"/>
+<area shape="rect" id="node1" title="Open files, write headers, allocate space etc." alt="" coords="5,153,152,180"/>
+<area shape="rect" id="node2" href="$namespacefile__handling__class.html#a01ba26324d7662cc0fb2e0eb306cd3e2" title="Close an external file." alt="" coords="635,43,765,85"/>
+<area shape="rect" id="node3" href="$namespaceerror__msg__class.html#a7e065585cc806a5c264de1f088266498" title="Converts a given integer to a string." alt="" coords="1029,43,1168,85"/>
+<area shape="rect" id="node5" href="$namespacebenam__class.html#ad2f566697809a5731e560509d2ca7062" title="Finds an isotope index in the network table, given its A and Z. In case it was not found,..." alt="" coords="206,475,345,501"/>
+<area shape="rect" id="node6" href="$namespacehdf5__module.html#ac958193ae724ed16ed813c9805bde522" title="Initialize the hdf5 module." alt="" coords="200,409,351,450"/>
+<area shape="rect" id="node17" href="$namespacefile__handling__class.html#aeddf55e8478d6220dc04310665427c3a" title="Shorthand for opening a new file for writing (output file)" alt="" coords="419,146,550,187"/>
+<area shape="rect" id="node4" href="$namespaceerror__msg__class.html#a2453d3b7cb363115c046840baa1dfb75" title="Raise a exception with a given error message." alt="" coords="829,379,981,421"/>
+<area shape="rect" id="node7" href="$namespacehdf5__module.html#ac23832e14905543a503a602cd3b3910a" title="Initialize the timescales hdf5 group." alt="" coords="415,438,555,479"/>
+<area shape="rect" id="node9" href="$namespacehdf5__module.html#aa156d83505172b391c98a12a60869ab2" title="Initialize energy generation output." alt="" coords="404,575,565,601"/>
+<area shape="rect" id="node11" href="$namespacehdf5__module.html#adcb03d9acc77a92623fb04cc70d368f8" title="Initialize the flow output." alt="" coords="625,227,775,253"/>
+<area shape="rect" id="node12" href="$namespacehdf5__module.html#ae48ccd578f598829fc412f843c0aff7d" title="Initialize the mainout hdf5 group." alt="" coords="399,387,571,413"/>
+<area shape="rect" id="node14" href="$namespacehdf5__module.html#ac4bc499f1766102e6dc6a461ee554d08" title="Initialize neutrino loss/gain output." alt="" coords="415,503,555,545"/>
+<area shape="rect" id="node15" href="$namespacehdf5__module.html#a66194278554c0d366251b3c2e15b16c2" title="Initialize the snapshot hdf5 group." alt="" coords="404,636,565,663"/>
+<area shape="rect" id="node16" href="$namespacehdf5__module.html#ab9fc032c08e349615fd44c7761a3470c" title="Initialize the tracked_nuclei hdf5 group." alt="" coords="407,709,562,750"/>
+<area shape="rect" id="node8" href="$namespacehdf5__module.html#aaee7540701e1025315a58592932552cc" title="Gets a dataset name and creates it." alt="" coords="631,547,769,589"/>
+<area shape="rect" id="node10" href="$namespacehdf5__module.html#afbf1071900336a7ed8fcb9b8980a6682" title="Create a hdf5 entry with constant values." alt="" coords="619,715,781,757"/>
+<area shape="rect" id="node13" href="$namespacehdf5__module.html#a9f787006556041c71ebaca1ae791f925" title="Gets a dataset name and creates an integer dataset." alt="" coords="631,379,769,421"/>
+<area shape="rect" id="node18" href="$namespacefile__handling__class.html#af02196bd5eaf70ecd5ab4cc650094d5e" title="Finds the next unused unit number." alt="" coords="635,161,765,202"/>
 </map>

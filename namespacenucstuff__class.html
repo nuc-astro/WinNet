@@ -186,7 +186,7 @@ Variables</h2></td></tr>
 
 <p>Analyze a string and split it with delimiter ";". </p>
 <p>This routine is used to analyze the parameters <a class="el" href="namespaceparameter__class.html#a7c7467ab5dc29577da06540327d523da" title="Source flag(s) to ignore within calculated detailed balance.">parameter_class::detailed_balance_src_ignore</a>, <a class="el" href="namespaceparameter__class.html#aaad248dccf22aa6dd940a412afaf46a6" title="Source flag(s) to use q-value from rate file for inverse reaction.">parameter_class::detailed_balance_src_q_reac</a>, <a class="el" href="namespaceparameter__class.html#ab784e27296cb635aa745a1933ec51cf7" title="Source flag(s) to use q-value from winvn file for inverse reaction.">parameter_class::detailed_balance_src_q_winvn</a>. It takes a string and splits it if there is a ";" in it. Afterwards it returns an array with the splitted strings.</p>
-<h3><a class="anchor" id="autotoc_md37"></a>
+<h3><a class="anchor" id="autotoc_md40"></a>
 Example</h3>
 <div class="fragment"><div class="line">a = <span class="stringliteral">&quot;rath; pkrF;abc&quot;</span></div>
 <div class="line">b = <span class="stringliteral">&quot;ths8&quot;</span></div>
@@ -320,7 +320,7 @@ Example</h3>
 
 <p>Get the reaclib chapter based on nr. of prods. and educts. </p>
 <p>This function translates the number of educts and products into the corresponding reaclib chapter.</p>
-<h3><a class="anchor" id="autotoc_md34"></a>
+<h3><a class="anchor" id="autotoc_md37"></a>
 Example</h3>
 <div class="fragment"><div class="line">b = get_chapter(2,2)</div>
 </div><!-- fragment --><p>b will be 5 afterwards.</p>
@@ -362,7 +362,7 @@ Here is the call graph for this function:</div>
 
 <p>Get number of products of the reaction based on the reaclib chapter. </p>
 <p>Returns the number of products in the reaction.</p>
-<h3><a class="anchor" id="autotoc_md36"></a>
+<h3><a class="anchor" id="autotoc_md39"></a>
 Example</h3>
 <div class="fragment"><div class="line">b = get_nr_products(2)</div>
 </div><!-- fragment --><p>b will be 2 afterwards.</p>
@@ -405,7 +405,7 @@ Here is the call graph for this function:</div>
 
 <p>Get number of reactants of the reaction based on the reaclib chapter. </p>
 <p>Returns the number of reactants in the reaction.</p>
-<h3><a class="anchor" id="autotoc_md35"></a>
+<h3><a class="anchor" id="autotoc_md38"></a>
 Example</h3>
 <div class="fragment"><div class="line">b = get_nr_reactants(2)</div>
 </div><!-- fragment --><p>b will be 1 afterwards.</p>
@@ -526,7 +526,7 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 
 <p>Function to decide whether a given isotope is stable or not. </p>
-<h3><a class="anchor" id="autotoc_md33"></a>
+<h3><a class="anchor" id="autotoc_md36"></a>
 Example</h3>
 <div class="fragment"><div class="line">b = is_stable(2,2)</div>
 </div><!-- fragment --><p>b will be true.</p>

@@ -145,9 +145,9 @@ Functions/Subroutines</h2></td></tr>
 <tr class="memitem:a3fb59515fcf3f909977028a14f3d217f"><td class="memItemLeft" align="right" valign="top">subroutine, private&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceanalysis.html#a3fb59515fcf3f909977028a14f3d217f">calc_nseparation_energy</a> (Y)</td></tr>
 <tr class="memdesc:a3fb59515fcf3f909977028a14f3d217f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates average neutron separation energy.  <a href="namespaceanalysis.html#a3fb59515fcf3f909977028a14f3d217f">More...</a><br /></td></tr>
 <tr class="separator:a3fb59515fcf3f909977028a14f3d217f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aae3c3ad01ca12da0b8b68de4497deaae"><td class="memItemLeft" align="right" valign="top">subroutine, private&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceanalysis.html#aae3c3ad01ca12da0b8b68de4497deaae">calc_nuclear_heating</a> (hdf5_mode)</td></tr>
-<tr class="memdesc:aae3c3ad01ca12da0b8b68de4497deaae"><td class="mdescLeft">&#160;</td><td class="mdescRight">: Calculate the generated energy for each class of reactions separately.  <a href="namespaceanalysis.html#aae3c3ad01ca12da0b8b68de4497deaae">More...</a><br /></td></tr>
-<tr class="separator:aae3c3ad01ca12da0b8b68de4497deaae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae41c665ccf9ea5f08f4d6bf96f6707bd"><td class="memItemLeft" align="right" valign="top">subroutine, private&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceanalysis.html#ae41c665ccf9ea5f08f4d6bf96f6707bd">calc_nuclear_heating</a> (hdf5_mode, write_engen, write_toplist)</td></tr>
+<tr class="memdesc:ae41c665ccf9ea5f08f4d6bf96f6707bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">: Calculate the generated energy for each class of reactions separately.  <a href="namespaceanalysis.html#ae41c665ccf9ea5f08f4d6bf96f6707bd">More...</a><br /></td></tr>
+<tr class="separator:ae41c665ccf9ea5f08f4d6bf96f6707bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adf36f2fbda4987a45731b06a9a68b957"><td class="memItemLeft" align="right" valign="top">subroutine, private&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceanalysis.html#adf36f2fbda4987a45731b06a9a68b957">calc_av_timescales</a> (ctime, T9, Y, hdf5)</td></tr>
 <tr class="memdesc:adf36f2fbda4987a45731b06a9a68b957"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate average timescales of different classes of reactions.  <a href="namespaceanalysis.html#adf36f2fbda4987a45731b06a9a68b957">More...</a><br /></td></tr>
 <tr class="separator:adf36f2fbda4987a45731b06a9a68b957"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -178,6 +178,9 @@ Variables</h2></td></tr>
 <tr class="memitem:a9a951f99dd4f581c154594e59c10363d"><td class="memItemLeft" align="right" valign="top">integer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceanalysis.html#a9a951f99dd4f581c154594e59c10363d">track_unit</a></td></tr>
 <tr class="memdesc:a9a951f99dd4f581c154594e59c10363d"><td class="mdescLeft">&#160;</td><td class="mdescRight">file id for tracked nuclei  <a href="namespaceanalysis.html#a9a951f99dd4f581c154594e59c10363d">More...</a><br /></td></tr>
 <tr class="separator:a9a951f99dd4f581c154594e59c10363d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc5589a39b00ae3948224c3341f266ad"><td class="memItemLeft" align="right" valign="top">integer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceanalysis.html#acc5589a39b00ae3948224c3341f266ad">toplist_unit</a></td></tr>
+<tr class="memdesc:acc5589a39b00ae3948224c3341f266ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">file id for top nuclear energy contributors  <a href="namespaceanalysis.html#acc5589a39b00ae3948224c3341f266ad">More...</a><br /></td></tr>
+<tr class="separator:acc5589a39b00ae3948224c3341f266ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7df6f3f019643655185c3bad4bdf2598"><td class="memItemLeft" align="right" valign="top">integer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceanalysis.html#a7df6f3f019643655185c3bad4bdf2598">nu_loss_gain_unit</a></td></tr>
 <tr class="memdesc:a7df6f3f019643655185c3bad4bdf2598"><td class="mdescLeft">&#160;</td><td class="mdescRight">file id for neutrino loss/gain  <a href="namespaceanalysis.html#a7df6f3f019643655185c3bad4bdf2598">More...</a><br /></td></tr>
 <tr class="separator:a7df6f3f019643655185c3bad4bdf2598"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -215,6 +218,9 @@ Variables</h2></td></tr>
 <tr class="memitem:a3aaa9bca7f33f844ee3c3c18b4a31cfd"><td class="memItemLeft" align="right" valign="top">integer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceanalysis.html#a3aaa9bca7f33f844ee3c3c18b4a31cfd">snapshot_amount</a></td></tr>
 <tr class="memdesc:a3aaa9bca7f33f844ee3c3c18b4a31cfd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Amount of custom snapshots.  <a href="namespaceanalysis.html#a3aaa9bca7f33f844ee3c3c18b4a31cfd">More...</a><br /></td></tr>
 <tr class="separator:a3aaa9bca7f33f844ee3c3c18b4a31cfd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a28fb74a5cacb9f9d06b3c28838e85f5f"><td class="memItemLeft" align="right" valign="top">integer, parameter&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceanalysis.html#a28fb74a5cacb9f9d06b3c28838e85f5f">toplist_amount</a> =10</td></tr>
+<tr class="memdesc:a28fb74a5cacb9f9d06b3c28838e85f5f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Amount of reactions in the toplist.  <a href="namespaceanalysis.html#a28fb74a5cacb9f9d06b3c28838e85f5f">More...</a><br /></td></tr>
+<tr class="separator:a28fb74a5cacb9f9d06b3c28838e85f5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Contains various routines for analysis and diagnostic output. </p>
@@ -238,7 +244,7 @@ Variables</h2></td></tr>
 <li>25.01.21</li>
 </ul>
 
-<p class="definition">Definition at line <a class="el" href="analysis_8f90_source.html#l01782">1782</a> of file <a class="el" href="analysis_8f90_source.html">analysis.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="analysis_8f90_source.html#l02013">2013</a> of file <a class="el" href="analysis_8f90_source.html">analysis.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -262,7 +268,7 @@ Here is the call graph for this function:</div>
 
 <p>Open files, write headers, allocate space etc. </p>
 
-<p class="definition">Definition at line <a class="el" href="analysis_8f90_source.html#l00049">49</a> of file <a class="el" href="analysis_8f90_source.html">analysis.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="analysis_8f90_source.html#l00051">51</a> of file <a class="el" href="analysis_8f90_source.html">analysis.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -337,7 +343,7 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="analysis_8f90_source.html#l01373">1373</a> of file <a class="el" href="analysis_8f90_source.html">analysis.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="analysis_8f90_source.html#l01604">1604</a> of file <a class="el" href="analysis_8f90_source.html">analysis.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -379,12 +385,12 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="analysis_8f90_source.html#l00841">841</a> of file <a class="el" href="analysis_8f90_source.html">analysis.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="analysis_8f90_source.html#l00898">898</a> of file <a class="el" href="analysis_8f90_source.html">analysis.f90</a>.</p>
 
 </div>
 </div>
-<a id="aae3c3ad01ca12da0b8b68de4497deaae"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aae3c3ad01ca12da0b8b68de4497deaae">&#9670;&nbsp;</a></span>calc_nuclear_heating()</h2>
+<a id="ae41c665ccf9ea5f08f4d6bf96f6707bd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae41c665ccf9ea5f08f4d6bf96f6707bd">&#9670;&nbsp;</a></span>calc_nuclear_heating()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -396,8 +402,24 @@ Here is the call graph for this function:</div>
           <td class="memname">subroutine, private analysis::calc_nuclear_heating </td>
           <td>(</td>
           <td class="paramtype">logical, intent(in)&#160;</td>
-          <td class="paramname"><em>hdf5_mode</em></td><td>)</td>
+          <td class="paramname"><em>hdf5_mode</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">logical, intent(in)&#160;</td>
+          <td class="paramname"><em>write_engen</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">logical, intent(in)&#160;</td>
+          <td class="paramname"><em>write_toplist</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -408,22 +430,27 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 
 <p>: Calculate the generated energy for each class of reactions separately. </p>
-<p>This subroutine calculates the generated energy of the nuclear reactions with the help of the Q-values. This energy is written to an output only. It is not fed back to the temperature and has therefore no impact on the final result.</p>
+<p>This subroutine calculates the generated energy of the nuclear reactions with the help of the Q-values. This energy is written to an output only. It is not fed back to the temperature and has therefore no impact on the final result. Also, depending on the input the subroutine can calculate the top contributors to the energy generation. These top contributors can be reactions and isotopes.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="namespacenuclear__heating.html">nuclear_heating</a></dd></dl>
 <dl class="section author"><dt>Author</dt><dd>: Moritz Reichert </dd></dl>
-<dl class="section date"><dt>Date</dt><dd>29.02.20 </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>29.02.20</dd></dl>
+<p><b>Edited:</b> </p><ul>
+<li>08.05.24: M.R. Moved the top list calculation from the nuclear heating to this subroutine.</li>
+</ul>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">hdf5_mode</td><td>whether to store as hdf5 or ascii </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">write_engen</td><td>whether to write the energy generation </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">write_toplist</td><td>whether to write the energy toplist </td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="analysis_8f90_source.html#l00895">895</a> of file <a class="el" href="analysis_8f90_source.html">analysis.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="analysis_8f90_source.html#l00958">958</a> of file <a class="el" href="analysis_8f90_source.html">analysis.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="namespaceanalysis_aae3c3ad01ca12da0b8b68de4497deaae_cgraph.svg" width="100%" height="525"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="namespaceanalysis_ae41c665ccf9ea5f08f4d6bf96f6707bd_cgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div>
 
@@ -448,7 +475,7 @@ Here is the call graph for this function:</div>
 <p>Compute final abundances and write final output. </p>
 <p>There are three files written <em>finabsum.dat</em> containing abundances summed over equal A, <em>finab.dat</em> containing all final abundances, <em>finabelem.dat</em> containing all abundances summed over equal Z. </p>
 
-<p class="definition">Definition at line <a class="el" href="analysis_8f90_source.html#l01645">1645</a> of file <a class="el" href="analysis_8f90_source.html">analysis.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="analysis_8f90_source.html#l01876">1876</a> of file <a class="el" href="analysis_8f90_source.html">analysis.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -494,7 +521,7 @@ Here is the call graph for this function:</div>
 
 <p>auxiliary sorting subroutine </p>
 
-<p class="definition">Definition at line <a class="el" href="analysis_8f90_source.html#l01712">1712</a> of file <a class="el" href="analysis_8f90_source.html">analysis.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="analysis_8f90_source.html#l01943">1943</a> of file <a class="el" href="analysis_8f90_source.html">analysis.f90</a>.</p>
 
 </div>
 </div>
@@ -534,7 +561,7 @@ Here is the call graph for this function:</div>
 <li>2023-02-06, M.R. took care of wrapping of the simulation time that could lead to negative simulation times.</li>
 </ul>
 
-<p class="definition">Definition at line <a class="el" href="analysis_8f90_source.html#l00762">762</a> of file <a class="el" href="analysis_8f90_source.html">analysis.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="analysis_8f90_source.html#l00819">819</a> of file <a class="el" href="analysis_8f90_source.html">analysis.f90</a>.</p>
 
 </div>
 </div>
@@ -602,8 +629,8 @@ Here is the call graph for this function:</div>
 
 <p>Output final step. </p>
 <p>This routine calls output_iteration at the last step</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespaceanalysis.html#a9fec9014acea24dbfcf60ce3f6a555ad" title="Output final step.">output_final_step</a> <b>Edited:</b> OK 26.08.2017 </dd></dl>
-<dl class="params"><dt>Parameters</dt><dd>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespaceanalysis.html#a9fec9014acea24dbfcf60ce3f6a555ad" title="Output final step.">output_final_step</a></dd></dl>
+<p><b>Edited:</b> OK 26.08.2017 </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">cnt</td><td>current iteration counter </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">ctime</td><td>actual time [s] </td></tr>
@@ -617,7 +644,7 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="analysis_8f90_source.html#l00203">203</a> of file <a class="el" href="analysis_8f90_source.html">analysis.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="analysis_8f90_source.html#l00257">257</a> of file <a class="el" href="analysis_8f90_source.html">analysis.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -679,7 +706,7 @@ Here is the call graph for this function:</div>
 </li>
 </ul>
 
-<p class="definition">Definition at line <a class="el" href="analysis_8f90_source.html#l00658">658</a> of file <a class="el" href="analysis_8f90_source.html">analysis.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="analysis_8f90_source.html#l00715">715</a> of file <a class="el" href="analysis_8f90_source.html">analysis.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -761,7 +788,7 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="analysis_8f90_source.html#l00179">179</a> of file <a class="el" href="analysis_8f90_source.html">analysis.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="analysis_8f90_source.html#l00232">232</a> of file <a class="el" href="analysis_8f90_source.html">analysis.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -852,7 +879,7 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="analysis_8f90_source.html#l00254">254</a> of file <a class="el" href="analysis_8f90_source.html">analysis.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="analysis_8f90_source.html#l00308">308</a> of file <a class="el" href="analysis_8f90_source.html">analysis.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -946,7 +973,7 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="analysis_8f90_source.html#l00568">568</a> of file <a class="el" href="analysis_8f90_source.html">analysis.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="analysis_8f90_source.html#l00625">625</a> of file <a class="el" href="analysis_8f90_source.html">analysis.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1055,7 +1082,7 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="analysis_8f90_source.html#l00696">696</a> of file <a class="el" href="analysis_8f90_source.html">analysis.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="analysis_8f90_source.html#l00753">753</a> of file <a class="el" href="analysis_8f90_source.html">analysis.f90</a>.</p>
 
 </div>
 </div>
@@ -1127,7 +1154,7 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="analysis_8f90_source.html#l00530">530</a> of file <a class="el" href="analysis_8f90_source.html">analysis.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="analysis_8f90_source.html#l00587">587</a> of file <a class="el" href="analysis_8f90_source.html">analysis.f90</a>.</p>
 
 </div>
 </div>
@@ -1198,7 +1225,7 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="analysis_8f90_source.html#l00638">638</a> of file <a class="el" href="analysis_8f90_source.html">analysis.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="analysis_8f90_source.html#l00695">695</a> of file <a class="el" href="analysis_8f90_source.html">analysis.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1261,7 +1288,7 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="analysis_8f90_source.html#l00490">490</a> of file <a class="el" href="analysis_8f90_source.html">analysis.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="analysis_8f90_source.html#l00547">547</a> of file <a class="el" href="analysis_8f90_source.html">analysis.f90</a>.</p>
 
 </div>
 </div>
@@ -1320,7 +1347,7 @@ Here is the call graph for this function:</div>
  0    1     3.92194484636783E-01   3.92194484636783E-01
  1    1     7.83033243870819E-05   1.56606648774164E-04
  ...</pre> 
-<p class="definition">Definition at line <a class="el" href="analysis_8f90_source.html#l00801">801</a> of file <a class="el" href="analysis_8f90_source.html">analysis.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="analysis_8f90_source.html#l00858">858</a> of file <a class="el" href="analysis_8f90_source.html">analysis.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1345,7 +1372,7 @@ Here is the call graph for this function:</div>
 
 <p>system clock variables </p>
 
-<p class="definition">Definition at line <a class="el" href="analysis_8f90_source.html#l00023">23</a> of file <a class="el" href="analysis_8f90_source.html">analysis.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="analysis_8f90_source.html#l00024">24</a> of file <a class="el" href="analysis_8f90_source.html">analysis.f90</a>.</p>
 
 </div>
 </div>
@@ -1361,7 +1388,7 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="analysis_8f90_source.html#l00023">23</a> of file <a class="el" href="analysis_8f90_source.html">analysis.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="analysis_8f90_source.html#l00024">24</a> of file <a class="el" href="analysis_8f90_source.html">analysis.f90</a>.</p>
 
 </div>
 </div>
@@ -1377,7 +1404,7 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="analysis_8f90_source.html#l00023">23</a> of file <a class="el" href="analysis_8f90_source.html">analysis.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="analysis_8f90_source.html#l00024">24</a> of file <a class="el" href="analysis_8f90_source.html">analysis.f90</a>.</p>
 
 </div>
 </div>
@@ -1393,7 +1420,7 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="analysis_8f90_source.html#l00023">23</a> of file <a class="el" href="analysis_8f90_source.html">analysis.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="analysis_8f90_source.html#l00024">24</a> of file <a class="el" href="analysis_8f90_source.html">analysis.f90</a>.</p>
 
 </div>
 </div>
@@ -1411,7 +1438,7 @@ Here is the call graph for this function:</div>
 
 <p>flow printing counter </p>
 
-<p class="definition">Definition at line <a class="el" href="analysis_8f90_source.html#l00028">28</a> of file <a class="el" href="analysis_8f90_source.html">analysis.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="analysis_8f90_source.html#l00029">29</a> of file <a class="el" href="analysis_8f90_source.html">analysis.f90</a>.</p>
 
 </div>
 </div>
@@ -1465,7 +1492,7 @@ Here is the call graph for this function:</div>
 
 <p>file id for neutrino loss/gain </p>
 
-<p class="definition">Definition at line <a class="el" href="analysis_8f90_source.html#l00022">22</a> of file <a class="el" href="analysis_8f90_source.html">analysis.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="analysis_8f90_source.html#l00023">23</a> of file <a class="el" href="analysis_8f90_source.html">analysis.f90</a>.</p>
 
 </div>
 </div>
@@ -1491,7 +1518,7 @@ Here is the call graph for this function:</div>
 
 <p>nuclear heating file unit </p>
 
-<p class="definition">Definition at line <a class="el" href="analysis_8f90_source.html#l00025">25</a> of file <a class="el" href="analysis_8f90_source.html">analysis.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="analysis_8f90_source.html#l00026">26</a> of file <a class="el" href="analysis_8f90_source.html">analysis.f90</a>.</p>
 
 </div>
 </div>
@@ -1509,7 +1536,7 @@ Here is the call graph for this function:</div>
 
 <p>for snapshot printing triggers </p>
 
-<p class="definition">Definition at line <a class="el" href="analysis_8f90_source.html#l00026">26</a> of file <a class="el" href="analysis_8f90_source.html">analysis.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="analysis_8f90_source.html#l00027">27</a> of file <a class="el" href="analysis_8f90_source.html">analysis.f90</a>.</p>
 
 </div>
 </div>
@@ -1563,7 +1590,7 @@ Here is the call graph for this function:</div>
 
 <p>snapshot count </p>
 
-<p class="definition">Definition at line <a class="el" href="analysis_8f90_source.html#l00027">27</a> of file <a class="el" href="analysis_8f90_source.html">analysis.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="analysis_8f90_source.html#l00028">28</a> of file <a class="el" href="analysis_8f90_source.html">analysis.f90</a>.</p>
 
 </div>
 </div>
@@ -1581,7 +1608,7 @@ Here is the call graph for this function:</div>
 
 <p>Amount of custom snapshots. </p>
 
-<p class="definition">Definition at line <a class="el" href="analysis_8f90_source.html#l00030">30</a> of file <a class="el" href="analysis_8f90_source.html">analysis.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="analysis_8f90_source.html#l00031">31</a> of file <a class="el" href="analysis_8f90_source.html">analysis.f90</a>.</p>
 
 </div>
 </div>
@@ -1599,7 +1626,7 @@ Here is the call graph for this function:</div>
 
 <p>point in time for custom snapshot </p>
 
-<p class="definition">Definition at line <a class="el" href="analysis_8f90_source.html#l00029">29</a> of file <a class="el" href="analysis_8f90_source.html">analysis.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="analysis_8f90_source.html#l00030">30</a> of file <a class="el" href="analysis_8f90_source.html">analysis.f90</a>.</p>
 
 </div>
 </div>
@@ -1615,7 +1642,43 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="analysis_8f90_source.html#l00026">26</a> of file <a class="el" href="analysis_8f90_source.html">analysis.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="analysis_8f90_source.html#l00027">27</a> of file <a class="el" href="analysis_8f90_source.html">analysis.f90</a>.</p>
+
+</div>
+</div>
+<a id="a28fb74a5cacb9f9d06b3c28838e85f5f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a28fb74a5cacb9f9d06b3c28838e85f5f">&#9670;&nbsp;</a></span>toplist_amount</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">integer, parameter analysis::toplist_amount =10</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Amount of reactions in the toplist. </p>
+
+<p class="definition">Definition at line <a class="el" href="analysis_8f90_source.html#l00032">32</a> of file <a class="el" href="analysis_8f90_source.html">analysis.f90</a>.</p>
+
+</div>
+</div>
+<a id="acc5589a39b00ae3948224c3341f266ad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acc5589a39b00ae3948224c3341f266ad">&#9670;&nbsp;</a></span>toplist_unit</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">integer analysis::toplist_unit</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>file id for top nuclear energy contributors </p>
+
+<p class="definition">Definition at line <a class="el" href="analysis_8f90_source.html#l00022">22</a> of file <a class="el" href="analysis_8f90_source.html">analysis.f90</a>.</p>
 
 </div>
 </div>
@@ -1659,7 +1722,7 @@ Here is the call graph for this function:</div>
 
 <p>timescale file unit </p>
 
-<p class="definition">Definition at line <a class="el" href="analysis_8f90_source.html#l00024">24</a> of file <a class="el" href="analysis_8f90_source.html">analysis.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="analysis_8f90_source.html#l00025">25</a> of file <a class="el" href="analysis_8f90_source.html">analysis.f90</a>.</p>
 
 </div>
 </div>
@@ -1675,7 +1738,7 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="analysis_8f90_source.html#l00026">26</a> of file <a class="el" href="analysis_8f90_source.html">analysis.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="analysis_8f90_source.html#l00027">27</a> of file <a class="el" href="analysis_8f90_source.html">analysis.f90</a>.</p>
 
 </div>
 </div>

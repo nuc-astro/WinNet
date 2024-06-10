@@ -18,6 +18,7 @@ var hierarchy =
       [ "bin.examplecase_class.examplecase", "classbin_1_1examplecase__class_1_1examplecase.html", null ]
     ] ],
     [ "global_class::reactionrate_type", "structglobal__class_1_1reactionrate__type.html", null ],
+    [ "tabulated_rate_module::tabulated_rate_type", "structtabulated__rate__module_1_1tabulated__rate__type.html", null ],
     [ "bin.testcase_class.testcase", "classbin_1_1testcase__class_1_1testcase.html", null ],
     [ "ls_timmes_eos_module::timmes_eos_state", "structls__timmes__eos__module_1_1timmes__eos__state.html", null ],
     [ "parameter_class::unit_type", "structparameter__class_1_1unit__type.html", null ],

@@ -4,7 +4,7 @@ var analysis_8f90 =
     [ "analysis_init", "analysis_8f90.html#a3eedd1e52d6c07825508bd13bd9565bf", null ],
     [ "calc_av_timescales", "analysis_8f90.html#adf36f2fbda4987a45731b06a9a68b957", null ],
     [ "calc_nseparation_energy", "analysis_8f90.html#a3fb59515fcf3f909977028a14f3d217f", null ],
-    [ "calc_nuclear_heating", "analysis_8f90.html#aae3c3ad01ca12da0b8b68de4497deaae", null ],
+    [ "calc_nuclear_heating", "analysis_8f90.html#ae41c665ccf9ea5f08f4d6bf96f6707bd", null ],
     [ "finab", "analysis_8f90.html#afb80593710cae3e6f6e72ab970636ab7", null ],
     [ "finab_sort", "analysis_8f90.html#a66afb43b197b91c6bd02c94478a5791e", null ],
     [ "output_final_stats", "analysis_8f90.html#a81a486ba57d14426efef1e509a7e118b", null ],
@@ -34,6 +34,8 @@ var analysis_8f90 =
     [ "snapshot_amount", "analysis_8f90.html#a3aaa9bca7f33f844ee3c3c18b4a31cfd", null ],
     [ "snapshot_time", "analysis_8f90.html#ab46832ed5c6e6d63bb0de7c3fee0d09f", null ],
     [ "t9snp", "analysis_8f90.html#a95c72c2044ac9e5eeeaead5076010a89", null ],
+    [ "toplist_amount", "analysis_8f90.html#a28fb74a5cacb9f9d06b3c28838e85f5f", null ],
+    [ "toplist_unit", "analysis_8f90.html#acc5589a39b00ae3948224c3341f266ad", null ],
     [ "track_unit", "analysis_8f90.html#a9a951f99dd4f581c154594e59c10363d", null ],
     [ "tsfile", "analysis_8f90.html#a077d5afef10c3d285fbb5980a168435b", null ],
     [ "tsnp", "analysis_8f90.html#a645cdde077dac448f9421ef65850f13d", null ]

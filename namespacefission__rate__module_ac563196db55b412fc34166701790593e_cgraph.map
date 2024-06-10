@@ -1,0 +1,10 @@
+<map id="fission_rate_module::modify_halflifes" name="fission_rate_module::modify_halflifes">
+<area shape="rect" id="node1" title="Modifies half lifes of beta decays to include fission." alt="" coords="5,156,143,197"/>
+<area shape="rect" id="node2" href="$namespacetabulated__rate__module.html#a8cd4cb35a24c56fffef12bff3e785906" title="Calculates the tabulated rate." alt="" coords="191,5,344,47"/>
+<area shape="rect" id="node4" href="$namespacenucstuff__class.html#a5fa1f79d38fd5b01a5d6d797fea0132d" title="Get number of reactants of the reaction based on the reaclib chapter." alt="" coords="202,72,333,113"/>
+<area shape="rect" id="node5" href="$namespaceerror__msg__class.html#a7e065585cc806a5c264de1f088266498" title="Converts a given integer to a string." alt="" coords="593,123,732,164"/>
+<area shape="rect" id="node6" href="$namespaceerror__msg__class.html#a2453d3b7cb363115c046840baa1dfb75" title="Raise a exception with a given error message." alt="" coords="393,123,545,164"/>
+<area shape="rect" id="node7" href="$namespacetabulated__rate__module.html#acf0aa1d1804944861e01ea1e300eab97" title="Multiply a tabulated rate by a factor." alt="" coords="191,239,344,295"/>
+<area shape="rect" id="node8" href="$namespacetabulated__rate__module.html#ab39e3f09d54fc4b3f8baf09c5621f303" title="Set tab_index for a given temperature." alt="" coords="191,319,344,360"/>
+<area shape="rect" id="node3" href="$namespacetabulated__rate__module.html#a26734ac5f0837b48d072ef67dd82d002" title="Interpolate tabulated rates from the table." alt="" coords="392,5,545,47"/>
+</map>

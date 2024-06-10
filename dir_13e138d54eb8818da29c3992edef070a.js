@@ -11,9 +11,14 @@ var dir_13e138d54eb8818da29c3992edef070a =
     [ "detailed_balance.py", "detailed__balance_8py.html", "detailed__balance_8py" ],
     [ "emission_eq.py", "emission__eq_8py.html", "emission__eq_8py" ],
     [ "expand.py", "expand_8py.html", "expand_8py" ],
+    [ "fissfrag_custom.py", "fissfrag__custom_8py.html", "fissfrag__custom_8py" ],
     [ "fissfrag_kodtak.py", "fissfrag__kodtak_8py.html", "fissfrag__kodtak_8py" ],
+    [ "fissfrag_kodtak_n_emission.py", "fissfrag__kodtak__n__emission_8py.html", "fissfrag__kodtak__n__emission_8py" ],
     [ "fissfrag_mumpower.py", "fissfrag__mumpower_8py.html", "fissfrag__mumpower_8py" ],
+    [ "fissfrag_mumpower_n_emission.py", "fissfrag__mumpower__n__emission_8py.html", "fissfrag__mumpower__n__emission_8py" ],
     [ "fissfrag_panov.py", "fissfrag__panov_8py.html", "fissfrag__panov_8py" ],
+    [ "fissfrag_panov_n_emission.py", "fissfrag__panov__n__emission_8py.html", "fissfrag__panov__n__emission_8py" ],
+    [ "fissrate_bdel.py", "fissrate__bdel_8py.html", "fissrate__bdel_8py" ],
     [ "flow.py", "flow_8py.html", "flow_8py" ],
     [ "gamma_eq.py", "gamma__eq_8py.html", "gamma__eq_8py" ],
     [ "hdf5_format.py", "hdf5__format_8py.html", "hdf5__format_8py" ],
@@ -32,6 +37,7 @@ var dir_13e138d54eb8818da29c3992edef070a =
     [ "screening.py", "screening_8py.html", "screening_8py" ],
     [ "switch_evolution.py", "switch__evolution_8py.html", "switch__evolution_8py" ],
     [ "tabulated_rates.py", "tabulated__rates_8py.html", "tabulated__rates_8py" ],
+    [ "tabulated_rates_custom_grid.py", "tabulated__rates__custom__grid_8py.html", "tabulated__rates__custom__grid_8py" ],
     [ "tw_rate.py", "tw__rate_8py.html", "tw__rate_8py" ],
     [ "ulimit.py", "ulimit_8py.html", "ulimit_8py" ]
 ];

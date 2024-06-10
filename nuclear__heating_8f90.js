@@ -7,12 +7,8 @@ var nuclear__heating_8f90 =
     [ "nuclear_heating_update", "nuclear__heating_8f90.html#a8eb125f364ac3382db4eeee8081939ca", null ],
     [ "output_debug_nufrac", "nuclear__heating_8f90.html#a5fbc945737d0f3819fc9d64fac54a7d6", null ],
     [ "output_nuclear_heating", "nuclear__heating_8f90.html#a8efcf37b6d0c28643c5d2c6dae526fcf", null ],
-    [ "output_top_contributor", "nuclear__heating_8f90.html#a3074fa7427e8ad3014b622c621e1eae0", null ],
     [ "reset_qdot", "nuclear__heating_8f90.html#a16554aba9a2d0d1629cd3232c2e36a56", null ],
     [ "start_heating", "nuclear__heating_8f90.html#a639dbc88ab46216dff0ab000dbc81e9f", null ],
-    [ "update_top_contributor", "nuclear__heating_8f90.html#a23b239f7fda7e3dece1f253a1a580372", null ],
-    [ "btmlist_engen", "nuclear__heating_8f90.html#affb1dda9d8a1d9d0f71d97cf5413153e", null ],
-    [ "btmlist_isotope", "nuclear__heating_8f90.html#a93670eb933d5fa14f9e79481861a79b2", null ],
     [ "debug_bet_qd", "nuclear__heating_8f90.html#a8e03ad7aa842c193244f01b2d60d9a0a", null ],
     [ "debug_ffn_qd", "nuclear__heating_8f90.html#ad35a786c2400d724bf3580059c5ebfb3", null ],
     [ "debug_heatfrac", "nuclear__heating_8f90.html#a601e567d93a5ae9ec1f7f5827a4c58ea", null ],
@@ -21,9 +17,5 @@ var nuclear__heating_8f90 =
     [ "engen_unit", "nuclear__heating_8f90.html#a34b201321d3f226949d14bbd0150f3bc", null ],
     [ "qdot_bet", "nuclear__heating_8f90.html#a023afdea870faaed9f6de83d1198c942", null ],
     [ "qdot_nu", "nuclear__heating_8f90.html#a1a9f126204557a34778a64d52b81871c", null ],
-    [ "qdot_th", "nuclear__heating_8f90.html#ae39f38da2386b414212f0b390afb6e05", null ],
-    [ "toplist_engen", "nuclear__heating_8f90.html#a5a9004bc8bae5b07bf0bcaec0437fcf5", null ],
-    [ "toplist_isotope", "nuclear__heating_8f90.html#a2dd05bc97114f2fdae01e60a2458ed70", null ],
-    [ "toplist_size", "nuclear__heating_8f90.html#a3e50588e20b460bed02cb4a506ca4dbe", null ],
-    [ "toplist_unit", "nuclear__heating_8f90.html#abd432e548c3f723973d1592082accfc0", null ]
+    [ "qdot_th", "nuclear__heating_8f90.html#ae39f38da2386b414212f0b390afb6e05", null ]
 ];

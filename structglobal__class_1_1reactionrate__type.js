@@ -16,6 +16,5 @@ var structglobal__class_1_1reactionrate__type =
     [ "q_value", "structglobal__class_1_1reactionrate__type.html#aa9a687ff08634033b6a1380f6ff93c15", null ],
     [ "reac_src", "structglobal__class_1_1reactionrate__type.html#a1fad99248578e0ffb4074f8015be60a9", null ],
     [ "reac_type", "structglobal__class_1_1reactionrate__type.html#a509bc709102dc341a6b7be340e6dc609", null ],
-    [ "source", "structglobal__class_1_1reactionrate__type.html#a687a490ecb7df87219a24afaa1c1922c", null ],
-    [ "tabulated", "structglobal__class_1_1reactionrate__type.html#afd3edd98392fcc3f4faf8f996bd9a6f1", null ]
+    [ "source", "structglobal__class_1_1reactionrate__type.html#a687a490ecb7df87219a24afaa1c1922c", null ]
 ];

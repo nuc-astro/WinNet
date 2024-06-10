@@ -1,52 +1,52 @@
 <map id="network_init_module::prepare_simulation" name="network_init_module::prepare_simulation">
-<area shape="rect" id="node1" title="All the necessary initializations and settings before the main loop." alt="" coords="5,1053,147,1094"/>
-<area shape="rect" id="node2" href="$namespaceanalysis.html#a3eedd1e52d6c07825508bd13bd9565bf" title="Open files, write headers, allocate space etc." alt="" coords="477,160,623,187"/>
-<area shape="rect" id="node4" href="$namespaceerror__msg__class.html#a7e065585cc806a5c264de1f088266498" title="Converts a given integer to a string." alt="" coords="1109,451,1248,493"/>
-<area shape="rect" id="node5" href="$namespaceerror__msg__class.html#a2453d3b7cb363115c046840baa1dfb75" title="Raise a exception with a given error message." alt="" coords="909,782,1061,823"/>
-<area shape="rect" id="node9" href="$namespaceexpansion__module.html#a779dca133820c17153f4272d254f97a7" title="Initialize the expansion module and open files for debugging." alt="" coords="195,517,412,544"/>
-<area shape="rect" id="node11" href="$namespaceerror__msg__class.html#a5bc9f3b670b725cc43276934b867d801" title="Converts a given real to a string with format &quot;(1pE10.2)&quot;." alt="" coords="700,561,849,602"/>
-<area shape="rect" id="node12" href="$namespaceerror__msg__class.html#a339dd5b38c125b6a04653762c94a91f2" title="Write data to the standard output (usually OUT)" alt="" coords="699,779,851,821"/>
-<area shape="rect" id="node13" href="$namespaceparser__module.html#aeb3f9da839f12180d2a21cae271f4de6" title="Finds a value of the variable for a given y&#45;value." alt="" coords="237,1458,370,1499"/>
-<area shape="rect" id="node14" href="$namespaceparser__module.html#a4b68bd8515796701c2b006fe79a0b162" title="Takes a string and evaluates the expression." alt="" coords="477,1917,623,1958"/>
-<area shape="rect" id="node15" href="$namespaceflow__module.html#a1b2c0d114ff306fc18d8cb360a599bb9" title="Initialise flow subroutine." alt="" coords="230,1524,377,1551"/>
-<area shape="rect" id="node16" href="$namespacegear__module.html#a8825e3e4b050cf3dbbdff4c88ce05ae7" title="Initialize iteration variables." alt="" coords="699,845,850,886"/>
-<area shape="rect" id="node17" href="$namespaceinter__module.html#a206d3ceb40bd2e40d41c462a31ad057e" title="Interface for 1D interpolation routines." alt="" coords="476,1865,624,1892"/>
-<area shape="rect" id="node23" href="$namespaceinter__module.html#ae35af47f2c3989d78abd0f6ae6cd180c" title="The inverse of the 1D interpolation function." alt="" coords="231,1341,375,1382"/>
-<area shape="rect" id="node24" href="$namespacemergesort__module.html#a520c03568b0375fe21d0542857601415" title="Initialize the mergesort module and open files for debugging." alt="" coords="195,291,412,317"/>
-<area shape="rect" id="node25" href="$namespacenetwork__init__module.html#a00e15ede5004dd5dff28a7cc4d5d1541" title="Main initialising subroutine. calls reading subroutines and fills the reactionrate array." alt="" coords="233,1173,374,1214"/>
-<area shape="rect" id="node41" href="$namespacewinnse__module.html#ae51f5347267d3b4c302aebc38f248a23" title="Allocates and initialises various arrays needed for the nse calculation." alt="" coords="693,1584,856,1611"/>
-<area shape="rect" id="node42" href="$namespacenuclear__heating.html#ad6d98ad183878f6928bcf10a5bc6eb01" title="Nuclear heating initialization routine." alt="" coords="469,94,631,135"/>
-<area shape="rect" id="node43" href="$namespacereadini.html#af9d85f54a31ba3f861cce49a793bcfac" title="Reads in seed abundances from file parameter_class::seed_file." alt="" coords="487,728,613,755"/>
-<area shape="rect" id="node44" href="$namespacereadini.html#a866aef64601a3db06ee8b24fbdc8b3f1" title="Initialize the readini module and open files." alt="" coords="239,1575,367,1601"/>
-<area shape="rect" id="node45" href="$namespacepardiso__class.html#a6c55b747eaefc6ed1734b66439de4e8b" title="Determines the position of jacobian entries in the cscf value array." alt="" coords="230,1625,377,1652"/>
-<area shape="rect" id="node46" href="$namespacenetwork__init__module.html#a36efa77da8a1f8da66a21ec4279e00ac" title="Switches between NSE and network modes (EM_NSE / EM_NETHOT / EM_NETCOLD)" alt="" coords="468,931,632,973"/>
-<area shape="rect" id="node47" href="$namespacethermal__neutrino__module.html#ac683decba93e950f38ed04974e7b596f" title="Initializes the thermal_neutrino_module." alt="" coords="467,262,633,303"/>
-<area shape="rect" id="node48" href="$namespacels__timmes__eos__module.html#a7f522fa32c0a061060a07863c7a8b05c" title=" " alt="" coords="224,1677,383,1718"/>
-<area shape="rect" id="node49" href="$namespaceparameter__class.html#aa449273e581a87f3024c89b6ea02a48e" title="Declares values for the elements in unit_type." alt="" coords="231,1742,376,1783"/>
-<area shape="rect" id="node50" href="$namespacewinnse__module.html#a6c116c4da1815117e3dd1ae3ad23fcb1" title="Calculate NSE composition with an initial guess." alt="" coords="224,1807,383,1849"/>
-<area shape="rect" id="node3" href="$namespacefile__handling__class.html#a01ba26324d7662cc0fb2e0eb306cd3e2" title="Close an external file." alt="" coords="709,393,840,434"/>
-<area shape="rect" id="node6" href="$namespacebenam__class.html#ad2f566697809a5731e560509d2ca7062" title="Finds an isotope index in the network table, given its A and Z. In case it was not found,..." alt="" coords="705,203,844,229"/>
-<area shape="rect" id="node7" href="$namespacehdf5__module.html#ac958193ae724ed16ed813c9805bde522" title="Initialize the hdf5 module." alt="" coords="699,254,850,295"/>
-<area shape="rect" id="node8" href="$namespacefile__handling__class.html#aeddf55e8478d6220dc04310665427c3a" title="Shorthand for opening a new file for writing (output file)" alt="" coords="709,319,840,361"/>
-<area shape="rect" id="node10" href="$namespaceexpansion__module.html#a78266dda4dfcaa5d9309c8b7fa8046fd" title="Calculates the velocity for trajectory extrapolation by linear regression on a few last points; the n..." alt="" coords="460,510,640,551"/>
-<area shape="rect" id="node18" href="$namespaceinter__module.html#a0f02e3fce3429d031516cf2f47f521de" title="Interpolation using prescription of Akima." alt="" coords="693,2043,856,2069"/>
-<area shape="rect" id="node19" href="$namespaceinter__module.html#a5a696cd56302b2491c59781808af4c08" title="Cubic interpolation in log&#45;log space. Here, it is assumed that." alt="" coords="701,1789,849,1816"/>
-<area shape="rect" id="node20" href="$namespaceinter__module.html#ac57284b6bef315c7066a880358ae0862" title="Linear interpolation in lin&#45;log space." alt="" coords="705,1840,845,1867"/>
-<area shape="rect" id="node21" href="$namespaceinter__module.html#a338de641fc764e51a6ce814e25e70ef2" title="Interpolation using modified prescription of Akima." alt="" coords="688,1891,861,1917"/>
-<area shape="rect" id="node22" href="$namespaceinter__module.html#a4b1d9613e140541539a602d2f985b5c7" title="PCHIP interpolation in lin&#45;log space." alt="" coords="695,1941,854,1968"/>
-<area shape="rect" id="node26" href="$namespacebenam__class.html#a24416cd85a568d6158099dbd08543e59" title="Returns Amin and Amax for each isotopic chain in minmax." alt="" coords="463,1581,637,1608"/>
-<area shape="rect" id="node27" href="$namespacebenam__class.html#ae8ad1000ee495505fa72a163562513c8" title="Reads nuclear properties (name,a,n,z,spin,mass excess,partition functions) from file &#39;winvn&#39; and htpf..." alt="" coords="464,1633,636,1674"/>
-<area shape="rect" id="node28" href="$namespacealpha__decay__rate__module.html#a465140e0f980b5b6797446309429f9cc" title="Initialize alpha decay rates." alt="" coords="464,1049,636,1090"/>
-<area shape="rect" id="node29" href="$namespacebeta__decay__rate__module.html#a2bc3826e7e01e6efbe62e4f471d716b9" title="Initialize external beta decay rates." alt="" coords="467,445,633,486"/>
-<area shape="rect" id="node30" href="$namespacefission__rate__module.html#a604945049b84968ca266f9c178a9cfa8" title="Initialize the fission reactions." alt="" coords="706,1027,843,1069"/>
-<area shape="rect" id="node31" href="$namespacedetailed__balance.html#a950b42c1476c5e9a7aac95d656b3d4b1" title="Initialize everything for the inverse rates." alt="" coords="479,1114,621,1155"/>
-<area shape="rect" id="node32" href="$namespacenucstuff__class.html#af5e267ec7775ebe99e72b495e83b423d" title="Initialize nucstuff class." alt="" coords="710,1093,839,1134"/>
-<area shape="rect" id="node33" href="$namespacenuflux__class.html#a9484d93accf5ec49a5fa3c72398b4038" title="Initialize nuflux module." alt="" coords="492,379,608,421"/>
-<area shape="rect" id="node34" href="$namespacereaclib__rate__module.html#a20dab788693450354de363a2cfab39f8" title="Count and read reaclib reactions." alt="" coords="705,1158,844,1199"/>
-<area shape="rect" id="node35" href="$namespacescreening__module.html#a1434d64cd9349146e3f54689f40b52fa" title="Initialize the screening module." alt="" coords="699,1303,850,1345"/>
-<area shape="rect" id="node36" href="$namespacetabulated__rate__module.html#aa6fa77aaf755f94e628d3b181298cb34" title="Initialize tabulated rates." alt="" coords="473,1282,627,1323"/>
-<area shape="rect" id="node37" href="$namespacetw__rate__module.html#abbdd50e533f6aa8fe22b8104e00bcbaa" title="Initialize theoretical weak rates." alt="" coords="469,1399,631,1441"/>
-<area shape="rect" id="node38" href="$namespaceformat__class.html#ad05fed84b69a6fe2c6cbbc8b15c2c3f7" title=" " alt="" coords="487,1465,613,1506"/>
-<area shape="rect" id="node39" href="$namespacealpha__decay__rate__module.html#ae1e0d4e4ede2093667854d26d059f8ed" title="Merge alpha decays into the larger rate array." alt="" coords="464,1698,636,1739"/>
-<area shape="rect" id="node40" href="$namespacebeta__decay__rate__module.html#af354c04d43788a7a51f558ca226e9b4c" title="Merge external beta decays into the larger rate array." alt="" coords="691,962,858,1003"/>
+<area shape="rect" id="node1" title="All the necessary initializations and settings before the main loop." alt="" coords="5,1105,147,1146"/>
+<area shape="rect" id="node2" href="$namespaceanalysis.html#a3eedd1e52d6c07825508bd13bd9565bf" title="Open files, write headers, allocate space etc." alt="" coords="477,144,623,171"/>
+<area shape="rect" id="node4" href="$namespaceerror__msg__class.html#a7e065585cc806a5c264de1f088266498" title="Converts a given integer to a string." alt="" coords="1109,585,1248,626"/>
+<area shape="rect" id="node5" href="$namespaceerror__msg__class.html#a2453d3b7cb363115c046840baa1dfb75" title="Raise a exception with a given error message." alt="" coords="909,806,1061,847"/>
+<area shape="rect" id="node9" href="$namespaceexpansion__module.html#a779dca133820c17153f4272d254f97a7" title="Initialize the expansion module and open files for debugging." alt="" coords="195,479,412,505"/>
+<area shape="rect" id="node11" href="$namespaceerror__msg__class.html#a5bc9f3b670b725cc43276934b867d801" title="Converts a given real to a string with format &quot;(1pE10.2)&quot;." alt="" coords="700,770,849,811"/>
+<area shape="rect" id="node12" href="$namespaceerror__msg__class.html#a339dd5b38c125b6a04653762c94a91f2" title="Write data to the standard output (usually OUT)" alt="" coords="699,835,851,877"/>
+<area shape="rect" id="node13" href="$namespaceparser__module.html#aeb3f9da839f12180d2a21cae271f4de6" title="Finds a value of the variable for a given y&#45;value." alt="" coords="237,1514,370,1555"/>
+<area shape="rect" id="node14" href="$namespaceparser__module.html#a4b68bd8515796701c2b006fe79a0b162" title="Takes a string and evaluates the expression." alt="" coords="477,1963,623,2005"/>
+<area shape="rect" id="node15" href="$namespaceflow__module.html#a1b2c0d114ff306fc18d8cb360a599bb9" title="Initialise flow subroutine." alt="" coords="230,1580,377,1607"/>
+<area shape="rect" id="node16" href="$namespacegear__module.html#a8825e3e4b050cf3dbbdff4c88ce05ae7" title="Initialize iteration variables." alt="" coords="699,901,850,942"/>
+<area shape="rect" id="node17" href="$namespaceinter__module.html#a206d3ceb40bd2e40d41c462a31ad057e" title="Interface for 1D interpolation routines." alt="" coords="476,1912,624,1939"/>
+<area shape="rect" id="node23" href="$namespaceinter__module.html#ae35af47f2c3989d78abd0f6ae6cd180c" title="The inverse of the 1D interpolation function." alt="" coords="231,1397,375,1438"/>
+<area shape="rect" id="node24" href="$namespacemergesort__module.html#a520c03568b0375fe21d0542857601415" title="Initialize the mergesort module and open files for debugging." alt="" coords="195,584,412,611"/>
+<area shape="rect" id="node25" href="$namespacenetwork__init__module.html#a00e15ede5004dd5dff28a7cc4d5d1541" title="Main initialising subroutine. calls reading subroutines and fills the reactionrate array." alt="" coords="233,1229,374,1270"/>
+<area shape="rect" id="node41" href="$namespacewinnse__module.html#ae51f5347267d3b4c302aebc38f248a23" title="Allocates and initialises various arrays needed for the nse calculation." alt="" coords="693,1188,856,1215"/>
+<area shape="rect" id="node42" href="$namespacenuclear__heating.html#ad6d98ad183878f6928bcf10a5bc6eb01" title="Nuclear heating initialization routine." alt="" coords="469,646,631,687"/>
+<area shape="rect" id="node43" href="$namespacereadini.html#af9d85f54a31ba3f861cce49a793bcfac" title="Reads in seed abundances from file parameter_class::seed_file." alt="" coords="487,327,613,353"/>
+<area shape="rect" id="node44" href="$namespacereadini.html#a866aef64601a3db06ee8b24fbdc8b3f1" title="Initialize the readini module and open files." alt="" coords="239,1631,367,1657"/>
+<area shape="rect" id="node45" href="$namespacepardiso__class.html#a6c55b747eaefc6ed1734b66439de4e8b" title="Determines the position of jacobian entries in the cscf value array." alt="" coords="230,1681,377,1708"/>
+<area shape="rect" id="node46" href="$namespacenetwork__init__module.html#a36efa77da8a1f8da66a21ec4279e00ac" title="Switches between NSE and network modes (EM_NSE / EM_NETHOT / EM_NETCOLD)" alt="" coords="468,981,632,1022"/>
+<area shape="rect" id="node47" href="$namespacethermal__neutrino__module.html#ac683decba93e950f38ed04974e7b596f" title="Initializes the thermal_neutrino_module." alt="" coords="467,261,633,302"/>
+<area shape="rect" id="node48" href="$namespacels__timmes__eos__module.html#a7f522fa32c0a061060a07863c7a8b05c" title=" " alt="" coords="224,1733,383,1774"/>
+<area shape="rect" id="node49" href="$namespaceparameter__class.html#aa449273e581a87f3024c89b6ea02a48e" title="Declares values for the elements in unit_type." alt="" coords="231,1798,376,1839"/>
+<area shape="rect" id="node50" href="$namespacewinnse__module.html#a6c116c4da1815117e3dd1ae3ad23fcb1" title="Calculate NSE composition with an initial guess." alt="" coords="224,1863,383,1905"/>
+<area shape="rect" id="node3" href="$namespacefile__handling__class.html#a01ba26324d7662cc0fb2e0eb306cd3e2" title="Close an external file." alt="" coords="709,261,840,302"/>
+<area shape="rect" id="node6" href="$namespacebenam__class.html#ad2f566697809a5731e560509d2ca7062" title="Finds an isotope index in the network table, given its A and Z. In case it was not found,..." alt="" coords="705,93,844,120"/>
+<area shape="rect" id="node7" href="$namespacehdf5__module.html#ac958193ae724ed16ed813c9805bde522" title="Initialize the hdf5 module." alt="" coords="699,195,850,237"/>
+<area shape="rect" id="node8" href="$namespacefile__handling__class.html#aeddf55e8478d6220dc04310665427c3a" title="Shorthand for opening a new file for writing (output file)" alt="" coords="709,501,840,542"/>
+<area shape="rect" id="node10" href="$namespaceexpansion__module.html#a78266dda4dfcaa5d9309c8b7fa8046fd" title="Calculates the velocity for trajectory extrapolation by linear regression on a few last points; the n..." alt="" coords="460,711,640,753"/>
+<area shape="rect" id="node18" href="$namespaceinter__module.html#a0f02e3fce3429d031516cf2f47f521de" title="Interpolation using prescription of Akima." alt="" coords="693,1937,856,1964"/>
+<area shape="rect" id="node19" href="$namespaceinter__module.html#a5a696cd56302b2491c59781808af4c08" title="Cubic interpolation in log&#45;log space. Here, it is assumed that." alt="" coords="701,1988,849,2015"/>
+<area shape="rect" id="node20" href="$namespaceinter__module.html#ac57284b6bef315c7066a880358ae0862" title="Linear interpolation in lin&#45;log space." alt="" coords="705,2089,845,2116"/>
+<area shape="rect" id="node21" href="$namespaceinter__module.html#a338de641fc764e51a6ce814e25e70ef2" title="Interpolation using modified prescription of Akima." alt="" coords="688,1836,861,1863"/>
+<area shape="rect" id="node22" href="$namespaceinter__module.html#a4b1d9613e140541539a602d2f985b5c7" title="PCHIP interpolation in lin&#45;log space." alt="" coords="695,1887,854,1913"/>
+<area shape="rect" id="node26" href="$namespacebenam__class.html#a24416cd85a568d6158099dbd08543e59" title="Returns Amin and Amax for each isotopic chain in minmax." alt="" coords="463,1461,637,1488"/>
+<area shape="rect" id="node27" href="$namespacebenam__class.html#ae8ad1000ee495505fa72a163562513c8" title="Reads nuclear properties (name,a,n,z,spin,mass excess,partition functions) from file &#39;winvn&#39; and htpf..." alt="" coords="464,1513,636,1554"/>
+<area shape="rect" id="node28" href="$namespacealpha__decay__rate__module.html#a465140e0f980b5b6797446309429f9cc" title="Initialize alpha decay rates." alt="" coords="464,1578,636,1619"/>
+<area shape="rect" id="node29" href="$namespacebeta__decay__rate__module.html#a2bc3826e7e01e6efbe62e4f471d716b9" title="Initialize external beta decay rates." alt="" coords="467,195,633,237"/>
+<area shape="rect" id="node30" href="$namespacefission__rate__module.html#a604945049b84968ca266f9c178a9cfa8" title="Initialize the fission reactions." alt="" coords="706,1246,843,1287"/>
+<area shape="rect" id="node31" href="$namespacedetailed__balance.html#a950b42c1476c5e9a7aac95d656b3d4b1" title="Initialize everything for the inverse rates." alt="" coords="479,1643,621,1685"/>
+<area shape="rect" id="node32" href="$namespacenucstuff__class.html#af5e267ec7775ebe99e72b495e83b423d" title="Initialize nucstuff class." alt="" coords="710,1325,839,1366"/>
+<area shape="rect" id="node33" href="$namespacenuflux__class.html#a9484d93accf5ec49a5fa3c72398b4038" title="Initialize nuflux module." alt="" coords="492,581,608,622"/>
+<area shape="rect" id="node34" href="$namespacereaclib__rate__module.html#a20dab788693450354de363a2cfab39f8" title="Count and read reaclib reactions." alt="" coords="705,1417,844,1458"/>
+<area shape="rect" id="node35" href="$namespacescreening__module.html#a1434d64cd9349146e3f54689f40b52fa" title="Initialize the screening module." alt="" coords="699,1534,850,1575"/>
+<area shape="rect" id="node36" href="$namespacetabulated__rate__module.html#aa6fa77aaf755f94e628d3b181298cb34" title="Initialize tabulated rates." alt="" coords="473,1046,627,1087"/>
+<area shape="rect" id="node37" href="$namespacetw__rate__module.html#abbdd50e533f6aa8fe22b8104e00bcbaa" title="Initialize theoretical weak rates." alt="" coords="469,1229,631,1270"/>
+<area shape="rect" id="node38" href="$namespaceformat__class.html#ad05fed84b69a6fe2c6cbbc8b15c2c3f7" title=" " alt="" coords="487,1294,613,1335"/>
+<area shape="rect" id="node39" href="$namespacealpha__decay__rate__module.html#ae1e0d4e4ede2093667854d26d059f8ed" title="Merge alpha decays into the larger rate array." alt="" coords="464,1111,636,1153"/>
+<area shape="rect" id="node40" href="$namespacebeta__decay__rate__module.html#af354c04d43788a7a51f558ca226e9b4c" title="Merge external beta decays into the larger rate array." alt="" coords="691,1069,858,1110"/>
 </map>

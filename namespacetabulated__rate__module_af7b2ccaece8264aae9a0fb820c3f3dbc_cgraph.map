@@ -1,0 +1,7 @@
+<map id="tabulated_rate_module::read_binary_tabulated_reaction_data" name="tabulated_rate_module::read_binary_tabulated_reaction_data">
+<area shape="rect" id="node1" title="Read the tabulated rates from a unformatted binary file." alt="" coords="5,78,160,134"/>
+<area shape="rect" id="node2" href="$namespacefile__handling__class.html#a25b51db64738e74a129daae7428c8163" title="Open an unformatted file for reading." alt="" coords="208,56,373,97"/>
+<area shape="rect" id="node4" href="$namespaceerror__msg__class.html#a2453d3b7cb363115c046840baa1dfb75" title="Raise a exception with a given error message." alt="" coords="600,64,752,105"/>
+<area shape="rect" id="node3" href="$namespacefile__handling__class.html#af02196bd5eaf70ecd5ab4cc650094d5e" title="Finds the next unused unit number." alt="" coords="421,5,552,47"/>
+<area shape="rect" id="node5" href="$namespaceerror__msg__class.html#a7e065585cc806a5c264de1f088266498" title="Converts a given integer to a string." alt="" coords="800,64,939,105"/>
+</map>

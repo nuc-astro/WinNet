@@ -120,9 +120,6 @@ Functions/Subroutines</h2></td></tr>
 <tr class="memitem:a5fbc945737d0f3819fc9d64fac54a7d6"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacenuclear__heating.html#a5fbc945737d0f3819fc9d64fac54a7d6">output_debug_nufrac</a> (rrate_array, length)</td></tr>
 <tr class="memdesc:a5fbc945737d0f3819fc9d64fac54a7d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Output the heating fractions to a debug file.  <a href="namespacenuclear__heating.html#a5fbc945737d0f3819fc9d64fac54a7d6">More...</a><br /></td></tr>
 <tr class="separator:a5fbc945737d0f3819fc9d64fac54a7d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a23b239f7fda7e3dece1f253a1a580372"><td class="memItemLeft" align="right" valign="top">subroutine, private&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacenuclear__heating.html#a23b239f7fda7e3dece1f253a1a580372">update_top_contributor</a> (ind, c_engen)</td></tr>
-<tr class="memdesc:a23b239f7fda7e3dece1f253a1a580372"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maintains a list of top contributors.  <a href="namespacenuclear__heating.html#a23b239f7fda7e3dece1f253a1a580372">More...</a><br /></td></tr>
-<tr class="separator:a23b239f7fda7e3dece1f253a1a580372"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8eb125f364ac3382db4eeee8081939ca"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacenuclear__heating.html#a8eb125f364ac3382db4eeee8081939ca">nuclear_heating_update</a> (nr_count, rho, Ye, pf, Y_p, Y, entropy_p, entropy, T9_p, T9, T9_tr_p, T9_tr, timestep)</td></tr>
 <tr class="memdesc:a8eb125f364ac3382db4eeee8081939ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Modifies the temperature and entropy to account for nuclear heating.  <a href="namespacenuclear__heating.html#a8eb125f364ac3382db4eeee8081939ca">More...</a><br /></td></tr>
 <tr class="separator:a8eb125f364ac3382db4eeee8081939ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -135,8 +132,6 @@ Functions/Subroutines</h2></td></tr>
 <tr class="memitem:a8efcf37b6d0c28643c5d2c6dae526fcf"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacenuclear__heating.html#a8efcf37b6d0c28643c5d2c6dae526fcf">output_nuclear_heating</a> (cnt, ctime)</td></tr>
 <tr class="memdesc:a8efcf37b6d0c28643c5d2c6dae526fcf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Output data related to nuclear heating.  <a href="namespacenuclear__heating.html#a8efcf37b6d0c28643c5d2c6dae526fcf">More...</a><br /></td></tr>
 <tr class="separator:a8efcf37b6d0c28643c5d2c6dae526fcf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3074fa7427e8ad3014b622c621e1eae0"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacenuclear__heating.html#a3074fa7427e8ad3014b622c621e1eae0">output_top_contributor</a> (cnt, ctime, cT9, crho)</td></tr>
-<tr class="separator:a3074fa7427e8ad3014b622c621e1eae0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
@@ -149,24 +144,6 @@ Variables</h2></td></tr>
 <tr class="memitem:a601e567d93a5ae9ec1f7f5827a4c58ea"><td class="memItemLeft" align="right" valign="top">integer, private&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacenuclear__heating.html#a601e567d93a5ae9ec1f7f5827a4c58ea">debug_heatfrac</a></td></tr>
 <tr class="memdesc:a601e567d93a5ae9ec1f7f5827a4c58ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Debug file for the heating fraction.  <a href="namespacenuclear__heating.html#a601e567d93a5ae9ec1f7f5827a4c58ea">More...</a><br /></td></tr>
 <tr class="separator:a601e567d93a5ae9ec1f7f5827a4c58ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abd432e548c3f723973d1592082accfc0"><td class="memItemLeft" align="right" valign="top">integer, private&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacenuclear__heating.html#abd432e548c3f723973d1592082accfc0">toplist_unit</a></td></tr>
-<tr class="memdesc:abd432e548c3f723973d1592082accfc0"><td class="mdescLeft">&#160;</td><td class="mdescRight">File descriptor for toplist.dat.  <a href="namespacenuclear__heating.html#abd432e548c3f723973d1592082accfc0">More...</a><br /></td></tr>
-<tr class="separator:abd432e548c3f723973d1592082accfc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3e50588e20b460bed02cb4a506ca4dbe"><td class="memItemLeft" align="right" valign="top">integer, parameter, private&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacenuclear__heating.html#a3e50588e20b460bed02cb4a506ca4dbe">toplist_size</a> = 10</td></tr>
-<tr class="memdesc:a3e50588e20b460bed02cb4a506ca4dbe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Length of the toplist / btmlist.  <a href="namespacenuclear__heating.html#a3e50588e20b460bed02cb4a506ca4dbe">More...</a><br /></td></tr>
-<tr class="separator:a3e50588e20b460bed02cb4a506ca4dbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5a9004bc8bae5b07bf0bcaec0437fcf5"><td class="memItemLeft" align="right" valign="top">real(<a class="el" href="macros_8h.html#a3e504da5bba4b12ec3e39594fa54d992">r_kind</a>), dimension(<a class="el" href="namespacenuclear__heating.html#a3e50588e20b460bed02cb4a506ca4dbe">toplist_size</a>), private&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacenuclear__heating.html#a5a9004bc8bae5b07bf0bcaec0437fcf5">toplist_engen</a></td></tr>
-<tr class="memdesc:a5a9004bc8bae5b07bf0bcaec0437fcf5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Energies of the top produced isotopes.  <a href="namespacenuclear__heating.html#a5a9004bc8bae5b07bf0bcaec0437fcf5">More...</a><br /></td></tr>
-<tr class="separator:a5a9004bc8bae5b07bf0bcaec0437fcf5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2dd05bc97114f2fdae01e60a2458ed70"><td class="memItemLeft" align="right" valign="top">integer, dimension(<a class="el" href="namespacenuclear__heating.html#a3e50588e20b460bed02cb4a506ca4dbe">toplist_size</a>), private&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacenuclear__heating.html#a2dd05bc97114f2fdae01e60a2458ed70">toplist_isotope</a></td></tr>
-<tr class="memdesc:a2dd05bc97114f2fdae01e60a2458ed70"><td class="mdescLeft">&#160;</td><td class="mdescRight">Isotope indices in the toplist.  <a href="namespacenuclear__heating.html#a2dd05bc97114f2fdae01e60a2458ed70">More...</a><br /></td></tr>
-<tr class="separator:a2dd05bc97114f2fdae01e60a2458ed70"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:affb1dda9d8a1d9d0f71d97cf5413153e"><td class="memItemLeft" align="right" valign="top">real(<a class="el" href="macros_8h.html#a3e504da5bba4b12ec3e39594fa54d992">r_kind</a>), dimension(<a class="el" href="namespacenuclear__heating.html#a3e50588e20b460bed02cb4a506ca4dbe">toplist_size</a>), private&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacenuclear__heating.html#affb1dda9d8a1d9d0f71d97cf5413153e">btmlist_engen</a></td></tr>
-<tr class="memdesc:affb1dda9d8a1d9d0f71d97cf5413153e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Energies of the top decaying isotopes (most negative energy)  <a href="namespacenuclear__heating.html#affb1dda9d8a1d9d0f71d97cf5413153e">More...</a><br /></td></tr>
-<tr class="separator:affb1dda9d8a1d9d0f71d97cf5413153e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a93670eb933d5fa14f9e79481861a79b2"><td class="memItemLeft" align="right" valign="top">integer, dimension(<a class="el" href="namespacenuclear__heating.html#a3e50588e20b460bed02cb4a506ca4dbe">toplist_size</a>), private&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacenuclear__heating.html#a93670eb933d5fa14f9e79481861a79b2">btmlist_isotope</a></td></tr>
-<tr class="memdesc:a93670eb933d5fa14f9e79481861a79b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Isotope indices in the btmlist.  <a href="namespacenuclear__heating.html#a93670eb933d5fa14f9e79481861a79b2">More...</a><br /></td></tr>
-<tr class="separator:a93670eb933d5fa14f9e79481861a79b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a023afdea870faaed9f6de83d1198c942"><td class="memItemLeft" align="right" valign="top">real(<a class="el" href="macros_8h.html#a3e504da5bba4b12ec3e39594fa54d992">r_kind</a>), save, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacenuclear__heating.html#a023afdea870faaed9f6de83d1198c942">qdot_bet</a> = 0</td></tr>
 <tr class="memdesc:a023afdea870faaed9f6de83d1198c942"><td class="mdescLeft">&#160;</td><td class="mdescRight">Total energy radiated away by.  <a href="namespacenuclear__heating.html#a023afdea870faaed9f6de83d1198c942">More...</a><br /></td></tr>
 <tr class="separator:a023afdea870faaed9f6de83d1198c942"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -229,7 +206,7 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="nuclear__heating_8f90_source.html#l00216">216</a> of file <a class="el" href="nuclear__heating_8f90_source.html">nuclear_heating.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="nuclear__heating_8f90_source.html#l00193">193</a> of file <a class="el" href="nuclear__heating_8f90_source.html">nuclear_heating.f90</a>.</p>
 
 </div>
 </div>
@@ -363,7 +340,7 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="nuclear__heating_8f90_source.html#l00517">517</a> of file <a class="el" href="nuclear__heating_8f90_source.html">nuclear_heating.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="nuclear__heating_8f90_source.html#l00442">442</a> of file <a class="el" href="nuclear__heating_8f90_source.html">nuclear_heating.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -494,7 +471,7 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="nuclear__heating_8f90_source.html#l00663">663</a> of file <a class="el" href="nuclear__heating_8f90_source.html">nuclear_heating.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="nuclear__heating_8f90_source.html#l00583">583</a> of file <a class="el" href="nuclear__heating_8f90_source.html">nuclear_heating.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -549,9 +526,10 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 
 <p>Nuclear heating initialization routine. </p>
-<p>This subroutine creates some files (e.g., <em>toplist.dat</em>) and prepares the header for the <em>engen.dat</em> file</p>
+<p>This subroutine creates some files (e.g., debug_engen.dat_) and prepares the header for the <em>engen.dat</em> file</p>
 <p><b>Edited:</b> </p><ul>
 <li>MR: 20.01.21 - Gave toplist file a header</li>
+<li>MR: 07.05.24 - Removed toplist and moved it to analysis module</li>
 </ul>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -564,7 +542,7 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="nuclear__heating_8f90_source.html#l00057">57</a> of file <a class="el" href="nuclear__heating_8f90_source.html">nuclear_heating.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="nuclear__heating_8f90_source.html#l00049">49</a> of file <a class="el" href="nuclear__heating_8f90_source.html">nuclear_heating.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -703,7 +681,7 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="nuclear__heating_8f90_source.html#l00380">380</a> of file <a class="el" href="nuclear__heating_8f90_source.html">nuclear_heating.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="nuclear__heating_8f90_source.html#l00312">312</a> of file <a class="el" href="nuclear__heating_8f90_source.html">nuclear_heating.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -757,7 +735,7 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="nuclear__heating_8f90_source.html#l00282">282</a> of file <a class="el" href="nuclear__heating_8f90_source.html">nuclear_heating.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="nuclear__heating_8f90_source.html#l00259">259</a> of file <a class="el" href="nuclear__heating_8f90_source.html">nuclear_heating.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -803,6 +781,7 @@ Here is the call graph for this function:</div>
          1  6.000000000000000E-12  4.000000000000000E-12  6.302695988823750E+08  5.252191701420075E+19  5.443513288527704E+01
  ...</pre></div><p><b>Edited:</b> </p><ul>
 <li>MR: 20.1.21 - Modified format of <em>toplist.dat</em></li>
+<li>MR: 07.5.24 - Removed <em>toplist.dat</em> from here</li>
 </ul>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -812,58 +791,7 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="nuclear__heating_8f90_source.html#l00822">822</a> of file <a class="el" href="nuclear__heating_8f90_source.html">nuclear_heating.f90</a>.</p>
-
-</div>
-</div>
-<a id="a3074fa7427e8ad3014b622c621e1eae0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3074fa7427e8ad3014b622c621e1eae0">&#9670;&nbsp;</a></span>output_top_contributor()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">subroutine, public nuclear_heating::output_top_contributor </td>
-          <td>(</td>
-          <td class="paramtype">integer, intent(in)&#160;</td>
-          <td class="paramname"><em>cnt</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="macros_8h.html#a3e504da5bba4b12ec3e39594fa54d992">r_kind</a>), intent(in)&#160;</td>
-          <td class="paramname"><em>ctime</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="macros_8h.html#a3e504da5bba4b12ec3e39594fa54d992">r_kind</a>), intent(in)&#160;</td>
-          <td class="paramname"><em>cT9</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="macros_8h.html#a3e504da5bba4b12ec3e39594fa54d992">r_kind</a>), intent(in)&#160;</td>
-          <td class="paramname"><em>crho</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">cnt</td><td>current iteration</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">ctime</td><td>current global time [s]</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">ct9</td><td>current temperature [GK]</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">crho</td><td>current density [gcc] </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p class="definition">Definition at line <a class="el" href="nuclear__heating_8f90_source.html#l00865">865</a> of file <a class="el" href="nuclear__heating_8f90_source.html">nuclear_heating.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="nuclear__heating_8f90_source.html#l00737">737</a> of file <a class="el" href="nuclear__heating_8f90_source.html">nuclear_heating.f90</a>.</p>
 
 </div>
 </div>
@@ -893,7 +821,7 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="nuclear__heating_8f90_source.html#l00170">170</a> of file <a class="el" href="nuclear__heating_8f90_source.html">nuclear_heating.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="nuclear__heating_8f90_source.html#l00147">147</a> of file <a class="el" href="nuclear__heating_8f90_source.html">nuclear_heating.f90</a>.</p>
 
 </div>
 </div>
@@ -961,7 +889,7 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="nuclear__heating_8f90_source.html#l00134">134</a> of file <a class="el" href="nuclear__heating_8f90_source.html">nuclear_heating.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="nuclear__heating_8f90_source.html#l00111">111</a> of file <a class="el" href="nuclear__heating_8f90_source.html">nuclear_heating.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -971,112 +899,7 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="a23b239f7fda7e3dece1f253a1a580372"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a23b239f7fda7e3dece1f253a1a580372">&#9670;&nbsp;</a></span>update_top_contributor()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">subroutine, private nuclear_heating::update_top_contributor </td>
-          <td>(</td>
-          <td class="paramtype">integer, intent(in)&#160;</td>
-          <td class="paramname"><em>ind</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="macros_8h.html#a3e504da5bba4b12ec3e39594fa54d992">r_kind</a>), intent(in)&#160;</td>
-          <td class="paramname"><em>c_engen</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Maintains a list of top contributors. </p>
-<p>This subroutine sorts the nuclei depending on their energy generation in separate lists (<a class="el" href="namespacenuclear__heating.html#a5a9004bc8bae5b07bf0bcaec0437fcf5">toplist_engen</a>, <a class="el" href="namespacenuclear__heating.html#a2dd05bc97114f2fdae01e60a2458ed70">toplist_isotope</a>, <a class="el" href="namespacenuclear__heating.html#affb1dda9d8a1d9d0f71d97cf5413153e">btmlist_engen</a>, <a class="el" href="namespacenuclear__heating.html#a93670eb933d5fa14f9e79481861a79b2">btmlist_isotope</a>).</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespaceparameter__class.html#a9726e800737101ca170247fbef405e70" title="frequency of energy generators toplist">parameter_class::top_engen_every</a>, <a class="el" href="namespacenuclear__heating.html#a8eb125f364ac3382db4eeee8081939ca" title="Modifies the temperature and entropy to account for nuclear heating.">nuclear_heating_update</a></dd></dl>
-<dl class="section return"><dt>Returns</dt><dd>Sorted list of nuclei that dominantly contribute to the energy generation.</dd></dl>
-<p><b>Edited</b> </p><ul>
-<li>MR: 20.01.21 - created this subroutine from code in nuclear_heating_update</li>
-</ul>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">ind</td><td>Current index of nucleus </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">c_engen</td><td>Current energy generation of nucleus </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p class="definition">Definition at line <a class="el" href="nuclear__heating_8f90_source.html#l00327">327</a> of file <a class="el" href="nuclear__heating_8f90_source.html">nuclear_heating.f90</a>.</p>
-
-</div>
-</div>
 <h2 class="groupheader">Variable Documentation</h2>
-<a id="affb1dda9d8a1d9d0f71d97cf5413153e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#affb1dda9d8a1d9d0f71d97cf5413153e">&#9670;&nbsp;</a></span>btmlist_engen</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">real(<a class="el" href="macros_8h.html#a3e504da5bba4b12ec3e39594fa54d992">r_kind</a>), dimension(<a class="el" href="namespacenuclear__heating.html#a3e50588e20b460bed02cb4a506ca4dbe">toplist_size</a>), private nuclear_heating::btmlist_engen</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Energies of the top decaying isotopes (most negative energy) </p>
-
-<p class="definition">Definition at line <a class="el" href="nuclear__heating_8f90_source.html#l00025">25</a> of file <a class="el" href="nuclear__heating_8f90_source.html">nuclear_heating.f90</a>.</p>
-
-</div>
-</div>
-<a id="a93670eb933d5fa14f9e79481861a79b2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a93670eb933d5fa14f9e79481861a79b2">&#9670;&nbsp;</a></span>btmlist_isotope</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">integer, dimension(<a class="el" href="namespacenuclear__heating.html#a3e50588e20b460bed02cb4a506ca4dbe">toplist_size</a>), private nuclear_heating::btmlist_isotope</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Isotope indices in the btmlist. </p>
-
-<p class="definition">Definition at line <a class="el" href="nuclear__heating_8f90_source.html#l00026">26</a> of file <a class="el" href="nuclear__heating_8f90_source.html">nuclear_heating.f90</a>.</p>
-
-</div>
-</div>
 <a id="a8e03ad7aa842c193244f01b2d60d9a0a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8e03ad7aa842c193244f01b2d60d9a0a">&#9670;&nbsp;</a></span>debug_bet_qd</h2>
 
@@ -1099,7 +922,7 @@ Here is the call graph for this function:</div>
 
 <p>debug variable for the qdot caused by beta decay rates </p>
 
-<p class="definition">Definition at line <a class="el" href="nuclear__heating_8f90_source.html#l00035">35</a> of file <a class="el" href="nuclear__heating_8f90_source.html">nuclear_heating.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="nuclear__heating_8f90_source.html#l00027">27</a> of file <a class="el" href="nuclear__heating_8f90_source.html">nuclear_heating.f90</a>.</p>
 
 </div>
 </div>
@@ -1125,7 +948,7 @@ Here is the call graph for this function:</div>
 
 <p>debug variable for the qdot caused by ffn rates </p>
 
-<p class="definition">Definition at line <a class="el" href="nuclear__heating_8f90_source.html#l00033">33</a> of file <a class="el" href="nuclear__heating_8f90_source.html">nuclear_heating.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="nuclear__heating_8f90_source.html#l00025">25</a> of file <a class="el" href="nuclear__heating_8f90_source.html">nuclear_heating.f90</a>.</p>
 
 </div>
 </div>
@@ -1177,7 +1000,7 @@ Here is the call graph for this function:</div>
 
 <p>debug variable for the qdot caused by nu rates </p>
 
-<p class="definition">Definition at line <a class="el" href="nuclear__heating_8f90_source.html#l00034">34</a> of file <a class="el" href="nuclear__heating_8f90_source.html">nuclear_heating.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="nuclear__heating_8f90_source.html#l00026">26</a> of file <a class="el" href="nuclear__heating_8f90_source.html">nuclear_heating.f90</a>.</p>
 
 </div>
 </div>
@@ -1247,7 +1070,7 @@ Here is the call graph for this function:</div>
 
 <p>Total energy radiated away by. </p>
 
-<p class="definition">Definition at line <a class="el" href="nuclear__heating_8f90_source.html#l00028">28</a> of file <a class="el" href="nuclear__heating_8f90_source.html">nuclear_heating.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="nuclear__heating_8f90_source.html#l00020">20</a> of file <a class="el" href="nuclear__heating_8f90_source.html">nuclear_heating.f90</a>.</p>
 
 </div>
 </div>
@@ -1265,7 +1088,7 @@ Here is the call graph for this function:</div>
 
 <p>Total energy added to the system by neutrino. </p>
 
-<p class="definition">Definition at line <a class="el" href="nuclear__heating_8f90_source.html#l00029">29</a> of file <a class="el" href="nuclear__heating_8f90_source.html">nuclear_heating.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="nuclear__heating_8f90_source.html#l00021">21</a> of file <a class="el" href="nuclear__heating_8f90_source.html">nuclear_heating.f90</a>.</p>
 
 </div>
 </div>
@@ -1283,111 +1106,7 @@ Here is the call graph for this function:</div>
 
 <p>Total energy lost by thermal neutrinos. </p>
 
-<p class="definition">Definition at line <a class="el" href="nuclear__heating_8f90_source.html#l00030">30</a> of file <a class="el" href="nuclear__heating_8f90_source.html">nuclear_heating.f90</a>.</p>
-
-</div>
-</div>
-<a id="a5a9004bc8bae5b07bf0bcaec0437fcf5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5a9004bc8bae5b07bf0bcaec0437fcf5">&#9670;&nbsp;</a></span>toplist_engen</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">real(<a class="el" href="macros_8h.html#a3e504da5bba4b12ec3e39594fa54d992">r_kind</a>), dimension(<a class="el" href="namespacenuclear__heating.html#a3e50588e20b460bed02cb4a506ca4dbe">toplist_size</a>), private nuclear_heating::toplist_engen</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Energies of the top produced isotopes. </p>
-
-<p class="definition">Definition at line <a class="el" href="nuclear__heating_8f90_source.html#l00023">23</a> of file <a class="el" href="nuclear__heating_8f90_source.html">nuclear_heating.f90</a>.</p>
-
-</div>
-</div>
-<a id="a2dd05bc97114f2fdae01e60a2458ed70"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2dd05bc97114f2fdae01e60a2458ed70">&#9670;&nbsp;</a></span>toplist_isotope</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">integer, dimension(<a class="el" href="namespacenuclear__heating.html#a3e50588e20b460bed02cb4a506ca4dbe">toplist_size</a>), private nuclear_heating::toplist_isotope</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Isotope indices in the toplist. </p>
-
-<p class="definition">Definition at line <a class="el" href="nuclear__heating_8f90_source.html#l00024">24</a> of file <a class="el" href="nuclear__heating_8f90_source.html">nuclear_heating.f90</a>.</p>
-
-</div>
-</div>
-<a id="a3e50588e20b460bed02cb4a506ca4dbe"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3e50588e20b460bed02cb4a506ca4dbe">&#9670;&nbsp;</a></span>toplist_size</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">integer, parameter, private nuclear_heating::toplist_size = 10</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Length of the toplist / btmlist. </p>
-
 <p class="definition">Definition at line <a class="el" href="nuclear__heating_8f90_source.html#l00022">22</a> of file <a class="el" href="nuclear__heating_8f90_source.html">nuclear_heating.f90</a>.</p>
-
-</div>
-</div>
-<a id="abd432e548c3f723973d1592082accfc0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abd432e548c3f723973d1592082accfc0">&#9670;&nbsp;</a></span>toplist_unit</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">integer, private nuclear_heating::toplist_unit</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>File descriptor for toplist.dat. </p>
-
-<p class="definition">Definition at line <a class="el" href="nuclear__heating_8f90_source.html#l00021">21</a> of file <a class="el" href="nuclear__heating_8f90_source.html">nuclear_heating.f90</a>.</p>
 
 </div>
 </div>

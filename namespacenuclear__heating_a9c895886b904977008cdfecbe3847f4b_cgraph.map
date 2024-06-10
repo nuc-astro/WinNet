@@ -1,8 +1,7 @@
 <map id="nuclear_heating::nuclear_heating_energy" name="nuclear_heating::nuclear_heating_energy">
-<area shape="rect" id="node1" title="Modifies the temperature to account for nuclear heating." alt="" coords="5,71,167,112"/>
+<area shape="rect" id="node1" title="Modifies the temperature to account for nuclear heating." alt="" coords="5,39,167,80"/>
 <area shape="rect" id="node2" href="$namespacenucstuff__class.html#a7f6b5ddec08f9564638a58091e6940d7" title="Calculates partition function." alt="" coords="225,5,363,47"/>
 <area shape="rect" id="node3" href="$namespacels__timmes__eos__module.html#a7f522fa32c0a061060a07863c7a8b05c" title=" " alt="" coords="215,71,373,112"/>
-<area shape="rect" id="node17" href="$namespacenuclear__heating.html#a23b239f7fda7e3dece1f253a1a580372" title="Maintains a list of top contributors." alt="" coords="215,136,373,177"/>
 <area shape="rect" id="node4" href="$namespacels__timmes__eos__module.html#ac68ea6710f5164f7f29454fa4ffa6dcb" title=" " alt="" coords="421,12,580,53"/>
 <area shape="rect" id="node5" href="$namespacels__timmes__eos__module.html#a6da1e3b6ba3967536745de1073565b65" title=" " alt="" coords="628,71,787,112"/>
 <area shape="rect" id="node16" href="$namespacels__timmes__eos__module.html#afd98ff063885638aaa5922c04fb9d6a9" title=" " alt="" coords="421,129,580,171"/>

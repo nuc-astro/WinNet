@@ -1,52 +1,52 @@
 <map id="network_init_module::create_rate_folder" name="network_init_module::create_rate_folder">
-<area shape="rect" id="node1" title="Create a folder with binary files that contain all necessary reaction data." alt="" coords="5,325,147,366"/>
-<area shape="rect" id="node2" href="$namespacemergesort__module.html#a520c03568b0375fe21d0542857601415" title="Initialize the mergesort module and open files for debugging." alt="" coords="195,412,412,439"/>
-<area shape="rect" id="node7" href="$namespacenetwork__init__module.html#a00e15ede5004dd5dff28a7cc4d5d1541" title="Main initialising subroutine. calls reading subroutines and fills the reactionrate array." alt="" coords="233,1073,374,1114"/>
-<area shape="rect" id="node40" href="$namespacetw__rate__module.html#a9cccd46db1f1be3e5543d04ae2d6d0ff" title="Save the theoretical weak rates to a unformatted binary file." alt="" coords="460,319,647,361"/>
-<area shape="rect" id="node44" href="$namespacefission__rate__module.html#add77a8d632b5e21361062f5fcf5095f6" title="Save the fission data to a unformatted binary file." alt="" coords="229,85,378,141"/>
-<area shape="rect" id="node45" href="$namespacebenam__class.html#a62741f4cd06b3a90648a9bce8db6c52c" title="Save the general network information to a binary file." alt="" coords="229,165,377,206"/>
-<area shape="rect" id="node46" href="$namespacenuflux__class.html#a018b8a9dca8d3cf7be07a527c293dd5f" title="Write the reactions to a file in binary format." alt="" coords="203,230,404,271"/>
-<area shape="rect" id="node47" href="$namespaceparameter__class.html#aa1b376aa50d6520d5605e6068d4cb2c1" title="Output the parameter data to a binary file." alt="" coords="223,295,383,337"/>
-<area shape="rect" id="node48" href="$namespacereaclib__rate__module.html#aea05c0c87253750ad35edea12319e3b2" title="Save the complete rrate array to a binary file." alt="" coords="228,5,379,61"/>
-<area shape="rect" id="node49" href="$namespaceparameter__class.html#a7a2c022aa08c1fda13b3004ddc562ee9" title="Output relevant parameters to a file in the prepared network path." alt="" coords="216,525,391,566"/>
-<area shape="rect" id="node50" href="$namespaceparameter__class.html#aa449273e581a87f3024c89b6ea02a48e" title="Declares values for the elements in unit_type." alt="" coords="231,1138,376,1179"/>
-<area shape="rect" id="node3" href="$namespacefile__handling__class.html#aeddf55e8478d6220dc04310665427c3a" title="Shorthand for opening a new file for writing (output file)" alt="" coords="716,602,847,643"/>
-<area shape="rect" id="node4" href="$namespacefile__handling__class.html#af02196bd5eaf70ecd5ab4cc650094d5e" title="Finds the next unused unit number." alt="" coords="1154,602,1285,643"/>
-<area shape="rect" id="node5" href="$namespaceerror__msg__class.html#a2453d3b7cb363115c046840baa1dfb75" title="Raise a exception with a given error message." alt="" coords="1351,1034,1503,1075"/>
-<area shape="rect" id="node6" href="$namespaceerror__msg__class.html#a7e065585cc806a5c264de1f088266498" title="Converts a given integer to a string." alt="" coords="1551,1521,1689,1562"/>
-<area shape="rect" id="node8" href="$namespacebenam__class.html#a24416cd85a568d6158099dbd08543e59" title="Returns Amin and Amax for each isotopic chain in minmax." alt="" coords="466,1105,641,1132"/>
-<area shape="rect" id="node9" href="$namespacebenam__class.html#ae8ad1000ee495505fa72a163562513c8" title="Reads nuclear properties (name,a,n,z,spin,mass excess,partition functions) from file &#39;winvn&#39; and htpf..." alt="" coords="467,1222,639,1263"/>
-<area shape="rect" id="node14" href="$namespaceerror__msg__class.html#a339dd5b38c125b6a04653762c94a91f2" title="Write data to the standard output (usually OUT)" alt="" coords="926,1469,1078,1510"/>
-<area shape="rect" id="node15" href="$namespacealpha__decay__rate__module.html#a465140e0f980b5b6797446309429f9cc" title="Initialize alpha decay rates." alt="" coords="467,1157,639,1198"/>
-<area shape="rect" id="node19" href="$namespacebeta__decay__rate__module.html#a2bc3826e7e01e6efbe62e4f471d716b9" title="Initialize external beta decay rates." alt="" coords="698,1250,865,1291"/>
-<area shape="rect" id="node22" href="$namespacefission__rate__module.html#a604945049b84968ca266f9c178a9cfa8" title="Initialize the fission reactions." alt="" coords="485,989,622,1030"/>
-<area shape="rect" id="node24" href="$namespacedetailed__balance.html#a950b42c1476c5e9a7aac95d656b3d4b1" title="Initialize everything for the inverse rates." alt="" coords="482,1418,625,1459"/>
-<area shape="rect" id="node25" href="$namespacenucstuff__class.html#af5e267ec7775ebe99e72b495e83b423d" title="Initialize nucstuff class." alt="" coords="1155,1286,1284,1327"/>
-<area shape="rect" id="node26" href="$namespacenuflux__class.html#a9484d93accf5ec49a5fa3c72398b4038" title="Initialize nuflux module." alt="" coords="495,639,611,681"/>
-<area shape="rect" id="node27" href="$namespacereaclib__rate__module.html#a20dab788693450354de363a2cfab39f8" title="Count and read reaclib reactions." alt="" coords="933,1637,1071,1678"/>
-<area shape="rect" id="node28" href="$namespacescreening__module.html#a1434d64cd9349146e3f54689f40b52fa" title="Initialize the screening module." alt="" coords="1144,1403,1295,1445"/>
-<area shape="rect" id="node29" href="$namespacetabulated__rate__module.html#aa6fa77aaf755f94e628d3b181298cb34" title="Initialize tabulated rates." alt="" coords="705,937,858,978"/>
-<area shape="rect" id="node30" href="$namespacetw__rate__module.html#abbdd50e533f6aa8fe22b8104e00bcbaa" title="Initialize theoretical weak rates." alt="" coords="472,1287,635,1329"/>
-<area shape="rect" id="node31" href="$namespaceformat__class.html#ad05fed84b69a6fe2c6cbbc8b15c2c3f7" title=" " alt="" coords="490,1353,617,1394"/>
-<area shape="rect" id="node32" href="$namespacealpha__decay__rate__module.html#ae1e0d4e4ede2093667854d26d059f8ed" title="Merge alpha decays into the larger rate array." alt="" coords="916,1754,1088,1795"/>
-<area shape="rect" id="node33" href="$namespacebeta__decay__rate__module.html#af354c04d43788a7a51f558ca226e9b4c" title="Merge external beta decays into the larger rate array." alt="" coords="1136,1586,1303,1627"/>
-<area shape="rect" id="node34" href="$namespacefission__rate__module.html#a9851acbfd92726190795ddea5e34b1ea" title="Merge fission rates with larger array." alt="" coords="930,377,1074,418"/>
-<area shape="rect" id="node35" href="$namespacedetailed__balance.html#a3365fc235470affbb8cde40f0252bb09" title="Delete and create new inverse rates." alt="" coords="921,442,1083,483"/>
-<area shape="rect" id="node36" href="$namespacenuflux__class.html#a2416ac9cbf6ec77470ede4b66dcfa142" title="Routine to merge neutrino rates into rrate array." alt="" coords="1152,866,1287,907"/>
-<area shape="rect" id="node37" href="$namespacereaclib__rate__module.html#ac2f58552dc460fe5d6ff0ed58b887c31" title="Merge the reaclib rates into a larger array." alt="" coords="1147,1221,1292,1262"/>
-<area shape="rect" id="node38" href="$namespacetabulated__rate__module.html#a6e21f1bdda08060aac76c0503a935514" title="Merge tabulated rates into larger rate array." alt="" coords="1139,537,1299,578"/>
-<area shape="rect" id="node39" href="$namespacetw__rate__module.html#a4d6d65076148eba68fa26254b615f35d" title="Merge theoretical weak rates into larger rate array." alt="" coords="1138,794,1301,835"/>
-<area shape="rect" id="node42" href="$namespacenetwork__init__module.html#a6fdb1e7cb024e4dafb72d61b83ef27ea" title="Print a debug file of the reaction." alt="" coords="483,770,624,811"/>
-<area shape="rect" id="node43" href="$namespacenetwork__init__module.html#a240c5b82d839908b42993f1c6da962a6" title="Print an overview of the reactions involved in the calculation." alt="" coords="483,705,624,746"/>
-<area shape="rect" id="node10" href="$namespacebenam__class.html#a95931751f9ab5819869210a561661790" title="Reads nuclear properties (name,a,n,z,spin,mass excess,partition functions) from file &#39;winvn&#39; and htpf..." alt="" coords="699,871,863,913"/>
-<area shape="rect" id="node13" href="$namespacebenam__class.html#a72485363e8459a51cc23724f0aa4291a" title="Read the general network information from a binary file." alt="" coords="696,1418,867,1459"/>
-<area shape="rect" id="node11" href="$namespacefile__handling__class.html#a01ba26324d7662cc0fb2e0eb306cd3e2" title="Close an external file." alt="" coords="937,711,1067,753"/>
-<area shape="rect" id="node12" href="$namespacefile__handling__class.html#aab870caaf9cbaaf635d537708efbf793" title="Same for reading (input file)" alt="" coords="937,1002,1067,1043"/>
-<area shape="rect" id="node16" href="$namespacenucstuff__class.html#aaa645672174ccc163425da5aa3872aef" title="Analyze a string and split it with delimiter &quot;;&quot;." alt="" coords="925,1301,1079,1342"/>
-<area shape="rect" id="node17" href="$namespacealpha__decay__rate__module.html#a465d9fb4de9b8fc427b3ed859caaec07" title="Count the amount of possible alpha decays." alt="" coords="695,1067,867,1109"/>
-<area shape="rect" id="node18" href="$namespacealpha__decay__rate__module.html#ada92dced3ed70981d06307cae945ff8e" title="Read the alpha decays." alt="" coords="695,1133,867,1174"/>
-<area shape="rect" id="node20" href="$namespacebeta__decay__rate__module.html#a4567284aa7abec0acf03d1855f1cdf77" title="Count the amount of external beta decays." alt="" coords="919,1183,1085,1225"/>
-<area shape="rect" id="node21" href="$namespacebeta__decay__rate__module.html#a8fa2850c2eabd35e3c4da8d86b013af8" title="Reads beta decays from a separate file." alt="" coords="1136,1521,1303,1562"/>
-<area shape="rect" id="node23" href="$namespacefission__rate__module.html#ad32a6a04e2414163ecffd8f083291673" title="Count the amount of fission rates." alt="" coords="711,1002,851,1043"/>
-<area shape="rect" id="node41" href="$namespacefile__handling__class.html#a3396a31619e5149278d09cdd614d3497" title="Shorthand for opening a new unformatted file for writing (output file)" alt="" coords="695,235,868,277"/>
+<area shape="rect" id="node1" title="Create a folder with binary files that contain all necessary reaction data." alt="" coords="5,368,147,409"/>
+<area shape="rect" id="node2" href="$namespacemergesort__module.html#a520c03568b0375fe21d0542857601415" title="Initialize the mergesort module and open files for debugging." alt="" coords="195,491,412,518"/>
+<area shape="rect" id="node7" href="$namespacenetwork__init__module.html#a00e15ede5004dd5dff28a7cc4d5d1541" title="Main initialising subroutine. calls reading subroutines and fills the reactionrate array." alt="" coords="233,1100,374,1141"/>
+<area shape="rect" id="node39" href="$namespacetw__rate__module.html#a9cccd46db1f1be3e5543d04ae2d6d0ff" title="Save the theoretical weak rates to a unformatted binary file." alt="" coords="460,347,647,388"/>
+<area shape="rect" id="node43" href="$namespacefission__rate__module.html#add77a8d632b5e21361062f5fcf5095f6" title="Save the fission data to a unformatted binary file." alt="" coords="229,361,378,417"/>
+<area shape="rect" id="node44" href="$namespacebenam__class.html#a62741f4cd06b3a90648a9bce8db6c52c" title="Save the general network information to a binary file." alt="" coords="229,5,377,47"/>
+<area shape="rect" id="node45" href="$namespacenuflux__class.html#a018b8a9dca8d3cf7be07a527c293dd5f" title="Write the reactions to a file in binary format." alt="" coords="203,71,404,112"/>
+<area shape="rect" id="node46" href="$namespaceparameter__class.html#aa1b376aa50d6520d5605e6068d4cb2c1" title="Output the parameter data to a binary file." alt="" coords="223,136,383,177"/>
+<area shape="rect" id="node47" href="$namespacereaclib__rate__module.html#aea05c0c87253750ad35edea12319e3b2" title="Save the complete rrate array to a binary file." alt="" coords="228,201,379,257"/>
+<area shape="rect" id="node48" href="$namespacetabulated__rate__module.html#a12208154a1f2a23378a688199447feed" title="Save the theoretical tabulated rates to a unformatted binary file." alt="" coords="221,281,386,337"/>
+<area shape="rect" id="node49" href="$namespaceparameter__class.html#a7a2c022aa08c1fda13b3004ddc562ee9" title="Output relevant parameters to a file in the prepared network path." alt="" coords="216,576,391,617"/>
+<area shape="rect" id="node50" href="$namespaceparameter__class.html#aa449273e581a87f3024c89b6ea02a48e" title="Declares values for the elements in unit_type." alt="" coords="231,1165,376,1207"/>
+<area shape="rect" id="node3" href="$namespacefile__handling__class.html#aeddf55e8478d6220dc04310665427c3a" title="Shorthand for opening a new file for writing (output file)" alt="" coords="716,645,847,687"/>
+<area shape="rect" id="node4" href="$namespacefile__handling__class.html#af02196bd5eaf70ecd5ab4cc650094d5e" title="Finds the next unused unit number." alt="" coords="1149,647,1279,688"/>
+<area shape="rect" id="node5" href="$namespaceerror__msg__class.html#a2453d3b7cb363115c046840baa1dfb75" title="Raise a exception with a given error message." alt="" coords="1345,1105,1497,1147"/>
+<area shape="rect" id="node6" href="$namespaceerror__msg__class.html#a7e065585cc806a5c264de1f088266498" title="Converts a given integer to a string." alt="" coords="1545,1105,1684,1147"/>
+<area shape="rect" id="node8" href="$namespacebenam__class.html#a24416cd85a568d6158099dbd08543e59" title="Returns Amin and Amax for each isotopic chain in minmax." alt="" coords="466,1133,641,1159"/>
+<area shape="rect" id="node9" href="$namespacebenam__class.html#ae8ad1000ee495505fa72a163562513c8" title="Reads nuclear properties (name,a,n,z,spin,mass excess,partition functions) from file &#39;winvn&#39; and htpf..." alt="" coords="467,915,639,956"/>
+<area shape="rect" id="node14" href="$namespaceerror__msg__class.html#a339dd5b38c125b6a04653762c94a91f2" title="Write data to the standard output (usually OUT)" alt="" coords="923,964,1075,1005"/>
+<area shape="rect" id="node15" href="$namespacealpha__decay__rate__module.html#a465140e0f980b5b6797446309429f9cc" title="Initialize alpha decay rates." alt="" coords="467,1184,639,1225"/>
+<area shape="rect" id="node19" href="$namespacebeta__decay__rate__module.html#a2bc3826e7e01e6efbe62e4f471d716b9" title="Initialize external beta decay rates." alt="" coords="698,1397,865,1439"/>
+<area shape="rect" id="node22" href="$namespacefission__rate__module.html#a604945049b84968ca266f9c178a9cfa8" title="Initialize the fission reactions." alt="" coords="931,1567,1068,1608"/>
+<area shape="rect" id="node23" href="$namespacedetailed__balance.html#a950b42c1476c5e9a7aac95d656b3d4b1" title="Initialize everything for the inverse rates." alt="" coords="482,1249,625,1291"/>
+<area shape="rect" id="node24" href="$namespacenucstuff__class.html#af5e267ec7775ebe99e72b495e83b423d" title="Initialize nucstuff class." alt="" coords="1149,1488,1279,1529"/>
+<area shape="rect" id="node25" href="$namespacenuflux__class.html#a9484d93accf5ec49a5fa3c72398b4038" title="Initialize nuflux module." alt="" coords="495,667,611,708"/>
+<area shape="rect" id="node26" href="$namespacereaclib__rate__module.html#a20dab788693450354de363a2cfab39f8" title="Count and read reaclib reactions." alt="" coords="930,1684,1069,1725"/>
+<area shape="rect" id="node27" href="$namespacescreening__module.html#a1434d64cd9349146e3f54689f40b52fa" title="Initialize the screening module." alt="" coords="1139,1717,1289,1759"/>
+<area shape="rect" id="node28" href="$namespacetabulated__rate__module.html#aa6fa77aaf755f94e628d3b181298cb34" title="Initialize tabulated rates." alt="" coords="705,1047,858,1088"/>
+<area shape="rect" id="node29" href="$namespacetw__rate__module.html#abbdd50e533f6aa8fe22b8104e00bcbaa" title="Initialize theoretical weak rates." alt="" coords="472,1315,635,1356"/>
+<area shape="rect" id="node30" href="$namespaceformat__class.html#ad05fed84b69a6fe2c6cbbc8b15c2c3f7" title=" " alt="" coords="490,1380,617,1421"/>
+<area shape="rect" id="node31" href="$namespacealpha__decay__rate__module.html#ae1e0d4e4ede2093667854d26d059f8ed" title="Merge alpha decays into the larger rate array." alt="" coords="695,1801,867,1843"/>
+<area shape="rect" id="node32" href="$namespacebeta__decay__rate__module.html#af354c04d43788a7a51f558ca226e9b4c" title="Merge external beta decays into the larger rate array." alt="" coords="1131,413,1297,455"/>
+<area shape="rect" id="node33" href="$namespacefission__rate__module.html#a24b1a6b88f2cf84706f664647638cbe2" title="Merge fission rates with larger array." alt="" coords="927,464,1071,505"/>
+<area shape="rect" id="node34" href="$namespacedetailed__balance.html#a3365fc235470affbb8cde40f0252bb09" title="Delete and create new inverse rates." alt="" coords="1133,1165,1295,1207"/>
+<area shape="rect" id="node35" href="$namespacenuflux__class.html#a2416ac9cbf6ec77470ede4b66dcfa142" title="Routine to merge neutrino rates into rrate array." alt="" coords="932,1449,1067,1491"/>
+<area shape="rect" id="node36" href="$namespacereaclib__rate__module.html#ac2f58552dc460fe5d6ff0ed58b887c31" title="Merge the reaclib rates into a larger array." alt="" coords="1141,581,1287,623"/>
+<area shape="rect" id="node37" href="$namespacetabulated__rate__module.html#a6e21f1bdda08060aac76c0503a935514" title="Merge tabulated rates into larger rate array." alt="" coords="1134,843,1294,884"/>
+<area shape="rect" id="node38" href="$namespacetw__rate__module.html#a4d6d65076148eba68fa26254b615f35d" title="Merge theoretical weak rates into larger rate array." alt="" coords="1133,1343,1295,1384"/>
+<area shape="rect" id="node41" href="$namespacenetwork__init__module.html#a6fdb1e7cb024e4dafb72d61b83ef27ea" title="Print a debug file of the reaction." alt="" coords="483,732,624,773"/>
+<area shape="rect" id="node42" href="$namespacenetwork__init__module.html#a240c5b82d839908b42993f1c6da962a6" title="Print an overview of the reactions involved in the calculation." alt="" coords="483,797,624,839"/>
+<area shape="rect" id="node10" href="$namespacebenam__class.html#a95931751f9ab5819869210a561661790" title="Reads nuclear properties (name,a,n,z,spin,mass excess,partition functions) from file &#39;winvn&#39; and htpf..." alt="" coords="699,929,863,971"/>
+<area shape="rect" id="node13" href="$namespacebenam__class.html#a72485363e8459a51cc23724f0aa4291a" title="Read the general network information from a binary file." alt="" coords="696,864,867,905"/>
+<area shape="rect" id="node11" href="$namespacefile__handling__class.html#a01ba26324d7662cc0fb2e0eb306cd3e2" title="Close an external file." alt="" coords="934,760,1065,801"/>
+<area shape="rect" id="node12" href="$namespacefile__handling__class.html#aab870caaf9cbaaf635d537708efbf793" title="Same for reading (input file)" alt="" coords="934,1105,1065,1147"/>
+<area shape="rect" id="node16" href="$namespacenucstuff__class.html#aaa645672174ccc163425da5aa3872aef" title="Analyze a string and split it with delimiter &quot;;&quot;." alt="" coords="922,1319,1077,1360"/>
+<area shape="rect" id="node17" href="$namespacealpha__decay__rate__module.html#a465d9fb4de9b8fc427b3ed859caaec07" title="Count the amount of possible alpha decays." alt="" coords="695,1112,867,1153"/>
+<area shape="rect" id="node18" href="$namespacealpha__decay__rate__module.html#ada92dced3ed70981d06307cae945ff8e" title="Read the alpha decays." alt="" coords="695,1229,867,1271"/>
+<area shape="rect" id="node20" href="$namespacebeta__decay__rate__module.html#a4567284aa7abec0acf03d1855f1cdf77" title="Count the amount of external beta decays." alt="" coords="916,1384,1083,1425"/>
+<area shape="rect" id="node21" href="$namespacebeta__decay__rate__module.html#a8fa2850c2eabd35e3c4da8d86b013af8" title="Reads beta decays from a separate file." alt="" coords="1131,1840,1297,1881"/>
+<area shape="rect" id="node40" href="$namespacefile__handling__class.html#a3396a31619e5149278d09cdd614d3497" title="Shorthand for opening a new unformatted file for writing (output file)" alt="" coords="695,237,868,279"/>
 </map>

@@ -107,7 +107,6 @@ $(document).ready(function(){initNavTree('parameters.html',''); initResizable();
 <li class="level1"><a href="#beta_decay_file">beta_decay_file</a></li>
 <li class="level1"><a href="#beta_decay_src_ignore">beta_decay_src_ignore</a></li>
 <li class="level1"><a href="#bfission_file">bfission_file</a></li>
-<li class="level1"><a href="#nfission_file">nfission_file</a></li>
 <li class="level1"><a href="#calc_nsep_energy">calc_nsep_energy</a></li>
 <li class="level1"><a href="#chem_pot_file">chem_pot_file</a></li>
 <li class="level1"><a href="#custom_snapshots">custom_snapshots</a></li>
@@ -124,7 +123,16 @@ $(document).ready(function(){initNavTree('parameters.html',''); initResizable();
 <li class="level1"><a href="#final_temp">final_temp</a></li>
 <li class="level1"><a href="#final_time">final_time</a></li>
 <li class="level1"><a href="#fissflag">fissflag</a></li>
-<li class="level1"><a href="#fission_rates">fission_rates</a></li>
+<li class="level1"><a href="#fission_format_beta_delayed">fission_format_beta_delayed</a></li>
+<li class="level1"><a href="#fission_format_n_induced">fission_format_n_induced</a></li>
+<li class="level1"><a href="#fission_format_spontaneous">fission_format_spontaneous</a></li>
+<li class="level1"><a href="#fission_frag_beta_delayed">fission_frag_beta_delayed</a></li>
+<li class="level1"><a href="#fission_frag_missing">fission_frag_missing</a></li>
+<li class="level1"><a href="#fission_frag_n_induced">fission_frag_n_induced</a></li>
+<li class="level1"><a href="#fission_frag_spontaneous">fission_frag_spontaneous</a></li>
+<li class="level1"><a href="#fission_rates_beta_delayed">fission_rates_beta_delayed</a></li>
+<li class="level1"><a href="#fission_rates_n_induced">fission_rates_n_induced</a></li>
+<li class="level1"><a href="#fission_rates_spontaneous">fission_rates_spontaneous</a></li>
 <li class="level1"><a href="#flow_every">flow_every</a></li>
 <li class="level1"><a href="#freeze_rate_temp">freeze_rate_temp</a></li>
 <li class="level1"><a href="#gear_cFactor">gear_cFactor</a></li>
@@ -164,6 +172,7 @@ $(document).ready(function(){initNavTree('parameters.html',''); initResizable();
 <li class="level1"><a href="#net_source">net_source</a></li>
 <li class="level1"><a href="#neutrino_loss_file">neutrino_loss_file</a></li>
 <li class="level1"><a href="#neutrino_mode">neutrino_mode</a></li>
+<li class="level1"><a href="#nfission_file">nfission_file</a></li>
 <li class="level1"><a href="#nr_maxcount">nr_maxcount</a></li>
 <li class="level1"><a href="#nr_mincount">nr_mincount</a></li>
 <li class="level1"><a href="#nr_tol">nr_tol</a></li>
@@ -191,12 +200,14 @@ $(document).ready(function(){initNavTree('parameters.html',''); initResizable();
 <li class="level1"><a href="#screening_mode">screening_mode</a></li>
 <li class="level1"><a href="#seed_file">seed_file</a></li>
 <li class="level1"><a href="#seed_format">seed_format</a></li>
+<li class="level1"><a href="#sfission_file">sfission_file</a></li>
 <li class="level1"><a href="#snapshot_every">snapshot_every</a></li>
 <li class="level1"><a href="#snapshot_file">snapshot_file</a></li>
 <li class="level1"><a href="#solver">solver</a></li>
 <li class="level1"><a href="#t_analytic">t_analytic</a></li>
 <li class="level1"><a href="#T9_analytic">T9_analytic</a></li>
 <li class="level1"><a href="#tabulated_rates_file">tabulated_rates_file</a></li>
+<li class="level1"><a href="#tabulated_temperature_file">tabulated_temperature_file</a></li>
 <li class="level1"><a href="#temp_reload_exp_weak_rates">temp_reload_exp_weak_rates</a></li>
 <li class="level1"><a href="#termination_criterion">termination_criterion</a></li>
 <li class="level1"><a href="#timescales_every">timescales_every</a></li>
@@ -286,31 +297,24 @@ beta_decay_src_ignore</h1>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="namespaceparameter__class.html#aa34f00d1a72a939ce93058bcf74cfe7e" title="File for reading in beta decays in different format.">parameter_class::beta_decay_file</a>, <a class="el" href="namespaceparameter__class.html#ac4b0cc5308d9709f497d11971a71dab9" title="switch for using different format for beta decays">parameter_class::use_beta_decay_file</a>, <a class="el" href="namespacebeta__decay__rate__module.html">beta_decay_rate_module</a>.</dd></dl>
 <h1><a class="anchor" id="bfission_file"></a>
 bfission_file</h1>
-<p>File that contains the fission fragment probabilities of \(\beta\)-delayed and spontaneous fission. An example is given by: </p><pre style="border:1px dashed grey; display: inline-block; background: #e8e8e8">
-   90 231      39
-   7.800592E-07   0.000   0.180
-    79  31  0.0137
-    80  32  0.0191
-    81  32  0.0199
-    82  32  0.0258
-   ...</pre><p> Here, the first line specifies the fissioning nucleus (atomic number, mass number) and the amount of fission fragments (39). The second line gives the rate of the reaction, the amount of incoming neutrons and the amount of outcoming neutrons. It is not used within WinNet. From the third line onwards, the fission fragments are specified (mass number, atomic number) together with their probability. The third column therefore adds up to one over all fragments. This file is read only when <a class="el" href="parameters.html#fissflag">fissflag</a> was set to four.</p>
-<dl class="section user"><dt>Example template line:</dt><dd><code>fission_file= "@WINNET@/data/BFISSION"</code></dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespaceparameter__class.html#a52e3721f291ca3ef1beb4c2b46771a25" title="Fission table for beta-delayed and spontaneous fission.">parameter_class::bfission_file</a>, <a class="el" href="namespacefission__rate__module.html">fission_rate_module</a>, <a class="el" href="parameters.html#nfission_file">nfission_file</a>, <a class="el" href="parameters.html#fissflag">fissflag</a></dd></dl>
-<h1><a class="anchor" id="nfission_file"></a>
-nfission_file</h1>
-<p>Fission fragment probabilities of neutron induced fission. For <a class="el" href="parameters.html#fissflag">fissflag</a> equal to 3, the file format has to be as given in <a href="https://journals.aps.org/prc/supplemental/10.1103/PhysRevC.101.054607">Mumpower et al. 2020</a>. An example is given by: </p><pre style="border:1px dashed grey; display: inline-block; background: #e8e8e8">
-     93  220  574
-     0 0 0
-     019  048  1.96607e-06
-     020  048  2.24289e-05
-     020  049  1.88041e-05
-     020  050  7.65944e-06
-     020  051  1.62040e-06
-     021  048  1.17847e-05
-     021  049  3.62928e-05
-   </pre><p> The first line contains the Z, A and number of the fissioning nucleus. The next line is a dummy line. Then followed by Z, A and the yield Y(Z,A). Note that \(\sum Y(Z,A) \cdot A \) should be the mass number of the parent nucleus. Furthermore, \(\sum Y(Z,A) = 2\).</p>
-<dl class="section user"><dt>Example template line:</dt><dd><code>nfission_file= "@WINNET@/data/NFISSION"</code></dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespaceparameter__class.html#a56b88af4455ccb3b73e4b8638b8a3b42" title="Fission table for neutron-induced fission.">parameter_class::nfission_file</a>, <a class="el" href="namespacefission__rate__module.html">fission_rate_module</a>, <a class="el" href="parameters.html#bfission_file">bfission_file</a>, <a class="el" href="parameters.html#fissflag">fissflag</a>, <a href="https://journals.aps.org/prc/supplemental/10.1103/PhysRevC.101.054607">Mumpower et al. 2020</a></dd></dl>
+<p>File that contains the fission fragment probabilities of \(\beta\)-delayed fission in case that <a class="el" href="parameters.html#fissflag">fissflag</a> is set to 4 and <a class="el" href="parameters.html#fission_frag_beta_delayed">fission_frag_beta_delayed</a> is set to 3. <br  />
+ An example is given by: </p><pre style="border:1px dashed grey; display: inline-block; background: #e8e8e8">
+    93  220  574
+   0 0 0
+   019  048  1.96607e-06
+   020  048  2.24289e-05
+   020  049  1.88041e-05
+   020  050  7.65944e-06
+   020  051  1.62040e-06
+   021  048  1.17847e-05
+   021  049  3.62928e-05
+   021  050  5.43032e-05
+   ...</pre><p> Here, the first line specifies the fissioning nucleus (atomic number, mass number) and the amount of fission fragments (39). The second line is a dummy line which is not used within WinNet. From the third line onwards, the fission fragments are specified (atomic number, mass number) together with their yield. The third column therefore adds up to one over all fragments. This file is read only when <a class="el" href="parameters.html#fissflag">fissflag</a> was set to four. Noe that the following must hold: </p><p class="formulaDsp">
+\[ \sum Y(Z,A)\cdot A = A_\text{fiss} \]
+</p>
+<p> with the mass number of the fissioning nucleus \( A_\text{fiss}\). Otherwise an error is raised.</p>
+<dl class="section user"><dt>Example template line:</dt><dd><code>bfission_file= "@WINNET@/data/BFISSION"</code></dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespaceparameter__class.html#a52e3721f291ca3ef1beb4c2b46771a25" title="Fission table for beta-delayed fission.">parameter_class::bfission_file</a>, <a class="el" href="namespacefission__rate__module.html">fission_rate_module</a>, <a class="el" href="parameters.html#nfission_file">nfission_file</a>, <a class="el" href="parameters.html#sfission_file">sfission_file</a>, <a class="el" href="parameters.html#fissflag">fissflag</a>, <a class="el" href="parameters.html#fission_frag_beta_delayed">fission_frag_beta_delayed</a></dd></dl>
 <h1><a class="anchor" id="calc_nsep_energy"></a>
 calc_nsep_energy</h1>
 <p>Calculate the average neutron separation energy in every time step. This can be useful to determine the path of the r-process. If this parameter is set to "yes", an additional column will appear in the file <em>mainout.dat</em>, showing the average neutron separation energy.</p>
@@ -410,39 +414,209 @@ fissflag</h1>
 <tr>
 <td>0 </td><td>No fission </td><td>- </td><td>- </td></tr>
 <tr>
-<td>1 </td><td>Panov </td><td><a class="el" href="parameters.html#fission_rates">fission_rates</a> </td><td><a href="https://ui.adsabs.harvard.edu/abs/2001NuPhA.688..587P/abstract">Panov et al. 2001</a> </td></tr>
+<td>1 </td><td>Panov </td><td><a class="el" href="parameters.html#fission_rates_beta_delayed">fission_rates_beta_delayed</a>, <a class="el" href="parameters.html#fission_format_beta_delayed">fission_format_beta_delayed</a>, <a class="el" href="parameters.html#fission_rates_n_induced">fission_rates_n_induced</a>, <a class="el" href="parameters.html#fission_format_n_induced">fission_format_n_induced</a>, <a class="el" href="parameters.html#fission_rates_spontaneous">fission_rates_spontaneous</a>, <a class="el" href="parameters.html#fission_format_spontaneous">fission_format_spontaneous</a> </td><td><a href="https://ui.adsabs.harvard.edu/abs/2001NuPhA.688..587P/abstract">Panov et al. 2001</a> </td></tr>
 <tr>
-<td>2 </td><td>Kodama-Takahashi </td><td><a class="el" href="parameters.html#fission_rates">fission_rates</a> </td><td><a href="https://ui.adsabs.harvard.edu/abs/1975NuPhA.239..489K/abstract">Kodama &amp; Takahashi 1975</a> </td></tr>
+<td>2 </td><td>Kodama-Takahashi </td><td><a class="el" href="parameters.html#fission_rates_beta_delayed">fission_rates_beta_delayed</a>, <a class="el" href="parameters.html#fission_format_beta_delayed">fission_format_beta_delayed</a>, <a class="el" href="parameters.html#fission_rates_n_induced">fission_rates_n_induced</a>, <a class="el" href="parameters.html#fission_format_n_induced">fission_format_n_induced</a>, <a class="el" href="parameters.html#fission_rates_spontaneous">fission_rates_spontaneous</a>, <a class="el" href="parameters.html#fission_format_spontaneous">fission_format_spontaneous</a> </td><td><a href="https://ui.adsabs.harvard.edu/abs/1975NuPhA.239..489K/abstract">Kodama &amp; Takahashi 1975</a> </td></tr>
 <tr>
-<td>3 </td><td>Mumpower &amp; Kodama-Takahashi </td><td><a class="el" href="parameters.html#fission_rates">fission_rates</a>, <a class="el" href="parameters.html#nfission_file">nfission_file</a> </td><td><a href="https://ui.adsabs.harvard.edu/abs/2020PhRvC.101e4607M/abstract">Mumpower et al. 2020</a>, <a href="https://ui.adsabs.harvard.edu/abs/1975NuPhA.239..489K/abstract">Kodama &amp; Takahashi 1975</a> </td></tr>
+<td>3 </td><td>Mumpower &amp; Kodama-Takahashi </td><td><a class="el" href="parameters.html#fission_rates_beta_delayed">fission_rates_beta_delayed</a>, <a class="el" href="parameters.html#fission_format_beta_delayed">fission_format_beta_delayed</a>, <a class="el" href="parameters.html#fission_rates_n_induced">fission_rates_n_induced</a>, <a class="el" href="parameters.html#fission_format_n_induced">fission_format_n_induced</a>, <a class="el" href="parameters.html#fission_rates_spontaneous">fission_rates_spontaneous</a>, <a class="el" href="parameters.html#fission_format_spontaneous">fission_format_spontaneous</a>, <a class="el" href="parameters.html#nfission_file">nfission_file</a> </td><td><a href="https://ui.adsabs.harvard.edu/abs/2020PhRvC.101e4607M/abstract">Mumpower et al. 2020</a>, <a href="https://ui.adsabs.harvard.edu/abs/1975NuPhA.239..489K/abstract">Kodama &amp; Takahashi 1975</a> </td></tr>
+<tr>
+<td>4 </td><td>Custom </td><td><a class="el" href="parameters.html#fission_rates_beta_delayed">fission_rates_beta_delayed</a>, <a class="el" href="parameters.html#fission_format_beta_delayed">fission_format_beta_delayed</a>, <a class="el" href="parameters.html#fission_rates_n_induced">fission_rates_n_induced</a>, <a class="el" href="parameters.html#fission_format_n_induced">fission_format_n_induced</a>, <a class="el" href="parameters.html#fission_rates_spontaneous">fission_rates_spontaneous</a>, <a class="el" href="parameters.html#fission_format_spontaneous">fission_format_spontaneous</a>, <a class="el" href="parameters.html#fission_frag_n_induced">fission_frag_n_induced</a>, <a class="el" href="parameters.html#fission_frag_spontaneous">fission_frag_spontaneous</a>, <a class="el" href="parameters.html#fission_frag_beta_delayed">fission_frag_beta_delayed</a> </td><td>- </td></tr>
 </table>
 <p>For fission flag 3, the fragments of <a href="https://ui.adsabs.harvard.edu/abs/2020PhRvC.101e4607M/abstract">Mumpower et al. 2020</a> are used for beta delayed and neutron induced fission. For spontaneous fission the fragments of <a href="https://ui.adsabs.harvard.edu/abs/1975NuPhA.239..489K/abstract">Kodama &amp; Takahashi 1975</a> are used. Also in case of a missing fragment distribution for the rate, the scheme relies on <a href="https://ui.adsabs.harvard.edu/abs/1975NuPhA.239..489K/abstract">Kodama &amp; Takahashi 1975</a>.</p>
 <dl class="section user"><dt>Example template line:</dt><dd><code>fissflag= 1</code> </dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespacefission__rate__module.html">fission_rate_module</a>, <a class="el" href="namespaceparameter__class.html#a2712ffb256d17f2971f60346fe008f97" title="defines type of fission fragment distribution used">parameter_class::fissflag</a>, <a class="el" href="parameters.html#bfission_file">bfission_file</a>, <a class="el" href="parameters.html#nfission_file">nfission_file</a>, <a class="el" href="parameters.html#fission_rates">fission_rates</a>, <a href="https://ui.adsabs.harvard.edu/abs/2001NuPhA.688..587P/abstract">Panov et al. 2001</a>, <a href="https://ui.adsabs.harvard.edu/abs/1975NuPhA.239..489K/abstract">Kodama &amp; Takahashi 1975</a>, <a href="https://ui.adsabs.harvard.edu/abs/2009arXiv0906.4193K/abstract">Kelic et al. 2009</a>, <a href="https://ui.adsabs.harvard.edu/abs/2020PhRvC.101e4607M/abstract">Mumpower et al. 2020</a></dd></dl>
-<h1><a class="anchor" id="fission_rates"></a>
-fission_rates</h1>
-<p>A file that contains fission rates. The temperature dependence of these rates is tabulated in the same format as the <a class="el" href="parameters.html#reaclib_file">reaclib_file</a>. The rates are also split into different chapters, but the amount of participants in the reaction is not the same as in the REACLIB format. Based on the number of reactants, spontaneous and \(\beta\)-delayed fission is assigned to REACLIB chapter 2, whereas neutron-induced fission is assigned to chapter 6. WinNet includes the possibility to change the fission fragment distribution that is given by several theoretical models (see <a class="el" href="parameters.html#fissflag">fissflag</a>). An example file looks like: </p><pre style="border:1px dashed grey; display: inline-block; background: #e8e8e8">...
-       th256                                 ms99w     0.00000E+00
-    1.988512E-02 0.000000E+00 0.000000E+00 0.000000E+00
-    0.000000E+00 0.000000E+00 0.000000E+00
-       th257                                 ms99w     0.00000E+00
-    -1.483947E+00 0.000000E+00 0.000000E+00 0.000000E+00
-    0.000000E+00 0.000000E+00 0.000000E+00
-    ...</pre><p>The source labels here are important to decide which kind of reaction it is. The translation is given in the table below. </p><a class="anchor" id="multi_row"></a>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespacefission__rate__module.html">fission_rate_module</a>, <a class="el" href="namespaceparameter__class.html#a2712ffb256d17f2971f60346fe008f97" title="defines type of fission fragment distribution used">parameter_class::fissflag</a>, <a class="el" href="parameters.html#bfission_file">bfission_file</a>, <a class="el" href="parameters.html#nfission_file">nfission_file</a>, <a class="el" href="parameters.html#fission_rates_beta_delayed">fission_rates_beta_delayed</a>, <a class="el" href="parameters.html#fission_format_beta_delayed">fission_format_beta_delayed</a>, <a class="el" href="parameters.html#fission_rates_n_induced">fission_rates_n_induced</a>, <a class="el" href="parameters.html#fission_format_n_induced">fission_format_n_induced</a>, <a class="el" href="parameters.html#fission_rates_spontaneous">fission_rates_spontaneous</a>, <a class="el" href="parameters.html#fission_format_spontaneous">fission_format_spontaneous</a>, <a href="https://ui.adsabs.harvard.edu/abs/2001NuPhA.688..587P/abstract">Panov et al. 2001</a>, <a href="https://ui.adsabs.harvard.edu/abs/1975NuPhA.239..489K/abstract">Kodama &amp; Takahashi 1975</a>, <a href="https://ui.adsabs.harvard.edu/abs/2009arXiv0906.4193K/abstract">Kelic et al. 2009</a>, <a href="https://ui.adsabs.harvard.edu/abs/2020PhRvC.101e4607M/abstract">Mumpower et al. 2020</a></dd></dl>
+<h1><a class="anchor" id="fission_format_beta_delayed"></a>
+fission_format_beta_delayed</h1>
+<p>Format of the \(\beta\)-delayed fission file that is specified in <a class="el" href="parameters.html#fission_rates_beta_delayed">fission_rates_beta_delayed</a>. Possible values are: </p><a class="anchor" id="multi_row"></a>
 <table class="doxtable">
 <caption></caption>
 <tr>
-<th>Label </th><th>Reaction type </th></tr>
+<th>format </th><th>Treatment <br  />
+ </th></tr>
 <tr>
-<td>"fiss" </td><td>Neutron induced fission </td></tr>
+<td>0 </td><td>No file is read <br  />
+ </td></tr>
 <tr>
-<td>"mp01", "ms99" </td><td>Beta delayed fission </td></tr>
+<td>1 </td><td>Fission reactions are read in Reaclib format. <br  />
+ </td></tr>
 <tr>
-<td>"sfis" </td><td>Spontaneous fission </td></tr>
+<td>2 </td><td>Fission reactions are read in half life format. <br  />
+ </td></tr>
+<tr>
+<td>3 </td><td>Fission reactions are read in probability format. </td></tr>
 </table>
-<dl class="section note"><dt>Note</dt><dd>Note that fission rates that are included in the Reaclib reaction rate file will be ignored. Furthermore, the Q-value of the reaction from this file will be ignored.</dd></dl>
-<dl class="section user"><dt>Example template line:</dt><dd><code>fission_rates= "@WINNET@/data/fissionrates_frdm"</code> </dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespacefission__rate__module.html">fission_rate_module</a>, <a class="el" href="namespaceparameter__class.html#a733834a6fc55462cb1a502f8004aca09" title="reaction library for fission rates (same format as reaclib_file)">parameter_class::fission_rates</a>, <a class="el" href="namespacefission__rate__module.html#a66a09d5b4e3a95b7c3ac9b70528ca482" title="Reads fission rates.">fission_rate_module::read_fission_rates</a></dd></dl>
+<p>An example entry in Reaclib format looks like: </p><pre style="border:1px dashed grey; display: inline-block; background: #e8e8e8">
+       th256                                 ms99w     0.00000E+00
+      1.988512E-02 0.000000E+00 0.000000E+00 0.000000E+00
+      0.000000E+00 0.000000E+00 0.000000E+00
+       th257                                 ms99w     0.00000E+00
+      -1.483947E+00 0.000000E+00 0.000000E+00 0.000000E+00
+      0.000000E+00 0.000000E+00 0.000000E+00
+    ...</pre><p>An example entry in half life format looks like: </p><pre style="border:1px dashed grey; display: inline-block; background: #e8e8e8">
+       th198    4.760787e-09    kh20
+       th199    2.808520e-08    kh20
+       th200    2.841403e-08    kh20
+    ...</pre><p>An example entry in probability format looks like: </p><pre style="border:1px dashed grey; display: inline-block; background: #e8e8e8">
+      pa291        mp18
+      0.000    0.008    0.000    0.015    0.000    0.018    0.000    0.025    0.000    0.003
+      pa292        mp18
+      0.000    0.001    0.002    0.000    0.004    0.000    0.006    0.000    0.018    0.000
+      pa293        mp18
+      0.239    0.001    0.000    0.009    0.000    0.010    0.000    0.014    0.000    0.009
+    ...</pre><p> Hereby the number of columns gives the probability for \(\beta\)-delayed neutrons before fissioning. This number of columns is variable, but has to be consistent throughout the file. Furthermore, when giving the rates in probability format, the half life that is given in the Reaclib for the decay is kept constant and the above given fraction is put into a fission reaction.</p>
+<dl class="section user"><dt>Example template line:</dt><dd><code>fission_format_beta_delayed= 1</code> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespacefission__rate__module.html">fission_rate_module</a>, <a class="el" href="namespaceparameter__class.html#aeaf83989467faf6987477b79cba46845" title="Format of beta-delayed fission rates (0: Off, 1: Reaclib, 2: Halflifes, 3: Probability)">parameter_class::fission_format_beta_delayed</a>, <a class="el" href="namespacefission__rate__module.html#a66a09d5b4e3a95b7c3ac9b70528ca482" title="Read the fission rates, splitted into different types of fission.">fission_rate_module::read_fission_rates</a>, <a class="el" href="parameters.html#fission_rates_beta_delayed">fission_rates_beta_delayed</a>, <a class="el" href="parameters.html#fission_format_n_induced">fission_format_n_induced</a>, <a class="el" href="parameters.html#fission_format_spontaneous">fission_format_spontaneous</a></dd></dl>
+<h1><a class="anchor" id="fission_format_n_induced"></a>
+fission_format_n_induced</h1>
+<p>Format of the \(\beta\)-delayed fission file that is specified in <a class="el" href="parameters.html#fission_rates_n_induced">fission_rates_n_induced</a>. Possible values are: </p><a class="anchor" id="multi_row"></a>
+<table class="doxtable">
+<caption></caption>
+<tr>
+<th>format </th><th>Treatment <br  />
+ </th></tr>
+<tr>
+<td>0 </td><td>No file is read <br  />
+ </td></tr>
+<tr>
+<td>1 </td><td>Fission reactions are read in Reaclib format. <br  />
+ </td></tr>
+</table>
+<p>An example entry in Reaclib format looks like: </p><pre style="border:1px dashed grey; display: inline-block; background: #e8e8e8">
+       th256                                 ms99w     0.00000E+00
+      1.988512E-02 0.000000E+00 0.000000E+00 0.000000E+00
+      0.000000E+00 0.000000E+00 0.000000E+00
+       th257                                 ms99w     0.00000E+00
+      -1.483947E+00 0.000000E+00 0.000000E+00 0.000000E+00
+      0.000000E+00 0.000000E+00 0.000000E+00
+    ...</pre><dl class="section user"><dt>Example template line:</dt><dd><code>fission_format_n_induced= 1</code> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespacefission__rate__module.html">fission_rate_module</a>, <a class="el" href="namespaceparameter__class.html#ae375b79f4d353d046ff2f91af25181f0" title="Format of neutron-induced fission rates (0: Off, 1: Reaclib)">parameter_class::fission_format_n_induced</a>, <a class="el" href="namespacefission__rate__module.html#a66a09d5b4e3a95b7c3ac9b70528ca482" title="Read the fission rates, splitted into different types of fission.">fission_rate_module::read_fission_rates</a>, <a class="el" href="parameters.html#fission_rates_n_induced">fission_rates_n_induced</a>, <a class="el" href="parameters.html#fission_format_beta_delayed">fission_format_beta_delayed</a>, <a class="el" href="parameters.html#fission_format_spontaneous">fission_format_spontaneous</a></dd></dl>
+<h1><a class="anchor" id="fission_format_spontaneous"></a>
+fission_format_spontaneous</h1>
+<p>Format of the spontaneous fission file that is specified in <a class="el" href="parameters.html#fission_rates_spontaneous">fission_rates_spontaneous</a>. Possible values are: </p><a class="anchor" id="multi_row"></a>
+<table class="doxtable">
+<caption></caption>
+<tr>
+<th>format </th><th>Treatment <br  />
+ </th></tr>
+<tr>
+<td>0 </td><td>No file is read <br  />
+ </td></tr>
+<tr>
+<td>1 </td><td>Fission reactions are read in Reaclib format. <br  />
+ </td></tr>
+<tr>
+<td>2 </td><td>Fission reactions are read in half life format. <br  />
+ </td></tr>
+</table>
+<p>An example entry in Reaclib format looks like: </p><pre style="border:1px dashed grey; display: inline-block; background: #e8e8e8">
+       th256                                 ms99w     0.00000E+00
+      1.988512E-02 0.000000E+00 0.000000E+00 0.000000E+00
+      0.000000E+00 0.000000E+00 0.000000E+00
+       th257                                 ms99w     0.00000E+00
+      -1.483947E+00 0.000000E+00 0.000000E+00 0.000000E+00
+      0.000000E+00 0.000000E+00 0.000000E+00
+    ...</pre><p>An example entry in half life format looks like: </p><pre style="border:1px dashed grey; display: inline-block; background: #e8e8e8">
+       th198    4.760787e-09    kh20
+       th199    2.808520e-08    kh20
+       th200    2.841403e-08    kh20
+    ...</pre><dl class="section user"><dt>Example template line:</dt><dd><code>fission_format_spontaneous= 1</code> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespacefission__rate__module.html">fission_rate_module</a>, <a class="el" href="namespaceparameter__class.html#a4b1ccbefd4bc581455b80afdaecb4aee" title="Format of spontaneous fission rates (0: Off, 1: Reaclib, 2: Halflifes)">parameter_class::fission_format_spontaneous</a>, <a class="el" href="namespacefission__rate__module.html#a66a09d5b4e3a95b7c3ac9b70528ca482" title="Read the fission rates, splitted into different types of fission.">fission_rate_module::read_fission_rates</a>, fission_rates_spontaenous, <a class="el" href="parameters.html#fission_format_n_induced">fission_format_n_induced</a>, <a class="el" href="parameters.html#fission_format_beta_delayed">fission_format_beta_delayed</a></dd></dl>
+<h1><a class="anchor" id="fission_frag_beta_delayed"></a>
+fission_frag_beta_delayed</h1>
+<p>Fragment distribution for beta-delayed fission in case <a class="el" href="parameters.html#fissflag">fissflag</a> was set to 4. Possible values are: </p><a class="anchor" id="multi_row"></a>
+<table class="doxtable">
+<caption></caption>
+<tr>
+<th>Value </th><th>Fission fragments </th><th>Necessary other parameter </th></tr>
+<tr>
+<td>1 </td><td><a href="https://ui.adsabs.harvard.edu/abs/2001NuPhA.688..587P/abstract">Panov et al. 2001</a> </td><td>- </td></tr>
+<tr>
+<td>2 </td><td><a href="https://ui.adsabs.harvard.edu/abs/1975NuPhA.239..489K/abstract">Kodama &amp; Takahashi 1975</a> </td><td>- <br  />
+ </td></tr>
+<tr>
+<td>3 </td><td>From file </td><td><a class="el" href="parameters.html#bfission_file">bfission_file</a> </td></tr>
+</table>
+<p>The default value is 1. In case <a class="el" href="parameters.html#fission_frag_beta_delayed">fission_frag_beta_delayed</a> is set to 3, one can specify the default fission fragment distribution with the parameter <a class="el" href="parameters.html#fission_frag_missing">fission_frag_missing</a> in case it was not found in the file.</p>
+<dl class="section user"><dt>Example template line:</dt><dd><code>fission_frag_beta_delayed= 1</code> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespacefission__rate__module.html">fission_rate_module</a>, <a class="el" href="namespaceparameter__class.html#aeabc3d6cf7eb89dfa4fc97710a06fab3" title="Fragment distribution of n-induced fission rates in case of custom fragments (fissflag=4)">parameter_class::fission_frag_n_induced</a>, <a class="el" href="parameters.html#fissflag">fissflag</a>, <a class="el" href="parameters.html#bfission_file">bfission_file</a>, <a class="el" href="parameters.html#fission_frag_missing">fission_frag_missing</a>, <a class="el" href="parameters.html#fission_frag_n_induced">fission_frag_n_induced</a>, <a class="el" href="parameters.html#fission_frag_spontaneous">fission_frag_spontaneous</a> <br  />
+</dd></dl>
+<h1><a class="anchor" id="fission_frag_missing"></a>
+fission_frag_missing</h1>
+<p>Fragment distribution in case <a class="el" href="parameters.html#fissflag">fissflag</a> was set to 4 and the specfied file (<a class="el" href="parameters.html#sfission_file">sfission_file</a>, <a class="el" href="parameters.html#bfission_file">bfission_file</a>, <a class="el" href="parameters.html#nfission_file">nfission_file</a>) was not containing the necessary fragments. Possible values are: </p><a class="anchor" id="multi_row"></a>
+<table class="doxtable">
+<caption></caption>
+<tr>
+<th>Value </th><th>Fission fragments <br  />
+ </th></tr>
+<tr>
+<td>0 </td><td>None, error is raised <br  />
+ </td></tr>
+<tr>
+<td>1 </td><td><a href="https://ui.adsabs.harvard.edu/abs/2001NuPhA.688..587P/abstract">Panov et al. 2001</a> <br  />
+ </td></tr>
+<tr>
+<td>2 </td><td><a href="https://ui.adsabs.harvard.edu/abs/1975NuPhA.239..489K/abstract">Kodama &amp; Takahashi 1975</a> <br  />
+ </td></tr>
+</table>
+<p>The default value is 0 and an error will be raised in case a fragment is missing.</p>
+<dl class="section user"><dt>Example template line:</dt><dd><code>fission_frag_spontaneous= 1</code> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespacefission__rate__module.html">fission_rate_module</a>, <a class="el" href="namespaceparameter__class.html#aeabc3d6cf7eb89dfa4fc97710a06fab3" title="Fragment distribution of n-induced fission rates in case of custom fragments (fissflag=4)">parameter_class::fission_frag_n_induced</a>, <a class="el" href="parameters.html#fissflag">fissflag</a>, <a class="el" href="parameters.html#sfission_file">sfission_file</a>, <a class="el" href="parameters.html#fission_frag_missing">fission_frag_missing</a>, <a class="el" href="parameters.html#fission_frag_n_induced">fission_frag_n_induced</a>, <a class="el" href="parameters.html#fission_frag_beta_delayed">fission_frag_beta_delayed</a>, <a class="el" href="parameters.html#fission_frag_spontaneous">fission_frag_spontaneous</a></dd></dl>
+<h1><a class="anchor" id="fission_frag_n_induced"></a>
+fission_frag_n_induced</h1>
+<p>Fragment distribution for neutron-induced fission in case <a class="el" href="parameters.html#fissflag">fissflag</a> was set to 4. Possible values are: </p><a class="anchor" id="multi_row"></a>
+<table class="doxtable">
+<caption></caption>
+<tr>
+<th>Value </th><th>Fission fragments </th><th>Necessary other parameter </th></tr>
+<tr>
+<td>1 </td><td><a href="https://ui.adsabs.harvard.edu/abs/2001NuPhA.688..587P/abstract">Panov et al. 2001</a> </td><td>- </td></tr>
+<tr>
+<td>2 </td><td><a href="https://ui.adsabs.harvard.edu/abs/1975NuPhA.239..489K/abstract">Kodama &amp; Takahashi 1975</a> </td><td>- <br  />
+ </td></tr>
+<tr>
+<td>3 </td><td>From file </td><td><a class="el" href="parameters.html#nfission_file">nfission_file</a> </td></tr>
+</table>
+<p>The default value is 1. In case <a class="el" href="parameters.html#fission_frag_n_induced">fission_frag_n_induced</a> is set to 3, one can specify the default fission fragment distribution with the parameter <a class="el" href="parameters.html#fission_frag_missing">fission_frag_missing</a> in case it was not found in the file.</p>
+<dl class="section user"><dt>Example template line:</dt><dd><code>fission_frag_n_induced= 1</code> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespacefission__rate__module.html">fission_rate_module</a>, <a class="el" href="namespaceparameter__class.html#aeabc3d6cf7eb89dfa4fc97710a06fab3" title="Fragment distribution of n-induced fission rates in case of custom fragments (fissflag=4)">parameter_class::fission_frag_n_induced</a>, <a class="el" href="parameters.html#fissflag">fissflag</a>, <a class="el" href="parameters.html#nfission_file">nfission_file</a>, <a class="el" href="parameters.html#fission_frag_missing">fission_frag_missing</a>, <a class="el" href="parameters.html#fission_frag_beta_delayed">fission_frag_beta_delayed</a>, <a class="el" href="parameters.html#fission_frag_spontaneous">fission_frag_spontaneous</a> <br  />
+</dd></dl>
+<h1><a class="anchor" id="fission_frag_spontaneous"></a>
+fission_frag_spontaneous</h1>
+<p>Fragment distribution for beta-delayed fission in case <a class="el" href="parameters.html#fissflag">fissflag</a> was set to 4. Possible values are: </p><a class="anchor" id="multi_row"></a>
+<table class="doxtable">
+<caption></caption>
+<tr>
+<th>Value </th><th>Fission fragments </th><th>Necessary other parameter </th></tr>
+<tr>
+<td>1 </td><td><a href="https://ui.adsabs.harvard.edu/abs/2001NuPhA.688..587P/abstract">Panov et al. 2001</a> </td><td>- </td></tr>
+<tr>
+<td>2 </td><td><a href="https://ui.adsabs.harvard.edu/abs/1975NuPhA.239..489K/abstract">Kodama &amp; Takahashi 1975</a> </td><td>- <br  />
+ </td></tr>
+<tr>
+<td>3 </td><td>From file </td><td><a class="el" href="parameters.html#sfission_file">sfission_file</a> </td></tr>
+</table>
+<p>The default value is 1. In case <a class="el" href="parameters.html#fission_frag_spontaneous">fission_frag_spontaneous</a> is set to 3, one can specify the default fission fragment distribution with the parameter <a class="el" href="parameters.html#fission_frag_missing">fission_frag_missing</a> in case it was not found in the file.</p>
+<dl class="section user"><dt>Example template line:</dt><dd><code>fission_frag_spontaneous= 1</code> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespacefission__rate__module.html">fission_rate_module</a>, <a class="el" href="namespaceparameter__class.html#aeabc3d6cf7eb89dfa4fc97710a06fab3" title="Fragment distribution of n-induced fission rates in case of custom fragments (fissflag=4)">parameter_class::fission_frag_n_induced</a>, <a class="el" href="parameters.html#fissflag">fissflag</a>, <a class="el" href="parameters.html#sfission_file">sfission_file</a>, <a class="el" href="parameters.html#fission_frag_missing">fission_frag_missing</a>, <a class="el" href="parameters.html#fission_frag_n_induced">fission_frag_n_induced</a>, <a class="el" href="parameters.html#fission_frag_beta_delayed">fission_frag_beta_delayed</a></dd></dl>
+<h1><a class="anchor" id="fission_rates_beta_delayed"></a>
+fission_rates_beta_delayed</h1>
+<p>A file that contains \(\beta\)-delayed fission rates. The format of this file can be specified by the parameter <a class="el" href="parameters.html#fission_format_beta_delayed">fission_format_beta_delayed</a>. This file is only read if <a class="el" href="parameters.html#fissflag">fissflag</a> and <a class="el" href="parameters.html#fission_rates_beta_delayed">fission_rates_beta_delayed</a> is larger than 0.</p>
+<dl class="section note"><dt>Note</dt><dd>The Q-value of the reaction from this file will be ignored.</dd></dl>
+<dl class="section user"><dt>Example template line:</dt><dd><code>fission_rates_beta_delayed= "@WINNET@/data/fissionrates_frdm_bdel"</code> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespacefission__rate__module.html">fission_rate_module</a>, <a class="el" href="namespaceparameter__class.html#acc86060638199b4c3eabe0a6d5209348" title="reaction library for beta delayed fission rates">parameter_class::fission_rates_beta_delayed</a>, <a class="el" href="namespacefission__rate__module.html#a66a09d5b4e3a95b7c3ac9b70528ca482" title="Read the fission rates, splitted into different types of fission.">fission_rate_module::read_fission_rates</a>, <a class="el" href="parameters.html#fission_format_beta_delayed">fission_format_beta_delayed</a>, <a class="el" href="parameters.html#fission_rates_n_induced">fission_rates_n_induced</a>, <a class="el" href="parameters.html#fission_rates_spontaneous">fission_rates_spontaneous</a></dd></dl>
+<h1><a class="anchor" id="fission_rates_n_induced"></a>
+fission_rates_n_induced</h1>
+<p>A file that contains n-induced fission rates. The format of this file can be specified by the parameter <a class="el" href="parameters.html#fission_format_n_induced">fission_format_n_induced</a>. This file is only read if <a class="el" href="parameters.html#fissflag">fissflag</a> and <a class="el" href="parameters.html#fission_rates_n_induced">fission_rates_n_induced</a> is larger than 0.</p>
+<dl class="section note"><dt>Note</dt><dd>The Q-value of the reaction from this file will be ignored.</dd></dl>
+<dl class="section user"><dt>Example template line:</dt><dd><code>fission_rates_n_induced= "@WINNET@/data/fissionrates_frdm_n_induced"</code> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespacefission__rate__module.html">fission_rate_module</a>, <a class="el" href="namespaceparameter__class.html#aa09882bc0bdd5997fd96a7c1145d98df" title="reaction library for neutron induced fission rates">parameter_class::fission_rates_n_induced</a>, <a class="el" href="namespacefission__rate__module.html#a66a09d5b4e3a95b7c3ac9b70528ca482" title="Read the fission rates, splitted into different types of fission.">fission_rate_module::read_fission_rates</a>, <a class="el" href="parameters.html#fission_format_n_induced">fission_format_n_induced</a>, <a class="el" href="parameters.html#fission_rates_beta_delayed">fission_rates_beta_delayed</a>, <a class="el" href="parameters.html#fission_rates_spontaneous">fission_rates_spontaneous</a> <br  />
+</dd></dl>
+<h1><a class="anchor" id="fission_rates_spontaneous"></a>
+fission_rates_spontaneous</h1>
+<p>A file that contains spontaneous fission rates. The format of this file can be specified by the parameter <a class="el" href="parameters.html#fission_format_spontaneous">fission_format_spontaneous</a>. This file is only read if <a class="el" href="parameters.html#fissflag">fissflag</a> and <a class="el" href="parameters.html#fission_format_spontaneous">fission_format_spontaneous</a> is larger than 0.</p>
+<dl class="section note"><dt>Note</dt><dd>The Q-value of the reaction from this file will be ignored.</dd></dl>
+<dl class="section user"><dt>Example template line:</dt><dd><code>fission_rates_spontaneous= "@WINNET@/data/fissionrates_frdm_spontaneous"</code> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespacefission__rate__module.html">fission_rate_module</a>, <a class="el" href="namespaceparameter__class.html#aee4130bb7bbea4bc03fe92be0bd454b1" title="reaction library for spontaneous fission rates">parameter_class::fission_rates_spontaneous</a>, <a class="el" href="namespacefission__rate__module.html#a66a09d5b4e3a95b7c3ac9b70528ca482" title="Read the fission rates, splitted into different types of fission.">fission_rate_module::read_fission_rates</a>, <a class="el" href="parameters.html#fission_format_spontaneous">fission_format_spontaneous</a>, <a class="el" href="parameters.html#fission_rates_n_induced">fission_rates_n_induced</a>, <a class="el" href="parameters.html#fission_rates_beta_delayed">fission_rates_beta_delayed</a></dd></dl>
 <h1><a class="anchor" id="flow_every"></a>
 flow_every</h1>
 <p>Outputs the nuclear flow that is calculated by: </p><p class="formulaDsp">
@@ -768,6 +942,21 @@ neutrino_mode</h1>
 <p>Flag to indicate if the neutrino quantities (i.e., luminosities and energies) should get read from a trajectory file or from an analytic expression. Possible values are "analytic" or "from_file".</p>
 <dl class="section user"><dt>Example template line:</dt><dd><code>neutrino_mode= "from_file"</code></dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="namespaceparameter__class.html#a37dd5d3ccfd1abaa9423769b28e2aa6a" title="Similar to trajectory mode.">parameter_class::neutrino_mode</a>, <a class="el" href="parameters.html#Le">Le</a>, <a class="el" href="parameters.html#Lebar">Lebar</a>, <a class="el" href="parameters.html#Enue">Enue</a>, <a class="el" href="parameters.html#Enuebar">Enuebar</a>, <a class="el" href="parameters.html#trajectory_format">trajectory_format</a></dd></dl>
+<h1><a class="anchor" id="nfission_file"></a>
+nfission_file</h1>
+<p>Fission fragment probabilities of neutron induced fission. For <a class="el" href="parameters.html#fissflag">fissflag</a> equal to 3 and 4, the file format has to be as given in <a href="https://journals.aps.org/prc/supplemental/10.1103/PhysRevC.101.054607">Mumpower et al. 2020</a>. An example is given by: </p><pre style="border:1px dashed grey; display: inline-block; background: #e8e8e8">
+     93  220  574
+     0 0 0
+     019  048  1.96607e-06
+     020  048  2.24289e-05
+     020  049  1.88041e-05
+     020  050  7.65944e-06
+     020  051  1.62040e-06
+     021  048  1.17847e-05
+     021  049  3.62928e-05
+   </pre><p> The first line contains the Z, A and number of the fissioning nucleus. The next line is a dummy line. Then followed by Z, A and the yield Y(Z,A). Note that \(\sum Y(Z,A) \cdot A \) should be the mass number of the parent nucleus. Furthermore, \(\sum Y(Z,A) = 2\).</p>
+<dl class="section user"><dt>Example template line:</dt><dd><code>nfission_file= "@WINNET@/data/NFISSION"</code></dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespaceparameter__class.html#a56b88af4455ccb3b73e4b8638b8a3b42" title="Fission table for neutron-induced fission.">parameter_class::nfission_file</a>, <a class="el" href="namespacefission__rate__module.html">fission_rate_module</a>, <a class="el" href="parameters.html#bfission_file">bfission_file</a>, <a class="el" href="parameters.html#sfission_file">sfission_file</a> <a class="el" href="parameters.html#fissflag">fissflag</a>, <a href="https://journals.aps.org/prc/supplemental/10.1103/PhysRevC.101.054607">Mumpower et al. 2020</a></dd></dl>
 <h1><a class="anchor" id="nr_maxcount"></a>
 nr_maxcount</h1>
 <p>Maximum amount of iterations within the Newton-Raphson algorithm. This parameter is only used in case that <a class="el" href="parameters.html#solver">solver</a> is set to 0. The default value is 3.</p>
@@ -1064,6 +1253,25 @@ seed_format</h1>
 <dl class="section note"><dt>Note</dt><dd>Excited states as often used for Al26 can only be specified with the "Name" column. In the reaclib they are usually indicated by Al-6 and Al*6.</dd></dl>
 <dl class="section user"><dt>Example template line:</dt><dd><code>seed_format = "A Z Y"</code> </dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="namespaceparameter__class.html#ae073f22271a25001e52541974ed68557" title="Seed format.">parameter_class::seed_format</a>, <a class="el" href="namespacereadini.html#af9d85f54a31ba3f861cce49a793bcfac" title="Reads in seed abundances from file parameter_class::seed_file.">readini::read_seed</a>, <a class="el" href="namespaceparameter__class.html#a22ace5d4669fe2a6d94d5c689f4b1b4e" title="name of file with initial seeds for trajectory run">parameter_class::seed_file</a>, <a class="el" href="parameters.html#seed_file">seed_file</a></dd></dl>
+<h1><a class="anchor" id="sfission_file"></a>
+sfission_file</h1>
+<p>File that contains the fission fragment probabilities of spontaneous fission in case that <a class="el" href="parameters.html#fissflag">fissflag</a> is set to 4 and <a class="el" href="parameters.html#fission_frag_spontaneous">fission_frag_spontaneous</a> is set to 3. An example is given by: </p><pre style="border:1px dashed grey; display: inline-block; background: #e8e8e8">
+    93  220  574
+   0 0 0
+   019  048  1.96607e-06
+   020  048  2.24289e-05
+   020  049  1.88041e-05
+   020  050  7.65944e-06
+   020  051  1.62040e-06
+   021  048  1.17847e-05
+   021  049  3.62928e-05
+   021  050  5.43032e-05
+   ...</pre><p> Here, the first line specifies the fissioning nucleus (atomic number, mass number) and the amount of fission fragments (39). The second line is a dummy line which is not used within WinNet. From the third line onwards, the fission fragments are specified (atomic number, mass number) together with their yield. The third column therefore adds up to one over all fragments. This file is read only when <a class="el" href="parameters.html#fissflag">fissflag</a> was set to four. Noe that the following must hold: </p><p class="formulaDsp">
+\[ \sum Y(Z,A)\cdot A = A_\text{fiss} \]
+</p>
+<p> with the mass number of the fissioning nucleus \( A_\text{fiss}\). Otherwise an error is raised.</p>
+<dl class="section user"><dt>Example template line:</dt><dd><code>sfission_file= "@WINNET@/data/SFISSION"</code></dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespaceparameter__class.html#af9074fe7fb231a3ab8e35ff59501bda2" title="Fission table for spontaneous fission.">parameter_class::sfission_file</a>, <a class="el" href="namespacefission__rate__module.html">fission_rate_module</a>, <a class="el" href="parameters.html#nfission_file">nfission_file</a>, <a class="el" href="parameters.html#bfission_file">bfission_file</a>, <a class="el" href="parameters.html#fissflag">fissflag</a>, <a class="el" href="parameters.html#fission_frag_spontaneous">fission_frag_spontaneous</a></dd></dl>
 <h1><a class="anchor" id="snapshot_every"></a>
 snapshot_every</h1>
 <p>Frequency of an output of all abundances. This output will be stored in the sub folder of the run <em>snaps/</em>. </p><pre style="border:1px dashed grey; display: inline-block; background: #e8e8e8">
@@ -1123,6 +1331,15 @@ tabulated_rates_file</h1>
 <dl class="section warning"><dt>Warning</dt><dd>When using this file, other reaction rates will get replaced!</dd></dl>
 <dl class="section user"><dt>Example template line:</dt><dd><code>tabulated_rates_file = tabl_rates.dat</code> </dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="parameters.html#use_tabulated_rates">use_tabulated_rates</a>, <a class="el" href="tabulated__rate__module_8f90.html">tabulated_rate_module.f90</a>, <a class="el" href="parameters.html#reaclib_file">reaclib_file</a></dd></dl>
+<h1><a class="anchor" id="tabulated_temperature_file"></a>
+tabulated_temperature_file</h1>
+<p>File with a temperature grid that is used for all tabulated rates. In case 'default' is given, the default temperature grid that is given by 30 points: 1.0d-4, 5.0d-4, 1.0d-3, 5.0d-3, 1.0d-2, 5.0d-2, 1.0d-1, 1.5d-1, 2.0d-1, 2.5d-1, 3.0d-1, 4.0d-1, 5.0d-1, 6.0d-1, 7.0d-1, 8.0d-1, 9.0d-1, 1.0d+0, 1.5d+0, 2.0d+0, 2.5d+0, 3.0d+0, 3.5d+0, 4.0d+0, 5.0d+0, 6.0d+0, 7.0d+0, 8.0d+0, 9.0d+0, 1.0d+1 GK is used. This parameter is only used in case <a class="el" href="parameters.html#use_tabulated_rates">use_tabulated_rates</a> is set to 'yes'. An example file could look like: </p><pre style="border:1px dashed grey; display: inline-block; background: #e8e8e8">
+   1d-3 1d-2 1d-1 1d0 2d0 3d0 4d0   
+<br  />
+
+   </pre><p> where each column contains a temperature in GK. Note that the tabulated rates given in <a class="el" href="parameters.html#tabulated_rates_file">tabulated_rates_file</a> must have the same number of entries.</p>
+<dl class="section user"><dt>Example template line:</dt><dd><code>tabulated_temperature_file = default</code> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="parameters.html#use_tabulated_rates">use_tabulated_rates</a>, <a class="el" href="tabulated__rate__module_8f90.html">tabulated_rate_module.f90</a>, <a class="el" href="parameters.html#tabulated_rates_file">tabulated_rates_file</a></dd></dl>
 <h1><a class="anchor" id="temp_reload_exp_weak_rates"></a>
 temp_reload_exp_weak_rates</h1>
 <p>The reaction rates are only valid above \(10^{-2}\) GK. Therefore the parameter <a class="el" href="parameters.html#temp_reload_exp_weak_rates">temp_reload_exp_weak_rates</a> specifies the temperature at which the rates are replaced with rates specified in the <a class="el" href="parameters.html#reaclib_file">reaclib_file</a>. This temperature is only important if <a class="el" href="parameters.html#iwformat">iwformat</a> is greater than 0.</p>
@@ -1195,16 +1412,25 @@ timestep_traj_limit</h1>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="namespaceparameter__class.html#ac52587cff12939e00f4abbd96ca313ae" title="Should the timestep be limited by the timestep of the trajectory.">parameter_class::timestep_traj_limit</a>, <a class="el" href="namespacetimestep__module.html#ae36b8b6019a18b81fd2c9efa7936b930" title="Restricting the previously selected timestep.">timestep_module::restrict_timestep</a></dd></dl>
 <h1><a class="anchor" id="top_engen_every"></a>
 top_engen_every</h1>
-<p>Integer parameter that specifies if top contributor to the nuclear energy generation should get printed to the file <em>toplist.dat</em> . An example of the file is given by: </p><div style="width:600px;overflow:scroll;padding:5px;
+<p>Integer parameter that specifies if top contributor to the nuclear energy generation should get printed to the file <em>toplist.dat</em> . An example of the file is given by: </p><div style="width:700px;overflow:scroll;padding:5px;
     background-color:#e8e8e8;scrollbar-base-color:#DEBB07;border:1px dashed grey;
     display: inline-block"> <pre>
-    Time [s], T [GK], Dens [g/ccm], List of 10 top contributing isotopes, List of 10 top negative contributing isotopes, Energy generation for the first 10 isotopes, Energy generation for the last 10 isotopes
-     0.00000E+00  1.09650E+01  8.70960E+12     n     n     n     n     n     n     n     n     n     n     n     n     n     n     n     n     n     n     n     n  0.00000E+00  0.00000E+00  0.00000E+00  0.00000E+00  0.00000E+00  0.00000E+00  0.00000E+00  0.00000E+00  0.00000E+00  0.00000E+00  0.00000E+00  0.00000E+00  0.00000E+00  0.00000E+00  0.00000E+00  0.00000E+00  0.00000E+00  0.00000E+00  0.00000E+00  0.00000E+00
-     2.00000E-12  1.09650E+01  8.70960E+12  ca72  ti80  ca73  cr86  fe92  ni99  ti79  ni98  ar66  ar67     n   v78  sc70  sc71  mn84  cu97  co90   v77  cu96   k65  8.59235E-11  7.89957E-11  6.38479E-11  1.59813E-11  1.14152E-11  1.11330E-11  9.77194E-12  6.04548E-12  5.18230E-12  4.59834E-12 -6.82466E-11 -3.86156E-11 -3.31344E-11 -2.91247E-11 -7.51819E-12 -5.44326E-12 -5.14437E-12 -4.22946E-12 -2.56968E-12 -2.20797E-12
-     6.00000E-12  1.09650E+01  8.70960E+12  ca72  ti80  ca73  cr86  fe92  ni99  ti79  ni98  ar66  ar67     n   v78  sc70  sc71  mn84  cu97  co90   v77  cu96   k65  1.71847E-10  1.57991E-10  1.27696E-10  3.19626E-11  2.28304E-11  2.22659E-11  1.95439E-11  1.20910E-11  1.03646E-11  9.19668E-12 -1.36501E-10 -7.72312E-11 -6.62695E-11 -5.82495E-11 -1.50364E-11 -1.08866E-11 -1.02888E-11 -8.45892E-12 -5.13959E-12 -4.41594E-12
-     1.40000E-11  1.09650E+01  8.70960E+12  ca72  ti80  ca73  cr86  fe92  ni99  ti79  ni98  ar66  ar67     n   v78  sc70  sc71  mn84  cu97  co90   v77  cu96   k65  3.43694E-10  3.15983E-10  2.55392E-10  6.39251E-11  4.56608E-11  4.45318E-11  3.90877E-11  2.41819E-11  2.07292E-11  1.83934E-11 -2.72993E-10 -1.54462E-10 -1.32541E-10 -1.16499E-10 -3.00729E-11 -2.17734E-11 -2.05778E-11 -1.69179E-11 -1.02801E-11 -8.83189E-12
-    ... </pre></div><dl class="section user"><dt>Example template line:</dt><dd><code>top_engen_every = 10</code> </dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespacenuclear__heating.html">nuclear_heating</a>, <a class="el" href="namespaceparameter__class.html#a9726e800737101ca170247fbef405e70" title="frequency of energy generators toplist">parameter_class::top_engen_every</a></dd></dl>
+#                               Top nuclear energy producers for each reaction given in erg/g/s                                                                                                                                                            
+#    Time[s]   Etot[erg/g/s]    Reaction_1                       Reaction_2                       Reaction_3                       Reaction_4                       Reaction_5                       Reaction_6                       Reaction_7           ...
+  1.1039E+00      0.0000E+00    he4 =&gt; t + n                     he4 =&gt; he3 + p                   p =&gt; n                           p =&gt; n                           c12 =&gt; n11 + n                   c12 =&gt; be11 + p                  c12 =&gt; b8 + he4      ...
+  1.1039E+00      1.0639E+20    n =&gt; p                           n =&gt; p                           p + p =&gt; d                       he6 =&gt; li6                       p + p =&gt; d                       b12 =&gt; c12                       li8 =&gt; he4 + he4     ...
+    ... </pre></div><p> This file lists the reactions contributing most to the generated energy (positively and negatively) as well as the value of the energy in erg/g/s. For this list, fission reactions are not considered. Additionally, the file lists the isotopes and energy of the most changing isotopes (positively and negatively). Note that in the above example, "n =&gt; p" can be a neutrino reaction, beta decay, or positron capture. The energy of the reactions are calculated, for the example of a two-body reaction, by </p><p class="formulaDsp">
+\[ \dot{E} = C \langle \sigma v \rangle \rho Y_1 Y_2 Q \]
+</p>
+<p> where C is the double counting factor, \( \langle \sigma v \rangle \) is the cross section of the reaction, \( \rho \) the density, Y the abundance, and Q is the energy released in the reaction. The energy released by isotope is calculated by </p><p class="formulaDsp">
+\[ \dot{E} = -M_\mathrm{exc} (Y_t-Y_\mathrm{t-1})/h \]
+</p>
+<p> with the mass excess \( M_\mathrm{exc} \), the abundance of the current time step \(Y_t\), the abundance \(Y_\mathrm{t-1}\), and the time step h.</p>
+<p>With python one can use the pandas package to read this file with the following lines: </p><pre class="fragment">import pandas as pd
+df = pd.read_csv("toplist.dat",sep="\s{2,}",skiprows=2,header=None)
+</pre><dl class="section note"><dt>Note</dt><dd>This output does not have an hdf5 version yet. </dd></dl>
+<dl class="section user"><dt>Example template line:</dt><dd><code>top_engen_every = 10</code> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespaceparameter__class.html#a9726e800737101ca170247fbef405e70" title="frequency of energy generators toplist">parameter_class::top_engen_every</a>, <a class="el" href="namespaceanalysis.html#ae41c665ccf9ea5f08f4d6bf96f6707bd" title=": Calculate the generated energy for each class of reactions separately.">analysis::calc_nuclear_heating</a></dd></dl>
 <h1><a class="anchor" id="track_nuclei_every"></a>
 track_nuclei_every</h1>
 <p>One can track the evolution of abundances of individual nuclei. If the parameter is larger than zero, a file called <em>tracked_nuclei.dat</em> will be created in the run folder. For this a path of a valid file must be given for the parameter <a class="el" href="parameters.html#track_nuclei_file">track_nuclei_file</a>. </p><pre style="border:1px dashed grey; display: inline-block; background: #e8e8e8">

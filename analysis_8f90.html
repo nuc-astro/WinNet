@@ -154,9 +154,9 @@ Functions/Subroutines</h2></td></tr>
 <tr class="memitem:a3fb59515fcf3f909977028a14f3d217f"><td class="memItemLeft" align="right" valign="top">subroutine, private&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceanalysis.html#a3fb59515fcf3f909977028a14f3d217f">analysis::calc_nseparation_energy</a> (Y)</td></tr>
 <tr class="memdesc:a3fb59515fcf3f909977028a14f3d217f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates average neutron separation energy.  <a href="namespaceanalysis.html#a3fb59515fcf3f909977028a14f3d217f">More...</a><br /></td></tr>
 <tr class="separator:a3fb59515fcf3f909977028a14f3d217f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aae3c3ad01ca12da0b8b68de4497deaae"><td class="memItemLeft" align="right" valign="top">subroutine, private&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceanalysis.html#aae3c3ad01ca12da0b8b68de4497deaae">analysis::calc_nuclear_heating</a> (hdf5_mode)</td></tr>
-<tr class="memdesc:aae3c3ad01ca12da0b8b68de4497deaae"><td class="mdescLeft">&#160;</td><td class="mdescRight">: Calculate the generated energy for each class of reactions separately.  <a href="namespaceanalysis.html#aae3c3ad01ca12da0b8b68de4497deaae">More...</a><br /></td></tr>
-<tr class="separator:aae3c3ad01ca12da0b8b68de4497deaae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae41c665ccf9ea5f08f4d6bf96f6707bd"><td class="memItemLeft" align="right" valign="top">subroutine, private&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceanalysis.html#ae41c665ccf9ea5f08f4d6bf96f6707bd">analysis::calc_nuclear_heating</a> (hdf5_mode, write_engen, write_toplist)</td></tr>
+<tr class="memdesc:ae41c665ccf9ea5f08f4d6bf96f6707bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">: Calculate the generated energy for each class of reactions separately.  <a href="namespaceanalysis.html#ae41c665ccf9ea5f08f4d6bf96f6707bd">More...</a><br /></td></tr>
+<tr class="separator:ae41c665ccf9ea5f08f4d6bf96f6707bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adf36f2fbda4987a45731b06a9a68b957"><td class="memItemLeft" align="right" valign="top">subroutine, private&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceanalysis.html#adf36f2fbda4987a45731b06a9a68b957">analysis::calc_av_timescales</a> (ctime, T9, Y, hdf5)</td></tr>
 <tr class="memdesc:adf36f2fbda4987a45731b06a9a68b957"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate average timescales of different classes of reactions.  <a href="namespaceanalysis.html#adf36f2fbda4987a45731b06a9a68b957">More...</a><br /></td></tr>
 <tr class="separator:adf36f2fbda4987a45731b06a9a68b957"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -187,6 +187,9 @@ Variables</h2></td></tr>
 <tr class="memitem:a9a951f99dd4f581c154594e59c10363d"><td class="memItemLeft" align="right" valign="top">integer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceanalysis.html#a9a951f99dd4f581c154594e59c10363d">analysis::track_unit</a></td></tr>
 <tr class="memdesc:a9a951f99dd4f581c154594e59c10363d"><td class="mdescLeft">&#160;</td><td class="mdescRight">file id for tracked nuclei  <a href="namespaceanalysis.html#a9a951f99dd4f581c154594e59c10363d">More...</a><br /></td></tr>
 <tr class="separator:a9a951f99dd4f581c154594e59c10363d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc5589a39b00ae3948224c3341f266ad"><td class="memItemLeft" align="right" valign="top">integer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceanalysis.html#acc5589a39b00ae3948224c3341f266ad">analysis::toplist_unit</a></td></tr>
+<tr class="memdesc:acc5589a39b00ae3948224c3341f266ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">file id for top nuclear energy contributors  <a href="namespaceanalysis.html#acc5589a39b00ae3948224c3341f266ad">More...</a><br /></td></tr>
+<tr class="separator:acc5589a39b00ae3948224c3341f266ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7df6f3f019643655185c3bad4bdf2598"><td class="memItemLeft" align="right" valign="top">integer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceanalysis.html#a7df6f3f019643655185c3bad4bdf2598">analysis::nu_loss_gain_unit</a></td></tr>
 <tr class="memdesc:a7df6f3f019643655185c3bad4bdf2598"><td class="mdescLeft">&#160;</td><td class="mdescRight">file id for neutrino loss/gain  <a href="namespaceanalysis.html#a7df6f3f019643655185c3bad4bdf2598">More...</a><br /></td></tr>
 <tr class="separator:a7df6f3f019643655185c3bad4bdf2598"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -224,6 +227,9 @@ Variables</h2></td></tr>
 <tr class="memitem:a3aaa9bca7f33f844ee3c3c18b4a31cfd"><td class="memItemLeft" align="right" valign="top">integer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceanalysis.html#a3aaa9bca7f33f844ee3c3c18b4a31cfd">analysis::snapshot_amount</a></td></tr>
 <tr class="memdesc:a3aaa9bca7f33f844ee3c3c18b4a31cfd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Amount of custom snapshots.  <a href="namespaceanalysis.html#a3aaa9bca7f33f844ee3c3c18b4a31cfd">More...</a><br /></td></tr>
 <tr class="separator:a3aaa9bca7f33f844ee3c3c18b4a31cfd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a28fb74a5cacb9f9d06b3c28838e85f5f"><td class="memItemLeft" align="right" valign="top">integer, parameter&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceanalysis.html#a28fb74a5cacb9f9d06b3c28838e85f5f">analysis::toplist_amount</a> =10</td></tr>
+<tr class="memdesc:a28fb74a5cacb9f9d06b3c28838e85f5f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Amount of reactions in the toplist.  <a href="namespaceanalysis.html#a28fb74a5cacb9f9d06b3c28838e85f5f">More...</a><br /></td></tr>
+<tr class="separator:a28fb74a5cacb9f9d06b3c28838e85f5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Module <a class="el" href="namespaceanalysis.html">analysis</a> with various analysis subroutines. </p>

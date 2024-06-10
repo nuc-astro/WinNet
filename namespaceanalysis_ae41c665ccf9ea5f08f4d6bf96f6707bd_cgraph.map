@@ -1,0 +1,17 @@
+<map id="analysis::calc_nuclear_heating" name="analysis::calc_nuclear_heating">
+<area shape="rect" id="node1" title=": Calculate the generated energy for each class of reactions separately." alt="" coords="5,221,153,263"/>
+<area shape="rect" id="node2" href="$chem__pot_8f90.html#a6e7fb350a916bae49d8520394fca6414" title="Given a temperature temp [K], density den [g/cm**3], and a composition characterized by y_e,..." alt="" coords="241,79,313,106"/>
+<area shape="rect" id="node8" href="$namespacehdf5__module.html#a555dbec659b1990a928f3f428aecf7ee" title="Subroutine to write the energy generation per reaction type." alt="" coords="207,133,347,175"/>
+<area shape="rect" id="node9" href="$namespacehdf5__module.html#a5957d49b523e5a49afb2018c4018b496" title="Write energy generations and time into the hdf5 file." alt="" coords="428,191,559,232"/>
+<area shape="rect" id="node12" href="$namespacenucstuff__class.html#a7f6b5ddec08f9564638a58091e6940d7" title="Calculates partition function." alt="" coords="208,251,345,292"/>
+<area shape="rect" id="node13" href="$namespacemergesort__module.html#abba3ce32dcc183025b2fdefc47abf5e2" title="Quicksort of array." alt="" coords="635,319,823,346"/>
+<area shape="rect" id="node14" href="$namespacebenam__class.html#a2e85786a53d55231776ae950b7b27953" title="Return a string to represent a given reaction." alt="" coords="201,368,352,409"/>
+<area shape="rect" id="node3" href="$namespaceerror__msg__class.html#a5bc9f3b670b725cc43276934b867d801" title="Converts a given real to a string with format &quot;(1pE10.2)&quot;." alt="" coords="419,5,568,47"/>
+<area shape="rect" id="node4" href="$namespacefile__handling__class.html#aab870caaf9cbaaf635d537708efbf793" title="Same for reading (input file)" alt="" coords="428,71,559,112"/>
+<area shape="rect" id="node6" href="$namespaceerror__msg__class.html#a2453d3b7cb363115c046840baa1dfb75" title="Raise a exception with a given error message." alt="" coords="871,159,1023,200"/>
+<area shape="rect" id="node5" href="$namespacefile__handling__class.html#af02196bd5eaf70ecd5ab4cc650094d5e" title="Finds the next unused unit number." alt="" coords="663,20,794,61"/>
+<area shape="rect" id="node7" href="$namespaceerror__msg__class.html#a7e065585cc806a5c264de1f088266498" title="Converts a given integer to a string." alt="" coords="1071,220,1209,261"/>
+<area shape="rect" id="node10" href="$namespacehdf5__module.html#a28a7b037320b89de7c8ab611e5f720d0" title="Extend a previously created 1D &#45; dataset." alt="" coords="659,188,799,229"/>
+<area shape="rect" id="node11" href="$namespacehdf5__module.html#a838e42f575c00ce846c2510cd035ac6a" title="Extend the Y dataset for the net timestep." alt="" coords="659,253,799,295"/>
+<area shape="rect" id="node15" href="$namespacebenam__class.html#afd880df70f94c289b6bda0647f4494e3" title="Getter of net_names, translating indices to a nucleus name." alt="" coords="400,375,587,402"/>
+</map>

@@ -1,8 +1,11 @@
 <map id="fission_rate_module::count_fission_rates" name="fission_rate_module::count_fission_rates">
-<area shape="rect" id="node1" title="Count the amount of fission rates." alt="" coords="5,27,145,69"/>
-<area shape="rect" id="node2" href="$namespacebenam__class.html#ad20c821347dd5f7c08dff59c98e69657" title="Returns the index number of isotope &#39;name&#39;." alt="" coords="193,5,337,32"/>
-<area shape="rect" id="node3" href="$namespacefile__handling__class.html#aab870caaf9cbaaf635d537708efbf793" title="Same for reading (input file)" alt="" coords="200,57,331,98"/>
-<area shape="rect" id="node4" href="$namespacefile__handling__class.html#af02196bd5eaf70ecd5ab4cc650094d5e" title="Finds the next unused unit number." alt="" coords="385,27,516,69"/>
-<area shape="rect" id="node5" href="$namespaceerror__msg__class.html#a2453d3b7cb363115c046840baa1dfb75" title="Raise a exception with a given error message." alt="" coords="564,57,716,98"/>
-<area shape="rect" id="node6" href="$namespaceerror__msg__class.html#a7e065585cc806a5c264de1f088266498" title="Converts a given integer to a string." alt="" coords="764,57,903,98"/>
+<area shape="rect" id="node1" title="Count the amount of fission rates." alt="" coords="5,118,145,159"/>
+<area shape="rect" id="node2" href="$namespacefission__rate__module.html#a2dbd5728daa5fdbff9298bcffefddef0" title=" " alt="" coords="193,30,333,86"/>
+<area shape="rect" id="node6" href="$namespaceerror__msg__class.html#a2453d3b7cb363115c046840baa1dfb75" title="Raise a exception with a given error message." alt="" coords="752,139,904,180"/>
+<area shape="rect" id="node7" href="$namespaceerror__msg__class.html#a7e065585cc806a5c264de1f088266498" title="Converts a given integer to a string." alt="" coords="952,202,1091,243"/>
+<area shape="rect" id="node8" href="$namespacefission__rate__module.html#a0a751f5633cad35f24663f97245307e5" title=" " alt="" coords="193,190,333,246"/>
+<area shape="rect" id="node9" href="$namespacefission__rate__module.html#a38fd7f41190a7ea401edbc0a653ac34b" title="Count the amount of fission rates in reaclib format." alt="" coords="193,110,333,166"/>
+<area shape="rect" id="node3" href="$namespacebenam__class.html#ad20c821347dd5f7c08dff59c98e69657" title="Returns the index number of isotope &#39;name&#39;." alt="" coords="381,150,525,177"/>
+<area shape="rect" id="node4" href="$namespacefile__handling__class.html#aab870caaf9cbaaf635d537708efbf793" title="Same for reading (input file)" alt="" coords="388,84,519,126"/>
+<area shape="rect" id="node5" href="$namespacefile__handling__class.html#af02196bd5eaf70ecd5ab4cc650094d5e" title="Finds the next unused unit number." alt="" coords="573,139,704,180"/>
 </map>

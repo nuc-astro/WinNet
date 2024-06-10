@@ -105,7 +105,10 @@ $(document).ready(function(){initNavTree('input_files.html',''); initResizable()
 <li class="level2"><a href="#chemtable">chem_table.dat</a></li>
 <li class="level2"><a href="#htpf">datafile2.txt</a></li>
 <li class="level2"><a href="#fissmumpower">FISS_Mumpower</a></li>
-<li class="level2"><a href="#fissrates">fissionrates_frdm</a></li>
+<li class="level2"><a href="#fissrates_bdel_mp22">fissionrates_beta_delayed_mp22</a></li>
+<li class="level2"><a href="#fissrates_bdel_pa05">fissionrates_beta_delayed_pa05</a></li>
+<li class="level2"><a href="#fissrates_spont">fissionrates_spontaneous</a></li>
+<li class="level2"><a href="#fissrates_nind">fissionrates_n_induced</a></li>
 <li class="level2"><a href="#sn">frdm_sn.dat</a></li>
 <li class="level2"><a href="#stables">stable_isotopes.txt</a></li>
 <li class="level2"><a href="#neunucleons">neunucleons.dat</a></li>
@@ -188,12 +191,33 @@ FISS_Mumpower</h2>
 <dl class="section user"><dt>Relevant parameters</dt><dd><a class="el" href="parameters.html#fissflag">fissflag</a> , <a class="el" href="parameters.html#nfission_file">nfission_file</a> </dd></dl>
 <dl class="section user"><dt>Literature</dt><dd><a href="https://ui.adsabs.harvard.edu/abs/2020PhRvC.101e4607M/abstract">Mumpower et al. 2020</a></dd></dl>
 <hr  />
-<h2><a class="anchor" id="fissrates"></a>
-fissionrates_frdm</h2>
-<dl class="section user"><dt>Contains:</dt><dd>Fission rates for the FRDM mass model in Reaclib file format. Neutron-induced fission is given in <a href="https://ui.adsabs.harvard.edu/abs/2010A%26A...513A..61P/abstract">Panov et al. 2010</a>, beta-delayed fission in <a href="https://ui.adsabs.harvard.edu/abs/2005NuPhA.747..633P/abstract">Panov et al. 2005</a>, and spontaneous fission was calculated using the semi-empirical formula given in <a href="https://ui.adsabs.harvard.edu/abs/2020NuPhA100221958K/abstract">Khuyagbaatar 2020</a> with the fission barriers of <a href="https://journals.aps.org/prc/supplemental/10.1103/PhysRevC.91.024310">Moeller et al. 2015</a>.</dd></dl>
-<dl class="section user"><dt>Relevant parameters</dt><dd><a class="el" href="parameters.html#fissflag">fissflag</a> , <a class="el" href="parameters.html#fission_rates">fission_rates</a> </dd></dl>
-<dl class="section user"><dt>Literature</dt><dd><a href="https://ui.adsabs.harvard.edu/abs/2005NuPhA.747..633P/abstract">Panov et al. 2005</a>, <a href="https://ui.adsabs.harvard.edu/abs/2010A%26A...513A..61P/abstract">Panov et al. 2010</a> <a href="https://journals.aps.org/prc/supplemental/10.1103/PhysRevC.91.024310">Moeller et al. 2015</a> <a href="https://ui.adsabs.harvard.edu/abs/2020NuPhA100221958K/abstract">Khuyagbaatar 2020</a> </dd></dl>
+<h2><a class="anchor" id="fissrates_bdel_mp22"></a>
+fissionrates_beta_delayed_mp22</h2>
+<dl class="section user"><dt>Contains:</dt><dd>Fission rates of beta-delayed fission as given in <a href="https://ui.adsabs.harvard.edu/abs/2022PhRvC.106f5805M/abstract">Mumpower et al. 2022</a> for the FRLDM fission barriers given in <a href="https://journals.aps.org/prc/supplemental/10.1103/PhysRevC.91.024310">Moeller et al. 2015</a>. The rates are given in probabilities of the total beta decay where each column represents one channel of decay (i.e., P0n, P1n, ...).</dd></dl>
+<dl class="section user"><dt>Relevant parameters</dt><dd><a class="el" href="parameters.html#fissflag">fissflag</a> , <a class="el" href="parameters.html#fission_rates_beta_delayed">fission_rates_beta_delayed</a>, <a class="el" href="parameters.html#fission_format_beta_delayed">fission_format_beta_delayed</a> </dd></dl>
+<dl class="section user"><dt>Literature</dt><dd><a href="https://ui.adsabs.harvard.edu/abs/2022PhRvC.106f5805M/abstract">Mumpower et al. 2022</a>, <a href="https://journals.aps.org/prc/supplemental/10.1103/PhysRevC.106.065805">Manuscript supplemental</a> </dd></dl>
+<dl class="section user"><dt>Useful scripts</dt><dd><a class="el" href="create__mumpower__bdf__file_8py.html">create_mumpower_bdf_file.py</a></dd></dl>
+<hr  />
+<h2><a class="anchor" id="fissrates_bdel_pa05"></a>
+fissionrates_beta_delayed_pa05</h2>
+<dl class="section user"><dt>Contains:</dt><dd>Fission rates of beta-delayed fission as given in <a href="https://ui.adsabs.harvard.edu/abs/2005NuPhA.747..633P/abstract">Panov et al. 2005</a> for the Thomas-Fermi fission barriers given in <a href="https://ui.adsabs.harvard.edu/abs/1999PhRvC..60a4606M/abstract">Myers &amp; Swiatecki 1999</a>. The rates are given in probabilities of the total beta decay.</dd></dl>
+<dl class="section user"><dt>Relevant parameters</dt><dd><a class="el" href="parameters.html#fissflag">fissflag</a>, <a class="el" href="parameters.html#fission_rates_beta_delayed">fission_rates_beta_delayed</a>, <a class="el" href="parameters.html#fission_format_beta_delayed">fission_format_beta_delayed</a> </dd></dl>
+<dl class="section user"><dt>Literature</dt><dd><a href="https://ui.adsabs.harvard.edu/abs/2005NuPhA.747..633P/abstract">Panov et al. 2005</a></dd></dl>
+<hr  />
+<h2><a class="anchor" id="fissrates_spont"></a>
+fissionrates_spontaneous</h2>
+<dl class="section user"><dt>Contains:</dt><dd></dd></dl>
+<p>Fission rates of spontaneous fission which were calculated using the semi-empirical formula given in <a href="https://ui.adsabs.harvard.edu/abs/2020NuPhA100221958K/abstract">Khuyagbaatar 2020</a> with the fission barriers of <a href="https://journals.aps.org/prc/supplemental/10.1103/PhysRevC.91.024310">Moeller et al. 2015</a>.</p>
+<dl class="section user"><dt>Relevant parameters</dt><dd><a class="el" href="parameters.html#fissflag">fissflag</a>, <a class="el" href="parameters.html#fission_rates_spontaneous">fission_rates_spontaneous</a>, <a class="el" href="parameters.html#fission_format_spontaneous">fission_format_spontaneous</a> </dd></dl>
+<dl class="section user"><dt>Literature</dt><dd><a href="https://ui.adsabs.harvard.edu/abs/2020NuPhA100221958K/abstract">Khuyagbaatar 2020</a> </dd></dl>
 <dl class="section user"><dt>Useful scripts</dt><dd><a class="el" href="create__spontaneous__fission__file_8py.html">create_spontaneous_fission_file.py</a></dd></dl>
+<hr  />
+<h2><a class="anchor" id="fissrates_nind"></a>
+fissionrates_n_induced</h2>
+<dl class="section user"><dt>Contains:</dt><dd></dd></dl>
+<p>Fission rates of neutron induced fission as given in <a href="https://ui.adsabs.harvard.edu/abs/2010A%26A...513A..61P/abstract">Panov et al. 2010</a> for the FRDM mass model.</p>
+<dl class="section user"><dt>Relevant parameters</dt><dd><a class="el" href="parameters.html#fissflag">fissflag</a>, <a class="el" href="parameters.html#fission_rates_n_induced">fission_rates_n_induced</a>, <a class="el" href="parameters.html#fission_format_n_induced">fission_format_n_induced</a> </dd></dl>
+<dl class="section user"><dt>Literature</dt><dd><a href="https://ui.adsabs.harvard.edu/abs/2010A%26A...513A..61P/abstract">Panov et al. 2010</a>, <a href="https://vizier.cds.unistra.fr/viz-bin/VizieR-3?-source=J/A%2bA/513/A61/fitting">Vizier database</a></dd></dl>
 <hr  />
 <h2><a class="anchor" id="sn"></a>
 frdm_sn.dat</h2>
