@@ -549,6 +549,7 @@ contains
             deallocate(rrate,stat=alloc_stat)
             if ( alloc_stat /= 0) call raise_exception('Deallocation of "rrate" failed.',&
                                                        "modify_halflifes",190002)
+
             allocate(rrate(new_rrate_length),stat=alloc_stat)
             if ( alloc_stat /= 0) call raise_exception('Allocation of "rrate" failed.',&
                                                        "modify_halflifes",190001)
@@ -562,7 +563,7 @@ contains
     end if
 
     ! Make the correct lambdas in the fission array
-    do i=1,nfiss_in
+    do i=1,size(fissrate_in)
         if (fissrate_in(i)%reac_type.eq.rrt_bf) then
             ! Beta-delayed fission
             parent_idx = fissrate_in(i)%fissnuc_index
@@ -571,10 +572,11 @@ contains
             if (lambdas(parent_idx) .eq. 0d0) then
                 ! Remove the rate, the parent is not beta-decaying
                 fissrate_mask(i) = .False.
+            else
+                ! Fissrate
+                fissrate_in(i)%param(:) = 0d0
+                fissrate_in(i)%param(1) = dlog(Px * lambdas(parent_idx))
             end if
-            ! Fissrate
-            fissrate_in(i)%param(:) = 0d0
-            fissrate_in(i)%param(1) = dlog(Px * lambdas(parent_idx))
         end if
     end do
 
@@ -590,8 +592,32 @@ contains
         allocate(fissrate_tmp(new_nfiss_in),stat=alloc_stat)
         if ( alloc_stat /= 0) call raise_exception('Allocation of "fissrate_tmp" failed.',&
                                                    "modify_halflifes",190001)
+        j=1
+        do i=1,nfiss_in
+            if (fissrate_mask(i)) then
+                ! Allocate all the necessary stuff in fissrate_tmp
+                allocate(fissrate_tmp(j)%fissparts(fissrate_in(i)%dimens),stat=alloc_stat)
+                if ( alloc_stat /= 0) call raise_exception('Allocation of "fissrate_tmp(j)%fissparts" failed.',&
+                                                           "modify_halflifes",190001)
+                allocate(fissrate_tmp(j)%cscf_ind(fissrate_in(i)%dimens,fissrate_in(i)%dimens),stat=alloc_stat)
+                if ( alloc_stat /= 0) call raise_exception('Allocation of "fissrate_tmp(j)%cscf_ind" failed.',&
+                                                           "modify_halflifes",190001)
+                allocate(fissrate_tmp(j)%q_value(fissrate_in(i)%channels),stat=alloc_stat)
+                if ( alloc_stat /= 0) call raise_exception('Allocation of "fissrate_tmp(j)%q_value" failed.',&
+                                                           "modify_halflifes",190001)
+                allocate(fissrate_tmp(j)%channelprob(fissrate_in(i)%channels),stat=alloc_stat)
+                if ( alloc_stat /= 0) call raise_exception('Allocation of "fissrate_tmp(j)%channelprob" failed.',&
+                                                           "modify_halflifes",190001)
+                allocate(fissrate_tmp(j)%ch_amount(fissrate_in(i)%dimens),stat=alloc_stat)
+                if ( alloc_stat /= 0) call raise_exception('Allocation of "fissrate_tmp(j)%ch_amount" failed.',&
+                                                           "modify_halflifes",190001)
+                ! Finally copy... A "pack" would be easier, but we need to ensure the allocation of the arrays inside the types
+                fissrate_tmp(j) = fissrate_in(i)
+                j = j+1
+            end if
+        end do
 
-        fissrate_tmp(1:new_nfiss_in) = pack(fissrate_in,fissrate_mask)
+        ! fissrate_tmp(1:new_nfiss_in) = pack(fissrate_in,fissrate_mask)
         deallocate(fissrate_in,stat=alloc_stat)
         if ( alloc_stat /= 0) call raise_exception('Deallocation of "fissrate_in" failed.',&
                                                    "modify_halflifes",190002)
@@ -599,7 +625,28 @@ contains
         if ( alloc_stat /= 0) call raise_exception('Allocation of "fissrate_in" or failed.',&
                                                    "modify_halflifes",190001)
 
-        fissrate_in(1:new_nfiss_in) = fissrate_tmp(1:new_nfiss_in)
+        ! Copy back from temporary array
+        do i=1,new_nfiss_in
+            allocate(fissrate_in(i)%fissparts(fissrate_tmp(i)%dimens),stat=alloc_stat)
+            if ( alloc_stat /= 0) call raise_exception('Allocation of "fissrate_in(i)%fissparts" failed.',&
+                                                       "modify_halflifes",190001)
+            allocate(fissrate_in(i)%cscf_ind(fissrate_tmp(i)%dimens,fissrate_tmp(i)%dimens),stat=alloc_stat)
+            if ( alloc_stat /= 0) call raise_exception('Allocation of "fissrate_in(i)%cscf_ind" failed.',&
+                                                       "modify_halflifes",190001)
+            allocate(fissrate_in(i)%q_value(fissrate_tmp(i)%channels),stat=alloc_stat)
+            if ( alloc_stat /= 0) call raise_exception('Allocation of "fissrate_in(i)%q_value" failed.',&
+                                                       "modify_halflifes",190001)
+            allocate(fissrate_in(i)%channelprob(fissrate_tmp(i)%channels),stat=alloc_stat)
+            if ( alloc_stat /= 0) call raise_exception('Allocation of "fissrate_in(i)%channelprob" failed.',&
+                                                       "modify_halflifes",190001)
+            allocate(fissrate_in(i)%ch_amount(fissrate_tmp(i)%dimens),stat=alloc_stat)
+            if ( alloc_stat /= 0) call raise_exception('Allocation of "fissrate_in(i)%ch_amount" failed.',&
+                                                       "modify_halflifes",190001)
+            fissrate_in(i) = fissrate_tmp(i)
+        end do
+
+
+        ! fissrate_in(1:new_nfiss_in) = fissrate_tmp(1:new_nfiss_in)
         deallocate(fissrate_tmp,stat=alloc_stat)
         if ( alloc_stat /= 0) call raise_exception('Deallocation of "fissrate_tmp" or failed.',&
                                                    "modify_halflifes",190002)
