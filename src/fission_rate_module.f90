@@ -2697,7 +2697,7 @@ contains
       use benam_class,     only: minmax,findaz
       use error_msg_class, only: raise_exception
          integer,intent(in)                     :: mass,pnr
-         integer, intent(inout)                 :: pos
+         integer, intent(in)                    :: pos
          real(r_kind),intent(out)               :: qval
          integer                                :: nemiss,fmass,fpnr
          integer                                :: read_stat
