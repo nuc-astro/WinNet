@@ -563,7 +563,8 @@ contains
     end if
 
     ! Make the correct lambdas in the fission array
-    do i=1,size(fissrate_in)
+
+    do i=1,nfiss_in
         if (fissrate_in(i)%reac_type.eq.rrt_bf) then
             ! Beta-delayed fission
             parent_idx = fissrate_in(i)%fissnuc_index
@@ -592,6 +593,7 @@ contains
         allocate(fissrate_tmp(new_nfiss_in),stat=alloc_stat)
         if ( alloc_stat /= 0) call raise_exception('Allocation of "fissrate_tmp" failed.',&
                                                    "modify_halflifes",190001)
+
         j=1
         do i=1,nfiss_in
             if (fissrate_mask(i)) then
@@ -617,13 +619,13 @@ contains
             end if
         end do
 
-        ! fissrate_tmp(1:new_nfiss_in) = pack(fissrate_in,fissrate_mask)
         deallocate(fissrate_in,stat=alloc_stat)
         if ( alloc_stat /= 0) call raise_exception('Deallocation of "fissrate_in" failed.',&
                                                    "modify_halflifes",190002)
         allocate(fissrate_in(new_nfiss_in),stat=alloc_stat)
         if ( alloc_stat /= 0) call raise_exception('Allocation of "fissrate_in" or failed.',&
                                                    "modify_halflifes",190001)
+
 
         ! Copy back from temporary array
         do i=1,new_nfiss_in
@@ -645,8 +647,6 @@ contains
             fissrate_in(i) = fissrate_tmp(i)
         end do
 
-
-        ! fissrate_in(1:new_nfiss_in) = fissrate_tmp(1:new_nfiss_in)
         deallocate(fissrate_tmp,stat=alloc_stat)
         if ( alloc_stat /= 0) call raise_exception('Deallocation of "fissrate_tmp" or failed.',&
                                                    "modify_halflifes",190002)
