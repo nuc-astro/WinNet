@@ -103,9 +103,12 @@ alpha_decay_file = "@WINNET@/data/alpha_decays.dat"
 # Fission #
 ###########
 
-# Fission fragment distributions:
-# =1: Panov et al. 2001
-fissflag = 1
+# Fission treatment:
+# =1: Panov
+# =2: Kodama & Takahashi
+# =3: Mumpower for bf and nf, Kodama & Takahashi for sf
+fissflag = val
+nfission_file = @WINNET@/data/FISS_Mumpower
 
 # Beta-delayed fission:
 # Fission format in probabilities
