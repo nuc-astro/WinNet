@@ -395,9 +395,18 @@ subprocess.call(["rm","-rf", "sources"])
 # Copy also plot scripts to the folders
 example.copy_scripts(parfile_name,rundir)
 
+
+# Get the full path of the script
+winnet_path = os.path.dirname(os.path.abspath(__file__))
+
+# Get the directory containing the script
+environment_command = 'export OMP_NUM_THREADS='+options.omp_cpus+' && '
+environment_command+= 'export WinNet_path='+winnet_path+' && '
+
+
 if options.many_runs and options.prepare:
     print("Preparing network data... This may take up to a few minutes.")
-    os.system("cd "+str(subdir)+" "+" && ./winnet *.par ../network_data >../net_creation_log 2>../net_error_log && cd - >/dev/null 2>&1")
+    os.system("cd "+str(subdir)+" && "+environment_command+" ./winnet *.par ../network_data >../net_creation_log 2>../net_error_log && cd - >/dev/null 2>&1")
 
 #--- run the program, save process ID  ---------------------------------------
 # (the following assumes that the shell is bash; might not work in more
@@ -407,14 +416,6 @@ if not options.force_run:
     print(ans)
     if (ans=="" or ans=="n" or ans=="N" or ans=="No" or ans=="no"): sys.exit(0)
 
-
-
-# Get the full path of the script
-winnet_path = os.path.dirname(os.path.abspath(__file__))
-
-# Get the directory containing the script
-environment_command = 'export OMP_NUM_THREADS='+options.omp_cpus+' && '
-environment_command+= 'export WinNet_path='+winnet_path+' && '
 
 #--- single run mode ---------------------------------------------------------
 if not options.many_runs:
