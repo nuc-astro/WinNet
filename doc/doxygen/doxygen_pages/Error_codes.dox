@@ -204,6 +204,7 @@ The error codes are translated to the following problems:
 <tr><td> W390022 <td> A column for the seed file was missing.
 <tr><td> W390023 <td> Abundance information in seed file was missing.
 <tr><td> W390024 <td> Failed to read the trajectory file.
+<tr><td> W390025 <td> Norm of initial abundances not correct.
 <tr><td> W400001 <td> Allocation failure.
 <tr><td> W400003 <td> Screening mode not implemented.
 <tr><td> W400004 <td> Screening derivatives not implemented.
