@@ -7,6 +7,7 @@
 # Edited: - 27.12.20 - M. Reichert
 #         - 08.07.22 - M. Reichert
 #         - 21.07.23 - M. Reichert
+#         - 26.06.24 - M. Reichert
 ##############################################################################
 
 import os
@@ -16,15 +17,19 @@ import optparse
 import multiprocessing
 import subprocess
 import threading
-import numpy  as np
+import numpy as np
 from builtins import input
 from bin.examplecase_class import examplecase
 from tqdm import tqdm
+
 # Get amount of available cpus for the --many option
 cpus = multiprocessing.cpu_count()
 
 # Use 3./4. of all cpus per default
 default_cpus =max(1,int((3./4.)*cpus))
+
+# Default OMP processes
+default_omp = 1
 
 #--- define options ----------------------------------------------------------
 p = optparse.OptionParser()
@@ -46,6 +51,8 @@ p.add_option("--examples", action="store_true", dest="listexamples", default=Fal
   help="List all possible example cases with a brief describtion.")
 p.add_option("--cpus", action="store", dest="cpus", default=str(default_cpus), \
   help="Amount of cpus that are used for several runs at the same time.")
+p.add_option("--omp_cpus", action="store", dest="omp_cpus", default=str(default_omp), \
+  help="Amount of threads for OMP parallelization.")
 p.add_option("--val_min", action="store", dest="val_min", default="", \
   help="Minimum value for iteration in case of an analytic run.")
 p.add_option("--val_max", action="store", dest="val_max", default="", \
@@ -170,7 +177,7 @@ if not options.many_runs:
     subprocess.call(command,shell=True)
     subprocess.call(["mv",program,rundir])
 
-# create directories for snapshots and flow files
+    # create directories for snapshots and flow files
     os.chdir(rundir)
     os.mkdir("snaps")
     os.mkdir("flow")
@@ -250,7 +257,6 @@ else:
         n_trajectories = len(trajectories)
         seeds          = glob.glob(seed_basename+'*')
         loop_count     = n_trajectories
-
         # Do stuff in case it is only one trajectory
         if n_trajectories == 1 and analytic_iteration:
             analytic = True
@@ -401,6 +407,15 @@ if not options.force_run:
     print(ans)
     if (ans=="" or ans=="n" or ans=="N" or ans=="No" or ans=="no"): sys.exit(0)
 
+
+
+# Get the full path of the script
+winnet_path = os.path.dirname(os.path.abspath(__file__))
+
+# Get the directory containing the script
+environment_command = 'export OMP_NUM_THREADS='+options.omp_cpus+' && '
+environment_command+= 'export WinNet_path='+winnet_path+' && '
+
 #--- single run mode ---------------------------------------------------------
 if not options.many_runs:
     os.chdir(rundir)
@@ -409,6 +424,7 @@ if not options.many_runs:
     print(">>>---------------------------------------------")
     print(">>> " + command)
     print(">>>---------------------------------------------")
+    command = environment_command + command
     subprocess.call("ulimit -s unlimited\n"  + command + \
       """echo $! > PID
          if [ $? -eq 0 ]; then
@@ -452,7 +468,7 @@ else:
 
         subdir = rundir + '/' + lab_tmp
 
-        command= "cd "+subdir+" && "+"./"+exename+" "+parfile_name+" >OUT 2>ERR"
+        command= "cd "+subdir+" && "+environment_command+"./"+exename+" "+parfile_name+" >OUT 2>ERR"
         print("running trajectory:")
         print(">>>---------------------------------------------")
         print(">>> " + subdir)

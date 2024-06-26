@@ -485,6 +485,9 @@ use_thermal_nu_loss =
 # (When matter becomes transparent for neutrinos)
 heating_density =
 
+# Tolerance to assume a temperature as converged.
+heating_T9_tol = 
+
 
 #######################
 # Initial composition #

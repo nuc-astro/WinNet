@@ -146,6 +146,7 @@ module parameter_class
   logical                 :: h_finab                        !< Store the finab in hdf5 format rather than in ascii format
   integer                 :: solver                         !< solver flag (0 - implicit Euler, 1 - Gear's method, ...), is integer as it is faster than comparing strings every timestep
   integer                 :: heating_mode                   !< Mode for heating: 0 - no heating, 1 - heating using an entropy equation, 2 - heating from the energy generation and trajectory changes
+  real(r_kind)            :: heating_T9_tol                 !< Convergence parameter for the temperature in the heating mode
   integer                 :: screening_mode                 !< Mode for coulomb corrections: 0 - no screening, 1 - screening using the prescription of Kravchuk & Yakovlev 2014
   integer                 :: interp_mode                    !< Mode for interpolation of temperature and density
   character(max_fname_len):: trajectory_file                !< name of trajectory data file
@@ -394,6 +395,7 @@ subroutine set_param(param_name,param_value)
       ":gear_nr_eps" // &
       ":timestep_max"// &
       ":gear_timestep_max"// &
+      ":heating_T9_tol"// &
       ":timestep_factor"// &
       ":timestep_Ymin"// &
       ":nr_tol"// &
@@ -637,6 +639,8 @@ subroutine set_param(param_name,param_value)
      gear_nr_eps= read_float_param(str_value,param_name)
    elseif(param_name.eq."gear_timestep_max") then
      gear_timestep_max= read_float_param(str_value,param_name)
+   elseif(param_name.eq."heating_T9_tol") then
+     heating_T9_tol= read_float_param(str_value,param_name)
    elseif(param_name.eq."timestep_max") then
      timestep_max= read_float_param(str_value,param_name)
    elseif(param_name.eq."timestep_factor") then
@@ -875,18 +879,38 @@ end function read_float_param
 !!
 subroutine set_default_param
    implicit none
+   ! Variables
+   character(len=100) :: win_path   ! Variable to store the value of the environment variable
+   integer            :: status     ! Variable to store the status of the retrieval
+
+
+   ! Get the value of the environment variable 'WinNet_path'
+   call get_environment_variable('WinNet_path', win_path, status)
+
+   ! Check if it was set and complain if not
+   if (status == 0) then
+     ! Check if the environment variable was successfully retrieved
+     win_path = ""
+     if (VERBOSE_LEVEL .ge. 1) then
+        write(*,*) 'Environment variable "WinNet_path" is not set. Default parameters may not work!'
+     end if
+   else
+     ! Set the environment variable
+     win_path = trim(win_path)//"/data/"
+   end if
+
    !
    alpha_decay_ignore_all      = .True.
-   alpha_decay_file            = "alpha_decays.dat"
+   alpha_decay_file            = trim(adjustl(win_path))//"alpha_decays.dat"
    alpha_decay_src_ignore      = "wc07;wc12;wc17"
    alpha_decay_zmax            = 184
    alpha_decay_zmin            = 50
    adapt_stepsize_maxcount     = 20
-   beta_decay_file             = "beta_decays.dat"
+   beta_decay_file             = trim(adjustl(win_path))//"beta_decay_marketin.dat"
    beta_decay_src_ignore       = "wc07;wc12;wc17"
-   bfission_file               = "BFISSION"
+   bfission_file               = trim(adjustl(win_path))//"FISS_Mumpower"
    calc_nsep_energy            = .false.
-   chem_pot_file               = "chem_table.dat"
+   chem_pot_file               = trim(adjustl(win_path))//"chem_table.dat"
    custom_snapshots            = .false.
    h_custom_snapshots          = .false.
    engen_every                 = 0
@@ -918,12 +942,13 @@ subroutine set_default_param
    heating_frac                = 0.4d0
    heating_density             = 1d11
    heating_mode                = 0
-   htpf_file                   = "htpf.dat"
+   heating_T9_tol              = 1d-4
+   htpf_file                   = trim(adjustl(win_path))//"datafile2.txt"
    initemp_cold                = 9.e0
    initemp_hot                 = 9.e0
    initial_stepsize            = 1.d-12
    interp_mode                 = 5
-   isotopes_file               = "winvn"
+   isotopes_file               = trim(adjustl(win_path))//"winvne_v2.0.dat"
    iwformat                    = 0
    iwinterp                    = 0
    Le                          = "2.0e51"
@@ -931,9 +956,9 @@ subroutine set_default_param
    Lx                          = "2.0e51"
    Lxbar                       = "2.7e51"
    mainout_every               = 1
-   net_source                  = "sunet"
-   neutrino_loss_file          = "nuloss.dat"
-   nfission_file               = "NFISSION"
+   net_source                  = trim(adjustl(win_path))//"sunet_complete"
+   neutrino_loss_file          = trim(adjustl(win_path))//"nu_loss_data.dat"
+   nfission_file               = trim(adjustl(win_path))//"FISS_Mumpower"
    nrdiag_every                = 0
    nr_tol                      = 1.e-5
    nr_maxcount                 = 3
@@ -944,18 +969,18 @@ subroutine set_default_param
    nse_nr_tol                  = 1d-6
    nse_descend_t9start         = 100.0
    nse_solver                  = 0
-   nsep_energies_file          = "frdm_sn.dat"
+   nsep_energies_file          = trim(adjustl(win_path))//"frdm_sn.dat"
    nsetemp_hot                 = 8.e0
    nsetemp_cold                = 7.e0
    nuflag                      = 0
    neutrino_mode               = 'analytic'
-   nuchannel_file              = "nu_channels.dat"
+   nuchannel_file              = trim(adjustl(win_path))//"nu_channels"
    nu_loss_every               = 0
    h_nu_loss_every             = 0
-   nunucleo_rates_file         = "neunucleons.dat"
-   nurates_file                = "nucross.dat"
+   nunucleo_rates_file         = trim(adjustl(win_path))//"neunucleons.dat"
+   nurates_file                = trim(adjustl(win_path))//"nucross.dat"
    out_every                   = 10
-   reaclib_file                = "Reaclib"
+   reaclib_file                = trim(adjustl(win_path))//"Reaclib_18_9_20"
    fission_frag_beta_delayed   = 1
    fission_frag_missing        = 0
    fission_frag_n_induced      = 1
@@ -963,23 +988,23 @@ subroutine set_default_param
    fission_format_beta_delayed = 3
    fission_format_n_induced    = 1
    fission_format_spontaneous  = 1
-   fission_rates_beta_delayed  = "fission_rates_beta_delayed"
-   fission_rates_n_induced     = "fission_rates_n_induced"
-   fission_rates_spontaneous   = "fission_rates_spontaneous"
+   fission_rates_beta_delayed  = trim(adjustl(win_path))//"fission_rates_beta_delayed_mp22"
+   fission_rates_n_induced     = trim(adjustl(win_path))//"fission_rates_n_induced"
+   fission_rates_spontaneous   = trim(adjustl(win_path))//"fission_rates_spontaneous"
    read_initial_composition    = .false.
    rho_analytic                = "1.e12"
    Rkm_analytic                = "50.e0"
    screening_mode              = 1
    seed_file                   = "seed"
    seed_format                 = "Name X"
-   sfission_file               = "SFISSION"
+   sfission_file               = trim(adjustl(win_path))//"FISS_Mumpower"
    snapshot_every              = 0
    h_snapshot_every            = 0
-   snapshot_file               = "snapshot_freq.dat"
+   snapshot_file               = trim(adjustl(win_path))//"snapshot_freq.dat"
    solver                      = 0
    t_analytic                  = 0.e0
    T9_analytic                 = "10.e0"
-   tabulated_rates_file        = "talysNGrates.dat"
+   tabulated_rates_file        = trim(adjustl(win_path))//"talysNGrates.dat"
    tabulated_temperature_file  = "default"
    temp_reload_exp_weak_rates  = 1.d-2
    termination_criterion       = 0
@@ -993,11 +1018,11 @@ subroutine set_default_param
    track_nuclei_every          = 0
    h_track_nuclei_every        = 0
    top_engen_every             = 0
-   track_nuclei_file           = "track_nuclei_file"
+   track_nuclei_file           = trim(adjustl(win_path))//"track_nuclei_file"
    prepared_network_path       = "None"
    trajectory_format           = "time temp dens rad ye"
    trajectory_mode             = "from_file"
-   trajectory_file             = "shock.dat"
+   trajectory_file             = trim(adjustl(win_path))//"trajectory.dat"
    detailed_balance_src_ignore = ""
    detailed_balance_src_q_reac = ""
    detailed_balance_src_q_winvn= ""
@@ -1011,7 +1036,7 @@ subroutine set_default_param
    use_detailed_balance        = .false.
    use_detailed_balance_q_reac = .false.
    use_neutrino_loss_file      = .false.
-   weak_rates_file             = "twr.dat"
+   weak_rates_file             = trim(adjustl(win_path))//"theoretical_weak_rates.dat"
    Ye_analytic                 = "0.1e0"
 
 end subroutine set_default_param
@@ -1090,6 +1115,7 @@ subroutine output_param
      write(ofile,'(A,es14.7)') 'heating_density             ='  , heating_density
      write(ofile,'(A,es14.7)') 'heating_frac                ='  , heating_frac
          write(ofile,'(A,I1)') 'heating_mode                = ' , heating_mode
+     write(ofile,'(A,es14.7)') 'heating_T9_tol              ='  , heating_T9_tol
            write(ofile,'(3A)') 'htpf_file                   = "', trim(htpf_file),'"'
      write(ofile,'(A,es14.7)') 'initemp_cold                ='  , initemp_cold
      write(ofile,'(A,es14.7)') 'initemp_hot                 ='  , initemp_hot
