@@ -218,7 +218,7 @@
 <!-- Node48 -->
 <g id="node26" class="node">
 <title>Node48</title>
-<g id="a_node26"><a xlink:href="namespacenuclear__heating.html#a8eb125f364ac3382db4eeee8081939ca" target="_top" xlink:title="Modifies the temperature and entropy to account for nuclear heating.">
+<g id="a_node26"><a xlink:href="namespacenuclear__heating.html#ab539e2739c7a49885836c2c3d1b4f762" target="_top" xlink:title="Modifies the temperature and entropy to account for nuclear heating.">
 <polygon fill="white" stroke="black" points="388.5,-430 388.5,-460 509.5,-460 509.5,-430 388.5,-430"/>
 <text text-anchor="start" x="396.5" y="-448" font-family="Helvetica,sans-Serif" font-size="10.00">nuclear_heating::nuclear</text>
 <text text-anchor="middle" x="449" y="-437" font-family="Helvetica,sans-Serif" font-size="10.00">_heating_update</text>

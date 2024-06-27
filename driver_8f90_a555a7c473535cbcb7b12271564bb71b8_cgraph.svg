@@ -638,7 +638,7 @@ var sectionId = 'dynsection-0';
 <!-- Node49 -->
 <g id="node17" class="node">
 <title>Node49</title>
-<g id="a_node17"><a xlink:href="namespacenuclear__heating.html#a8eb125f364ac3382db4eeee8081939ca" target="_top" xlink:title="Modifies the temperature and entropy to account for nuclear heating.">
+<g id="a_node17"><a xlink:href="namespacenuclear__heating.html#ab539e2739c7a49885836c2c3d1b4f762" target="_top" xlink:title="Modifies the temperature and entropy to account for nuclear heating.">
 <polygon fill="white" stroke="red" points="280,-1070.5 280,-1100.5 401,-1100.5 401,-1070.5 280,-1070.5"/>
 <text text-anchor="start" x="288" y="-1088.5" font-family="Helvetica,sans-Serif" font-size="10.00">nuclear_heating::nuclear</text>
 <text text-anchor="middle" x="340.5" y="-1077.5" font-family="Helvetica,sans-Serif" font-size="10.00">_heating_update</text>

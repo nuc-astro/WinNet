@@ -495,152 +495,154 @@ $(document).ready(function(){initNavTree('testcase__class_8py_source.html',''); 
 <div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;      <span class="comment">#--- run the program, don&#39;t forget to save process ID  -----------------</span></div>
 <div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;      <span class="comment"># (the following assumes that the shell is bash; might not work in more</span></div>
 <div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;      <span class="comment">#  primitive shells; will not work with csh or tcsh)</span></div>
-<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;      os.chdir(self.<a class="code" href="classbin_1_1testcase__class_1_1testcase.html#a94b05879e566e1f8d5754745470362c1">testdir</a>+<span class="stringliteral">&quot;/testrun&quot;</span>)</div>
-<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;      command= self.<a class="code" href="classbin_1_1testcase__class_1_1testcase.html#a9196ce9ee6e831970e5eeaf82d2b3edb">program</a>+<span class="stringliteral">&quot; &quot;</span>+self.<a class="code" href="classbin_1_1testcase__class_1_1testcase.html#aaf522cfbbb4c650c165db7e6d2238612">parfile_name</a>+<span class="stringliteral">&quot; &gt;OUT 2&gt;ERR &amp;\n&quot;</span></div>
-<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;      subprocess.call(<span class="stringliteral">&quot;ulimit -s unlimited\n&quot;</span>  + command + \</div>
-<div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;      <span class="stringliteral">&quot;&quot;&quot;echo $! &gt; PID</span></div>
-<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;<span class="stringliteral">      if [ $? -ne 0 ]; then</span></div>
-<div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160;<span class="stringliteral">        echo &quot;Test simulation with PID #`cat PID` probably failed to launch.&quot;</span></div>
-<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;<span class="stringliteral">        echo &quot;Check &quot;&quot;&quot;</span>+self.<a class="code" href="classbin_1_1testcase__class_1_1testcase.html#a94b05879e566e1f8d5754745470362c1">testdir</a>+<span class="stringliteral">&quot;&quot;&quot;/testrun/ERR for errors&quot;</span></div>
-<div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;<span class="stringliteral">      fi</span></div>
-<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;<span class="stringliteral">      &quot;&quot;&quot;</span>, shell=<span class="keyword">True</span>)</div>
-<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;      <span class="keywordflow">return</span> 0</div>
-<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160; </div>
-<div class="line"><a name="l00410"></a><span class="lineno"><a class="line" href="classbin_1_1testcase__class_1_1testcase.html#aec56dfc513c1cefa8c4e32f3e1f6d788">  410</a></span>&#160;   <span class="keyword">def </span><a class="code" href="classbin_1_1testcase__class_1_1testcase.html#aec56dfc513c1cefa8c4e32f3e1f6d788">monitor</a>(self):</div>
-<div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;      <span class="comment">#--- monitor the progress ----------------------------------------------</span></div>
-<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;      <span class="comment"># must have OUT file in the test suite</span></div>
-<div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160;      os.chdir(self.<a class="code" href="classbin_1_1testcase__class_1_1testcase.html#a94b05879e566e1f8d5754745470362c1">testdir</a>+<span class="stringliteral">&quot;/testrun&quot;</span>)</div>
-<div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;      <span class="keywordflow">if</span> <span class="keywordflow">not</span> os.path.exists(<span class="stringliteral">&quot;../OUT&quot;</span>):</div>
-<div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;         print(<span class="stringliteral">&quot;\nWARNING: test suite doesn&#39;t have example OUT file!&quot;</span>)</div>
-<div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;         <span class="keywordflow">return</span> 0</div>
-<div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160; </div>
-<div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160;      out = <a class="code" href="namespacebin_1_1testcase__class.html#a43048e0467335168064651d54b9aedd3">shell_command</a>([<span class="stringliteral">&quot;wc&quot;</span>,<span class="stringliteral">&quot;-l&quot;</span>,<span class="stringliteral">&quot;../OUT&quot;</span>])</div>
-<div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160;      expected_lines = int(out.split()[0])</div>
-<div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160;      current_lines = 0</div>
-<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160; </div>
-<div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160;      <span class="comment"># obtain process ID</span></div>
-<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;      out = <a class="code" href="namespacebin_1_1testcase__class.html#a43048e0467335168064651d54b9aedd3">shell_command</a>([<span class="stringliteral">&quot;cat&quot;</span>,<span class="stringliteral">&quot;PID&quot;</span>])</div>
-<div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;      PID = int(out.split()[0])</div>
-<div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160;      still_running = <span class="keyword">True</span></div>
-<div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160;      i = 0</div>
-<div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160;      <span class="keywordflow">while</span> still_running:</div>
-<div class="line"><a name="l00428"></a><span class="lineno">  428</span>&#160;         time.sleep(0.1)</div>
-<div class="line"><a name="l00429"></a><span class="lineno">  429</span>&#160;         <span class="keywordflow">if</span> i%2==1:</div>
-<div class="line"><a name="l00430"></a><span class="lineno">  430</span>&#160;            out = <a class="code" href="namespacebin_1_1testcase__class.html#a43048e0467335168064651d54b9aedd3">shell_command</a>([<span class="stringliteral">&quot;ps&quot;</span>,<span class="stringliteral">&quot;h&quot;</span>,str(PID)])</div>
-<div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160;            still_running = (len(out.split())&gt;0)</div>
-<div class="line"><a name="l00432"></a><span class="lineno">  432</span>&#160;            <span class="comment">#</span></div>
-<div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160;            out = <a class="code" href="namespacebin_1_1testcase__class.html#a43048e0467335168064651d54b9aedd3">shell_command</a>([<span class="stringliteral">&quot;wc&quot;</span>,<span class="stringliteral">&quot;-l&quot;</span>,<span class="stringliteral">&quot;OUT&quot;</span>])</div>
-<div class="line"><a name="l00434"></a><span class="lineno">  434</span>&#160;            current_lines = int(out.split()[0])</div>
-<div class="line"><a name="l00435"></a><span class="lineno">  435</span>&#160;         <span class="comment">#</span></div>
-<div class="line"><a name="l00436"></a><span class="lineno">  436</span>&#160;         n1 = self.len_spaces * current_lines / expected_lines</div>
-<div class="line"><a name="l00437"></a><span class="lineno">  437</span>&#160;         n1 = int(min(n1, self.len_spaces))</div>
-<div class="line"><a name="l00438"></a><span class="lineno">  438</span>&#160;         n2 = self.len_spaces - n1</div>
-<div class="line"><a name="l00439"></a><span class="lineno">  439</span>&#160;         q  = 100.0 * current_lines / expected_lines</div>
-<div class="line"><a name="l00440"></a><span class="lineno">  440</span>&#160;         q  = min(100.0, q)</div>
-<div class="line"><a name="l00441"></a><span class="lineno">  441</span>&#160;         i = i + 1</div>
-<div class="line"><a name="l00442"></a><span class="lineno">  442</span>&#160;         sys.stdout.write(<span class="stringliteral">&quot;\r [&quot;</span> + self.whichtest + <span class="stringliteral">&quot;] &quot;</span> + self.<a class="code" href="classbin_1_1testcase__class_1_1testcase.html#a2cab5b337b5b5f8ae7d0396127c5421e">testname</a> \</div>
-<div class="line"><a name="l00443"></a><span class="lineno">  443</span>&#160;                                 + <span class="stringliteral">&quot;: ..&quot;</span>+<span class="stringliteral">&quot;.&quot;</span>*n1  + <span class="stringliteral">&quot;-/|\\&quot;</span>[i%4] +<span class="stringliteral">&quot; &quot;</span>*n2   \</div>
-<div class="line"><a name="l00444"></a><span class="lineno">  444</span>&#160;                                 + (<span class="stringliteral">&quot; [%5.1f&quot;</span> % q) + <span class="stringliteral">&quot;%]&quot;</span>)</div>
-<div class="line"><a name="l00445"></a><span class="lineno">  445</span>&#160;         sys.stdout.flush()</div>
-<div class="line"><a name="l00446"></a><span class="lineno">  446</span>&#160; </div>
-<div class="line"><a name="l00447"></a><span class="lineno">  447</span>&#160;      <span class="keywordflow">return</span> 0</div>
+<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;      <span class="comment"># Also run only on one core</span></div>
+<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;      environment_command = <span class="stringliteral">&#39;export OMP_NUM_THREADS=1 &amp;&amp; &#39;</span></div>
+<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;      os.chdir(self.<a class="code" href="classbin_1_1testcase__class_1_1testcase.html#a94b05879e566e1f8d5754745470362c1">testdir</a>+<span class="stringliteral">&quot;/testrun&quot;</span>)</div>
+<div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;      command= environment_command+self.<a class="code" href="classbin_1_1testcase__class_1_1testcase.html#a9196ce9ee6e831970e5eeaf82d2b3edb">program</a>+<span class="stringliteral">&quot; &quot;</span>+self.<a class="code" href="classbin_1_1testcase__class_1_1testcase.html#aaf522cfbbb4c650c165db7e6d2238612">parfile_name</a>+<span class="stringliteral">&quot; &gt;OUT 2&gt;ERR &amp;\n&quot;</span></div>
+<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;      subprocess.call(<span class="stringliteral">&quot;ulimit -s unlimited\n&quot;</span>  + command + \</div>
+<div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160;      <span class="stringliteral">&quot;&quot;&quot;echo $! &gt; PID</span></div>
+<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;<span class="stringliteral">      if [ $? -ne 0 ]; then</span></div>
+<div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;<span class="stringliteral">        echo &quot;Test simulation with PID #`cat PID` probably failed to launch.&quot;</span></div>
+<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;<span class="stringliteral">        echo &quot;Check &quot;&quot;&quot;</span>+self.<a class="code" href="classbin_1_1testcase__class_1_1testcase.html#a94b05879e566e1f8d5754745470362c1">testdir</a>+<span class="stringliteral">&quot;&quot;&quot;/testrun/ERR for errors&quot;</span></div>
+<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;<span class="stringliteral">      fi</span></div>
+<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;<span class="stringliteral">      &quot;&quot;&quot;</span>, shell=<span class="keyword">True</span>)</div>
+<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;      <span class="keywordflow">return</span> 0</div>
+<div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160; </div>
+<div class="line"><a name="l00412"></a><span class="lineno"><a class="line" href="classbin_1_1testcase__class_1_1testcase.html#aec56dfc513c1cefa8c4e32f3e1f6d788">  412</a></span>&#160;   <span class="keyword">def </span><a class="code" href="classbin_1_1testcase__class_1_1testcase.html#aec56dfc513c1cefa8c4e32f3e1f6d788">monitor</a>(self):</div>
+<div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160;      <span class="comment">#--- monitor the progress ----------------------------------------------</span></div>
+<div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;      <span class="comment"># must have OUT file in the test suite</span></div>
+<div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;      os.chdir(self.<a class="code" href="classbin_1_1testcase__class_1_1testcase.html#a94b05879e566e1f8d5754745470362c1">testdir</a>+<span class="stringliteral">&quot;/testrun&quot;</span>)</div>
+<div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;      <span class="keywordflow">if</span> <span class="keywordflow">not</span> os.path.exists(<span class="stringliteral">&quot;../OUT&quot;</span>):</div>
+<div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;         print(<span class="stringliteral">&quot;\nWARNING: test suite doesn&#39;t have example OUT file!&quot;</span>)</div>
+<div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160;         <span class="keywordflow">return</span> 0</div>
+<div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160; </div>
+<div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160;      out = <a class="code" href="namespacebin_1_1testcase__class.html#a43048e0467335168064651d54b9aedd3">shell_command</a>([<span class="stringliteral">&quot;wc&quot;</span>,<span class="stringliteral">&quot;-l&quot;</span>,<span class="stringliteral">&quot;../OUT&quot;</span>])</div>
+<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;      expected_lines = int(out.split()[0])</div>
+<div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160;      current_lines = 0</div>
+<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160; </div>
+<div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;      <span class="comment"># obtain process ID</span></div>
+<div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160;      out = <a class="code" href="namespacebin_1_1testcase__class.html#a43048e0467335168064651d54b9aedd3">shell_command</a>([<span class="stringliteral">&quot;cat&quot;</span>,<span class="stringliteral">&quot;PID&quot;</span>])</div>
+<div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160;      PID = int(out.split()[0])</div>
+<div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160;      still_running = <span class="keyword">True</span></div>
+<div class="line"><a name="l00428"></a><span class="lineno">  428</span>&#160;      i = 0</div>
+<div class="line"><a name="l00429"></a><span class="lineno">  429</span>&#160;      <span class="keywordflow">while</span> still_running:</div>
+<div class="line"><a name="l00430"></a><span class="lineno">  430</span>&#160;         time.sleep(0.1)</div>
+<div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160;         <span class="keywordflow">if</span> i%2==1:</div>
+<div class="line"><a name="l00432"></a><span class="lineno">  432</span>&#160;            out = <a class="code" href="namespacebin_1_1testcase__class.html#a43048e0467335168064651d54b9aedd3">shell_command</a>([<span class="stringliteral">&quot;ps&quot;</span>,<span class="stringliteral">&quot;h&quot;</span>,str(PID)])</div>
+<div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160;            still_running = (len(out.split())&gt;0)</div>
+<div class="line"><a name="l00434"></a><span class="lineno">  434</span>&#160;            <span class="comment">#</span></div>
+<div class="line"><a name="l00435"></a><span class="lineno">  435</span>&#160;            out = <a class="code" href="namespacebin_1_1testcase__class.html#a43048e0467335168064651d54b9aedd3">shell_command</a>([<span class="stringliteral">&quot;wc&quot;</span>,<span class="stringliteral">&quot;-l&quot;</span>,<span class="stringliteral">&quot;OUT&quot;</span>])</div>
+<div class="line"><a name="l00436"></a><span class="lineno">  436</span>&#160;            current_lines = int(out.split()[0])</div>
+<div class="line"><a name="l00437"></a><span class="lineno">  437</span>&#160;         <span class="comment">#</span></div>
+<div class="line"><a name="l00438"></a><span class="lineno">  438</span>&#160;         n1 = self.len_spaces * current_lines / expected_lines</div>
+<div class="line"><a name="l00439"></a><span class="lineno">  439</span>&#160;         n1 = int(min(n1, self.len_spaces))</div>
+<div class="line"><a name="l00440"></a><span class="lineno">  440</span>&#160;         n2 = self.len_spaces - n1</div>
+<div class="line"><a name="l00441"></a><span class="lineno">  441</span>&#160;         q  = 100.0 * current_lines / expected_lines</div>
+<div class="line"><a name="l00442"></a><span class="lineno">  442</span>&#160;         q  = min(100.0, q)</div>
+<div class="line"><a name="l00443"></a><span class="lineno">  443</span>&#160;         i = i + 1</div>
+<div class="line"><a name="l00444"></a><span class="lineno">  444</span>&#160;         sys.stdout.write(<span class="stringliteral">&quot;\r [&quot;</span> + self.whichtest + <span class="stringliteral">&quot;] &quot;</span> + self.<a class="code" href="classbin_1_1testcase__class_1_1testcase.html#a2cab5b337b5b5f8ae7d0396127c5421e">testname</a> \</div>
+<div class="line"><a name="l00445"></a><span class="lineno">  445</span>&#160;                                 + <span class="stringliteral">&quot;: ..&quot;</span>+<span class="stringliteral">&quot;.&quot;</span>*n1  + <span class="stringliteral">&quot;-/|\\&quot;</span>[i%4] +<span class="stringliteral">&quot; &quot;</span>*n2   \</div>
+<div class="line"><a name="l00446"></a><span class="lineno">  446</span>&#160;                                 + (<span class="stringliteral">&quot; [%5.1f&quot;</span> % q) + <span class="stringliteral">&quot;%]&quot;</span>)</div>
+<div class="line"><a name="l00447"></a><span class="lineno">  447</span>&#160;         sys.stdout.flush()</div>
 <div class="line"><a name="l00448"></a><span class="lineno">  448</span>&#160; </div>
-<div class="line"><a name="l00449"></a><span class="lineno">  449</span>&#160; </div>
-<div class="line"><a name="l00450"></a><span class="lineno"><a class="line" href="classbin_1_1testcase__class_1_1testcase.html#a3abb62ac8041153315919cd269a38a92">  450</a></span>&#160;   <span class="keyword">def </span><a class="code" href="classbin_1_1testcase__class_1_1testcase.html#a3abb62ac8041153315919cd269a38a92">analyze</a>(self):</div>
-<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160;      os.chdir(self.<a class="code" href="classbin_1_1testcase__class_1_1testcase.html#a94b05879e566e1f8d5754745470362c1">testdir</a>+<span class="stringliteral">&quot;/testrun&quot;</span>)</div>
-<div class="line"><a name="l00452"></a><span class="lineno">  452</span>&#160;      errcode = 0</div>
-<div class="line"><a name="l00453"></a><span class="lineno">  453</span>&#160;      flog = open(self.<a class="code" href="classbin_1_1testcase__class_1_1testcase.html#a55e578e19086f28c489135ece7f4c60b">logfile</a>,<span class="stringliteral">&#39;w&#39;</span>)</div>
-<div class="line"><a name="l00454"></a><span class="lineno">  454</span>&#160;      <span class="keywordflow">if</span> <span class="keywordflow">not</span> hasattr(self, <span class="stringliteral">&#39;checklist&#39;</span>):</div>
-<div class="line"><a name="l00455"></a><span class="lineno">  455</span>&#160;         flog.write(<span class="stringliteral">&quot;WARNING: no files defined for checking\n&quot;</span>)</div>
-<div class="line"><a name="l00456"></a><span class="lineno">  456</span>&#160;         <span class="keywordflow">return</span> 1</div>
-<div class="line"><a name="l00457"></a><span class="lineno">  457</span>&#160;      flog.write(<span class="stringliteral">&quot;Comparing files:\n&quot;</span>)</div>
-<div class="line"><a name="l00458"></a><span class="lineno">  458</span>&#160;      <span class="keywordflow">for</span> outfile <span class="keywordflow">in</span> list(self.checklist.keys()):</div>
-<div class="line"><a name="l00459"></a><span class="lineno">  459</span>&#160;         flog.write(<span class="stringliteral">&quot; - %-20s: &quot;</span> % outfile)</div>
-<div class="line"><a name="l00460"></a><span class="lineno">  460</span>&#160; </div>
-<div class="line"><a name="l00461"></a><span class="lineno">  461</span>&#160; </div>
-<div class="line"><a name="l00462"></a><span class="lineno">  462</span>&#160;         <span class="comment"># call specified method with given tolerance</span></div>
-<div class="line"><a name="l00463"></a><span class="lineno">  463</span>&#160;         meth     = self.checklist[outfile][<span class="stringliteral">&#39;method&#39;</span>]</div>
-<div class="line"><a name="l00464"></a><span class="lineno">  464</span>&#160;         <span class="comment"># read trial file</span></div>
-<div class="line"><a name="l00465"></a><span class="lineno">  465</span>&#160;         <span class="keywordflow">if</span> os.path.exists(<span class="stringliteral">&#39;../&#39;</span>+outfile) <span class="keywordflow">and</span> (meth != <span class="stringliteral">&#39;exists&#39;</span>):</div>
-<div class="line"><a name="l00466"></a><span class="lineno">  466</span>&#160;            f_trial = open(<span class="stringliteral">&#39;../&#39;</span>+outfile)</div>
-<div class="line"><a name="l00467"></a><span class="lineno">  467</span>&#160;            s_trial = f_trial.read().split(<span class="stringliteral">&#39;\n&#39;</span>)</div>
-<div class="line"><a name="l00468"></a><span class="lineno">  468</span>&#160;            f_trial.close()</div>
-<div class="line"><a name="l00469"></a><span class="lineno">  469</span>&#160;         <span class="keywordflow">elif</span> (meth == <span class="stringliteral">&#39;exists&#39;</span>):</div>
-<div class="line"><a name="l00470"></a><span class="lineno">  470</span>&#160;            <span class="keywordflow">pass</span> <span class="comment"># No trial file needed</span></div>
-<div class="line"><a name="l00471"></a><span class="lineno">  471</span>&#160;         <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00472"></a><span class="lineno">  472</span>&#160;            errcode += 1</div>
-<div class="line"><a name="l00473"></a><span class="lineno">  473</span>&#160;            flog.write(<span class="stringliteral">&quot;FAILED, missing trial file in the test archive\n&quot;</span>)</div>
-<div class="line"><a name="l00474"></a><span class="lineno">  474</span>&#160;            <span class="keywordflow">continue</span></div>
-<div class="line"><a name="l00475"></a><span class="lineno">  475</span>&#160; </div>
-<div class="line"><a name="l00476"></a><span class="lineno">  476</span>&#160;         <span class="comment"># read test file</span></div>
-<div class="line"><a name="l00477"></a><span class="lineno">  477</span>&#160;         <span class="keywordflow">if</span> os.path.exists(outfile):</div>
-<div class="line"><a name="l00478"></a><span class="lineno">  478</span>&#160;            <span class="keywordflow">if</span> (meth != <span class="stringliteral">&#39;exists&#39;</span>):</div>
-<div class="line"><a name="l00479"></a><span class="lineno">  479</span>&#160;                f_test = open(outfile)</div>
-<div class="line"><a name="l00480"></a><span class="lineno">  480</span>&#160;                s_test = f_test.read().split(<span class="stringliteral">&#39;\n&#39;</span>)</div>
-<div class="line"><a name="l00481"></a><span class="lineno">  481</span>&#160;                f_test.close()</div>
-<div class="line"><a name="l00482"></a><span class="lineno">  482</span>&#160;         <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00483"></a><span class="lineno">  483</span>&#160;            errcode += 1</div>
-<div class="line"><a name="l00484"></a><span class="lineno">  484</span>&#160;            flog.write(<span class="stringliteral">&quot;FAILED, missing file\n&quot;</span>)</div>
-<div class="line"><a name="l00485"></a><span class="lineno">  485</span>&#160;            <span class="keywordflow">continue</span></div>
-<div class="line"><a name="l00486"></a><span class="lineno">  486</span>&#160; </div>
-<div class="line"><a name="l00487"></a><span class="lineno">  487</span>&#160;        <span class="comment"># Set the tolerance, not necessary for exists method</span></div>
-<div class="line"><a name="l00488"></a><span class="lineno">  488</span>&#160;         <span class="keywordflow">if</span> (meth != <span class="stringliteral">&#39;exists&#39;</span>):</div>
-<div class="line"><a name="l00489"></a><span class="lineno">  489</span>&#160;             tol      = self.checklist[outfile][<span class="stringliteral">&#39;tolerance&#39;</span>]</div>
-<div class="line"><a name="l00490"></a><span class="lineno">  490</span>&#160;         <span class="comment">#Check for lower limit of the comparison</span></div>
-<div class="line"><a name="l00491"></a><span class="lineno">  491</span>&#160;         <span class="keywordflow">if</span> <span class="stringliteral">&#39;lowerlimit&#39;</span> <span class="keywordflow">in</span> self.checklist[outfile]:</div>
-<div class="line"><a name="l00492"></a><span class="lineno">  492</span>&#160;             l_limit  = self.checklist[outfile][<span class="stringliteral">&#39;lowerlimit&#39;</span>]</div>
-<div class="line"><a name="l00493"></a><span class="lineno">  493</span>&#160;         <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00494"></a><span class="lineno">  494</span>&#160;             l_limit = 0.   <span class="comment">#Default value</span></div>
-<div class="line"><a name="l00495"></a><span class="lineno">  495</span>&#160;         <span class="keywordflow">try</span>:</div>
-<div class="line"><a name="l00496"></a><span class="lineno">  496</span>&#160;             <span class="keywordflow">if</span> (meth == <span class="stringliteral">&#39;default&#39;</span>):</div>
-<div class="line"><a name="l00497"></a><span class="lineno">  497</span>&#160;                errc = compare_default (s_test, s_trial, tol,l_limit, flog)</div>
-<div class="line"><a name="l00498"></a><span class="lineno">  498</span>&#160;                errcode += errc</div>
-<div class="line"><a name="l00499"></a><span class="lineno">  499</span>&#160;             elif(meth == <span class="stringliteral">&#39;listcompare&#39;</span>):</div>
-<div class="line"><a name="l00500"></a><span class="lineno">  500</span>&#160;                x_column  = self.checklist[outfile][<span class="stringliteral">&#39;x_column&#39;</span>]</div>
-<div class="line"><a name="l00501"></a><span class="lineno">  501</span>&#160;                y_column  = self.checklist[outfile][<span class="stringliteral">&#39;y_column&#39;</span>]</div>
-<div class="line"><a name="l00502"></a><span class="lineno">  502</span>&#160;                errc      = compare_lists (s_test, s_trial, x_column, y_column, tol, l_limit, flog)</div>
-<div class="line"><a name="l00503"></a><span class="lineno">  503</span>&#160;                errcode  += errc</div>
-<div class="line"><a name="l00504"></a><span class="lineno">  504</span>&#160;             elif(meth == <span class="stringliteral">&#39;analyticcompare&#39;</span>):</div>
-<div class="line"><a name="l00505"></a><span class="lineno">  505</span>&#160;                x_column  = self.checklist[outfile][<span class="stringliteral">&#39;x_column&#39;</span>]</div>
-<div class="line"><a name="l00506"></a><span class="lineno">  506</span>&#160;                y_column  = self.checklist[outfile][<span class="stringliteral">&#39;y_column&#39;</span>]</div>
-<div class="line"><a name="l00507"></a><span class="lineno">  507</span>&#160;                functions = self.checklist[outfile][<span class="stringliteral">&#39;function&#39;</span>]</div>
-<div class="line"><a name="l00508"></a><span class="lineno">  508</span>&#160;                errc      = compare_analytic (s_test, s_trial, x_column, y_column, functions, tol, flog)</div>
-<div class="line"><a name="l00509"></a><span class="lineno">  509</span>&#160;                errcode  += errc</div>
-<div class="line"><a name="l00510"></a><span class="lineno">  510</span>&#160;             elif(meth == <span class="stringliteral">&#39;exists&#39;</span>):</div>
-<div class="line"><a name="l00511"></a><span class="lineno">  511</span>&#160;                errc = 0</div>
-<div class="line"><a name="l00512"></a><span class="lineno">  512</span>&#160;             <span class="keywordflow">else</span>: <span class="comment">#Insert new methods here</span></div>
-<div class="line"><a name="l00513"></a><span class="lineno">  513</span>&#160;                errcode += 1</div>
-<div class="line"><a name="l00514"></a><span class="lineno">  514</span>&#160;                flog.write(<span class="stringliteral">&quot;FAILED, unknown file comparison method &#39;%s&#39;\n&quot;</span> % meth)</div>
-<div class="line"><a name="l00515"></a><span class="lineno">  515</span>&#160;                <span class="keywordflow">continue</span></div>
-<div class="line"><a name="l00516"></a><span class="lineno">  516</span>&#160;         <span class="keywordflow">except</span>:</div>
-<div class="line"><a name="l00517"></a><span class="lineno">  517</span>&#160;             errcode += 1</div>
-<div class="line"><a name="l00518"></a><span class="lineno">  518</span>&#160;             errc = 10</div>
-<div class="line"><a name="l00519"></a><span class="lineno">  519</span>&#160;             flog.write(<span class="stringliteral">&quot;FAILED, test method failed.\n&quot;</span>)</div>
-<div class="line"><a name="l00520"></a><span class="lineno">  520</span>&#160; </div>
-<div class="line"><a name="l00521"></a><span class="lineno">  521</span>&#160;         <span class="keywordflow">if</span> errc==0:</div>
-<div class="line"><a name="l00522"></a><span class="lineno">  522</span>&#160;            flog.write(<span class="stringliteral">&quot;OK\n&quot;</span>)</div>
-<div class="line"><a name="l00523"></a><span class="lineno">  523</span>&#160; </div>
-<div class="line"><a name="l00524"></a><span class="lineno">  524</span>&#160;      flog.close()</div>
-<div class="line"><a name="l00525"></a><span class="lineno">  525</span>&#160;      <span class="keywordflow">return</span> errcode</div>
-<div class="line"><a name="l00526"></a><span class="lineno">  526</span>&#160; </div>
-<div class="line"><a name="l00527"></a><span class="lineno"><a class="line" href="classbin_1_1testcase__class_1_1testcase.html#a04a16a8ec41657f31709a5e40d3d22d7">  527</a></span>&#160;   <span class="keyword">def </span><a class="code" href="classbin_1_1testcase__class_1_1testcase.html#a04a16a8ec41657f31709a5e40d3d22d7">cleanup</a>(self):</div>
-<div class="line"><a name="l00528"></a><span class="lineno">  528</span>&#160;      <span class="keywordflow">if</span> os.path.exists(self.<a class="code" href="classbin_1_1testcase__class_1_1testcase.html#a55e578e19086f28c489135ece7f4c60b">logfile</a>):</div>
-<div class="line"><a name="l00529"></a><span class="lineno">  529</span>&#160;         subprocess.call([<span class="stringliteral">&quot;rm&quot;</span>,<span class="stringliteral">&quot;-rf&quot;</span>,self.<a class="code" href="classbin_1_1testcase__class_1_1testcase.html#a55e578e19086f28c489135ece7f4c60b">logfile</a>])</div>
-<div class="line"><a name="l00530"></a><span class="lineno">  530</span>&#160;      <span class="keywordflow">if</span> os.path.exists(self.<a class="code" href="classbin_1_1testcase__class_1_1testcase.html#a94b05879e566e1f8d5754745470362c1">testdir</a>):</div>
-<div class="line"><a name="l00531"></a><span class="lineno">  531</span>&#160;         subprocess.call([<span class="stringliteral">&quot;rm&quot;</span>,<span class="stringliteral">&quot;-rf&quot;</span>,self.<a class="code" href="classbin_1_1testcase__class_1_1testcase.html#a94b05879e566e1f8d5754745470362c1">testdir</a>])</div>
-<div class="line"><a name="l00532"></a><span class="lineno">  532</span>&#160; </div>
+<div class="line"><a name="l00449"></a><span class="lineno">  449</span>&#160;      <span class="keywordflow">return</span> 0</div>
+<div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160; </div>
+<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160; </div>
+<div class="line"><a name="l00452"></a><span class="lineno"><a class="line" href="classbin_1_1testcase__class_1_1testcase.html#a3abb62ac8041153315919cd269a38a92">  452</a></span>&#160;   <span class="keyword">def </span><a class="code" href="classbin_1_1testcase__class_1_1testcase.html#a3abb62ac8041153315919cd269a38a92">analyze</a>(self):</div>
+<div class="line"><a name="l00453"></a><span class="lineno">  453</span>&#160;      os.chdir(self.<a class="code" href="classbin_1_1testcase__class_1_1testcase.html#a94b05879e566e1f8d5754745470362c1">testdir</a>+<span class="stringliteral">&quot;/testrun&quot;</span>)</div>
+<div class="line"><a name="l00454"></a><span class="lineno">  454</span>&#160;      errcode = 0</div>
+<div class="line"><a name="l00455"></a><span class="lineno">  455</span>&#160;      flog = open(self.<a class="code" href="classbin_1_1testcase__class_1_1testcase.html#a55e578e19086f28c489135ece7f4c60b">logfile</a>,<span class="stringliteral">&#39;w&#39;</span>)</div>
+<div class="line"><a name="l00456"></a><span class="lineno">  456</span>&#160;      <span class="keywordflow">if</span> <span class="keywordflow">not</span> hasattr(self, <span class="stringliteral">&#39;checklist&#39;</span>):</div>
+<div class="line"><a name="l00457"></a><span class="lineno">  457</span>&#160;         flog.write(<span class="stringliteral">&quot;WARNING: no files defined for checking\n&quot;</span>)</div>
+<div class="line"><a name="l00458"></a><span class="lineno">  458</span>&#160;         <span class="keywordflow">return</span> 1</div>
+<div class="line"><a name="l00459"></a><span class="lineno">  459</span>&#160;      flog.write(<span class="stringliteral">&quot;Comparing files:\n&quot;</span>)</div>
+<div class="line"><a name="l00460"></a><span class="lineno">  460</span>&#160;      <span class="keywordflow">for</span> outfile <span class="keywordflow">in</span> list(self.checklist.keys()):</div>
+<div class="line"><a name="l00461"></a><span class="lineno">  461</span>&#160;         flog.write(<span class="stringliteral">&quot; - %-20s: &quot;</span> % outfile)</div>
+<div class="line"><a name="l00462"></a><span class="lineno">  462</span>&#160; </div>
+<div class="line"><a name="l00463"></a><span class="lineno">  463</span>&#160; </div>
+<div class="line"><a name="l00464"></a><span class="lineno">  464</span>&#160;         <span class="comment"># call specified method with given tolerance</span></div>
+<div class="line"><a name="l00465"></a><span class="lineno">  465</span>&#160;         meth     = self.checklist[outfile][<span class="stringliteral">&#39;method&#39;</span>]</div>
+<div class="line"><a name="l00466"></a><span class="lineno">  466</span>&#160;         <span class="comment"># read trial file</span></div>
+<div class="line"><a name="l00467"></a><span class="lineno">  467</span>&#160;         <span class="keywordflow">if</span> os.path.exists(<span class="stringliteral">&#39;../&#39;</span>+outfile) <span class="keywordflow">and</span> (meth != <span class="stringliteral">&#39;exists&#39;</span>):</div>
+<div class="line"><a name="l00468"></a><span class="lineno">  468</span>&#160;            f_trial = open(<span class="stringliteral">&#39;../&#39;</span>+outfile)</div>
+<div class="line"><a name="l00469"></a><span class="lineno">  469</span>&#160;            s_trial = f_trial.read().split(<span class="stringliteral">&#39;\n&#39;</span>)</div>
+<div class="line"><a name="l00470"></a><span class="lineno">  470</span>&#160;            f_trial.close()</div>
+<div class="line"><a name="l00471"></a><span class="lineno">  471</span>&#160;         <span class="keywordflow">elif</span> (meth == <span class="stringliteral">&#39;exists&#39;</span>):</div>
+<div class="line"><a name="l00472"></a><span class="lineno">  472</span>&#160;            <span class="keywordflow">pass</span> <span class="comment"># No trial file needed</span></div>
+<div class="line"><a name="l00473"></a><span class="lineno">  473</span>&#160;         <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00474"></a><span class="lineno">  474</span>&#160;            errcode += 1</div>
+<div class="line"><a name="l00475"></a><span class="lineno">  475</span>&#160;            flog.write(<span class="stringliteral">&quot;FAILED, missing trial file in the test archive\n&quot;</span>)</div>
+<div class="line"><a name="l00476"></a><span class="lineno">  476</span>&#160;            <span class="keywordflow">continue</span></div>
+<div class="line"><a name="l00477"></a><span class="lineno">  477</span>&#160; </div>
+<div class="line"><a name="l00478"></a><span class="lineno">  478</span>&#160;         <span class="comment"># read test file</span></div>
+<div class="line"><a name="l00479"></a><span class="lineno">  479</span>&#160;         <span class="keywordflow">if</span> os.path.exists(outfile):</div>
+<div class="line"><a name="l00480"></a><span class="lineno">  480</span>&#160;            <span class="keywordflow">if</span> (meth != <span class="stringliteral">&#39;exists&#39;</span>):</div>
+<div class="line"><a name="l00481"></a><span class="lineno">  481</span>&#160;                f_test = open(outfile)</div>
+<div class="line"><a name="l00482"></a><span class="lineno">  482</span>&#160;                s_test = f_test.read().split(<span class="stringliteral">&#39;\n&#39;</span>)</div>
+<div class="line"><a name="l00483"></a><span class="lineno">  483</span>&#160;                f_test.close()</div>
+<div class="line"><a name="l00484"></a><span class="lineno">  484</span>&#160;         <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00485"></a><span class="lineno">  485</span>&#160;            errcode += 1</div>
+<div class="line"><a name="l00486"></a><span class="lineno">  486</span>&#160;            flog.write(<span class="stringliteral">&quot;FAILED, missing file\n&quot;</span>)</div>
+<div class="line"><a name="l00487"></a><span class="lineno">  487</span>&#160;            <span class="keywordflow">continue</span></div>
+<div class="line"><a name="l00488"></a><span class="lineno">  488</span>&#160; </div>
+<div class="line"><a name="l00489"></a><span class="lineno">  489</span>&#160;        <span class="comment"># Set the tolerance, not necessary for exists method</span></div>
+<div class="line"><a name="l00490"></a><span class="lineno">  490</span>&#160;         <span class="keywordflow">if</span> (meth != <span class="stringliteral">&#39;exists&#39;</span>):</div>
+<div class="line"><a name="l00491"></a><span class="lineno">  491</span>&#160;             tol      = self.checklist[outfile][<span class="stringliteral">&#39;tolerance&#39;</span>]</div>
+<div class="line"><a name="l00492"></a><span class="lineno">  492</span>&#160;         <span class="comment">#Check for lower limit of the comparison</span></div>
+<div class="line"><a name="l00493"></a><span class="lineno">  493</span>&#160;         <span class="keywordflow">if</span> <span class="stringliteral">&#39;lowerlimit&#39;</span> <span class="keywordflow">in</span> self.checklist[outfile]:</div>
+<div class="line"><a name="l00494"></a><span class="lineno">  494</span>&#160;             l_limit  = self.checklist[outfile][<span class="stringliteral">&#39;lowerlimit&#39;</span>]</div>
+<div class="line"><a name="l00495"></a><span class="lineno">  495</span>&#160;         <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00496"></a><span class="lineno">  496</span>&#160;             l_limit = 0.   <span class="comment">#Default value</span></div>
+<div class="line"><a name="l00497"></a><span class="lineno">  497</span>&#160;         <span class="keywordflow">try</span>:</div>
+<div class="line"><a name="l00498"></a><span class="lineno">  498</span>&#160;             <span class="keywordflow">if</span> (meth == <span class="stringliteral">&#39;default&#39;</span>):</div>
+<div class="line"><a name="l00499"></a><span class="lineno">  499</span>&#160;                errc = compare_default (s_test, s_trial, tol,l_limit, flog)</div>
+<div class="line"><a name="l00500"></a><span class="lineno">  500</span>&#160;                errcode += errc</div>
+<div class="line"><a name="l00501"></a><span class="lineno">  501</span>&#160;             elif(meth == <span class="stringliteral">&#39;listcompare&#39;</span>):</div>
+<div class="line"><a name="l00502"></a><span class="lineno">  502</span>&#160;                x_column  = self.checklist[outfile][<span class="stringliteral">&#39;x_column&#39;</span>]</div>
+<div class="line"><a name="l00503"></a><span class="lineno">  503</span>&#160;                y_column  = self.checklist[outfile][<span class="stringliteral">&#39;y_column&#39;</span>]</div>
+<div class="line"><a name="l00504"></a><span class="lineno">  504</span>&#160;                errc      = compare_lists (s_test, s_trial, x_column, y_column, tol, l_limit, flog)</div>
+<div class="line"><a name="l00505"></a><span class="lineno">  505</span>&#160;                errcode  += errc</div>
+<div class="line"><a name="l00506"></a><span class="lineno">  506</span>&#160;             elif(meth == <span class="stringliteral">&#39;analyticcompare&#39;</span>):</div>
+<div class="line"><a name="l00507"></a><span class="lineno">  507</span>&#160;                x_column  = self.checklist[outfile][<span class="stringliteral">&#39;x_column&#39;</span>]</div>
+<div class="line"><a name="l00508"></a><span class="lineno">  508</span>&#160;                y_column  = self.checklist[outfile][<span class="stringliteral">&#39;y_column&#39;</span>]</div>
+<div class="line"><a name="l00509"></a><span class="lineno">  509</span>&#160;                functions = self.checklist[outfile][<span class="stringliteral">&#39;function&#39;</span>]</div>
+<div class="line"><a name="l00510"></a><span class="lineno">  510</span>&#160;                errc      = compare_analytic (s_test, s_trial, x_column, y_column, functions, tol, flog)</div>
+<div class="line"><a name="l00511"></a><span class="lineno">  511</span>&#160;                errcode  += errc</div>
+<div class="line"><a name="l00512"></a><span class="lineno">  512</span>&#160;             elif(meth == <span class="stringliteral">&#39;exists&#39;</span>):</div>
+<div class="line"><a name="l00513"></a><span class="lineno">  513</span>&#160;                errc = 0</div>
+<div class="line"><a name="l00514"></a><span class="lineno">  514</span>&#160;             <span class="keywordflow">else</span>: <span class="comment">#Insert new methods here</span></div>
+<div class="line"><a name="l00515"></a><span class="lineno">  515</span>&#160;                errcode += 1</div>
+<div class="line"><a name="l00516"></a><span class="lineno">  516</span>&#160;                flog.write(<span class="stringliteral">&quot;FAILED, unknown file comparison method &#39;%s&#39;\n&quot;</span> % meth)</div>
+<div class="line"><a name="l00517"></a><span class="lineno">  517</span>&#160;                <span class="keywordflow">continue</span></div>
+<div class="line"><a name="l00518"></a><span class="lineno">  518</span>&#160;         <span class="keywordflow">except</span>:</div>
+<div class="line"><a name="l00519"></a><span class="lineno">  519</span>&#160;             errcode += 1</div>
+<div class="line"><a name="l00520"></a><span class="lineno">  520</span>&#160;             errc = 10</div>
+<div class="line"><a name="l00521"></a><span class="lineno">  521</span>&#160;             flog.write(<span class="stringliteral">&quot;FAILED, test method failed.\n&quot;</span>)</div>
+<div class="line"><a name="l00522"></a><span class="lineno">  522</span>&#160; </div>
+<div class="line"><a name="l00523"></a><span class="lineno">  523</span>&#160;         <span class="keywordflow">if</span> errc==0:</div>
+<div class="line"><a name="l00524"></a><span class="lineno">  524</span>&#160;            flog.write(<span class="stringliteral">&quot;OK\n&quot;</span>)</div>
+<div class="line"><a name="l00525"></a><span class="lineno">  525</span>&#160; </div>
+<div class="line"><a name="l00526"></a><span class="lineno">  526</span>&#160;      flog.close()</div>
+<div class="line"><a name="l00527"></a><span class="lineno">  527</span>&#160;      <span class="keywordflow">return</span> errcode</div>
+<div class="line"><a name="l00528"></a><span class="lineno">  528</span>&#160; </div>
+<div class="line"><a name="l00529"></a><span class="lineno"><a class="line" href="classbin_1_1testcase__class_1_1testcase.html#a04a16a8ec41657f31709a5e40d3d22d7">  529</a></span>&#160;   <span class="keyword">def </span><a class="code" href="classbin_1_1testcase__class_1_1testcase.html#a04a16a8ec41657f31709a5e40d3d22d7">cleanup</a>(self):</div>
+<div class="line"><a name="l00530"></a><span class="lineno">  530</span>&#160;      <span class="keywordflow">if</span> os.path.exists(self.<a class="code" href="classbin_1_1testcase__class_1_1testcase.html#a55e578e19086f28c489135ece7f4c60b">logfile</a>):</div>
+<div class="line"><a name="l00531"></a><span class="lineno">  531</span>&#160;         subprocess.call([<span class="stringliteral">&quot;rm&quot;</span>,<span class="stringliteral">&quot;-rf&quot;</span>,self.<a class="code" href="classbin_1_1testcase__class_1_1testcase.html#a55e578e19086f28c489135ece7f4c60b">logfile</a>])</div>
+<div class="line"><a name="l00532"></a><span class="lineno">  532</span>&#160;      <span class="keywordflow">if</span> os.path.exists(self.<a class="code" href="classbin_1_1testcase__class_1_1testcase.html#a94b05879e566e1f8d5754745470362c1">testdir</a>):</div>
+<div class="line"><a name="l00533"></a><span class="lineno">  533</span>&#160;         subprocess.call([<span class="stringliteral">&quot;rm&quot;</span>,<span class="stringliteral">&quot;-rf&quot;</span>,self.<a class="code" href="classbin_1_1testcase__class_1_1testcase.html#a94b05879e566e1f8d5754745470362c1">testdir</a>])</div>
+<div class="line"><a name="l00534"></a><span class="lineno">  534</span>&#160; </div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="anamespacebin_1_1testcase__class_html_a11f51c2bfc9cb70c4555b07a2c0e220e"><div class="ttname"><a href="namespacebin_1_1testcase__class.html#a11f51c2bfc9cb70c4555b07a2c0e220e">bin.testcase_class.compare_analytic</a></div><div class="ttdeci">def compare_analytic(stest, strial, x_col, y_col, function, tol, flog)</div><div class="ttdef"><b>Definition:</b> <a href="testcase__class_8py_source.html#l00200">testcase_class.py:200</a></div></div>
 <div class="ttc" id="anamespacebin_1_1testcase__class_html_a43048e0467335168064651d54b9aedd3"><div class="ttname"><a href="namespacebin_1_1testcase__class.html#a43048e0467335168064651d54b9aedd3">bin.testcase_class.shell_command</a></div><div class="ttdeci">def shell_command(cmdlist)</div><div class="ttdef"><b>Definition:</b> <a href="testcase__class_8py_source.html#l00008">testcase_class.py:8</a></div></div>
-<div class="ttc" id="aclassbin_1_1testcase__class_1_1testcase_html_aec56dfc513c1cefa8c4e32f3e1f6d788"><div class="ttname"><a href="classbin_1_1testcase__class_1_1testcase.html#aec56dfc513c1cefa8c4e32f3e1f6d788">bin.testcase_class.testcase.monitor</a></div><div class="ttdeci">def monitor(self)</div><div class="ttdef"><b>Definition:</b> <a href="testcase__class_8py_source.html#l00410">testcase_class.py:410</a></div></div>
-<div class="ttc" id="aclassbin_1_1testcase__class_1_1testcase_html_a3abb62ac8041153315919cd269a38a92"><div class="ttname"><a href="classbin_1_1testcase__class_1_1testcase.html#a3abb62ac8041153315919cd269a38a92">bin.testcase_class.testcase.analyze</a></div><div class="ttdeci">def analyze(self)</div><div class="ttdef"><b>Definition:</b> <a href="testcase__class_8py_source.html#l00450">testcase_class.py:450</a></div></div>
+<div class="ttc" id="aclassbin_1_1testcase__class_1_1testcase_html_aec56dfc513c1cefa8c4e32f3e1f6d788"><div class="ttname"><a href="classbin_1_1testcase__class_1_1testcase.html#aec56dfc513c1cefa8c4e32f3e1f6d788">bin.testcase_class.testcase.monitor</a></div><div class="ttdeci">def monitor(self)</div><div class="ttdef"><b>Definition:</b> <a href="testcase__class_8py_source.html#l00412">testcase_class.py:412</a></div></div>
+<div class="ttc" id="aclassbin_1_1testcase__class_1_1testcase_html_a3abb62ac8041153315919cd269a38a92"><div class="ttname"><a href="classbin_1_1testcase__class_1_1testcase.html#a3abb62ac8041153315919cd269a38a92">bin.testcase_class.testcase.analyze</a></div><div class="ttdeci">def analyze(self)</div><div class="ttdef"><b>Definition:</b> <a href="testcase__class_8py_source.html#l00452">testcase_class.py:452</a></div></div>
 <div class="ttc" id="aclassbin_1_1testcase__class_1_1testcase_html_ab26c50dcc464755b892bce40b7b516de"><div class="ttname"><a href="classbin_1_1testcase__class_1_1testcase.html#ab26c50dcc464755b892bce40b7b516de">bin.testcase_class.testcase.parfile</a></div><div class="ttdeci">parfile</div><div class="ttdef"><b>Definition:</b> <a href="testcase__class_8py_source.html#l00358">testcase_class.py:358</a></div></div>
 <div class="ttc" id="anamespacebin_1_1testcase__class_html_a4b65c6708312099c506eea03e2f5d563"><div class="ttname"><a href="namespacebin_1_1testcase__class.html#a4b65c6708312099c506eea03e2f5d563">bin.testcase_class.compare_default</a></div><div class="ttdeci">def compare_default(stest, strial, tol, l_limit, flog)</div><div class="ttdef"><b>Definition:</b> <a href="testcase__class_8py_source.html#l00015">testcase_class.py:15</a></div></div>
 <div class="ttc" id="aclassbin_1_1testcase__class_1_1testcase_html"><div class="ttname"><a href="classbin_1_1testcase__class_1_1testcase.html">bin.testcase_class.testcase</a></div><div class="ttdef"><b>Definition:</b> <a href="testcase__class_8py_source.html#l00303">testcase_class.py:303</a></div></div>
 <div class="ttc" id="aclassbin_1_1testcase__class_1_1testcase_html_a6e5b96dcacb48aeddedf27e06c1b3d9f"><div class="ttname"><a href="classbin_1_1testcase__class_1_1testcase.html#a6e5b96dcacb48aeddedf27e06c1b3d9f">bin.testcase_class.testcase.basedir</a></div><div class="ttdeci">basedir</div><div class="ttdef"><b>Definition:</b> <a href="testcase__class_8py_source.html#l00323">testcase_class.py:323</a></div></div>
 <div class="ttc" id="aclassbin_1_1testcase__class_1_1testcase_html_a4d582adffb720e43d84688be253a68f9"><div class="ttname"><a href="classbin_1_1testcase__class_1_1testcase.html#a4d582adffb720e43d84688be253a68f9">bin.testcase_class.testcase.deploy</a></div><div class="ttdeci">def deploy(self)</div><div class="ttdef"><b>Definition:</b> <a href="testcase__class_8py_source.html#l00326">testcase_class.py:326</a></div></div>
-<div class="ttc" id="aclassbin_1_1testcase__class_1_1testcase_html_a04a16a8ec41657f31709a5e40d3d22d7"><div class="ttname"><a href="classbin_1_1testcase__class_1_1testcase.html#a04a16a8ec41657f31709a5e40d3d22d7">bin.testcase_class.testcase.cleanup</a></div><div class="ttdeci">def cleanup(self)</div><div class="ttdef"><b>Definition:</b> <a href="testcase__class_8py_source.html#l00527">testcase_class.py:527</a></div></div>
+<div class="ttc" id="aclassbin_1_1testcase__class_1_1testcase_html_a04a16a8ec41657f31709a5e40d3d22d7"><div class="ttname"><a href="classbin_1_1testcase__class_1_1testcase.html#a04a16a8ec41657f31709a5e40d3d22d7">bin.testcase_class.testcase.cleanup</a></div><div class="ttdeci">def cleanup(self)</div><div class="ttdef"><b>Definition:</b> <a href="testcase__class_8py_source.html#l00529">testcase_class.py:529</a></div></div>
 <div class="ttc" id="aclassbin_1_1testcase__class_1_1testcase_html_a78858ffbc98e23b961afe60472d54674"><div class="ttname"><a href="classbin_1_1testcase__class_1_1testcase.html#a78858ffbc98e23b961afe60472d54674">bin.testcase_class.testcase.__init__</a></div><div class="ttdeci">def __init__(self, tc, bdir)</div><div class="ttdef"><b>Definition:</b> <a href="testcase__class_8py_source.html#l00321">testcase_class.py:321</a></div></div>
 <div class="ttc" id="aclassbin_1_1testcase__class_1_1testcase_html_af352642d26b218a5c42dfc15fbf342e4"><div class="ttname"><a href="classbin_1_1testcase__class_1_1testcase.html#af352642d26b218a5c42dfc15fbf342e4">bin.testcase_class.testcase.launch</a></div><div class="ttdeci">def launch(self)</div><div class="ttdef"><b>Definition:</b> <a href="testcase__class_8py_source.html#l00395">testcase_class.py:395</a></div></div>
 <div class="ttc" id="aclassbin_1_1testcase__class_1_1testcase_html_a9196ce9ee6e831970e5eeaf82d2b3edb"><div class="ttname"><a href="classbin_1_1testcase__class_1_1testcase.html#a9196ce9ee6e831970e5eeaf82d2b3edb">bin.testcase_class.testcase.program</a></div><div class="ttdeci">program</div><div class="ttdef"><b>Definition:</b> <a href="testcase__class_8py_source.html#l00324">testcase_class.py:324</a></div></div>

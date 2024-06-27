@@ -156,6 +156,7 @@ $(document).ready(function(){initNavTree('parameters.html',''); initResizable();
 <li class="level1"><a href="#heating_density">heating_density</a></li>
 <li class="level1"><a href="#heating_mode">heating_mode</a></li>
 <li class="level1"><a href="#heating_frac">heating_frac</a></li>
+<li class="level1"><a href="#heating_T9_tol">heating_T9_tol</a></li>
 <li class="level1"><a href="#htpf_file">htpf_file</a></li>
 <li class="level1"><a href="#initemp_cold">initemp_cold</a></li>
 <li class="level1"><a href="#initemp_hot">initemp_hot</a></li>
@@ -732,7 +733,7 @@ h_track_nuclei_every</h1>
 heating_density</h1>
 <p>This parameter indicates at which density heating is switched on. Whenever the density of the tracer or analytic approach drops below the <a class="el" href="parameters.html#heating_density">heating_density</a> and <a class="el" href="parameters.html#heating_mode">heating_mode</a> is greater than 0, a feedback of the nuclear energy together with the neutrino loss is considered. The parameter is motivated by the assumption of our heating scheme that all produced neutrinos can escape the system freely and therefore contribute to a loss of energy. This assumption is, however, only valid below certain densities. The default value is \( 10^{11} \) g/ccm. In case that heating should be enabled for all conditions, this parameter can be set to -1.</p>
 <dl class="section user"><dt>Example template line:</dt><dd><code>heating_density = -1</code> </dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespacenuclear__heating.html#a8eb125f364ac3382db4eeee8081939ca" title="Modifies the temperature and entropy to account for nuclear heating.">nuclear_heating::nuclear_heating_update</a>, <a class="el" href="namespaceparameter__class.html#ad0b06cad78415537586c414a150efc42" title="Density at which nuclear heating will be switched on (-1) to always include heating.">parameter_class::heating_density</a>, <a class="el" href="parameters.html#heating_mode">heating_mode</a></dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespacenuclear__heating.html#ab539e2739c7a49885836c2c3d1b4f762" title="Modifies the temperature and entropy to account for nuclear heating.">nuclear_heating::nuclear_heating_update</a>, <a class="el" href="namespaceparameter__class.html#ad0b06cad78415537586c414a150efc42" title="Density at which nuclear heating will be switched on (-1) to always include heating.">parameter_class::heating_density</a>, <a class="el" href="parameters.html#heating_mode">heating_mode</a></dd></dl>
 <h1><a class="anchor" id="heating_mode"></a>
 heating_mode</h1>
 <p>Flag that enables a feedback of the nuclear energy generation on the temperature. Possible values are </p><a class="anchor" id="multi_row"></a>
@@ -763,7 +764,12 @@ heating_mode</h1>
 heating_frac</h1>
 <p>If nuclear heating is included in the calculation, you can determine the fraction of the released energy that is radiated away by neutrinos. For \(\beta\)-decays a good value is \(0.4\), i.e., 40 percent of the energy is radiated away by neutrinos.</p>
 <dl class="section user"><dt>Example template line:</dt><dd><code>heating_frac= 0.4</code> </dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespacenuclear__heating.html#a8eb125f364ac3382db4eeee8081939ca" title="Modifies the temperature and entropy to account for nuclear heating.">nuclear_heating::nuclear_heating_update</a>, <a class="el" href="namespaceparameter__class.html#afb7a7cda9bcd7aad9e6926da4f6005b6" title="use this fraction of nuclear-generated energy for heating">parameter_class::heating_frac</a></dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespacenuclear__heating.html#ab539e2739c7a49885836c2c3d1b4f762" title="Modifies the temperature and entropy to account for nuclear heating.">nuclear_heating::nuclear_heating_update</a>, <a class="el" href="namespaceparameter__class.html#afb7a7cda9bcd7aad9e6926da4f6005b6" title="use this fraction of nuclear-generated energy for heating">parameter_class::heating_frac</a></dd></dl>
+<h1><a class="anchor" id="heating_T9_tol"></a>
+heating_T9_tol</h1>
+<p>In case nuclear heating is enabled (heating mode &gt;0), this parameter determines the tolerance of the temperature convergence. The default value is 1d-4.</p>
+<dl class="section user"><dt>Example template line:</dt><dd><code>heating_T9_tol= 1d-5</code> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="parameters.html#heating_mode">heating_mode</a>, parameter_class::heating_T9_tol</dd></dl>
 <h1><a class="anchor" id="htpf_file"></a>
 htpf_file</h1>
 <p>File that contains high temperature partition functions exceeding temperatures of \(10\) GK. This file was provided by <a href="https://ui.adsabs.harvard.edu/abs/2003ApJS..147..403R/abstract">Rauscher 2003</a>. Each line contains the name of the isotope, the atomic number, the mass number, the spin of the ground state, followed by the values of the partition function for a high temperature grid. </p><div style="width:800px;overflow:scroll;padding:5px;background-color:#e8e8e8;scrollbar-base-color:#DEBB07;border:1px dashed grey;display: inline-block"><pre>

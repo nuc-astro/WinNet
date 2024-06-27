@@ -5,7 +5,7 @@
 <area shape="rect" id="node17" href="$namespaceerror__msg__class.html#a5bc9f3b670b725cc43276934b867d801" title="Converts a given real to a string with format &quot;(1pE10.2)&quot;." alt="" coords="956,700,1105,741"/>
 <area shape="rect" id="node27" href="$namespacenucstuff__class.html#a418807e98f2df2a3aa2b774539540f26" title="Total mass used to check the mass conservation." alt="" coords="231,1120,399,1147"/>
 <area shape="rect" id="node28" href="$namespacepardiso__class.html#a810a2da6812ef8117f69a107f3dc7e71" title="The solver core." alt="" coords="722,1498,879,1524"/>
-<area shape="rect" id="node29" href="$namespacenuclear__heating.html#a8eb125f364ac3382db4eeee8081939ca" title="Modifies the temperature and entropy to account for nuclear heating." alt="" coords="235,1314,396,1356"/>
+<area shape="rect" id="node29" href="$namespacenuclear__heating.html#ab539e2739c7a49885836c2c3d1b4f762" title="Modifies the temperature and entropy to account for nuclear heating." alt="" coords="235,1314,396,1356"/>
 <area shape="rect" id="node31" href="$namespacels__timmes__eos__module.html#a7f522fa32c0a061060a07863c7a8b05c" title=" " alt="" coords="721,1574,880,1616"/>
 <area shape="rect" id="node39" href="$namespaceanalysis.html#a3b22ccac63cf543890d001f197da0ee1" title="Output of the Newton&#45;Raphson loop diagnostics." alt="" coords="251,1612,380,1653"/>
 <area shape="rect" id="node40" href="$namespacetimestep__module.html#a3f5daca614b12181736095bd8ffbd7e0" title="Returns temperature, density, and radius for a given time &quot;time_i&quot;." alt="" coords="232,1677,399,1718"/>

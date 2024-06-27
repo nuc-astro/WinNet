@@ -36,7 +36,7 @@
 <area shape="rect" id="node14" href="$namespacenucstuff__class.html#a418807e98f2df2a3aa2b774539540f26" title="Total mass used to check the mass conservation." alt="" coords="375,700,543,727"/>
 <area shape="rect" id="node15" href="$namespacepardiso__class.html#a810a2da6812ef8117f69a107f3dc7e71" title="The solver core." alt="" coords="381,948,538,975"/>
 <area shape="rect" id="node16" href="$namespacegear__module.html#aa519234c51e2c5b261d146d99ecaf933" title="Nordsieck vector&#45;matrix product." alt="" coords="380,1304,539,1345"/>
-<area shape="rect" id="node17" href="$namespacenuclear__heating.html#a8eb125f364ac3382db4eeee8081939ca" title="Modifies the temperature and entropy to account for nuclear heating." alt="" coords="379,882,540,924"/>
+<area shape="rect" id="node17" href="$namespacenuclear__heating.html#ab539e2739c7a49885836c2c3d1b4f762" title="Modifies the temperature and entropy to account for nuclear heating." alt="" coords="379,882,540,924"/>
 <area shape="rect" id="node18" href="$namespacels__timmes__eos__module.html#a7f522fa32c0a061060a07863c7a8b05c" title=" " alt="" coords="627,740,786,781"/>
 <area shape="rect" id="node19" href="$namespaceanalysis.html#a3b22ccac63cf543890d001f197da0ee1" title="Output of the Newton&#45;Raphson loop diagnostics." alt="" coords="395,752,524,793"/>
 <area shape="rect" id="node20" href="$namespacegear__module.html#a160a1c119feefff54b5412fbcf80a4e2" title="Stepsize and order control to pepare the next step." alt="" coords="387,1421,532,1462"/>

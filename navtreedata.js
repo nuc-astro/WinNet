@@ -118,6 +118,7 @@ var NAVTREE =
       [ "heating_density", "parameters.html#heating_density", null ],
       [ "heating_mode", "parameters.html#heating_mode", null ],
       [ "heating_frac", "parameters.html#heating_frac", null ],
+      [ "heating_T9_tol", "parameters.html#heating_T9_tol", null ],
       [ "htpf_file", "parameters.html#htpf_file", null ],
       [ "initemp_cold", "parameters.html#initemp_cold", null ],
       [ "initemp_hot", "parameters.html#initemp_hot", null ],
@@ -254,10 +255,10 @@ var NAVTREEINDEX =
 "hdf5__module_8f90.html#a243c791a91c11655e7897b99d17c3e90",
 "macros_8h.html#a1c1bb39c350a467f8e28fe128e8b40b7",
 "namespacetabulated__rates.html",
-"parameter__class_8f90.html#a80ce8d36d8505de32c4ee5baaee7cb19",
-"parser__module_8f90.html#af58518a18fa64d4dcf9263533ec457ca",
-"structfission__rate__module_1_1fissionrate__type.html#a9f3d7260208e8901cd9b9d6553bfc698",
-"tw__rate__module_8f90.html#a73952e6c67e0868cf5fe2446878eb4ee"
+"parameter__class_8f90.html#a7fb52e5d3c8c26bff15499f610c6b52a",
+"parser__module_8f90.html#ae2806c52d9868da3855d28c188a1679e",
+"structfission__rate__module_1_1fissionrate__type.html#a722e6eb4581bebe72a409c78aa2a9353",
+"tw__rate__module_8f90.html#a5d07a15b7f6732b1c7419051bdeb1971"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
