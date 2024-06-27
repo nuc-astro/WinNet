@@ -875,6 +875,15 @@
      @par Example template line:
         ``` heating_frac= 0.4 ```
      @see nuclear_heating::nuclear_heating_update, parameter_class::heating_frac
+     
+    \section heating_T9_tol               heating_T9_tol
+    In case nuclear heating is enabled (\ref heating mode >0), this parameter determines the tolerance of the temperature
+    convergence. The default value is 1d-4.
+
+     @par Example template line:
+        ``` heating_T9_tol= 1d-5 ```
+     @see \ref heating_mode, parameter_class::heating_T9_tol
+     
 
    \section htpf_file                  htpf_file
    File that contains high temperature partition functions exceeding

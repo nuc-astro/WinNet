@@ -499,6 +499,14 @@ subroutine read_seed(iniab)
     ! At this point, Y, X, A, Z, and N are known (or the code crashed)
     ! Renormalize
     mafra_norm = sum(X)
+
+    ! Check if it is a reasonable norm
+    if (abs(mafra_norm-1d0) .gt. 0.1 ) then
+        call raise_exception("Norm of seed nuclei was terrible ("//num_to_str(abs(mafra_norm-1d0))//")! "//&
+                             "Check your initial abundances or seed format!",&
+                             "read_seeds",390025)
+    end if
+
     call write_data_to_std_out("Mass conservation pre norm",num_to_str(mafra_norm))
     X(:) = X(:)/mafra_norm
     Y(:) = Y(:)/mafra_norm

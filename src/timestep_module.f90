@@ -628,7 +628,7 @@ subroutine advance_implicit_euler(cnt)
 use parameter_class, only: adapt_stepsize_maxcount,&
     heating_mode,nr_maxcount,nr_tol,nse_calc_every, &
     trajectory_mode,initial_stepsize,freeze_rate_temp,&
-    timestep_hydro_factor,nr_mincount
+    timestep_hydro_factor,nr_mincount,heating_T9_tol
 use global_class,    only: net_size, isotope,ipro,ineu,&
     heating_switch
 use hydro_trajectory,only: zsteps,ztime
@@ -650,7 +650,7 @@ real(r_kind)           :: m_tot        !< Mass conservation
 type(timmes_eos_state) :: state        !< State variable for Helmholtz EOS
 integer                :: eos_status   !< Status of the eos, 0=working, 0!=failing
 logical                :: exit_condition!< Helper variable that keeps track of the exit condition of the NR
-real(r_kind)           :: T9_nrlast    !< Last temperature of the NR
+real(r_kind)           :: T9_conv      !< Convergence of the temperature
    ! Check the mass conservation and kill the calculation if something goes odd.
    ! Mass conservation should not be within 0.001% to nr_tol
    ! simulataneously with a small timestep.
@@ -678,9 +678,6 @@ real(r_kind)           :: T9_nrlast    !< Last temperature of the NR
       call el_ab (Y, Ye)
       ! Get temperature, density, and radius
       call update_hydro(time, T9, rhob, Rkm, ent, Ye, T9h)
-
-      ! Set an initial value to the last temperature of the NR
-      T9_nrlast = T9
 
       !-- Newton-Rhapson iterative solve ---------
       newton_raphson: do nr_count=1,nr_maxcount
@@ -711,7 +708,7 @@ real(r_kind)           :: T9_nrlast    !< Last temperature of the NR
                 call winnse_guess( T9, rhob, Ye, Y(ineu), Y(ipro), Y)
             end if
             ! update entropy from nuclear heating, then update temperature
-            call nuclear_heating_update(nr_count,rhob,Ye,pf,Y_p,Y,ent_p,ent,T9_p,T9,T9h_p,T9h,stepsize)
+            call nuclear_heating_update(nr_count,rhob,Ye,pf,Y_p,Y,ent_p,ent,T9_p,T9,T9h_p,T9h,stepsize,T9_conv)
          end if
 
          ! mass conservation check
@@ -721,15 +718,16 @@ real(r_kind)           :: T9_nrlast    !< Last temperature of the NR
          call output_nr_diagnostic(cnt,k,nr_count,time,T9,stepsize,m_tot,Y_p,Y)
 
          ! exit if mass is conserved sufficiently well
-         if (((.not. heating_switch) .and. (nr_count.ge.nr_mincount) .and. (dabs(m_tot-1d0).lt.nr_tol)) .or. &
+        !  if (((nr_count.ge.nr_mincount) .and. (dabs(m_tot-1d0).lt.nr_tol)) ) &
+         if (((.not. heating_switch) .and. (nr_count.ge.nr_mincount) .and. (dabs(m_tot-1d0).lt.nr_tol))  &
+             .or. &
              ((heating_switch) .and. (nr_count.ge.nr_mincount) .and. (dabs(m_tot-1d0).lt.nr_tol)  .and. &
-              ((max(T9_nrlast,T9)/min(T9_nrlast,T9)-1 .lt. timestep_hydro_factor))) .or. &
+              ((T9_conv .lt. heating_T9_tol))) .or. &
               ((heating_switch) .and. (nr_count.ge.nr_mincount) .and. (dabs(m_tot-1d0).lt.nr_tol) .and. &
                k .eq. adapt_stepsize_maxcount)) &
               exit newton_raphson
 
 
-         T9_nrlast = T9
       end do newton_raphson
 
 
@@ -824,7 +822,7 @@ use parameter_class, only: heating_mode,nse_calc_every, &
                            gear_nr_maxcount, freeze_rate_temp, &
                            initial_stepsize, adapt_stepsize_maxcount,&
                            timestep_hydro_factor, gear_nr_mincount, &
-                           gear_ignore_adapt_stepsize
+                           gear_ignore_adapt_stepsize, heating_T9_tol
 use global_class,    only: net_size, isotope,ipro,ineu, heating_switch
 use hydro_trajectory,only: zsteps,ztime
 use analysis,        only: output_nr_diagnostic
@@ -855,7 +853,7 @@ type(timmes_eos_state) :: state
 integer                :: eos_status
 logical                :: exit_condition!< Helper variable that keeps
                                         !  track of the exit condition of the NR
-real(r_kind)           :: T9_nrlast     !< Last temperature in NR
+real(r_kind)           :: T9_conv       !< Convergence of the temperature
 
    adapt_stepsize: do k=0,adapt_stepsize_maxcount
         ! compute some handy reductions and auxiliary variables
@@ -871,8 +869,6 @@ real(r_kind)           :: T9_nrlast     !< Last temperature in NR
 
         ! Get temperature, density, and radius
         call update_hydro(time, T9, rhob, Rkm, ent, Ye, T9h)
-
-        T9_nrlast = T9
 
         ! shift tau list and insert h, set time
         call shift_tau
@@ -920,7 +916,7 @@ real(r_kind)           :: T9_nrlast     !< Last temperature in NR
                 if (evolution_mode .eq. EM_NSE) then
                     call winnse_guess( T9, rhob, Ye, Y(ineu), Y(ipro), Y)
                 end if
-                call nuclear_heating_update(gear_nr_count,rhob,Ye,pf,Y_p,Y,ent_p,ent,T9_p,T9,T9h_p,T9h,stepsize)
+                call nuclear_heating_update(gear_nr_count,rhob,Ye,pf,Y_p,Y,ent_p,ent,T9_p,T9,T9h_p,T9h,stepsize,T9_conv)
             end if
 
             ! mass conservation check
@@ -935,14 +931,12 @@ real(r_kind)           :: T9_nrlast     !< Last temperature in NR
                 dabs(m_tot-1.0d0).lt.gear_nr_eps .and. gear_nr_count .ge. gear_nr_mincount) .or. &
                 (heating_switch .and. maxval(dabs(delta)/max(Y,gear_escale)).lt.gear_nr_eps .and. &
                 dabs(m_tot-1.0d0).lt.gear_nr_eps .and. gear_nr_count .ge. gear_nr_mincount .and.&
-                ((max(T9_nrlast,T9)/min(T9_nrlast,T9)-1 .lt. timestep_hydro_factor))) .or. &
+                ((T9_conv .lt. heating_T9_tol))) .or. &
                  ((heating_switch) .and. maxval(dabs(delta)/max(Y,gear_escale)).lt.gear_nr_eps .and. &
                  dabs(m_tot-1.0d0).lt.gear_nr_eps .and. &
                  (k .eq. adapt_stepsize_maxcount))) then
                 exit newton_raphson
             end if
-
-            T9_nrlast = T9
 
         end do newton_raphson
 

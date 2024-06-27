@@ -396,8 +396,10 @@ class testcase:
       #--- run the program, don't forget to save process ID  -----------------
       # (the following assumes that the shell is bash; might not work in more
       #  primitive shells; will not work with csh or tcsh)
+      # Also run only on one core
+      environment_command = 'export OMP_NUM_THREADS=1 && '
       os.chdir(self.testdir+"/testrun")
-      command= self.program+" "+self.parfile_name+" >OUT 2>ERR &\n"
+      command= environment_command+self.program+" "+self.parfile_name+" >OUT 2>ERR &\n"
       subprocess.call("ulimit -s unlimited\n"  + command + \
       """echo $! > PID
       if [ $? -ne 0 ]; then
