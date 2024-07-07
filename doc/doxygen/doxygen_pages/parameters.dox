@@ -1560,7 +1560,7 @@ An example file looks like:
    10, 11. All rates in the REACLIB database are fitted by the function
 
    \f[
-   \lambda = \mathrm{exp} \left[ a_0 + \sum \limits _{i=1} ^5 a_i T_9 ^{\frac{2i-5}{3}} a_6 \, \mathrm{ln} T_9 \right].
+   \lambda = \mathrm{exp} \left[ a_0 + \sum \limits _{i=1} ^5 a_i T_9 ^{\frac{2i-5}{3}} + a_6 \, \mathrm{ln} T_9 \right].
    \f]
 
    An exemplary entry for on reaction rate is given below. The reactions are divided
