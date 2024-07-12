@@ -165,8 +165,8 @@ if options.save:
         # Animate the flows
         anim = FlowAnimation(run_path, fig, **kwargs)
 
-        ani = anim.get_funcanimation(interval=int(options.interval), frames=range(frame_min, frame_max))
-        ani.save(options.output_name)
+        ani = anim.get_funcanimation(frames=range(frame_min, frame_max))
+        ani.save(options.output_name, fps=int(options.interval))
     else: # Parallel saving
         # Sanity check, does mpi4py exist?
         try:
