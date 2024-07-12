@@ -299,7 +299,13 @@ subroutine netsolve(rhs, res)
    call pardisoinit(pt, mtype, iparm)
 ! numbers of processors ( value of omp_num_threads )
    call getenv('OMP_NUM_THREADS',omp_env)
-   read(omp_env,'(i3)')nthreads
+   ! Check if variable is set, set threads to 1 if not
+   if (len_trim(omp_env)==0)then
+      nthreads=1
+   else
+     read(omp_env,'(i3)')nthreads
+   endif
+
    iparm(3)  =  nthreads
 !    iparm(4)  = 61 ???
 !    iparm(11) =  1 ???

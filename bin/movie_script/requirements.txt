@@ -1,0 +1,8 @@
+h5py
+matplotlib>=3.8.4
+mpi4py
+mpi4py_mpich
+numpy
+pandas
+scipy
+tqdm

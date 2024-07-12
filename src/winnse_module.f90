@@ -64,9 +64,9 @@ contains
 !! This subroutine also writes the content of \ref global_class::isotope
 !! into shorter variables, such as \ref aa, \ref nn, and \ref gg. In
 !! addition it calculates the binding energy
-!! \f[ Be(i) = Z(i) \cdot Z_{me} + N(i) \cdot N_{me} - M_{exc}(i) \f]
-!! with the mass excess of protons (Z) and neutrons (N), \f$ Z_{me} \f$
-!! and \f$ N_{me} \f$, and the mass excess of the isotope \f$ M_{exc} \f$.
+!! \f[ Be(i) = Z(i) \cdot (Z_{me} + e_{m}) + N(i) \cdot N_{me} - M_{exc}(i) \f]
+!! with the mass excess of protons (Z), neutrons (N), and the isotope (i), \f$ Z_{me} \f$,
+!! \f$ N_{me} \f$, and \f$ M_{exc} \f$. The mass of the electrons (e) is given by \f$ e_{m} \f$.
 !! Furthermore it calculates \f$ 1 + 2 \cdot J \f$ with J being the spin
 !! of the ground state.
 !!
@@ -78,7 +78,7 @@ subroutine nse_init()
    !
    integer                   :: i
    real(r_kind),parameter    :: nem = 8.071323d0 !neutron excess mass [MeV]
-   real(r_kind),parameter    :: pem = 7.288969d0 !proton excess mass [MeV]
+   real(r_kind),parameter    :: pem = 7.288969d0 !hydrogen excess mass (including the electron) [MeV]
 
 !-----allocate arrays of dimension net_size
    allocate(ynse(net_size),pf(0:net_size),gg(net_size),be(net_size),cnse(net_size))

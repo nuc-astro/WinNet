@@ -455,7 +455,7 @@ subroutine output_iteration(cnt,ctime,T9,rho_b,entropy,Rkm,Y,pf)
      end if
   end if
 
-  if(flow_every.gt.0) then
+  if((flow_every.gt.0) .and. (cnt .ne. 0)) then
      if(mod(cnt,flow_every).eq.0) then
         call output_flow(ctime,T9,rho_b,Y)
      end if
@@ -1432,7 +1432,10 @@ subroutine calc_nuclear_heating(hdf5_mode, write_engen, write_toplist)
      ! Sort the list
      call quicksort(0,nreac,toplist_energy,toplist_idx)
 
-     if (toplist_energy(1) .lt. toplist_energy(2)) stop "there was a bug in the toplist"
+     if (toplist_energy(1) .lt. toplist_energy(2)) then
+        call raise_exception("There was a bug in the toplist. Energy is not sorted.", &
+                             "calc_nuclear_heating")
+     end if
 
      i=0
      j=1
@@ -1455,10 +1458,8 @@ subroutine calc_nuclear_heating(hdf5_mode, write_engen, write_toplist)
      end do
 
      if (tplist(1) .lt. tplist(2)) then
-        write(*,*) tplist(1), tplist(2)
-        write(*,*), toplist_energy(1),toplist_energy(2)
-        write(*,*), toplist_idx(1),toplist_idx(2)
-        stop "there was a bug in the tplist"
+        call raise_exception("There was a bug in the toplist. Energy is not sorted.", &
+                             "calc_nuclear_heating")
      end if
 
      i=0
