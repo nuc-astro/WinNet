@@ -24,7 +24,16 @@ RUN useradd -g users winnet && passwd -d winnet
 
 # Create the home folder and change permissions
 RUN mkdir /home/winnet
+
+# Modify Matplotlib default params
+COPY matplotlibrc /home/winnet/.config/matplotlib/
+RUN chown -R winnet:users /home/winnet/.config/matplotlib/
+
+# Change the access rights
 RUN chown winnet:users /home/winnet/
+
+# Take care of FFMPEG and all necessary to run the movie script
+RUN apt-get install -y ffmpeg
 
 # Switch the user
 USER winnet:users
@@ -57,8 +66,10 @@ RUN conda install -y pip
 # Now install all needed packages
 RUN cd /home/winnet/WinNet/install && pip install -r requirements.txt
 
-# Modify Matplotlib default params
-COPY matplotlibrc /home/winnet/.config/matplotlib/
+# Install everything for the movie
+RUN pip install mpi4py
+ENV PATH="/home/winnet/WinNet/bin/movie_script:$PATH"
+
 
 # Use the WinNet directory as default one
 RUN echo 'cd /home/winnet/WinNet/' >> /home/winnet/.bashrc

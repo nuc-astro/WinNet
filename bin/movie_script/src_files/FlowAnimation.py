@@ -1,0 +1,811 @@
+# Authors: M. Jacobi, J. Kuske, M. Reichert
+################################################################################
+import os
+import numpy              as np
+import matplotlib.pyplot  as plt
+import matplotlib         as mpl
+import matplotlib.patches as patches
+import matplotlib.patheffects as PathEffects
+from tqdm                 import tqdm
+from matplotlib           import cm
+from matplotlib.colors    import LogNorm, SymLogNorm
+from matplotlib.colors    import ListedColormap, LinearSegmentedColormap
+from matplotlib.animation import FuncAnimation
+from wreader              import wreader
+from h5py                 import File
+from nucleus_multiple_class import nucleus_multiple
+
+################################################################################
+
+class FlowAnimation(object):
+    """
+       Class to create an animation of the abundances and their flow for the nuclear reaction network WinNet.
+    """
+
+    def __init__(
+        self,
+        path,
+        fig,
+        # Flows
+        plot_flow        = True,
+        # flow_group       = 'flows',
+        flow_min         = 1e-8,
+        flow_max         = 1e1,
+        separate_fission = True,
+        flow_cbar        = True,
+        cmapNameFlow     = 'viridis',
+        # Mass fractions
+        abun_cbar        = True,
+        X_min            = 1e-8,
+        X_max            = 1,
+        cmapNameX        = 'inferno',
+        # Mass bins
+        plot_abar        = True,
+        plotMassBins     = True,
+        addMassBinLabels = True,
+        alphaMassBins    = 0.5,
+        cmapNameMassBins = 'jet',
+        massBins         = [[1,1],[2,71],[72,93],[94,110],[111,144],[145,169],[170,187],[188,205],[206,252],[253,337]],
+        massBinLabels    = ['','','1st peak','','2nd peak','rare earths', '', '3rd peak', '', 'fissioning'],
+        # Magic numbers
+        plot_magic       = True,
+        # Timescales
+        plot_timescales  = True,
+        timescalerange   = (1e-12, 1e10),
+        timerange        = (1e-5 , 1e5),
+        # Mainout
+        plot_mainout     = True,
+        densityrange     = (1e-5, 1e12),
+        temperaturerange = (0, 10),
+        yerange          = (0.0, 0.55),
+        plot_logo        = True
+       ):
+        """
+        Parameters
+        ----------
+        path : str
+            Path to the WinNet data.
+        fig : matplotlib.figure.Figure
+            Figure to plot the animation on.
+        plot_flow : bool
+            Plot the flow of the abundances.
+        flow_min : float
+            Minimum value for the flow.
+        flow_max : float
+            Maximum value for the flow.
+        separate_fission : bool
+            Separate the fissioning region from the fission products in the flow plot.
+        flow_cbar : bool
+            Plot the colorbar for the flow.
+        cmapNameFlow : str
+            Name of the colormap for the flow.
+        abun_cbar : bool
+            Plot the colorbar for the mass fractions.
+        X_min : float
+            Minimum value for the mass fractions.
+        X_max : float
+            Maximum value for the mass fractions.
+        cmapNameX : str
+            Name of the colormap for the mass fractions.
+        plot_abar : bool
+            Plot the average mass number.
+        plotMassBins : bool
+            Plot the mass bins.
+        addMassBinLabels : bool
+            Add labels to the mass bins.
+        alphaMassBins : float
+            Transparency of the mass bins.
+        cmapNameMassBins : str
+            Name of the colormap for the mass bin color.
+        massBins : list
+            List of mass bins.
+        massBinLabels : list
+            List of labels for the mass bins.
+        plot_magic : bool
+            Plot the magic numbers in the abundance plot.
+        plot_timescales : bool
+            Plot the timescales.
+        timescalerange : tuple
+            Range of the timescales.
+        timerange : tuple
+            Range of the time axis.
+        plot_mainout : bool
+            Plot the mainout data.
+        densityrange : tuple
+            Range of the density axis in the mainout plot.
+        temperaturerange : tuple
+            Range of the temperature axis in the mainout plot.
+        yerange : tuple
+            Range of the electron fraction axis in the mainout plot.
+        plot_logo : bool
+            Plot the WinNet logo.
+        """
+
+
+        # Make some sanity check and ensure that the user has the correct version of Matplotlib
+        if (mpl.__version__ < '3.8.0'):
+            print('Using old version of Matplotlib ('+str(mpl.__version__)+'), some features may not work.')
+            print('Need 3.8 or higher.')
+
+        # Set the paths
+        # Data directory:
+        # Remember where this file is located
+        self.__script_path = os.path.dirname(os.path.abspath(__file__))
+        self.__data_path = os.path.join(self.__script_path,"data")
+        # Frame directory:
+        self.frame_dir = f'{path}/frames'
+        # WinNet run path
+        self.path = path
+
+
+        # Save the parameters in class variables
+        self.X_min            = X_min             # Minimum value for the mass fractions
+        self.X_max            = X_max             # Maximum value for the mass fractions
+        self.plotMassBins     = plotMassBins      # Plot the mass bins
+        self.plot_abar        = plot_abar         # Plot the average mass number
+        self.addMassBinLabels = addMassBinLabels  # Add labels to the mass bins
+        self.alphaMassBins    = alphaMassBins     # Transparency of the mass bins
+        self.cmapNameMassBins = cmapNameMassBins  # Name of the colormap for the mass bin color
+        self.massBins         = massBins          # List of mass bins
+        self.massBinLabels    = massBinLabels     # List of labels for the mass bins
+        self.plot_timescales  = plot_timescales   # Plot the timescales
+        self.timescalerange   = timescalerange    # Range of the timescales
+        self.timerange        = timerange         # Range of the time axis
+        self.plot_mainout     = plot_mainout      # Plot the mainout data
+        self.plot_logo        = plot_logo         # Plot the WinNet logo
+        self.flow_group       = 'flows'           # Name of the group in the HDF5 file that contains the flow data
+        self.plot_flow        = plot_flow         # Plot the flow of the abundances
+        self.fig              = fig               # Figure to plot the animation on
+        self.separate_fission = separate_fission  # Separate the fissioning region from the fission products in the flow plot
+        self.plot_magic       = plot_magic        # Plot the magic numbers in the abundance plot
+        self.densityrange     = densityrange      # Range of the density axis in the mainout plot
+        self.temperaturerange = temperaturerange  # Range of the temperature axis in the mainout plot
+        self.yerange          = yerange           # Range of the electron fraction axis in the mainout plot
+        self.cmapNameX        = cmapNameX         # Name of the colormap for the mass fractions
+        self.cmapNameFlow     = cmapNameFlow      # Name of the colormap for the flow
+
+
+        # Initialize a class to read WinNet data
+        self.wreader = wreader(path)
+
+        # Read the stable isotopes
+        self.N_stab, self.Z_stab  = np.loadtxt(os.path.join(self.__data_path,'../../../class_files/data/stableiso.dat'),
+                                                unpack=True, usecols=(1, 2), dtype=int)
+
+        # Read the nuclear chart nuclei
+        sunet_path = os.path.join(self.__data_path, "sunet_really_complete")
+        nuclei_names = np.loadtxt(sunet_path,dtype=str)
+        nm = nucleus_multiple(names=nuclei_names)
+        self.__A_plot = nm.A
+        self.__Z_plot = nm.Z
+        self.__N_plot = nm.N
+        self.__min_N, self.__max_N = np.min(self.__N_plot), np.max(self.__N_plot)
+        self.__min_Z, self.__max_Z = np.min(self.__Z_plot), np.max(self.__Z_plot)
+
+
+        # Other data that does not change like magic numbers
+        self.nMagic = [8, 20, 28, 50, 82, 126, 184] # Magic numbers in neutrons
+        self.zMagic = [8, 20, 28, 50, 82, 114]      # Magic numbers in protons
+        self.magic_excess = 4                       # How long should the line stick out over the nuc. chart?
+
+        # Timescale parameters
+        self.timescale_colors = ["C1","C2","C3","C4","C5","C6","C7","C8","C9","C0"]
+        self.timescale_entries = [['ag','ga'],['ng','gn'],['an','na'],['np','pn'],['pg','gp'],['ap','pa'],["beta"],["bfiss"],["nfiss"],["sfiss"]]
+        self.timescale_labels = [r"$\tau_{\alpha,\gamma}$",r"$\tau_{n,\gamma}$",r"$\tau_{\alpha,n}$",r"$\tau_{n,p}$",r"$\tau_{p,\gamma}$",
+                                 r"$\tau_{\alpha,p}$",r"$\tau_{\beta}$",r"$\tau_{\rm{bfiss}}$",r"$\tau_{\rm{nfiss}}$",r"$\tau_{\rm{sfiss}}$"]
+
+
+        # Set up the norm of the flow
+        self.flow_norm = LogNorm(flow_min, flow_max, clip=True)
+
+        # If the flow is not plotted, then the fissioning region should not be separated
+        # and the flow colorbar should not be plotted
+        if (not self.plot_flow):
+            self.separate_fission = False
+            flow_cbar = False
+
+        # Initialize the axes and figure
+        self.init_axes()
+        # Initialize the data
+        self.init_data()
+        # Initialize the plot
+        self.init_plot()
+        # Initialize the colorbars
+        self.init_cbars(abun_cbar, flow_cbar)
+
+
+    def init_axes(self):
+        """
+           Initialize the axes and everything figure related of the plot.
+        """
+        # Make the hatch linewidth smaller
+        mpl.rcParams['hatch.linewidth'] = 0.8
+
+        # Set up the figure
+        self.ax = self.fig.gca()
+        self.ax.set_aspect('equal')
+
+        # Set up the axes for the nuclear chart
+        self.__init_nucchart_ax()
+
+        # Set up the axes for the mainout plot
+        if self.plot_mainout:
+            self.__init_axMainout()
+
+        # Set up the axes for the mass fraction plot
+        self.__init_axAbund()
+
+        # Timescale stuff
+        if self.plot_timescales:
+            self.__init_axTimescales()
+
+        # WinNet logo
+        if self.plot_logo:
+            self.__init_logo()
+
+
+    def __init_nucchart_ax(self):
+        """
+           Initialize the axes and everything figure related of the nuclear chart.
+        """
+        # Set up the main figure of the nuclear chart, i.e., remove borders, ticks, etc.
+        for tick in self.ax.xaxis.get_major_ticks():
+            tick.tick1line.set_visible(False)
+            tick.tick2line.set_visible(False)
+            tick.label1.set_visible(False)
+            tick.label2.set_visible(False)
+        for tick in self.ax.yaxis.get_major_ticks():
+            tick.tick1line.set_visible(False)
+            tick.tick2line.set_visible(False)
+            tick.label1.set_visible(False)
+            tick.label2.set_visible(False)
+        self.ax.spines[['right', 'top', "bottom", "left"]].set_visible(False)
+
+
+    def __init_axAbund(self):
+        """
+           Initialize the axes and everything figure related of the mass fraction plot.
+        """
+        # Add summed mass fraction plot
+        self.axAbund = plt.axes([0.15,0.78,0.35,0.15])
+        self.axAbund.set_xlabel(r'Mass number $A$')
+        self.axAbund.set_ylabel(r'X(A)')
+        self.axAbund.set_xlim(0,300)
+        self.axAbund.set_yscale('log')
+        self.axAbund.set_ylim(self.X_min, self.X_max)
+        if self.plot_abar:
+            self.axAbund.axvline(np.nan, color='tab:red',label=r"$\bar{A}$")
+            self.axAbund.legend(loc='upper right')
+        # Add mass fraction bins if needed
+        if self.plotMassBins:
+            self.axMassFrac = self.axAbund.twinx()
+            self.axMassFrac.set_ylabel(r'$X(A)$')
+            self.axMassFrac.set_ylim(0,1)
+            self.axMassFrac.set_yscale('linear')
+
+
+    def __init_axTimescales(self):
+        """
+           Initialize the axes and everything figure related of the timescales plot.
+        """
+        self.axTimescales = plt.axes([0.15,0.55,0.20,0.17])
+        self.axTimescales.set_xlabel('Time [s]')
+        self.axTimescales.set_ylabel('Timescales [s]')
+        self.axTimescales.set_yscale('log')
+        self.axTimescales.set_ylim(self.timescalerange[0],self.timescalerange[1])
+        self.axTimescales.set_xscale('log')
+        self.axTimescales.set_xlim(self.timerange[0],self.timerange[1])
+
+
+    def __init_axMainout(self):
+        """
+           Initialize the axes and everything figure related of the mainout plot.
+        """
+        def make_patch_spines_invisible(ax):
+            ax.set_frame_on(True)
+            ax.patch.set_visible(False)
+            for sp in ax.spines.values():
+                sp.set_visible(False)
+        # Density
+        self.axMainout = plt.axes([0.65,0.2,0.25,0.25])
+        self.axMainout.set_xlabel('Time [s]')
+        self.axMainout.set_ylabel(r'Density [g/cm$^3$]')
+        self.axMainout.set_yscale('log')
+        self.axMainout.set_ylim(self.densityrange[0],self.densityrange[1])
+        self.axMainout.set_xscale('log')
+        self.axMainout.set_xlim(self.timerange[0],self.timerange[1])
+        # Temperature
+        self.axMainout_temp = self.axMainout.twinx()
+        self.axMainout_temp.set_ylabel(r'Temperature [GK]')
+        self.axMainout_temp.set_ylim(self.temperaturerange[0],self.temperaturerange[1])
+        self.axMainout_temp.spines["left"].set_position(("axes", -0.2))
+        make_patch_spines_invisible(self.axMainout_temp)
+        self.axMainout_temp.spines["left"].set_visible(True)
+        self.axMainout_temp.yaxis.set_label_position('left')
+        self.axMainout_temp.yaxis.set_ticks_position('left')
+        self.axMainout_temp.yaxis.label.set_color("tab:red")
+        self.axMainout_temp.yaxis.set_tick_params(colors="tab:red")
+        # Ye
+        self.axMainout_ye = self.axMainout.twinx()
+        self.axMainout_ye.set_ylabel(r'Electron fraction')
+        self.axMainout_ye.set_ylim(self.yerange[0],self.yerange[1])
+        make_patch_spines_invisible(self.axMainout_ye)
+        self.axMainout_ye.spines["right"].set_visible(True)
+        self.axMainout_ye.yaxis.set_label_position('right')
+        self.axMainout_ye.yaxis.set_ticks_position('right')
+        self.axMainout_ye.yaxis.label.set_color("tab:blue")
+        self.axMainout_ye.yaxis.set_tick_params(colors="tab:blue")
+
+
+    def __init_logo(self):
+        """
+           Initialize the axes and everything figure related of the WinNet logo.
+        """
+        self.axLogo = plt.axes([0.75,0.45,0.15,0.15])
+        self.axLogo.axis('off')
+        self.axLogo.imshow(plt.imread(os.path.join(self.__data_path,'WinNet_logo.png')))
+
+
+    def init_data(self):
+        """
+           Initialize the data for the plot.
+        """
+        # Read all things related to the snapshots
+        self.Z = self.wreader.Z
+        self.N = self.wreader.N
+        self.A = self.wreader.A
+        self.X = self.wreader.X[0,:]
+        # Get the number of timesteps, i.e., the number of snapshots
+        self.n_timesteps = self.wreader.nr_of_snaps
+
+        # Set up timescale data
+        if self.plot_timescales:
+            self.ts_time = self.wreader.tau['time']
+            self.ts_data = [ [ self.wreader.tau["tau_"+str(self.timescale_entries[i][j])]
+                                for j in range(len(self.timescale_entries[i]))] for i in range(len(self.timescale_entries)) ]
+
+        # Set up mainout data
+        if self.plot_mainout:
+            self.mainout_time        = self.wreader.mainout['time']
+            self.mainout_density     = self.wreader.mainout['dens']
+            self.mainout_temperature = self.wreader.mainout['temp']
+            self.mainout_ye          = self.wreader.mainout['ye']
+
+        self.time = 0
+
+        # Set up the Abar
+        self.Abar = 1.0/np.sum(self.X/self.A)
+        # Set up the sum of the mass fractions
+        self.Asum, self.Xsum = self.sum_over_A(self.A, self.X)
+        # Set up the mass fraction bins
+        self.Xbins = np.zeros(len(self.massBins),dtype=float)
+
+        # Create custom colormap, with colormap for abundances and also the background colors
+        abucmap = mpl.colormaps[self.cmapNameX]
+        abundance_colors = abucmap(np.linspace(0, 1, 256))
+        massbin_colormap = mpl.colormaps[self.cmapNameMassBins]
+        amount_mass_bins = len(self.massBins)
+        massbin_colors   = massbin_colormap(np.linspace(0, 1, amount_mass_bins))
+        massbin_colors[:,3] = self.alphaMassBins
+        self.massbin_colors = massbin_colors
+        newcolors = np.vstack((massbin_colors, abundance_colors))
+        self.__abundance_colors = ListedColormap(newcolors)
+        # Create the values for the colors
+        dist = (np.log10(self.X_max)-np.log10(self.X_min))/256.0
+        self.values = np.linspace(np.log10(self.X_min)-amount_mass_bins*dist, np.log10(self.X_max),num=256+amount_mass_bins+1,endpoint=True)
+
+        # Create the background array that will contain numbers according to the background colors
+        background_Y = np.empty((self.__max_N+1, self.__max_Z+1))
+        background_Y[:,:] = np.nan
+        for index, mbin in enumerate(self.massBins):
+            mask = (self.__A_plot >= self.massBins[index][0]) & (self.__A_plot <= self.massBins[index][1])
+            background_Y[self.__N_plot[mask],self.__Z_plot[mask]] = self.values[index]
+        self.__background_Y = background_Y
+
+        # Set up the axes for the nuclear chart
+        self.n = np.arange(0, self.__max_N+1)
+        self.z = np.arange(0, self.__max_Z+1)
+
+        # Set up the abundance array
+        self.abun = self.__background_Y
+
+        # Set up the array for the fission region
+        self.fis_region = np.zeros_like(self.abun)
+
+        # Set up the flow arrays if necessary
+        if (self.plot_flow):
+            self.flow_N, self.flow_Z = np.array([0]), np.array([0])
+            self.flow_dn, self.flow_dz = np.array([0]), np.array([0])
+            self.flow = np.array([0])
+
+
+    def init_plot(self):
+        """
+           Initialize the plots.
+        """
+
+        # Plot the nuclear chart
+        self.abun_im = self.ax.pcolormesh(self.n,self.z,self.abun.T,
+                       cmap = self.__abundance_colors,vmin=(min(self.values)),
+                       vmax=(max(self.values)),linewidth=0.0,edgecolor="face")
+
+
+        if (self.plot_flow):
+            # Plot the flows as quiver
+            self.quiver = self.ax.quiver(
+                self.flow_N, self.flow_Z,
+                self.flow_dn, self.flow_dz,
+                self.flow,
+                norm=self.flow_norm,
+                cmap=self.cmapNameFlow, angles='xy', scale_units='xy', scale=1,
+                units='xy', width=0.1, headwidth=3, headlength=4
+                )
+
+            # Plot the fission region of positive fission products
+            fisspos = self.fis_region.T
+            fisspos[:] = np.nan
+            self.fis_im_pos = self.ax.pcolor(self.n,self.z,
+                fisspos,hatch='//////', edgecolor='tab:red',facecolor='none',
+                linewidth=0.0,zorder=1000
+                )
+
+            # Plot the fission region of negative fission products
+            fissneg = self.fis_region.T
+            fissneg[:] = np.nan
+            self.fis_im_neg = self.ax.pcolor(self.n,self.z,
+                fissneg,hatch='//////', edgecolor='tab:blue',facecolor='none',
+                linewidth=0.0,zorder=1000
+                )
+
+
+        # Plot stable isotopes as black rectangles
+        edgecolors = np.full((max(self.n+1),max(self.z+1)),"none")
+        edgecolors[self.N_stab, self.Z_stab] = "k"
+        edgecolors = edgecolors.T.ravel()
+        self.stable_im = self.ax.pcolormesh(self.n,self.z,self.abun.T,
+                          facecolor="none",linewidth=0.5,edgecolor=edgecolors)
+        # Alternatively make a scatter
+        # self.stable_im = self.ax.scatter(
+        #     N_stab, Z_stab, c='k', marker='o', s=1)
+
+        # Plot the sum of the mass fractions
+        self.mafra_plot = self.axAbund.plot(self.Asum, self.Xsum, color='k', lw=1.2)
+
+        if self.plotMassBins:
+            # Plot the mass bins
+            self.mafrabin_plot = [self.axMassFrac.bar(self.massBins[i][0], self.Xbins[i],
+                                  width=self.massBins[i][1]+1-self.massBins[i][0], align='edge',
+                                  color=self.massbin_colors[i], edgecolor='grey') for i in range(len(self.massBins))]
+
+            for i,b in enumerate(self.massBins):
+                px = (b[0])+1
+                py = 1
+                axis_to_data = self.axAbund.transAxes + self.axAbund.transData.inverted()
+                data_to_axis = axis_to_data.inverted()
+                trans = data_to_axis.transform((px,py))
+                txt = self.axAbund.text(trans[0],1.1,self.massBinLabels[i],transform = self.axAbund.transAxes,
+                                  ha='left',va='center',clip_on=False, fontsize=8,color=self.massbin_colors[i])
+                txt.set_path_effects([PathEffects.withStroke(linewidth=0.5, foreground='k')])
+
+        # Plot the average mass number as red vertical line
+        if self.plot_abar:
+            self.Abar_plot = self.axAbund.axvline(self.Abar, color='tab:red', lw=1)
+
+        # Plot the mainout data
+        if self.plot_mainout:
+            self.mainout_dens_plot = self.axMainout.plot     (np.nan, np.nan, color='k'       , lw=2, label=r"$\rho$")
+            self.mainout_temp_plot = self.axMainout_temp.plot(np.nan, np.nan, color='tab:red' , lw=2, label=r"T$_9$")
+            self.mainout_ye_plot   = self.axMainout_ye.plot  (np.nan, np.nan, color='tab:blue', lw=2, label=r"Y$_e$")
+            # Create the legend
+            lines = [self.mainout_dens_plot[0], self.mainout_temp_plot[0], self.mainout_ye_plot[0]]
+            self.axMainout.legend(lines, [l.get_label() for l in lines],loc='upper right')
+
+            # Set the Textbox for the mainout data
+            left_side = "$t$"+"\n"+rf"$\rho$"+"\n"+rf"$T_9$"+"\n"+rf"$Y_e$"
+            right_side = f"= {self.format_time(self.mainout_time[-1])[0]}\n"+\
+                         f"= {self.to_latex_exponent(self.mainout_density[-1])}\n"+\
+                         f"= {self.to_latex_exponent(self.mainout_temperature[-1])}\n"+\
+                         f"= {self.mainout_ye[-1]:.3f}"
+            units = f"{self.format_time(self.mainout_time[-1])[1]}\n"+\
+                    f"g/cm$^3$\n"+\
+                    "GK\n"+\
+                    ""
+
+            # Make a background box
+            y_pos = 0.07
+            rect = patches.FancyBboxPatch((0.35, y_pos-0.01), 0.17, 0.135, transform=self.ax.transAxes, boxstyle="round,pad=0.01", ec="k", fc="lightgrey", zorder=1,alpha=0.5)
+            self.ax.add_patch(rect)
+
+            # Plot the text
+            self.ax.text(0.35, y_pos, left_side, transform=self.ax.transAxes, fontsize=12,)
+            self.Mainout_text = self.ax.text(0.37, y_pos, right_side, transform=self.ax.transAxes, fontsize=12,)
+            self.Mainout_units = self.ax.text(0.48, y_pos, units, transform=self.ax.transAxes, fontsize=12,)
+
+
+        # Set the arrow at the bottom left
+        arrowLength = 20
+        self.ax.arrow(-8, -8, arrowLength, 0, head_width=2, head_length=2, fc='k', ec='k')
+        self.ax.arrow(-8, -8, 0, arrowLength, head_width=2, head_length=2, fc='k', ec='k')
+        self.ax.text(arrowLength-8+3,0-8,'N',horizontalalignment='left',verticalalignment='center',fontsize=14,clip_on=True)
+        self.ax.text(0-8,arrowLength-8+3,'Z',horizontalalignment='center',verticalalignment='bottom',fontsize=14,clip_on=True)
+
+        # Plot the timescales
+        if self.plot_timescales:
+            ls = ["-","--"]
+            self.ts_plot = [ [ self.axTimescales.plot(self.ts_time,self.ts_data[i][j], color=self.timescale_colors[i], ls=ls[j],
+                               label=(self.timescale_labels[i] if (j == 0) else "")) for j in range(len(self.ts_data[i]))] for i in range(len(self.ts_data))]
+            # Also make the background of the box non-transparent
+            self.axTimescales.legend(loc='upper right', ncol=2, bbox_to_anchor=(1.3, 1.0), frameon=True, facecolor='white', edgecolor='black', framealpha=1.0, fontsize=8)
+
+        # Plot magic numbers
+        if self.plot_magic:
+            # First neutron numbers
+            for n in self.nMagic:
+                if (any(self.__N_plot == n)):
+                    # Find minimum and maximum Z for this N
+                    zmin = np.min(self.__Z_plot[self.__N_plot == n])
+                    zmax = np.max(self.__Z_plot[self.__N_plot == n])
+                    # Plot horizontal line from zmin - self.magic_excess to zmax + self.magic_excess
+                    self.ax.plot([n-0.5, n-0.5],[zmin-self.magic_excess, zmax+self.magic_excess], color='k', ls="--", lw=0.5)
+                    self.ax.plot([n+0.5, n+0.5],[zmin-self.magic_excess, zmax+self.magic_excess], color='k', ls="--", lw=0.5)
+                    # write the number on the bottom, truncate text when out of range
+                    self.ax.text(n,zmin-self.magic_excess-1,int(n),ha='center',va='top',clip_on=True)
+            # Second proton numbers
+            for z in self.zMagic:
+                # Find minimum and maximum N for this Z
+                if (any(self.__Z_plot == z)):
+                    nmin = np.min(self.__N_plot[self.__Z_plot == z])
+                    nmax = np.max(self.__N_plot[self.__Z_plot == z])
+                    self.ax.plot([nmin-self.magic_excess, nmax+self.magic_excess],[z-0.5, z-0.5], color='k', ls="--", lw=0.5)
+                    self.ax.plot([nmin-self.magic_excess, nmax+self.magic_excess],[z+0.5, z+0.5], color='k', ls="--", lw=0.5)
+                    # write the number on the bottom
+                    self.ax.text(nmin-self.magic_excess-1,z,int(z),ha='right',va='center',clip_on=True)
+
+        if self.separate_fission:
+            # Make a legend
+            # Get the ratio of x and y of the figure
+            ratio = self.fig.get_figwidth()/self.fig.get_figheight()
+            self.ax.add_patch(mpl.patches.Rectangle((0.88, 0.70), 0.01, 0.01*ratio, fill=False, transform=self.ax.transAxes, hatch="////", edgecolor='tab:blue', lw=1))
+            self.ax.text(0.9, 0.70, 'Fissioning region', transform=self.ax.transAxes, fontsize=8, verticalalignment='bottom', horizontalalignment='left')
+            self.ax.add_patch(mpl.patches.Rectangle((0.88, 0.67), 0.01, 0.01*ratio, fill=False, transform=self.ax.transAxes, hatch="////", edgecolor='tab:red', lw=1))
+            self.ax.text(0.9, 0.67, 'Fission products', transform=self.ax.transAxes, fontsize=8, verticalalignment='bottom', horizontalalignment='left')
+
+
+    def init_cbars(self, abun_cbar, flow_cbar):
+        """
+           Initialize the colorbars.
+        """
+        # Set up the number of colorbars
+        n_cbars = abun_cbar + flow_cbar
+        if n_cbars == 0:
+            self.cax = []
+            return
+        if n_cbars == 1:
+            self.cax = [self.fig.add_axes([0.75, 0.88, 0.14, 0.02])]
+        elif n_cbars == 2:
+            self.cax = [self.fig.add_axes([0.58, 0.88, 0.14, 0.02]),
+                   self.fig.add_axes([0.75, 0.88, 0.14, 0.02])]
+
+        # Counter for the colorbars
+        ii = 0
+        # Plot the abundance colorbar
+        if abun_cbar:
+            # Make a custom colormap since the abundance one has the background colors in as well
+            self.abun_cbar = self.fig.colorbar(mpl.cm.ScalarMappable(norm=LogNorm(vmin=self.X_min,vmax=self.X_max), cmap="inferno"),
+                    cax=self.cax[ii], orientation='horizontal', label='')
+            self.abun_cbar.ax.set_title('Mass fraction')
+            ii += 1
+
+        # Plot the flow colorbar
+        if flow_cbar:
+            self.flow_cbar=self.fig.colorbar(
+                self.quiver,
+                cax=self.cax[ii],
+                orientation='horizontal',
+                label='',
+                )
+            self.flow_cbar.ax.set_title('Flow')
+            ii += 1
+
+
+    def update_data(self, ii):
+        """
+           Update the data for the plot.
+        """
+
+        self.time = self.wreader.snapshot_time[ii]
+        yy = self.wreader.Y[ii]
+        xx = yy * self.A
+        self.abun = self.__background_Y.copy()
+        mask = xx > self.X_min
+        self.abun[self.N[mask], self.Z[mask]] = np.log10(xx[mask])
+
+        self.Asum, self.Xsum = self.sum_over_A(self.A, xx)
+        self.Abar = 1.0/np.sum(yy)
+
+        for i in range(len(self.massBins)):
+            mask = (self.A >= self.massBins[i][0]) & (self.A <= self.massBins[i][1])
+            self.Xbins[i] = np.sum(xx[mask])
+
+
+        if self.plot_timescales:
+            self.ts_time = self.wreader.tau['time'][:ii]
+            self.ts_time = self.ts_time-self.ts_time[0]
+            self.ts_data = [ [ self.wreader.tau['tau_'+str(self.timescale_entries[i][j])][:ii] for j in range(len(self.timescale_entries[i]))] for i in range(len(self.timescale_entries)) ]
+
+        if self.plot_mainout:
+            self.mainout_time        = self.wreader.mainout['time'][:ii]
+            self.mainout_time        = self.mainout_time-self.mainout_time[0]
+            self.mainout_density     = self.wreader.mainout['dens'][:ii]
+            self.mainout_temperature = self.wreader.mainout['temp'][:ii]
+            self.mainout_ye          = self.wreader.mainout['ye'][:ii]
+
+        if ii == 0: return # no flows in first timestep
+
+        if self.plot_flow:
+            fpath=f'{self.path}/WinNet_data.h5'
+            flow_dict = self.wreader.flow_entry(ii, self.flow_group)
+            nin = flow_dict['n_in']
+            zin = flow_dict['p_in']
+            nout = flow_dict['n_out']
+            zout = flow_dict['p_out']
+            flow = flow_dict['flow']
+            dz = zout - zin
+            dn = nout - nin
+            mask = flow > self.flow_norm.vmin
+            self.flow_N = nin[mask]
+            self.flow_Z = zin[mask]
+            self.flow_dn = dn[mask]
+            self.flow_dz = dz[mask]
+            self.flow = flow[mask]
+        if self.separate_fission:
+            self.handle_fission()
+
+
+
+    def handle_fission(self,):
+
+        fis_mask = np.abs(self.flow_dn + self.flow_dz) > 32
+        fis_N = self.flow_N[fis_mask]
+        fis_Z = self.flow_Z[fis_mask]
+        fis_dn = self.flow_dn[fis_mask]
+        fis_dz = self.flow_dz[fis_mask]
+        fis_flow = self.flow[fis_mask]
+
+        self.flow_N = self.flow_N[~fis_mask]
+        self.flow_Z = self.flow_Z[~fis_mask]
+        self.flow_dn = self.flow_dn[~fis_mask]
+        self.flow_dz = self.flow_dz[~fis_mask]
+        self.flow = self.flow[~fis_mask]
+
+        self.fis_region.fill(0)
+        for nn, zz, dn, dz, ff in zip(fis_N, fis_Z, fis_dn, fis_dz, fis_flow):
+            self.fis_region[nn, zz] -= ff
+            self.fis_region[nn+dn, zz+dz] += ff
+        self.fis_region[(self.fis_region == 0)] = np.nan
+
+
+    def update_abun_plot(self,):
+        self.abun_im.set_array(self.abun.T)
+        self.mafra_plot[0].set_ydata(self.Xsum)
+        if self.plot_abar:
+            self.Abar_plot.set_xdata([self.Abar])
+        if self.plotMassBins:
+            [self.mafrabin_plot[i][0].set_height(self.Xbins[i]) for i in range(len(self.massBins))]
+        if self.plot_timescales:
+            [ [ self.ts_plot[i][j][0].set_xdata(self.ts_time) for j in range(len(self.ts_plot[i]))] for i in range(len(self.ts_plot)) ]
+            [ [ self.ts_plot[i][j][0].set_ydata(self.ts_data[i][j]) for j in range(len(self.ts_plot[i]))] for i in range(len(self.ts_plot)) ]
+        if self.plot_mainout:
+            self.mainout_dens_plot[0].set_xdata(self.mainout_time)
+            self.mainout_dens_plot[0].set_ydata(self.mainout_density)
+            self.mainout_temp_plot[0].set_xdata(self.mainout_time)
+            self.mainout_temp_plot[0].set_ydata(self.mainout_temperature)
+            self.mainout_ye_plot[0].set_xdata(self.mainout_time)
+            self.mainout_ye_plot[0].set_ydata(self.mainout_ye)
+            right_side = f"= {self.to_latex_exponent(self.format_time(self.mainout_time[-1])[0])}\n"+\
+                         f"= {self.to_latex_exponent(self.mainout_density[-1])}\n"+\
+                         f"= {self.to_latex_exponent(self.mainout_temperature[-1])}\n"+\
+                         f"= {self.mainout_ye[-1]:.3f}"
+            self.Mainout_text.set_text(right_side)
+            units = f"{self.format_time(self.mainout_time[-1])[1]}\n"+\
+                    f"g/cm$^3$\n"+\
+                    "GK\n"+\
+                    ""
+            self.Mainout_units.set_text(units)
+
+
+    def update_fission_plot(self,):
+        if self.plot_flow:
+            fisspos = self.fis_region.T.copy()
+            fisspos[self.fis_region.T<0] = np.nan
+            self.fis_im_pos.set_array(fisspos)
+            fissneg = self.fis_region.T.copy()
+            fissneg[self.fis_region.T>0] = np.nan
+            self.fis_im_neg.set_array(fissneg)
+
+    def update_flow_plot(self,):
+        if self.plot_flow:
+            self.quiver.N=len(self.flow_N)
+            self.quiver.set_offsets(np.array([self.flow_N, self.flow_Z]).T)
+            self.quiver.set_UVC(self.flow_dn, self.flow_dz, self.flow)
+
+
+    def update_frame(self, ii):
+        self.update_data(ii)
+
+        self.update_abun_plot()
+        self.update_fission_plot()
+        self.update_flow_plot()
+        return ii
+
+
+    def save_frame(self, ii):
+        self.update_frame(ii)
+        # self.fig.canvas.draw()
+        # self.fig.canvas.flush_events()
+        plt.savefig(f'{self.frame_dir}/frame_{ii}.png',
+                    dpi=300, bbox_inches='tight')
+        return ii
+
+    def get_funcanimation(self, frames=None, **kwargs):
+        if frames is None:
+            frames = range(self.n_timesteps)
+        return FuncAnimation(self.fig, self.update_frame,
+            frames=frames, **kwargs)
+
+
+    @staticmethod
+    def to_latex_exponent(x):
+        """
+          Convert a number to a latex string with exponent.
+        """
+        if x == 0:
+            return '0'
+        exponent = np.floor(np.log10(x))
+        mantissa = x / 10**exponent
+        return f'{mantissa:.2f}'+r'$\times 10^{'+f'{int(exponent)}'+r'}$'
+
+
+    @staticmethod
+    def format_time(time):
+        """
+          Format a time in seconds to a more human readable format.
+        """
+        if time < 1:
+            return time*1000, 'ms'
+        if time < 60:
+            return time, 's'
+        if time < 3600:
+            return time/60, 'min'
+        if time < 3600*24:
+            return time/3600, 'h'
+        if time < 3600*24*365:
+            return time/86400, 'd'
+        if time < 3600*24*365*1000:
+            return time/31536000, 'y'
+        if time < 3600*24*365*1000*1000:
+            return time/31536000/1000, 'ky'
+        else:
+            return time/31536000_000_000, 'My'
+
+    def sum_over_A(self,A,X):
+        A_unique = np.arange(max(A)+1)
+        X_sum = np.zeros_like(A_unique,dtype=float)
+        for a, x in zip(A,X):
+            X_sum[int(a)] += x
+        return A_unique, X_sum
+
+################################################################################
+
+# Funcanimation
+
+if __name__ == "__main__":
+    run_path = "../Example_NSM_dyn_ejecta_rosswog_hdf5"
+    fig = plt.figure(figsize=(15, 8))
+
+    # z_drip , n_drip = np.loadtxt('/home/mjacobi/frdm/dripline.dat', unpack=True)
+    # plt.plot(n_drip, z_drip, 'k--', lw=1)
+
+    anim = FlowAnimation(run_path, fig, flow_group='flows')
+    ani = anim.get_funcanimation(interval=10, frames=range(1, anim.n_timesteps))
+    plt.show()
