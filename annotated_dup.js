@@ -7,6 +7,7 @@ var annotated_dup =
     [ "ls_timmes_eos_module", "namespacels__timmes__eos__module.html", "namespacels__timmes__eos__module" ],
     [ "nuflux_class", "namespacenuflux__class.html", "namespacenuflux__class" ],
     [ "parameter_class", "namespaceparameter__class.html", "namespaceparameter__class" ],
+    [ "src_files", "namespacesrc__files.html", "namespacesrc__files" ],
     [ "tabulated_rate_module", "namespacetabulated__rate__module.html", "namespacetabulated__rate__module" ],
     [ "tw_rate_module", "namespacetw__rate__module.html", "namespacetw__rate__module" ],
     [ "units_module", "namespaceunits__module.html", "namespaceunits__module" ]

@@ -190,9 +190,9 @@ Dominant nuclear species when assuming NSE for different conditions.</div></div>
 
 <p>Allocates and initialises various arrays needed for the nse calculation. </p>
 <p>This subroutine also writes the content of <a class="el" href="namespaceglobal__class.html#a85f694677af15353c1004701209a34ac">global_class::isotope</a> into shorter variables, such as <a class="el" href="namespacewinnse__module.html#aecc4643374e7a8dd96e00f139ab06fc4">aa</a>, <a class="el" href="namespacewinnse__module.html#aa0fde7155a497990a93e46a69e745dcf">nn</a>, and <a class="el" href="namespacewinnse__module.html#a1e013b5a4d883a6bad790f77ae3b79a9">gg</a>. In addition it calculates the binding energy </p><p class="formulaDsp">
-\[ Be(i) = Z(i) \cdot Z_{me} + N(i) \cdot N_{me} - M_{exc}(i) \]
+\[ Be(i) = Z(i) \cdot (Z_{me} + e_{m}) + N(i) \cdot N_{me} - M_{exc}(i) \]
 </p>
-<p> with the mass excess of protons (Z) and neutrons (N), \( Z_{me} \) and \( N_{me} \), and the mass excess of the isotope \( M_{exc} \). Furthermore it calculates \( 1 + 2 \cdot J \) with J being the spin of the ground state.</p>
+<p> with the mass excess of protons (Z), neutrons (N), and the isotope (i), \( Z_{me} \), \( N_{me} \), and \( M_{exc} \). The mass of the electrons (e) is given by \( e_{m} \). Furthermore it calculates \( 1 + 2 \cdot J \) with J being the spin of the ground state.</p>
 <p><b>Edited:</b> 12.01.14 </p>
 
 <p class="definition">Definition at line <a class="el" href="winnse__module_8f90_source.html#l00074">74</a> of file <a class="el" href="winnse__module_8f90_source.html">winnse_module.f90</a>.</p>

@@ -229,7 +229,7 @@ var NAVTREE =
       [ "Class Hierarchy", "hierarchy.html", "hierarchy" ],
       [ "Data Fields", "functions.html", [
         [ "All", "functions.html", "functions_dup" ],
-        [ "Functions/Subroutines", "functions_func.html", null ],
+        [ "Functions/Subroutines", "functions_func.html", "functions_func" ],
         [ "Variables", "functions_vars.html", "functions_vars" ]
       ] ]
     ] ],
@@ -248,17 +248,18 @@ var NAVTREEINDEX =
 [
 "DockerUsage.html",
 "Example__hydrostatic__hydrogen__burning_2scripts_2Plot__me_8py.html#aae6215e6246e894c74949ae707c2e7b3",
-"class__files_2____init_____8py.html",
-"classbin_1_1class__files_1_1winnet__class_1_1winnet.html#afb5370fc07b3c71215e7c088b5619e69",
-"detailed__balance_8f90.html#a86bdc4751e8e1e5dfe0be6da31f94424",
-"fission__rate__module_8f90.html#ac474826c9bf98253a575b32fef774bce",
-"hdf5__module_8f90.html#a243c791a91c11655e7897b99d17c3e90",
-"macros_8h.html#a1c1bb39c350a467f8e28fe128e8b40b7",
-"namespacetabulated__rates.html",
-"parameter__class_8f90.html#a7fb52e5d3c8c26bff15499f610c6b52a",
-"parser__module_8f90.html#ae2806c52d9868da3855d28c188a1679e",
-"structfission__rate__module_1_1fissionrate__type.html#a722e6eb4581bebe72a409c78aa2a9353",
-"tw__rate__module_8f90.html#a5d07a15b7f6732b1c7419051bdeb1971"
+"charged-current__reaction_8py.html#ad0942bd2f4f9f7346816d341d7f012bc",
+"classbin_1_1class__files_1_1winnet__class_1_1winnet.html#ad4d55ab88a572d0e12076b37bf82e819",
+"classsrc__files_1_1nucleus__multiple__class_1_1nucleus__multiple.html#a6d9d9dbfb10401a4e4c8a60a72a1d994",
+"detailed__balance_8py.html#ac5f46921ff34540b9ff17e1fac5000f9",
+"fissrate__bdel_8py.html",
+"hdf5__module_8f90.html#a17f294797401353c15ec93b4308adafe",
+"ls__timmes__eos__module_8f.html#af6eac0bc0df7aa1cb1fd3620bf1ef45d",
+"namespaceneutron-decay.html",
+"parameter__class_8f90.html#a37dd5d3ccfd1abaa9423769b28e2aa6a",
+"parameters.html#top_engen_every",
+"screening__module_8f90.html#adf2b280d7a2cf6cb95c70a7f39650db4",
+"testcase__class_8py.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

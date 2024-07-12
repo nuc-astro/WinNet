@@ -1171,7 +1171,7 @@ prepared_network_path</h1>
 reaclib_file</h1>
 <p>Path to a mandatory reaction rate file (<a href="https://ui.adsabs.harvard.edu/abs/2010ApJS..189..240C">Cyburt et al.2010</a>). It contains reaction rates in order to solve the reaction network. WinNet is only able to handle the Reaclib 1 (R1) original format without chapter 9, 10, 11. All rates in the REACLIB database are fitted by the function</p>
 <p class="formulaDsp">
-\[ \lambda = \mathrm{exp} \left[ a_0 + \sum \limits _{i=1} ^5 a_i T_9 ^{\frac{2i-5}{3}} a_6 \, \mathrm{ln} T_9 \right]. \]
+\[ \lambda = \mathrm{exp} \left[ a_0 + \sum \limits _{i=1} ^5 a_i T_9 ^{\frac{2i-5}{3}} + a_6 \, \mathrm{ln} T_9 \right]. \]
 </p>
 <p>An exemplary entry for on reaction rate is given below. The reactions are divided into different chapters, which is given by the first number in a single line (in the example below, it is chapter "4"). Afterwards, the participating nuclei are indicated, followed by the literature source of the reaction (see <a href="https://reaclib.jinaweb.org/labels.php">here</a>), a flag for resonant and one for reverse rates ("r" and "v"), and the Q-value of the reaction. The next lines contain the \(a_i\) parameters for the fit function.</p>
 <pre style="border:1px dashed grey; display: inline-block; background: #e8e8e8">

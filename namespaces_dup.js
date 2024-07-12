@@ -107,6 +107,7 @@ var namespaces_dup =
     [ "screening", "namespacescreening.html", null ],
     [ "screening_module", "namespacescreening__module.html", null ],
     [ "single_zone_vars", "namespacesingle__zone__vars.html", null ],
+    [ "src_files", "namespacesrc__files.html", "namespacesrc__files" ],
     [ "switch_evolution", "namespaceswitch__evolution.html", null ],
     [ "tabulated_rate_module", "namespacetabulated__rate__module.html", null ],
     [ "tabulated_rates", "namespacetabulated__rates.html", null ],
@@ -120,5 +121,6 @@ var namespaces_dup =
     [ "units_module", "namespaceunits__module.html", null ],
     [ "winnet_monitor_failed", "namespacewinnet__monitor__failed.html", null ],
     [ "winnet_monitor_run", "namespacewinnet__monitor__run.html", null ],
+    [ "winnet_movie", "namespacewinnet__movie.html", null ],
     [ "winnse_module", "namespacewinnse__module.html", null ]
 ];
