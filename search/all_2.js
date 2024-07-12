@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['b_253',['b',['../namespacecreate__rates__grid.html#aadb702a989db4d87016425d9eec9e62e',1,'create_rates_grid.b()'],['../namespacebin_1_1create__spontaneous__fission__file.html#a119e91b9dc3c08174fbb659484752325',1,'bin.create_spontaneous_fission_file.B()']]],
+  ['b_253',['B',['../namespacebin_1_1create__spontaneous__fission__file.html#a119e91b9dc3c08174fbb659484752325',1,'bin.create_spontaneous_fission_file.B()'],['../namespacecreate__rates__grid.html#aadb702a989db4d87016425d9eec9e62e',1,'create_rates_grid.b()']]],
   ['b8d_254',['b8d',['../namespacePlot__me.html#a4cb0a9888b4a5b62b6b98b3f20859c68',1,'Plot_me']]],
   ['b_5fpath_255',['b_path',['../namespacewinnet__monitor__failed.html#a105b98152d2ed3d083d7cea8512f68e8',1,'winnet_monitor_failed.b_path()'],['../namespacewinnet__monitor__run.html#aa77a64fda38d76574fc1ecc7098d5757',1,'winnet_monitor_run.b_path()']]],
   ['basedir_256',['basedir',['../classbin_1_1testcase__class_1_1testcase.html#a6e5b96dcacb48aeddedf27e06c1b3d9f',1,'bin::testcase_class::testcase']]],

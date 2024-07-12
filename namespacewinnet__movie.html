@@ -134,8 +134,12 @@ Variables</h2></td></tr>
 <tr class="separator:a632f0c80686427552ec8970e5e30938e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a47524b9515c6c36864dd9a31d8bfd4c6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacewinnet__movie.html#a47524b9515c6c36864dd9a31d8bfd4c6">anim</a> = <a class="el" href="classsrc__files_1_1FlowAnimation_1_1FlowAnimation.html">FlowAnimation</a>(<a class="el" href="namespacewinnet__movie.html#ac4faafb4c45b17b61fb8ef8cb7a8ac01">run_path</a>, <a class="el" href="namespacewinnet__movie.html#a632f0c80686427552ec8970e5e30938e">fig</a>, **<a class="el" href="namespacewinnet__movie.html#a1c527f2b7188c4b4ba081579c1461b81">kwargs</a>)</td></tr>
 <tr class="separator:a47524b9515c6c36864dd9a31d8bfd4c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9ce7c7724d63bac5179843de7de8af9a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacewinnet__movie.html#a9ce7c7724d63bac5179843de7de8af9a">ani</a> = anim.get_funcanimation(interval=int(options.interval), frames=range(<a class="el" href="namespacewinnet__movie.html#a2668a3a47dfd7c66573dc84f7d776f2e">frame_min</a>, <a class="el" href="namespacewinnet__movie.html#a61b7b4785327b85dcea8d86f7fb44245">frame_max</a>))</td></tr>
+<tr class="memitem:a9ce7c7724d63bac5179843de7de8af9a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacewinnet__movie.html#a9ce7c7724d63bac5179843de7de8af9a">ani</a> = anim.get_funcanimation(frames=range(<a class="el" href="namespacewinnet__movie.html#a2668a3a47dfd7c66573dc84f7d776f2e">frame_min</a>, <a class="el" href="namespacewinnet__movie.html#a61b7b4785327b85dcea8d86f7fb44245">frame_max</a>))</td></tr>
 <tr class="separator:a9ce7c7724d63bac5179843de7de8af9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a04ea3cf6d2c79c02d5ac0a6d336e19f1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacewinnet__movie.html#a04ea3cf6d2c79c02d5ac0a6d336e19f1">output_name</a></td></tr>
+<tr class="separator:a04ea3cf6d2c79c02d5ac0a6d336e19f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9976bdd98ebfe5885cf2b14673fce3cf"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacewinnet__movie.html#a9976bdd98ebfe5885cf2b14673fce3cf">fps</a></td></tr>
+<tr class="separator:a9976bdd98ebfe5885cf2b14673fce3cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afd6f3717077be370995b002f6b513384"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacewinnet__movie.html#afd6f3717077be370995b002f6b513384">option_dict_path</a> = os.path.join(<a class="el" href="namespacewinnet__movie.html#ad2c32d28cde25bc714a0009c8e1a54f9">script_path</a>, 'src_files/data/options.pkl')</td></tr>
 <tr class="separator:afd6f3717077be370995b002f6b513384"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4bbc1fd9b0d9b5aeb5ccb6cc37bdffea"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacewinnet__movie.html#a4bbc1fd9b0d9b5aeb5ccb6cc37bdffea">parallel_save_path</a> = os.path.join(<a class="el" href="namespacewinnet__movie.html#ad2c32d28cde25bc714a0009c8e1a54f9">script_path</a>, 'src_files', 'parallel_save.py')</td></tr>
@@ -167,7 +171,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">winnet_movie.ani = anim.get_funcanimation(interval=int(options.interval), frames=range(<a class="el" href="namespacewinnet__movie.html#a2668a3a47dfd7c66573dc84f7d776f2e">frame_min</a>, <a class="el" href="namespacewinnet__movie.html#a61b7b4785327b85dcea8d86f7fb44245">frame_max</a>))</td>
+          <td class="memname">winnet_movie.ani = anim.get_funcanimation(frames=range(<a class="el" href="namespacewinnet__movie.html#a2668a3a47dfd7c66573dc84f7d776f2e">frame_min</a>, <a class="el" href="namespacewinnet__movie.html#a61b7b4785327b85dcea8d86f7fb44245">frame_max</a>))</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -253,6 +257,22 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="winnet__movie_8py_source.html#l00163">163</a> of file <a class="el" href="winnet__movie_8py_source.html">winnet_movie.py</a>.</p>
+
+</div>
+</div>
+<a id="a9976bdd98ebfe5885cf2b14673fce3cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9976bdd98ebfe5885cf2b14673fce3cf">&#9670;&nbsp;</a></span>fps</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">winnet_movie.fps</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="winnet__movie_8py_source.html#l00169">169</a> of file <a class="el" href="winnet__movie_8py_source.html">winnet_movie.py</a>.</p>
 
 </div>
 </div>
@@ -365,6 +385,22 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="winnet__movie_8py_source.html#l00092">92</a> of file <a class="el" href="winnet__movie_8py_source.html">winnet_movie.py</a>.</p>
+
+</div>
+</div>
+<a id="a04ea3cf6d2c79c02d5ac0a6d336e19f1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a04ea3cf6d2c79c02d5ac0a6d336e19f1">&#9670;&nbsp;</a></span>output_name</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">winnet_movie.output_name</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="winnet__movie_8py_source.html#l00169">169</a> of file <a class="el" href="winnet__movie_8py_source.html">winnet_movie.py</a>.</p>
 
 </div>
 </div>

@@ -264,8 +264,8 @@ $(document).ready(function(){initNavTree('winnet__movie_8py_source.html',''); in
 <div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;        <span class="comment"># Animate the flows</span></div>
 <div class="line"><a name="l00166"></a><span class="lineno"><a class="line" href="namespacewinnet__movie.html#a47524b9515c6c36864dd9a31d8bfd4c6">  166</a></span>&#160;        anim = <a class="code" href="classsrc__files_1_1FlowAnimation_1_1FlowAnimation.html">FlowAnimation</a>(run_path, fig, **kwargs)</div>
 <div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160; </div>
-<div class="line"><a name="l00168"></a><span class="lineno"><a class="line" href="namespacewinnet__movie.html#a9ce7c7724d63bac5179843de7de8af9a">  168</a></span>&#160;        ani = anim.get_funcanimation(interval=int(options.interval), frames=range(frame_min, frame_max))</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;        ani.save(options.output_name)</div>
+<div class="line"><a name="l00168"></a><span class="lineno"><a class="line" href="namespacewinnet__movie.html#a9ce7c7724d63bac5179843de7de8af9a">  168</a></span>&#160;        ani = anim.get_funcanimation(frames=range(frame_min, frame_max))</div>
+<div class="line"><a name="l00169"></a><span class="lineno"><a class="line" href="namespacewinnet__movie.html#a04ea3cf6d2c79c02d5ac0a6d336e19f1">  169</a></span>&#160;        ani.save(options.output_name, fps=int(options.interval))</div>
 <div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;    <span class="keywordflow">else</span>: <span class="comment"># Parallel saving</span></div>
 <div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;        <span class="comment"># Sanity check, does mpi4py exist?</span></div>
 <div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;        <span class="keywordflow">try</span>:</div>
