@@ -131,6 +131,12 @@ class wreader(object):
             value = self.__check_files('snaps/snapsh_0001.dat','snapshots')
         elif (entry == 'flows'):
             value = self.__check_files('flow/flow_0001.dat','flows')
+        elif (entry == 'finab'):
+            value = self.__check_files('finab.dat','finab')
+        elif (entry == 'finabsum'):
+            value = self.__check_files('finabsum.dat','finab')
+        elif (entry == 'finabelem'):
+            value = self.__check_files('finabelem.dat','finab')
         else:
             error_msg = 'Checked for unknown entry "'+str(entry)+'". '
             raise ValueError(error_msg)
@@ -164,9 +170,29 @@ class wreader(object):
         """
         Number of snapshots
         """
-        if not hasattr(self,"_wreader__snapshots_time"):
-            self.__read_snapshots()
-        return len(self.__snapshots_time)
+        if not hasattr(self,"_wreader__nr_of_snaps"):
+            self.__read_nr_of_snaps()
+        return self.__nr_of_snaps
+
+    def __read_nr_of_snaps(self):
+        """
+           Read the number of snapshots
+        """
+        # Check if Ascii (mode = 2), hdf5 (mode = 1), or not present (mode = 0)
+        mode = self.check_existence('snapshot')
+
+        if mode == 2:
+            snapshot_files = [f for f in os.listdir(self.__snapshot_path) if os.path.isfile(os.path.join(self.__snapshot_path, f))]
+            snapshot_files = [f for f in snapshot_files if f.startswith('snapsh_')]
+            self.__nr_of_snaps = len(snapshot_files)
+        elif mode == 1:
+            with h5py.File(self.filename, 'r') as hf:
+                self.__nr_of_snaps = len(hf['snapshots/time'][:])
+        elif mode == 0:
+            error_msg = 'Failed to read nr of snapshots in "'+str(self.path)+'". '+\
+                        'Not present as Ascii nor as Hdf5!'
+            raise ValueError(error_msg)
+
 
     @property
     def Y(self):
@@ -302,7 +328,92 @@ class wreader(object):
                         'Not present as Ascii nor as Hdf5!'
             raise ValueError(error_msg)
 
+    @property
+    def finab(self):
+        """
+        Get the final abundances from the finab.dat file
+        """
+        if not hasattr(self,"_wreader__finab"):
+            self.__read_finab()
+        return self.__finab
 
+    def __read_finab(self):
+        """
+        Reader of the finab
+        """
+        # Check if Ascii (mode = 2), hdf5 (mode = 1), or not present (mode = 0)
+        mode = self.check_existence('finab')
+        if mode == 2:
+            A,Z,N,Y,X = np.loadtxt(os.path.join(self.path, "finab.dat"), unpack=True)
+        elif mode == 1:
+            with h5py.File(self.filename, 'r') as hf:
+                A = hf['finab/finab/A'][:]
+                Z = hf['finab/finab/Z'][:]
+                N = A-Z
+                Y = hf['finab/finab/Y'][:]
+                X = hf['finab/finab/X'][:]
+        elif mode == 0:
+            error_msg = 'Failed to read finab in "'+str(self.path)+'". '+\
+                        'Not present as Ascii nor as Hdf5!'
+            raise ValueError(error_msg)
+        self.__finab = {"A": A, "Z": Z, "N": N, "Y": Y, "X": X}
+
+
+    @property
+    def finabsum(self):
+        """
+        Get the final abundances from the finabsum.dat file
+        """
+        if not hasattr(self,"_wreader__finabsum"):
+            self.__read_finabsum()
+        return self.__finabsum
+
+    def __read_finabsum(self):
+        """
+        Reader of the finabsum
+        """
+        # Check if Ascii (mode = 2), hdf5 (mode = 1), or not present (mode = 0)
+        mode = self.check_existence('finabsum')
+        if mode == 2:
+            A,Y,X = np.loadtxt(os.path.join(self.path, "finabsum.dat"), unpack=True)
+        elif mode == 1:
+            with h5py.File(self.filename, 'r') as hf:
+                A = hf['finab/finabsum/A'][:]
+                Y = hf['finab/finabsum/Y'][:]
+                X = hf['finab/finabsum/X'][:]
+        elif mode == 0:
+            error_msg = 'Failed to read finabsum in "'+str(self.path)+'". '+\
+                        'Not present as Ascii nor as Hdf5!'
+            raise ValueError(error_msg)
+        self.__finabsum = {"A": A, "Y": Y, "X": X}
+
+
+    @property
+    def finabelem(self):
+        """
+        Get the final abundances from the finabelem.dat file
+        """
+        if not hasattr(self,"_wreader__finabelem"):
+            self.__read_finabelem()
+        return self.__finabelem
+
+    def __read_finabelem(self):
+        """
+        Reader of the finabsum
+        """
+        # Check if Ascii (mode = 2), hdf5 (mode = 1), or not present (mode = 0)
+        mode = self.check_existence('finabelem')
+        if mode == 2:
+            Z, Y = np.loadtxt(os.path.join(self.path, "finabelem.dat"), unpack=True)
+        elif mode == 1:
+            with h5py.File(self.filename, 'r') as hf:
+                Z = hf['finab/finabelem/Z'][:]
+                Y = hf['finab/finabelem/Y'][:]
+        elif mode == 0:
+            error_msg = 'Failed to read finabelem in "'+str(self.path)+'". '+\
+                        'Not present as Ascii nor as Hdf5!'
+            raise ValueError(error_msg)
+        self.__finabelem = {"Z": Z, "Y": Y}
 
     def flow_entry(self, iteration, flow_group='flows'):
         """
@@ -347,18 +458,4 @@ class wreader(object):
         return flow
 
 if __name__ == "__main__":
-    # filename = "/home/mreichert/data"
-    filename = "/home/mreichert/data/Networks/comparison_winNet/WinNet-dev/runs/old_examples/Example_NSM_dyn_ejecta_fission_rosswog_hdf5/3"
-    # filename = "/home/mreichert/data/Networks/comparison_winNet/WinNet-dev/runs/Example_NSM_dyn_ejecta_rosswog_ascii"
-    w = wreader(filename)
-    # print(w.get_tau("tau_ag"))
-    # print('Reading snapshots')
-    # print(w.snapshot_time)
-    print('reading tau')
-    print(w.tau)
-    print('reading mainout')
-    print(w.mainout['time'])
-    print('reading energy')
-    print(w.energy['time'])
-    print(w.check_existence('mainout'))
-    print(w.flow_entry(2))
+    pass
