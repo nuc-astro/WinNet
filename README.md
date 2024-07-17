@@ -12,6 +12,7 @@ See [WinNet-documentation](https://nuc-astro.github.io/WinNet/) for documentatio
 [![ApJS](https://img.shields.io/badge/ApJS-Volume_268_Number_2-purple)](https://iopscience.iop.org/article/10.3847/1538-4365/acf033) 
 [![arXiv](https://img.shields.io/badge/arxiv-2305.07048-b31b1b)](https://arxiv.org/abs/2305.07048) 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.8220549.svg)](https://doi.org/10.5281/zenodo.8220549)
+<a href="https://ascl.net/2406.029"><img src="https://img.shields.io/badge/ascl-2406.029-blue.svg?colorB=262255" alt="ascl:2406.029" /></a>
 
 Please read and cite [Reichert et al. 2023](https://ui.adsabs.harvard.edu/abs/2023arXiv230507048R/abstract) when you use this reaction network in a publication. 
 Furthermore give credit to the data that you are using (reaction rates, thermodynamic conditions, equation of state, etc.). 
