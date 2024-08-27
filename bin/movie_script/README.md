@@ -4,7 +4,7 @@ This folder contains a script to analyze a WinNet run. It will show or save a mo
 
 To create a video, the run must have snapshot output enabled (parameters [snapshots_every](https://nuc-astro.github.io/WinNet/parameters.html#h_snapshot_every) or [h_snapshots_every](https://nuc-astro.github.io/WinNet/parameters.html#h_snapshot_every)). 
 Also timescales ([timescales_every](https://nuc-astro.github.io/WinNet/parameters.html#timescales_every) or [h_timescales_every](https://nuc-astro.github.io/WinNet/parameters.html#h_timescales_every)), 
-mainout properties ([mainout_every](https://nuc-astro.github.io/WinNet/parameters.html#mainout_every) or [h_timescales_every](https://nuc-astro.github.io/WinNet/parameters.html#h_mainout_every)), 
+mainout properties ([mainout_every](https://nuc-astro.github.io/WinNet/parameters.html#mainout_every) or [h_mainout_every](https://nuc-astro.github.io/WinNet/parameters.html#h_mainout_every)), 
 energy generation ([engen_every](https://nuc-astro.github.io/WinNet/parameters.html#engen_every) or [h_engen_every](https://nuc-astro.github.io/WinNet/parameters.html#h_engen_every)), 
 tracked nuclei ([track_nuclei_every](https://nuc-astro.github.io/WinNet/parameters.html#track_nuclei_every) or [h_track_nuclei_every](https://nuc-astro.github.io/WinNet/parameters.html#h_track_nuclei_every)), 
 or abundance flows ([flow_every](https://nuc-astro.github.io/WinNet/parameters.html#flow_every) or [h_flow_every](https://nuc-astro.github.io/WinNet/parameters.html#h_flow_every))
