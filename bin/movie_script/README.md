@@ -2,8 +2,13 @@
 
 This folder contains a script to analyze a WinNet run. It will show or save a movie of the mass fractions over time in the nuclear chart, inspired by the movie of SkyNet (done by J. Lippuner).
 
-To create a video, the run must have snapshot output enabled (parameters snapshots_every or h_snapshots_every). Also timescales, mainout
-properties, or abundance flows can be plotted if the frequency of the output is **set to the same value as the one of the snapshots**. 
+To create a video, the run must have snapshot output enabled (parameters [snapshots_every](https://nuc-astro.github.io/WinNet/parameters.html#h_snapshot_every) or [h_snapshots_every](https://nuc-astro.github.io/WinNet/parameters.html#h_snapshot_every)). 
+Also timescales ([timescales_every](https://nuc-astro.github.io/WinNet/parameters.html#timescales_every) or [h_timescales_every](https://nuc-astro.github.io/WinNet/parameters.html#h_timescales_every)), 
+mainout properties ([mainout_every](https://nuc-astro.github.io/WinNet/parameters.html#mainout_every) or [h_timescales_every](https://nuc-astro.github.io/WinNet/parameters.html#h_mainout_every)), 
+energy generation ([engen_every](https://nuc-astro.github.io/WinNet/parameters.html#engen_every) or [h_engen_every](https://nuc-astro.github.io/WinNet/parameters.html#h_engen_every)), 
+tracked nuclei ([track_nuclei_every](https://nuc-astro.github.io/WinNet/parameters.html#track_nuclei_every) or [h_track_nuclei_every](https://nuc-astro.github.io/WinNet/parameters.html#h_track_nuclei_every)), 
+or abundance flows ([flow_every](https://nuc-astro.github.io/WinNet/parameters.html#flow_every) or [h_flow_every](https://nuc-astro.github.io/WinNet/parameters.html#h_flow_every))
+can be plotted if the frequency of the output is **set to the same value as the one of the snapshots**. 
 
 An example command to generate the video is:
 
