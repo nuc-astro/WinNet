@@ -59,7 +59,25 @@ The _makerun.py_ script will also ask you if you want to monitor the simulation.
 Otherwise, you can monitor the progress using the "tail -f" command, for instance:
 
     tail -f $WINNET/runs/Example_BigBang/OUT
+    
 
+\subsection create_movie Creating Movies
+
+WinNet includes a convenient script for generating movies, which can be found at [bin/movie_script/winnet_movie.py](../../bin/movie_script/winnet_movie.py). To use this script, you need to install the required Python packages listed in [bin/movie_script/requirements.txt](../../bin/movie_script/requirements.txt). For a comprehensive guide on available parameters, you can refer to the Readme of the same [folder](../../bin/movie_script/) or access the script's help menu by running:
+
+```python
+python winnet_movie.py --help
+```
+
+Once you have completed a simulation with the appropriate parameters, you can create a movie by executing the following command:
+
+```python
+python winnet_movie.py -i path_to_simulation_directory
+```
+
+The resulting movie may resemble the following example:
+
+@image html winteler_mhd.gif "" width=95%
 
 \subsection compile_docs Compiling a local version of the documentation
 If you have ***doxygen*** installed (see https://www.doxygen.nl/index.html) you can use it to

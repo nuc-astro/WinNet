@@ -6,8 +6,10 @@ import matplotlib.pyplot  as plt
 import matplotlib         as mpl
 import matplotlib.patches as patches
 import matplotlib.patheffects as PathEffects
+from matplotlib.collections import PatchCollection
 from tqdm                 import tqdm
 from matplotlib           import cm
+from matplotlib.patches import Arrow, FancyBboxPatch
 from matplotlib.colors    import LogNorm, SymLogNorm
 from matplotlib.colors    import ListedColormap, LinearSegmentedColormap
 from matplotlib.animation import FuncAnimation
@@ -27,13 +29,19 @@ class FlowAnimation(object):
         path,
         fig,
         # Flows
-        plot_flow        = True,
+        plot_flow         = True,
         # flow_group       = 'flows',
-        flow_min         = 1e-8,
-        flow_max         = 1e1,
-        separate_fission = True,
-        flow_cbar        = True,
-        cmapNameFlow     = 'viridis',
+        flow_min          = 1e-8,
+        flow_max          = 1e1,
+        separate_fission  = True,
+        fission_minflow   = 1e-10,
+        flow_cbar         = True,
+        flow_adapt_prange = True,
+        flow_prange       = 5,
+        flow_adapt_width  = True,
+        flow_maxArrowWidth= 2.0,
+        flow_minArrowWidth= 0.3,
+        cmapNameFlow      = 'viridis',
         # Mass fractions
         abun_cbar        = True,
         X_min            = 1e-8,
@@ -49,8 +57,13 @@ class FlowAnimation(object):
         massBinLabels    = ['','','1st peak','','2nd peak','rare earths', '', '3rd peak', '', 'fissioning'],
         # Magic numbers
         plot_magic       = True,
+        # Additional plots
+        additional_plot  = 'none',
+        # Tracked nuclei
+        trackedrange     = (1e-8, 1),
+        # Energy
+        energyrange      = (1e10, 1e20),
         # Timescales
-        plot_timescales  = True,
         timescalerange   = (1e-12, 1e10),
         timerange        = (1e-5 , 1e5),
         # Mainout
@@ -75,8 +88,20 @@ class FlowAnimation(object):
             Maximum value for the flow.
         separate_fission : bool
             Separate the fissioning region from the fission products in the flow plot.
+        fission_minflow : float
+            Minimum value to indicate a fission region.
         flow_cbar : bool
             Plot the colorbar for the flow.
+        flow_adapt_prange : bool
+            Adapt the color range of the flow to the data.
+        flow_prange : float
+            Range (in log10) of the flow.
+        flow_adapt_width : bool
+            Adapt the width of the flow arrows to the flow.
+        flow_maxArrowWidth : float
+            Maximum width of the flow arrows.
+        flow_minArrowWidth : float
+            Minimum width of the flow arrows.
         cmapNameFlow : str
             Name of the colormap for the flow.
         abun_cbar : bool
@@ -103,8 +128,12 @@ class FlowAnimation(object):
             List of labels for the mass bins.
         plot_magic : bool
             Plot the magic numbers in the abundance plot.
-        plot_timescales : bool
-            Plot the timescales.
+        additional_plot : str
+            Additional plot to be made, possible values: 'None', 'timescales', 'energy', 'tracked'.
+        trackedrange : tuple
+            Range of the tracked nuclei plot.
+        energyrange : tuple
+            Range of the energy axis.
         timescalerange : tuple
             Range of the timescales.
         timerange : tuple
@@ -138,6 +167,8 @@ class FlowAnimation(object):
         self.path = path
 
 
+
+
         # Save the parameters in class variables
         self.X_min            = X_min             # Minimum value for the mass fractions
         self.X_max            = X_max             # Maximum value for the mass fractions
@@ -148,7 +179,9 @@ class FlowAnimation(object):
         self.cmapNameMassBins = cmapNameMassBins  # Name of the colormap for the mass bin color
         self.massBins         = massBins          # List of mass bins
         self.massBinLabels    = massBinLabels     # List of labels for the mass bins
-        self.plot_timescales  = plot_timescales   # Plot the timescales
+        self.additional_plot  = additional_plot.lower() # Additional plot to be made, possible values: 'None', 'timescales', 'energy', 'tracked'
+        self.energyrange      = energyrange       # Range of the energy axis
+        self.trackedrange     = trackedrange      # Range of the tracked nuclei plot
         self.timescalerange   = timescalerange    # Range of the timescales
         self.timerange        = timerange         # Range of the time axis
         self.plot_mainout     = plot_mainout      # Plot the mainout data
@@ -163,7 +196,38 @@ class FlowAnimation(object):
         self.yerange          = yerange           # Range of the electron fraction axis in the mainout plot
         self.cmapNameX        = cmapNameX         # Name of the colormap for the mass fractions
         self.cmapNameFlow     = cmapNameFlow      # Name of the colormap for the flow
+        self.flow_adapt_width = flow_adapt_width  # Adapt the width of the flow arrows to the flow
+        self.flow_maxArrowWidth = flow_maxArrowWidth # Maximum width of the flow arrows
+        self.flow_minArrowWidth = flow_minArrowWidth # Minimum width of the flow arrows
+        self.flow_min        = flow_min          # Minimum value for the flow
+        self.flow_max        = flow_max          # Maximum value for the flow
+        self.flow_adapt_prange = flow_adapt_prange # Adapt the color range of the flow to the data
+        self.fission_minflow = fission_minflow   # Minimum value for the fission flow
 
+        if (self.flow_adapt_prange):
+            self.flow_prange = flow_prange       # Range (in log10) of the flow
+        else:
+            self.flow_prange = np.log10(self.flow_max) - np.log10(self.flow_min)
+
+        # Check which additional plot should be made
+        if self.additional_plot == 'timescales':
+            self.plot_timescales = True
+            self.plot_energy = False
+            self.plot_tracked = False
+        elif self.additional_plot == 'energy':
+            self.plot_timescales = False
+            self.plot_energy = True
+            self.plot_tracked = False
+        elif self.additional_plot == 'tracked':
+            self.plot_timescales = False
+            self.plot_energy = False
+            self.plot_tracked = True
+        elif self.additional_plot == 'none':
+            self.plot_timescales = False
+            self.plot_energy = False
+            self.plot_tracked = False
+        else:
+            raise ValueError(f"Additional plot {self.additional_plot} not recognized. Possible values: 'None', 'timescales', 'energy', 'tracked'")
 
         # Initialize a class to read WinNet data
         self.wreader = wreader(path)
@@ -188,15 +252,24 @@ class FlowAnimation(object):
         self.zMagic = [8, 20, 28, 50, 82, 114]      # Magic numbers in protons
         self.magic_excess = 4                       # How long should the line stick out over the nuc. chart?
 
-        # Timescale parameters
+        # Timescale plotting parameters
         self.timescale_colors = ["C1","C2","C3","C4","C5","C6","C7","C8","C9","C0"]
         self.timescale_entries = [['ag','ga'],['ng','gn'],['an','na'],['np','pn'],['pg','gp'],['ap','pa'],["beta"],["bfiss"],["nfiss"],["sfiss"]]
         self.timescale_labels = [r"$\tau_{\alpha,\gamma}$",r"$\tau_{n,\gamma}$",r"$\tau_{\alpha,n}$",r"$\tau_{n,p}$",r"$\tau_{p,\gamma}$",
                                  r"$\tau_{\alpha,p}$",r"$\tau_{\beta}$",r"$\tau_{\rm{bfiss}}$",r"$\tau_{\rm{nfiss}}$",r"$\tau_{\rm{sfiss}}$"]
 
+        # Energy plotting parameters
+        self.energy_colors = ["k","C2","C3","C4","C5","C6","C7","C8","C9","C0"]
+        self.energy_entries = ['tot', 'ag_ga', 'ng_gn', 'an_na', 'np_pn', 'pg_gp', 'ap_pa', 'beta', 'fiss']
+        self.energy_labels = ['Total', r"$( \alpha,\gamma )$", r"$( n,\gamma )$", r"$( \alpha,n )$", r"$( n,p )$",
+                              r"$( p,\gamma )$", r"$( \alpha,p )$", r"$\beta$", r"$\rm{fission}$"]
+        self.energy_lw     = np.ones(len(self.energy_entries))
+        self.energy_lw[0]  = 2
 
         # Set up the norm of the flow
         self.flow_norm = LogNorm(flow_min, flow_max, clip=True)
+        # In case of adaptive flow ranges, keep track of the maximums to adapt the ranges with a rolling average
+        self.flow_max_history = np.ones(5)*np.nan
 
         # If the flow is not plotted, then the fissioning region should not be separated
         # and the flow colorbar should not be plotted
@@ -238,6 +311,14 @@ class FlowAnimation(object):
         # Timescale stuff
         if self.plot_timescales:
             self.__init_axTimescales()
+
+        # Energy stuff
+        if self.plot_energy:
+            self.__init_axEnergy()
+
+        # Tracked nuclei
+        if self.plot_tracked:
+            self.__init_axTracked()
 
         # WinNet logo
         if self.plot_logo:
@@ -296,6 +377,29 @@ class FlowAnimation(object):
         self.axTimescales.set_xscale('log')
         self.axTimescales.set_xlim(self.timerange[0],self.timerange[1])
 
+    def __init_axTracked(self):
+        """
+           Initialize the axes and everything figure related of the tracked nuclei plot.
+        """
+        self.axTracked = plt.axes([0.15,0.55,0.20,0.17])
+        self.axTracked.set_xlabel('Time [s]')
+        self.axTracked.set_ylabel('Mass fractions')
+        self.axTracked.set_yscale('log')
+        self.axTracked.set_ylim(self.trackedrange[0],self.trackedrange[1])
+        self.axTracked.set_xscale('log')
+        self.axTracked.set_xlim(self.timerange[0],self.timerange[1])
+
+    def __init_axEnergy(self):
+        """
+           Initialize the axes and everything figure related of the energy plot.
+        """
+        self.axEnergy = plt.axes([0.15,0.55,0.20,0.17])
+        self.axEnergy.set_xlabel('Time [s]')
+        self.axEnergy.set_ylabel('Energy [erg/g/s]')
+        self.axEnergy.set_yscale('log')
+        self.axEnergy.set_ylim(self.energyrange[0],self.energyrange[1])
+        self.axEnergy.set_xscale('log')
+        self.axEnergy.set_xlim(self.timerange[0],self.timerange[1])
 
     def __init_axMainout(self):
         """
@@ -363,6 +467,18 @@ class FlowAnimation(object):
             self.ts_time = self.wreader.tau['time']
             self.ts_data = [ [ self.wreader.tau["tau_"+str(self.timescale_entries[i][j])]
                                 for j in range(len(self.timescale_entries[i]))] for i in range(len(self.timescale_entries)) ]
+
+        # Set up energy data
+        if self.plot_energy:
+            self.energy_time = self.wreader.energy['time']
+            self.energy_data = [ self.wreader.energy['engen_'+self.energy_entries[i]] for i in range(len(self.energy_entries)) ]
+
+        # Set up tracked nuclei data
+        if self.plot_tracked:
+            self.tracked_time = self.wreader.tracked_nuclei['time']
+            self.track_nuclei_data  = [ self.wreader.tracked_nuclei[n] for n in self.wreader.tracked_nuclei['names'] ]
+            self.track_nuclei_labels= self.wreader.tracked_nuclei['latex_names']
+
 
         # Set up mainout data
         if self.plot_mainout:
@@ -440,6 +556,16 @@ class FlowAnimation(object):
                 cmap=self.cmapNameFlow, angles='xy', scale_units='xy', scale=1,
                 units='xy', width=0.1, headwidth=3, headlength=4
                 )
+
+            if self.flow_adapt_width:
+                # Create patchcollection of arrows
+                width = (self.flow_maxArrowWidth-self.flow_minArrowWidth)/self.flow_prange
+                with np.errstate(divide='ignore'):
+                    arrowwidth = (np.log10(self.flow)-np.log10(self.flow_min))*width + self.flow_minArrowWidth
+                flow_arrows = [Arrow(self.flow_N[i],self.flow_Z[i],self.flow_dn[i],self.flow_dz[i],width=arrowwidth[i],color='k') for i in range(len(self.flow))]
+                a = PatchCollection(flow_arrows, cmap=self.cmapNameFlow, norm=self.flow_norm)
+                a.set_array(self.flow)
+                self.flow_patch = self.ax.add_collection(a)
 
             # Plot the fission region of positive fission products
             fisspos = self.fis_region.T
@@ -537,6 +663,20 @@ class FlowAnimation(object):
             # Also make the background of the box non-transparent
             self.axTimescales.legend(loc='upper right', ncol=2, bbox_to_anchor=(1.3, 1.0), frameon=True, facecolor='white', edgecolor='black', framealpha=1.0, fontsize=8)
 
+        # Plot the energy
+        if self.plot_energy:
+            self.energy_plot = [self.axEnergy.plot(self.energy_time,self.energy_data[i], color=self.energy_colors[i],
+                                                   label=self.energy_labels[i], lw=self.energy_lw[i]) for i in range(len(self.energy_data))]
+            # Also make the background of the box non-transparent
+            self.axEnergy.legend(loc='upper right', ncol=2, bbox_to_anchor=(1.3, 1.0), frameon=True, facecolor='white', edgecolor='black', framealpha=1.0, fontsize=8)
+
+        # Plot the tracked nuclei
+        if self.plot_tracked:
+            self.tracked_plot = [self.axTracked.plot(self.tracked_time,self.track_nuclei_data[i],
+                                                   label=self.track_nuclei_labels[i]) for i in range(len(self.track_nuclei_labels))]
+            # Also make the background of the box non-transparent
+            self.axTracked.legend(loc='upper right', ncol=2, bbox_to_anchor=(1.3, 1.0), frameon=True, facecolor='white', edgecolor='black', framealpha=1.0, fontsize=8)
+
         # Plot magic numbers
         if self.plot_magic:
             # First neutron numbers
@@ -631,7 +771,18 @@ class FlowAnimation(object):
         if self.plot_timescales:
             self.ts_time = self.wreader.tau['time'][:ii]
             self.ts_time = self.ts_time-self.ts_time[0]
-            self.ts_data = [ [ self.wreader.tau['tau_'+str(self.timescale_entries[i][j])][:ii] for j in range(len(self.timescale_entries[i]))] for i in range(len(self.timescale_entries)) ]
+            self.ts_data = [ [ self.wreader.tau['tau_'+str(self.timescale_entries[i][j])][:ii]
+                              for j in range(len(self.timescale_entries[i]))] for i in range(len(self.timescale_entries)) ]
+
+        if self.plot_energy:
+            self.energy_time = self.wreader.energy['time'][:ii]
+            self.energy_time = self.energy_time-self.energy_time[0]
+            self.energy_data = [ self.wreader.energy['engen_'+self.energy_entries[i]][:ii] for i in range(len(self.energy_entries)) ]
+
+        if self.plot_tracked:
+            self.tracked_time = self.wreader.tracked_nuclei['time'][:ii]
+            self.tracked_time = self.tracked_time-self.tracked_time[0]
+            self.track_nuclei_data  = [ self.wreader.tracked_nuclei[n][:ii] for n in self.wreader.tracked_nuclei['names'] ]
 
         if self.plot_mainout:
             self.mainout_time        = self.wreader.mainout['time'][:ii]
@@ -652,18 +803,24 @@ class FlowAnimation(object):
             flow = flow_dict['flow']
             dz = zout - zin
             dn = nout - nin
-            mask = flow > self.flow_norm.vmin
+            mask = flow > min(self.flow_norm.vmin,self.fission_minflow)
             self.flow_N = nin[mask]
             self.flow_Z = zin[mask]
             self.flow_dn = dn[mask]
             self.flow_dz = dz[mask]
             self.flow = flow[mask]
+            # Keep track of the maximum flows for the colorbar
+            self.flow_max_history    = np.roll(self.flow_max_history,1)
+            self.flow_max_history[0] = np.max(self.flow)
         if self.separate_fission:
             self.handle_fission()
 
 
 
     def handle_fission(self,):
+        """
+           Separate the fissioning region from the fission products in the flow plot.
+        """
 
         fis_mask = np.abs(self.flow_dn + self.flow_dz) > 32
         fis_N = self.flow_N[fis_mask]
@@ -672,11 +829,13 @@ class FlowAnimation(object):
         fis_dz = self.flow_dz[fis_mask]
         fis_flow = self.flow[fis_mask]
 
-        self.flow_N = self.flow_N[~fis_mask]
-        self.flow_Z = self.flow_Z[~fis_mask]
-        self.flow_dn = self.flow_dn[~fis_mask]
-        self.flow_dz = self.flow_dz[~fis_mask]
-        self.flow = self.flow[~fis_mask]
+        mask = self.flow>self.flow_norm.vmin
+
+        self.flow_N = self.flow_N[((~fis_mask) & mask)]
+        self.flow_Z = self.flow_Z[((~fis_mask) & mask)]
+        self.flow_dn = self.flow_dn[((~fis_mask) & mask)]
+        self.flow_dz = self.flow_dz[((~fis_mask) & mask)]
+        self.flow = self.flow[((~fis_mask) & mask)]
 
         self.fis_region.fill(0)
         for nn, zz, dn, dz, ff in zip(fis_N, fis_Z, fis_dn, fis_dz, fis_flow):
@@ -695,6 +854,13 @@ class FlowAnimation(object):
         if self.plot_timescales:
             [ [ self.ts_plot[i][j][0].set_xdata(self.ts_time) for j in range(len(self.ts_plot[i]))] for i in range(len(self.ts_plot)) ]
             [ [ self.ts_plot[i][j][0].set_ydata(self.ts_data[i][j]) for j in range(len(self.ts_plot[i]))] for i in range(len(self.ts_plot)) ]
+        if self.plot_energy:
+            [ self.energy_plot[i][0].set_xdata(self.energy_time) for i in range(len(self.energy_plot))]
+            [ self.energy_plot[i][0].set_ydata(self.energy_data[i]) for i in range(len(self.energy_plot))]
+        if self.plot_tracked:
+            [ self.tracked_plot[i][0].set_xdata(self.tracked_time) for i in range(len(self.tracked_plot))]
+            [ self.tracked_plot[i][0].set_ydata(self.track_nuclei_data[i]) for i in range(len(self.tracked_plot))]
+
         if self.plot_mainout:
             self.mainout_dens_plot[0].set_xdata(self.mainout_time)
             self.mainout_dens_plot[0].set_ydata(self.mainout_density)
@@ -725,9 +891,30 @@ class FlowAnimation(object):
 
     def update_flow_plot(self,):
         if self.plot_flow:
-            self.quiver.N=len(self.flow_N)
-            self.quiver.set_offsets(np.array([self.flow_N, self.flow_Z]).T)
-            self.quiver.set_UVC(self.flow_dn, self.flow_dz, self.flow)
+            # Adapt flowmin and flowmax
+            if self.flow_adapt_prange:
+                lmaxflow = (np.nanmean(np.log10(self.flow_max_history)))+0.5
+                lminflow = lmaxflow-self.flow_prange
+                self.flow_cbar.mappable.set_clim(vmin=10**lminflow, vmax=10**lmaxflow)
+                self.flow_max = 10**lmaxflow
+                self.flow_min = 10**lminflow
+
+            # Plot with a quiver as the width does not have to be adapted
+            if not self.flow_adapt_width:
+                self.quiver.N=len(self.flow_N)
+                self.quiver.set_offsets(np.array([self.flow_N, self.flow_Z]).T)
+                self.quiver.set_UVC(self.flow_dn, self.flow_dz, self.flow)
+            else:
+                # Quiver does not allow for changing the width of the arrows
+                # Therefore, we have to us a patchcollection and draw it everytime new.
+                self.flow_patch.remove()
+                width = (self.flow_maxArrowWidth-self.flow_minArrowWidth)/self.flow_prange
+                with np.errstate(divide='ignore'):
+                    arrowwidth = (np.log10(self.flow)-np.log10(self.flow_min))*width + self.flow_minArrowWidth
+                flow_arrows = [Arrow(self.flow_N[i],self.flow_Z[i],self.flow_dn[i],self.flow_dz[i],width=arrowwidth[i],color='k') for i in range(len(self.flow))]
+                a = PatchCollection(flow_arrows, cmap=self.cmapNameFlow, norm=self.flow_norm)
+                a.set_array(self.flow)
+                self.flow_patch = self.ax.add_collection(a)
 
 
     def update_frame(self, ii):

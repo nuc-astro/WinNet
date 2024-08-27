@@ -1,7 +1,8 @@
 # Author: M. Reichert
 # Date: 04.07.2024
-import numpy as np
-from tqdm import tqdm
+import numpy                as     np
+from tqdm                   import tqdm
+from nucleus_multiple_class import nucleus_multiple
 import h5py
 import os
 
@@ -60,7 +61,6 @@ class wreader(object):
             error_msg = 'Failed to read A, Z, and N in "'+str(self.path)+'". '+\
                         'Snapshots not present as Ascii nor as Hdf5!'
             raise ValueError(error_msg)
-
 
     @property
     def Z(self):
@@ -127,6 +127,8 @@ class wreader(object):
             value = self.__check_files('timescales.dat','timescales')
         elif (entry == 'energy'):
             value = self.__check_files('generated_energy.dat','energy')
+        elif (entry == 'tracked_nuclei'):
+            value = self.__check_files('tracked_nuclei.dat','tracked_nuclei')
         elif (entry == 'snapshot'):
             value = self.__check_files('snaps/snapsh_0001.dat','snapshots')
         elif (entry == 'flows'):
@@ -193,6 +195,67 @@ class wreader(object):
                         'Not present as Ascii nor as Hdf5!'
             raise ValueError(error_msg)
 
+    @property
+    def tracked_nuclei(self):
+        """
+        Get the tracked nuclei
+        """
+        if not hasattr(self,"_wreader__tracked_nuclei"):
+            self.__read_tracked_nuclei()
+        return self.__tracked_nuclei
+
+    def __read_tracked_nuclei(self):
+        """
+        Read the tracked nuclei
+        """
+        # Check if Ascii (mode = 2), hdf5 (mode = 1), or not present (mode = 0)
+        mode = self.check_existence('tracked_nuclei')
+        self.__tracked_nuclei = {}
+
+        if mode == 2:
+            # self.__tracked_nuclei = np.loadtxt(os.path.join(self.path, "tracked_nuclei.dat"), unpack=True)
+            path = os.path.join(self.path, "tracked_nuclei.dat")
+            with open(path, 'r') as f:
+                first_line = f.readline()
+
+            first_line = first_line.replace('Y(','')
+            first_line = first_line.replace(')','')
+            first_line = first_line.replace('#','')
+            track_nuclei_names = first_line.split()[1:]      # Since the first entry is "time"
+            track_nuclei_data  = np.loadtxt(path, skiprows=1)
+            nm = nucleus_multiple(names=track_nuclei_names)
+            Z = nm.Z
+            N = nm.N
+            A = nm.A
+            Xnuclei = track_nuclei_data[:,1:]*A
+            self.__tracked_nuclei['time'] = track_nuclei_data[:,0]
+            self.__tracked_nuclei['Z'] = Z
+            self.__tracked_nuclei['N'] = N
+            self.__tracked_nuclei['A'] = A
+            self.__tracked_nuclei['names'] = track_nuclei_names
+            elnames = nm.elnames
+            self.__tracked_nuclei['latex_names'] = [r"$^{"+str(A[i])+r"}$"+elnames[i].title() for i in range(len(A))]
+            for i, name in enumerate(track_nuclei_names):
+                self.__tracked_nuclei[name] = Xnuclei[:,i]
+        elif mode == 1:
+            with h5py.File(self.filename, 'r') as hf:
+                self.__tracked_nuclei['Z'] = hf['tracked_nuclei/Z'][:]
+                self.__tracked_nuclei['N'] = hf['tracked_nuclei/N'][:]
+                self.__tracked_nuclei['A'] = hf['tracked_nuclei/A'][:]
+                self.__tracked_nuclei['time'] = hf['tracked_nuclei/time'][:]
+                Xnuclei = hf['tracked_nuclei/Y'][:,:] * self.__tracked_nuclei['A']
+                nm = nucleus_multiple(Z=self.__tracked_nuclei['Z'], N=self.__tracked_nuclei['N'])
+                self.__tracked_nuclei['names'] = nm.names
+                for i, name in enumerate(nm.names):
+                    self.__tracked_nuclei[name] = Xnuclei[:,i]
+
+                elnames = nm.elnames
+                A = self.__tracked_nuclei['A']
+                self.__tracked_nuclei['latex_names'] = [r"$^{"+str(A[i])+r"}$"+elnames[i].title() for i in range(len(A))]
+        elif mode == 0:
+            error_msg = 'Failed to read tracked nuclei in "'+str(self.path)+'". '+\
+                        'Not present as Ascii nor as Hdf5!'
+            raise ValueError(error_msg)
 
     @property
     def Y(self):
@@ -458,4 +521,6 @@ class wreader(object):
         return flow
 
 if __name__ == "__main__":
+    w = wreader('/home/mreichert/data/Networks/comparison_winNet/WinNet-dev/runs/Example_MRSN_r_process_winteler')
+    w.tracked_nuclei
     pass
