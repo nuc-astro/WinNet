@@ -834,13 +834,16 @@ contains
       helper_dens(1) = dens
 
       ! Abundance dataset
+      ! Calculate net flow here and not in the argument of create_constant_1d_arrays
+      ! in order to avoid annoying warning message
+      flow_in(:) = flow_in(:) - flow_out(:)
       ! Create a group for the snapshots
       call h5gcreate_f(file_id, "/flows/"//int_to_str(iter_flow), tmp_group_id, i_stat)
       call create_constant_1d_int_arrays(count,n_in_nr ,"n_in",tmp_group_id)
       call create_constant_1d_int_arrays(count,p_in_nr ,"p_in",tmp_group_id)
       call create_constant_1d_int_arrays(count,n_out_nr,"n_out",tmp_group_id)
       call create_constant_1d_int_arrays(count,p_out_nr,"p_out",tmp_group_id)
-      call create_constant_1d_arrays(count,flow_in-flow_out,"flow",tmp_group_id)
+      call create_constant_1d_arrays(count,flow_in,"flow",tmp_group_id)
       call create_constant_1d_arrays(1,helper_time,"time",tmp_group_id)
       call create_constant_1d_arrays(1,helper_temp,"temp",tmp_group_id)
       call create_constant_1d_arrays(1,helper_dens,"dens",tmp_group_id)

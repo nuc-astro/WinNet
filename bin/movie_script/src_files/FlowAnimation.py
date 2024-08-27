@@ -28,6 +28,8 @@ class FlowAnimation(object):
         self,
         path,
         fig,
+        # Folder to save the frames in
+        frame_dir         = None,
         # Flows
         plot_flow         = True,
         # flow_group       = 'flows',
@@ -80,6 +82,8 @@ class FlowAnimation(object):
             Path to the WinNet data.
         fig : matplotlib.figure.Figure
             Figure to plot the animation on.
+        frame_dir : str
+            Folder to save the frames in, default is path/frames.
         plot_flow : bool
             Plot the flow of the abundances.
         flow_min : float
@@ -162,7 +166,11 @@ class FlowAnimation(object):
         self.__script_path = os.path.dirname(os.path.abspath(__file__))
         self.__data_path = os.path.join(self.__script_path,"data")
         # Frame directory:
-        self.frame_dir = f'{path}/frames'
+        if frame_dir is None:
+            self.frame_dir = f'{path}/frames'
+        else:
+            self.frame_dir = frame_dir
+
         # WinNet run path
         self.path = path
 

@@ -128,11 +128,14 @@ This command will display the movie in a separate window. Note that this process
 - `--save`  
   Whether or not saving the movie.
 
+- `--save_frames`  
+  Whether or not saving the frames of the movie, not compatible with the save option.
+
 - `--output=OUTPUT_NAME`  
   Output name of the movie.
 
 - `--parallel_save`  
-  Whether or not to save the movie in parallel.
+  Whether or not to save the movie or frames in parallel.
 
 - `--parallel_cpus=PARALLEL_CPUS`  
   Number of CPUs to use for parallel saving.

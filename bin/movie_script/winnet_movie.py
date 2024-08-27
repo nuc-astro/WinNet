@@ -8,6 +8,7 @@ script_path = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(os.path.join(script_path,'src_files/'))
 from src_files.FlowAnimation import FlowAnimation
 from src_files.wreader       import wreader
+from tqdm                    import tqdm
 import matplotlib.pyplot     as plt
 import optparse
 
@@ -85,6 +86,8 @@ p.add_option("--frame_max", action="store", dest="frame_max", default="", \
   help="Value of the last frame (default = end of the simulation).")
 p.add_option("--save", action="store_true", dest="save", default=False, \
   help="Whether or not saving the movie.")
+p.add_option("--save_frames", action="store_true", dest="save_frames", default=False, \
+  help="Whether or not saving the frames into a folder.")
 p.add_option("--output", action="store", dest="output_name", default='flow_movie.mp4', \
   help="Output name of the movie.")
 p.add_option('--parallel_save', action='store_true', dest='parallel_save', default=False, \
@@ -195,8 +198,86 @@ else: frame_min = 1
 if options.frame_max: frame_max = int(options.frame_max)
 else: frame_max = w.nr_of_snaps
 
+# Ensure that not both is chosen
+if options.save_frames and options.save:
+    raise ValueError('Cannot save frames and movie at the same time. Please choose one of them.')
+
+# Check if frames should be saved into a folder
+if options.save_frames:
+    # Create the output folder if it doesnt exist yet
+    if options.output_name:
+        os.mkdir(options.output_name)
+
+    if not options.parallel_save:
+        # Create figure
+        fig = plt.figure(figsize=(15, 8))
+        if options.output_name:
+            anim = FlowAnimation(run_path, fig, frame_dir=options.output_name, **kwargs)
+        else:
+            anim = FlowAnimation(run_path, fig, **kwargs)
+
+        # Save the frames
+        for i in tqdm(range(frame_min, frame_max)):
+            anim.save_frame(i)
+    else: # parallel saving
+        # Sanity check, does mpi4py exist?
+        try:
+            from mpi4py import MPI
+        except ImportError:
+            raise ImportError('mpi4py not found. Please install it to use parallel saving.')
+
+        # Next check, is ffmpeg installed?
+        if os.system('ffmpeg -version > /dev/null') != 0:
+            raise ImportError('ffmpeg not found. Please install it to use parallel saving.')
+
+        # Get folder location of this script
+        script_path = os.path.dirname(os.path.realpath(__file__))
+        # The options have to be passed to the parallel_save.py script
+        # Therefore save them
+        # try to import pickle
+        try:
+            import pickle
+        except ImportError:
+            raise ImportError('pickle not found. Please install it to use parallel saving.')
+
+        option_dict_path = os.path.join(script_path, 'src_files/data/options.pkl')
+        with open(option_dict_path, 'wb') as f:
+            pickle.dump(kwargs, f)
+
+        # Get the path to the parallel_save.py script
+        parallel_save_path = os.path.join(script_path, 'src_files', 'parallel_save.py')
+
+        # Check if the mpirun path is given
+        if not options.mpirun_path:
+            # Get the correct mpirun
+            mpirun = os.popen('whereis mpirun').read().strip().split()
+            # Get the mpirun that has oneapi in the path
+            mpirun = [m for m in mpirun if 'oneapi' in m]
+            if not mpirun:
+                raise ImportError('No mpirun with oneapi found. Please install it to use parallel saving.')
+            mpirun = mpirun[0]
+        else:
+            # Take the given mpirun path
+            mpirun = options.mpirun_path
+
+        # Test if the mpirun path is correct
+        if os.system(f'{mpirun} -version > /dev/null') != 0:
+            raise ImportError('mpirun not found or wrong path. Please install it to use parallel saving.')
+
+        # Run the parallel saving
+        os.system(f'{mpirun} -n {options.parallel_cpus} python {parallel_save_path} {run_path} {frame_min} {frame_max} {options.interval} TRUE')
+
+        # Remove the options file
+        os.remove(option_dict_path)
+
+        # Move to the output destination
+        if options.output_name:
+            os.system(f'mv {run_path}/frames/* {options.output_name}')
+
+    print('Finished saving frames!')
+
 # Check if things should be saved or shown
-if options.save:
+elif options.save:
     if not options.parallel_save:
         # Funcanimation
         fig = plt.figure(figsize=(15, 8))
