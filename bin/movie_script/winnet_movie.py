@@ -49,7 +49,9 @@ p.add_option("--mass_bins_cmap", action="store", dest="mass_bins_cmap", default=
 p.add_option("--disable_magic", action="store_true", dest="disable_magic", default=False, \
   help="Whether or not disabling the indication for the magic number.")
 p.add_option("--additional_plot", action="store", dest="additional_plot", default="", \
-  help="Whether or not plotting average timescales.")
+  help="Whether or not to show an additional plot in the top left corner. "+
+       "Possible options are 'timescales', 'tracked', or 'energy'"+
+       " for plotting average timescales, mass fractions of tracked nuclei, or nuclear energy generation.")
 p.add_option("--tau_min", action="store", dest="tau_min", default="", \
   help="Lower limit of the average timescales.")
 p.add_option("--tau_max", action="store", dest="tau_max", default="", \

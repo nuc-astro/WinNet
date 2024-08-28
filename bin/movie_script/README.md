@@ -72,7 +72,8 @@ This command will display the movie in a separate window. Note that this process
   Whether or not disabling the indication for the magic number.
 
 - `--additional_plot=ADDITIONAL_PLOT`  
-  Whether or not plotting average timescales.
+  Whether or not to show an additional plot in the top left corner. Possible options are 'timescales', 'tracked', or 'energy' 
+  for plotting average timescales, mass fractions of tracked nuclei, or nuclear energy generation.
 
 - `--tau_min=TAU_MIN`  
   Lower limit of the average timescales.

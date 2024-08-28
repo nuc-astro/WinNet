@@ -338,16 +338,8 @@ class FlowAnimation(object):
            Initialize the axes and everything figure related of the nuclear chart.
         """
         # Set up the main figure of the nuclear chart, i.e., remove borders, ticks, etc.
-        for tick in self.ax.xaxis.get_major_ticks():
-            tick.tick1line.set_visible(False)
-            tick.tick2line.set_visible(False)
-            tick.label1.set_visible(False)
-            tick.label2.set_visible(False)
-        for tick in self.ax.yaxis.get_major_ticks():
-            tick.tick1line.set_visible(False)
-            tick.tick2line.set_visible(False)
-            tick.label1.set_visible(False)
-            tick.label2.set_visible(False)
+        self.ax.xaxis.set_visible(False)
+        self.ax.yaxis.set_visible(False)
         self.ax.spines[['right', 'top', "bottom", "left"]].set_visible(False)
 
 
