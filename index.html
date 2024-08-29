@@ -104,6 +104,7 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <li class="level1"><a href="#start_running">Starting to run the code</a><ul><li class="level2"><a href="#parameter">The parameter file</a></li>
 <li class="level2"><a href="#example_cases">Example cases</a></li>
 <li class="level2"><a href="#monitoring_simulations">Monitoring simulations</a></li>
+<li class="level2"><a href="#create_movie">Creating Movies</a></li>
 <li class="level2"><a href="#compile_docs">Compiling a local version of the documentation</a></li>
 <li class="level2"><a href="#publications">List of publications</a></li>
 </ul>
@@ -131,7 +132,17 @@ Example cases</h2>
 <h2><a class="anchor" id="monitoring_simulations"></a>
 Monitoring simulations</h2>
 <p>If you used <em>makerun.py</em> to launch your simulation, the script will report the process ID (PID) in case you decide to pause or terminate the run. Standard output and standard error of the run are written to <em>OUT</em> and <em>ERR</em> files in the run output directory. The <em>makerun.py</em> script will also ask you if you want to monitor the simulation. Otherwise, you can monitor the progress using the "tail -f" command, for instance: </p><pre class="fragment">tail -f $WINNET/runs/Example_BigBang/OUT
-</pre><h2><a class="anchor" id="compile_docs"></a>
+</pre><h2><a class="anchor" id="create_movie"></a>
+Creating Movies</h2>
+<p>WinNet includes a convenient script for generating movies, which can be found at <a href="../../bin/movie_script/winnet_movie.py">bin/movie_script/winnet_movie.py</a>. To use this script, you need to install the required Python packages listed in <a href="../../bin/movie_script/requirements.txt">bin/movie_script/requirements.txt</a>. For a comprehensive guide on available parameters, you can refer to the Readme of the same <a href="../../bin/movie_script/">folder</a> or access the script's help menu by running:</p>
+<div class="fragment"><div class="line">python winnet_movie.py --help</div>
+</div><!-- fragment --><p>Once you have completed a simulation with the appropriate parameters, you can create a movie by executing the following command:</p>
+<div class="fragment"><div class="line">python winnet_movie.py -i path_to_simulation_directory</div>
+</div><!-- fragment --><p>The resulting movie may resemble the following example:</p>
+<div class="image">
+<img src="winteler_mhd.gif" alt="" width="95%"/>
+</div>
+<h2><a class="anchor" id="compile_docs"></a>
 Compiling a local version of the documentation</h2>
 <p>If you have <em><b>doxygen</b></em> installed (see <a href="https://www.doxygen.nl/index.html">https://www.doxygen.nl/index.html</a>) you can use it to create a local version of the documentation by executing </p><pre class="fragment">make doc
 </pre><p>in the terminal. The compilation of the documentation was tested with doxygen version 1.8.17.</p>

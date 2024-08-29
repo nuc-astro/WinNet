@@ -33,6 +33,7 @@ var NAVTREE =
         [ "The parameter file", "index.html#parameter", null ],
         [ "Example cases", "index.html#example_cases", null ],
         [ "Monitoring simulations", "index.html#monitoring_simulations", null ],
+        [ "Creating Movies", "index.html#create_movie", null ],
         [ "Compiling a local version of the documentation", "index.html#compile_docs", null ],
         [ "List of publications", "index.html#publications", null ]
       ] ]
@@ -250,16 +251,17 @@ var NAVTREEINDEX =
 "Example__hydrostatic__hydrogen__burning_2scripts_2Plot__me_8py.html#aae6215e6246e894c74949ae707c2e7b3",
 "charged-current__reaction_8py.html#ad0942bd2f4f9f7346816d341d7f012bc",
 "classbin_1_1class__files_1_1winnet__class_1_1winnet.html#ad4d55ab88a572d0e12076b37bf82e819",
-"classsrc__files_1_1nucleus__multiple__class_1_1nucleus__multiple.html#a6d9d9dbfb10401a4e4c8a60a72a1d994",
-"detailed__balance_8py.html#ac5f46921ff34540b9ff17e1fac5000f9",
-"fissrate__bdel_8py.html",
-"hdf5__module_8f90.html#a17f294797401353c15ec93b4308adafe",
-"ls__timmes__eos__module_8f.html#af6eac0bc0df7aa1cb1fd3620bf1ef45d",
-"namespaceneutron-decay.html",
-"parameter__class_8f90.html#a37dd5d3ccfd1abaa9423769b28e2aa6a",
-"parameters.html#top_engen_every",
-"screening__module_8f90.html#adf2b280d7a2cf6cb95c70a7f39650db4",
-"testcase__class_8py.html"
+"classsrc__files_1_1nucleus__class_1_1nucleus.html#a732aa3addb3ae98c7e89c7bacbb7f258",
+"create__trajectories_8py_source.html",
+"fissfrag__panov__n__emission_8py.html#a636df56eb8d028c66e4904f1e9ac7ed2",
+"global__class_8f90.html#a5b13571a406369d84e68cabf73e8c673",
+"input_files.html#winvn",
+"namespacemembers_n.html",
+"parallel__save_8py.html#acfdef6046d4d74ca30948a48022d83b1",
+"parameters.html#mainout_every",
+"ref__nsm_8py_source.html",
+"structunits__module_1_1units__in__cgs.html#ae0fb943bf7ce9cf391027eda8bb49f5c",
+"wreader_8py_source.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

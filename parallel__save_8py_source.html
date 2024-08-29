@@ -114,51 +114,54 @@ $(document).ready(function(){initNavTree('parallel__save_8py_source.html',''); i
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">with</span> open(option_dict_path, <span class="stringliteral">&#39;rb&#39;</span>) <span class="keyword">as</span> f:</div>
 <div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="namespacesrc__files_1_1parallel__save.html#af85d6f42ec121ddf7ad2b40ed4a503cb">   16</a></span>&#160;    kwargs = pickle.load(f)</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; </div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment"># Get the arguments from the command line</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment"># Run path, Frame_min, Frame_max, interval</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="namespacesrc__files_1_1parallel__save.html#a4f20a22b322e5452afee4835774651a8">   22</a></span>&#160;run_path  = sys.argv[1]</div>
-<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="namespacesrc__files_1_1parallel__save.html#acd20d7e711090a858d8808078b08a856">   23</a></span>&#160;frame_min = int(sys.argv[2])</div>
-<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="namespacesrc__files_1_1parallel__save.html#a9b9702f0a02a2125b0594b0a348af32f">   24</a></span>&#160;frame_max = int(sys.argv[3])</div>
-<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="namespacesrc__files_1_1parallel__save.html#a4f40172800764a122367608d9e0162fc">   25</a></span>&#160;interval  = int(sys.argv[4])</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="comment"># Set up the MPI environment</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="namespacesrc__files_1_1parallel__save.html#a321dc5238efa4e6f1bedbf2915cd8076">   28</a></span>&#160;comm = MPI.COMM_WORLD</div>
-<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="namespacesrc__files_1_1parallel__save.html#a322f89fc2fc82cef8c8e051097676074">   29</a></span>&#160;rank = comm.Get_rank()</div>
-<div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="namespacesrc__files_1_1parallel__save.html#adb7d69eebb29793e2d45092cb5d05170">   30</a></span>&#160;size = comm.Get_size()</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="comment"># Set up the figure</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="namespacesrc__files_1_1parallel__save.html#acfdef6046d4d74ca30948a48022d83b1">   33</a></span>&#160;fig = plt.figure(figsize=(15, 8))</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment"># Also run ffmpeg per default unless told otherwise</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="namespacesrc__files_1_1parallel__save.html#aba74415818b4cf85c79da5943d8c75b6">   19</a></span>&#160;create_movie = <span class="keyword">True</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment"># Get the arguments from the command line</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment"># Run path, Frame_min, Frame_max, interval</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="namespacesrc__files_1_1parallel__save.html#a4f20a22b322e5452afee4835774651a8">   23</a></span>&#160;run_path  = sys.argv[1]</div>
+<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="namespacesrc__files_1_1parallel__save.html#acd20d7e711090a858d8808078b08a856">   24</a></span>&#160;frame_min = int(sys.argv[2])</div>
+<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="namespacesrc__files_1_1parallel__save.html#a9b9702f0a02a2125b0594b0a348af32f">   25</a></span>&#160;frame_max = int(sys.argv[3])</div>
+<div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="namespacesrc__files_1_1parallel__save.html#a4f40172800764a122367608d9e0162fc">   26</a></span>&#160;interval  = int(sys.argv[4])</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keywordflow">if</span> len(sys.argv) &gt; 5:</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    create_movie = <span class="keyword">False</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment"># Set up the MPI environment</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno"><a class="line" href="namespacesrc__files_1_1parallel__save.html#a321dc5238efa4e6f1bedbf2915cd8076">   31</a></span>&#160;comm = MPI.COMM_WORLD</div>
+<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="namespacesrc__files_1_1parallel__save.html#a322f89fc2fc82cef8c8e051097676074">   32</a></span>&#160;rank = comm.Get_rank()</div>
+<div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="namespacesrc__files_1_1parallel__save.html#adb7d69eebb29793e2d45092cb5d05170">   33</a></span>&#160;size = comm.Get_size()</div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="comment"># Set up the frame directory</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="namespacesrc__files_1_1parallel__save.html#a8980bfc1a191db7a70dbf596cb8a71b2">   36</a></span>&#160;frame_dir=f<span class="stringliteral">&#39;{run_path}/frames&#39;</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="keywordflow">if</span> <span class="keywordflow">not</span> os.path.exists(frame_dir):</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    os.mkdir(frame_dir)</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="comment"># Make barrier here</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;comm.Barrier()</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="comment"># Set up the figure</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="namespacesrc__files_1_1parallel__save.html#acfdef6046d4d74ca30948a48022d83b1">   36</a></span>&#160;fig = plt.figure(figsize=(15, 8))</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="comment"># Set up the frame directory</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="namespacesrc__files_1_1parallel__save.html#a8980bfc1a191db7a70dbf596cb8a71b2">   39</a></span>&#160;frame_dir=f<span class="stringliteral">&#39;{run_path}/frames&#39;</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keywordflow">if</span> <span class="keywordflow">not</span> os.path.exists(frame_dir):</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    os.mkdir(frame_dir)</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="comment"># Set up the animation</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="namespacesrc__files_1_1parallel__save.html#a79cecfdfbf7202bdedda5f305ae715d8">   44</a></span>&#160;anim = <a class="code" href="classsrc__files_1_1FlowAnimation_1_1FlowAnimation.html">FlowAnimation</a>(run_path, fig, **kwargs)</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="comment"># Make barrier here</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;comm.Barrier()</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
-<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="namespacesrc__files_1_1parallel__save.html#acb8182218480456f5bea54f29bfd968c">   46</a></span>&#160;frames = np.arange(frame_min,frame_max)[rank::size]</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="keywordflow">if</span> rank == 0:</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordflow">for</span> ii <span class="keywordflow">in</span> tqdm(frames):</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        anim.save_frame(ii)</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordflow">for</span> ii <span class="keywordflow">in</span> frames:</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="comment"># Set up the animation</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="namespacesrc__files_1_1parallel__save.html#a79cecfdfbf7202bdedda5f305ae715d8">   47</a></span>&#160;anim = <a class="code" href="classsrc__files_1_1FlowAnimation_1_1FlowAnimation.html">FlowAnimation</a>(run_path, fig, **kwargs)</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
+<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="namespacesrc__files_1_1parallel__save.html#acb8182218480456f5bea54f29bfd968c">   49</a></span>&#160;frames = np.arange(frame_min,frame_max)[rank::size]</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="keywordflow">if</span> rank == 0:</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordflow">for</span> ii <span class="keywordflow">in</span> tqdm(frames):</div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        anim.save_frame(ii)</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="comment"># Wait again</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;comm.Barrier()</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordflow">for</span> ii <span class="keywordflow">in</span> frames:</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        anim.save_frame(ii)</div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="comment"># Combine the frames</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="keywordflow">if</span> rank == 0:</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    os.system(f<span class="stringliteral">&#39;ffmpeg -y -r {interval} -start_number {frame_min} -i {frame_dir}/frame_%d.png  {run_path}/flow.mp4&#39;</span>)</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="comment"># Wait again</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;comm.Barrier()</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="comment"># Combine the frames</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="keywordflow">if</span> ((rank == 0) <span class="keywordflow">and</span> create_movie):</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    os.system(f<span class="stringliteral">&#39;ffmpeg -y -r {interval} -start_number {frame_min} -i {frame_dir}/frame_%d.png  {run_path}/flow.mp4&#39;</span>)</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclasssrc__files_1_1FlowAnimation_1_1FlowAnimation_html"><div class="ttname"><a href="classsrc__files_1_1FlowAnimation_1_1FlowAnimation.html">src_files.FlowAnimation.FlowAnimation</a></div><div class="ttdef"><b>Definition:</b> <a href="FlowAnimation_8py_source.html#l00020">FlowAnimation.py:20</a></div></div>
+<div class="ttc" id="aclasssrc__files_1_1FlowAnimation_1_1FlowAnimation_html"><div class="ttname"><a href="classsrc__files_1_1FlowAnimation_1_1FlowAnimation.html">src_files.FlowAnimation.FlowAnimation</a></div><div class="ttdef"><b>Definition:</b> <a href="FlowAnimation_8py_source.html#l00022">FlowAnimation.py:22</a></div></div>
 <!-- HTML footer for doxygen 1.8.17-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
