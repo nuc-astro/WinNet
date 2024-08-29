@@ -245,7 +245,7 @@ contains
      integer :: i
      integer :: read_stat,alloc_stat
      integer :: tabtemp_unit !< File unit id
-     character(max_fname_len) :: help_reader  !< Helper variable
+     character(10000) :: help_reader  !< Helper variable
 
      INFO_ENTRY("readtabulated")
 
@@ -347,14 +347,11 @@ contains
      real(r_kind),dimension(:), allocatable  :: curTable
      real(r_kind)                    :: qvalue
      integer                         :: j,k,read_stat,alloc_stat
-     character(20)                   :: fmt_dyn
 
      INFO_ENTRY("readtabulated")
 
      allocate(curTable(nt_tab),stat=alloc_stat)
 
-     ! Create a custom format, depending on the length
-     fmt_dyn = "("//int_to_str(nt_tab)//"f10.3)"
 
      k=0
    !----- first read the input file in order to determine the number of tabulated reactions
@@ -363,7 +360,12 @@ contains
         read(sourcefile,my_format(1), iostat = read_stat)  &
              grp, parts(1:6), src, res, rev, qvalue
         if (read_stat /= 0) exit
-        read(sourcefile,fmt_dyn) curTable
+        if (grp .eq. 0) then
+            ! Read the rates on the grid table
+            read(sourcefile,*) curTable
+        else
+            read(sourcefile,*)
+        end if
 
         ! Check if reaction is in the network
         select case (grp)
@@ -406,7 +408,11 @@ contains
         read(sourcefile,my_format(1), iostat = read_stat)  &
              grp, parts(1:6), src, res, rev, qvalue
         if (read_stat /= 0) exit
-        read(sourcefile,fmt_dyn) curTable
+        if (grp .eq. 0) then
+            read(sourcefile,*) curTable
+        else
+            read(sourcefile,*)
+        end if
         select case (grp)
         case (1:11)
            group_index = grp

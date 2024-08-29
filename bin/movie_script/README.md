@@ -2,8 +2,13 @@
 
 This folder contains a script to analyze a WinNet run. It will show or save a movie of the mass fractions over time in the nuclear chart, inspired by the movie of SkyNet (done by J. Lippuner).
 
-To create a video, the run must have snapshot output enabled (parameters snapshots_every or h_snapshots_every). Also timescales, mainout
-properties, or abundance flows can be plotted if the frequency of the output is **set to the same value as the one of the snapshots**. 
+To create a video, the run must have snapshot output enabled (parameters [snapshots_every](https://nuc-astro.github.io/WinNet/parameters.html#h_snapshot_every) or [h_snapshots_every](https://nuc-astro.github.io/WinNet/parameters.html#h_snapshot_every)). 
+Also timescales ([timescales_every](https://nuc-astro.github.io/WinNet/parameters.html#timescales_every) or [h_timescales_every](https://nuc-astro.github.io/WinNet/parameters.html#h_timescales_every)), 
+mainout properties ([mainout_every](https://nuc-astro.github.io/WinNet/parameters.html#mainout_every) or [h_mainout_every](https://nuc-astro.github.io/WinNet/parameters.html#h_mainout_every)), 
+energy generation ([engen_every](https://nuc-astro.github.io/WinNet/parameters.html#engen_every) or [h_engen_every](https://nuc-astro.github.io/WinNet/parameters.html#h_engen_every)), 
+tracked nuclei ([track_nuclei_every](https://nuc-astro.github.io/WinNet/parameters.html#track_nuclei_every) or [h_track_nuclei_every](https://nuc-astro.github.io/WinNet/parameters.html#h_track_nuclei_every)), 
+or abundance flows ([flow_every](https://nuc-astro.github.io/WinNet/parameters.html#flow_every) or [h_flow_every](https://nuc-astro.github.io/WinNet/parameters.html#h_flow_every))
+can be plotted if the frequency of the output is **set to the same value as the one of the snapshots**. 
 
 An example command to generate the video is:
 
@@ -15,10 +20,10 @@ This command will display the movie in a separate window. Note that this process
 
 #### Options
 
-- `-h, --help`  
+- `-h`, `--help`  
   Show this help message and exit.
 
-- `-i RUNDIR, --input=RUNDIR`  
+- `-i RUNDIR`, `--input=RUNDIR`  
   Simulation directory to visualize (default: current directory).
 
 - `--disable_flow`  
@@ -30,11 +35,23 @@ This command will display the movie in a separate window. Note that this process
 - `--flow_max=FLOW_MAX`  
   Upper limit of the flow.
 
+- `--fix_flows`  
+  Whether or not the flows are adapted to the data or lie between `flow_min` and `flow_max`.
+
+- `--flow_range=FLOW_RANGE`  
+  Log range of the flows in case they are not fixed.
+
+- `--fix_flow_arrow_width`  
+  Fix the width of the flow arrows to a constant width.
+
 - `--flow_cmap=FLOW_CMAP`  
   Colormap of the flows.
 
 - `--separate_fission`  
   Whether or not to show arrows also for fission. If not present, hatched areas will be plotted.
+
+- `--fission_minflow=FISSION_MINFLOW`  
+  Minimum flow to get indicated as a fission region in case the separate fission flag is not given.
 
 - `--x_min=X_MIN`  
   Lower limit of the mass fraction.
@@ -54,14 +71,27 @@ This command will display the movie in a separate window. Note that this process
 - `--disable_magic`  
   Whether or not disabling the indication for the magic number.
 
-- `--disable_tau`  
-  Whether or not plotting average timescales.
+- `--additional_plot=ADDITIONAL_PLOT`  
+  Whether or not to show an additional plot in the top left corner. Possible options are 'timescales', 'tracked', or 'energy' 
+  for plotting average timescales, mass fractions of tracked nuclei, or nuclear energy generation.
 
 - `--tau_min=TAU_MIN`  
   Lower limit of the average timescales.
 
 - `--tau_max=TAU_MAX`  
   Upper limit of the average timescales.
+
+- `--engen_min=ENGEN_MIN`  
+  Lower limit of the Energy.
+
+- `--engen_max=ENGEN_MAX`  
+  Upper limit of the Energy.
+
+- `--tracked_min=TRACKED_MIN`  
+  Lower limit of the tracked nuclei mass fractions.
+
+- `--tracked_max=TRACKED_MAX`  
+  Upper limit of the tracked nuclei mass fractions.
 
 - `--time_min=T_MIN`  
   Lower limit of the time.
@@ -99,11 +129,14 @@ This command will display the movie in a separate window. Note that this process
 - `--save`  
   Whether or not saving the movie.
 
+- `--save_frames`  
+  Whether or not saving the frames of the movie, not compatible with the save option.
+
 - `--output=OUTPUT_NAME`  
   Output name of the movie.
 
 - `--parallel_save`  
-  Whether or not to save the movie in parallel. To save a movie in parallel, mpi4py as well as ffmpeg is required.
+  Whether or not to save the movie or frames in parallel.
 
 - `--parallel_cpus=PARALLEL_CPUS`  
   Number of CPUs to use for parallel saving.
@@ -112,5 +145,11 @@ This command will display the movie in a separate window. Note that this process
   Interval of the movie (larger value equals slower).
 
 - `--mpirun_path=MPIRUN_PATH`  
-  Path of the mpirun command to use for parallel saving.
+  Path of the `mpirun` command to use for parallel saving.
+  
+  
+#### Example
 
+An example output could look like the following:
+
+![Simulation visualization](../../doc/doxygen/figures/winteler_mhd.gif)

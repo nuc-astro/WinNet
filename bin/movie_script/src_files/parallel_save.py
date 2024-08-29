@@ -15,7 +15,8 @@ option_dict_path = os.path.join(script_path, 'data/options.pkl')
 with open(option_dict_path, 'rb') as f:
     kwargs = pickle.load(f)
 
-
+# Also run ffmpeg per default unless told otherwise
+create_movie = True
 
 # Get the arguments from the command line
 # Run path, Frame_min, Frame_max, interval
@@ -23,6 +24,8 @@ run_path  = sys.argv[1]
 frame_min = int(sys.argv[2])
 frame_max = int(sys.argv[3])
 interval  = int(sys.argv[4])
+if len(sys.argv) > 5:
+    create_movie = False
 
 # Set up the MPI environment
 comm = MPI.COMM_WORLD
@@ -55,5 +58,5 @@ else:
 comm.Barrier()
 
 # Combine the frames
-if rank == 0:
+if ((rank == 0) and create_movie):
     os.system(f'ffmpeg -y -r {interval} -start_number {frame_min} -i {frame_dir}/frame_%d.png  {run_path}/flow.mp4')
