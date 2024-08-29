@@ -63,7 +63,7 @@ Otherwise, you can monitor the progress using the "tail -f" command, for instanc
 
 \subsection create_movie Creating Movies
 
-WinNet includes a convenient script for generating movies, which can be found at [bin/movie_script/winnet_movie.py](../../bin/movie_script/winnet_movie.py). To use this script, you need to install the required Python packages listed in [bin/movie_script/requirements.txt](../../bin/movie_script/requirements.txt). For a comprehensive guide on available parameters, you can refer to the Readme of the same [folder](../../bin/movie_script/) or access the script's help menu by running:
+WinNet includes a convenient script for generating movies, which can be found at [bin/movie_script/winnet_movie.py](https://github.com/nuc-astro/WinNet/blob/master/bin/movie_script/winnet_movie.py). To use this script, you need to install the required Python packages listed in [bin/movie_script/requirements.txt](https://github.com/nuc-astro/WinNet/blob/master/bin/movie_script/requirements.txt). For a comprehensive guide on available parameters, you can refer to the Readme of the same [folder](https://github.com/nuc-astro/WinNet/tree/master/bin/movie_script) or access the script's help menu by running:
 
 ```python
 python winnet_movie.py --help
