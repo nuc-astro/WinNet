@@ -333,6 +333,8 @@ python makerun.py -p Example_AGB_nishimura.par -r Example_AGB_nishimura
 <br><br>
 ### Hydrostatic burning:
 
+---
+
 **Description:**
 
 Hydrostatic *hydrogen burning* for a constant density of 100 g/ccm and different temperatures (between 1e7 K and 4e7 K). To be able to plot the output, the hdf5 output has to be enabled and configured in the Makefile.
