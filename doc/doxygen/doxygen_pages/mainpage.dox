@@ -3,6 +3,17 @@
 @tableofcontents
 
 
+\htmlonly
+<div style="float:right; margin: 20px 0 20px 20px; clear:both;">
+    <audio controls style="background-color: white; border: 1px solid #ccc; ; padding: 5px;">
+      <source src="WinNet_The_Legacy_Continues_compressed.mp3" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio>
+    <p style="font-size: 12px; text-align: center; color: #555;">AI generated song about WinNet (<a href="WinNet_The_Legacy_Continue_compressed.mp3" download>Download</a>)</p>
+</div>
+\endhtmlonly
+
+
 \section getting_started Getting started
 WinNet is a single zone nuclear reaction network, capable of calculating many
 different nucleosynthesis processes (i.e., r-process, nup-process, explosive

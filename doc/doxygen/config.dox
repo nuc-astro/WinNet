@@ -907,7 +907,7 @@ HTML_EXTRA_STYLESHEET  = doc/doxygen/doxygen_stylesheets/stylesheet.css
 # files. In the HTML_STYLESHEET file, use the file name only. Also note that
 # the files will be copied as-is; there are no commands or markers available.
 
-HTML_EXTRA_FILES       = doc/doxygen/doxygen_logo/header_image.png
+HTML_EXTRA_FILES       = doc/doxygen/doxygen_logo/header_image.png  doc/doxygen/figures/WinNet_The_Legacy_Continues_compressed.mp3
 
 # The HTML_COLORSTYLE_HUE tag controls the color of the HTML output.
 # Doxygen will adjust the colors in the style sheet and background images
