@@ -2,7 +2,7 @@
 # Date: 04.07.2024
 import numpy                as     np
 from tqdm                   import tqdm
-from nucleus_multiple_class import nucleus_multiple
+from src_files.nucleus_multiple_class import nucleus_multiple
 import h5py
 import os
 
@@ -594,6 +594,7 @@ class wreader(object):
             return self.tracked_nuclei
         elif key == "nuloss":
             return self.nuloss
+
 
 
 if __name__ == "__main__":

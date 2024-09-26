@@ -256,7 +256,11 @@ end subroutine output_initial_step
 !! \b Edited: OK 26.08.2017
 subroutine output_final_step(cnt,ctime,T9,rho_b,entropy,Rkm,Y,pf)
   use parameter_class, only: out_every,snapshot_every,flow_every,mainout_every, &
-                             track_nuclei_every,termination_criterion
+                             track_nuclei_every,termination_criterion, &
+                             timescales_every,nu_loss_every,top_engen_every, &
+                             engen_every, h_snapshot_every, h_mainout_every, &
+                             h_track_nuclei_every, h_timescales_every, h_flow_every, &
+                             h_nu_loss_every, h_engen_every
   implicit none
   integer,intent(in)      :: cnt      !< current iteration counter
   real(r_kind),intent(in) :: ctime    !< actual time [s]
@@ -276,6 +280,18 @@ subroutine output_final_step(cnt,ctime,T9,rho_b,entropy,Rkm,Y,pf)
   if (flow_every.gt.0)         flow_every= 1
   if (timescales_every.gt.0)   timescales_every= 1
   if (track_nuclei_every.gt.0) track_nuclei_every= 1
+  if (nu_loss_every.gt.0)      nu_loss_every= 1
+  if (top_engen_every.gt.0)    top_engen_every= 1
+  if (engen_every.gt.0)        engen_every= 1
+  ! Same for hdf5 output
+  if (h_snapshot_every.gt.0)     h_snapshot_every= 1
+  if (h_mainout_every.gt.0)      h_mainout_every= 1
+  if (h_track_nuclei_every.gt.0) h_track_nuclei_every= 1
+  if (h_timescales_every.gt.0)   h_timescales_every= 1
+  if (h_flow_every.gt.0)         h_flow_every= 1
+  if (h_nu_loss_every.gt.0)      h_nu_loss_every= 1
+  if (h_engen_every.gt.0)        h_engen_every= 1
+
   print '("---------------")'
   call output_iteration(cnt,ctime,T9,rho_b,entropy,Rkm,Y,pf)
   print '("============================")'
