@@ -12,6 +12,7 @@ var hierarchy =
       [ "bin.class_files.nucleus_class.nucleus", "classbin_1_1class__files_1_1nucleus__class_1_1nucleus.html", null ],
       [ "bin.class_files.nucleus_multiple_class.nucleus_multiple", "classbin_1_1class__files_1_1nucleus__multiple__class_1_1nucleus__multiple.html", null ],
       [ "bin.class_files.reaclib_class.reaclib", "classbin_1_1class__files_1_1reaclib__class_1_1reaclib.html", null ],
+      [ "bin.class_files.template_class.template", "classbin_1_1class__files_1_1template__class_1_1template.html", null ],
       [ "bin.class_files.winnet_class.winnet", "classbin_1_1class__files_1_1winnet__class_1_1winnet.html", null ],
       [ "bin.class_files.winvn_class.winvn", "classbin_1_1class__files_1_1winvn__class_1_1winvn.html", null ],
       [ "bin.create_neutrino_nucleon_file.nunucleon", "classbin_1_1create__neutrino__nucleon__file_1_1nunucleon.html", null ],
@@ -19,6 +20,7 @@ var hierarchy =
       [ "src_files.FlowAnimation.FlowAnimation", "classsrc__files_1_1FlowAnimation_1_1FlowAnimation.html", null ],
       [ "src_files.nucleus_class.nucleus", "classsrc__files_1_1nucleus__class_1_1nucleus.html", null ],
       [ "src_files.nucleus_multiple_class.nucleus_multiple", "classsrc__files_1_1nucleus__multiple__class_1_1nucleus__multiple.html", null ],
+      [ "src_files.template_class.template", "classsrc__files_1_1template__class_1_1template.html", null ],
       [ "src_files.wreader.wreader", "classsrc__files_1_1wreader_1_1wreader.html", null ]
     ] ],
     [ "global_class::reactionrate_type", "structglobal__class_1_1reactionrate__type.html", null ],

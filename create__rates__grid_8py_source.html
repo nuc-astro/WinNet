@@ -127,7 +127,7 @@ $(document).ready(function(){initNavTree('create__rates__grid_8py_source.html','
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="comment"># Write it into the string (first reaclib chapter, then rate)</span></div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;rate_file += <span class="stringliteral">&quot;4\n\n&quot;</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;rate_file += <span class="stringliteral">&quot;       he4 ne22 mg26                       an99      1.06148e+01          \n&quot;</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno"><a class="line" href="namespacecreate__rates__grid.html#a8da34913e7936a1f09b2b262be4cda75">   31</a></span>&#160;stringlist = [<span class="stringliteral">&quot;{:.3e}&quot;</span>.format(ytmp) <span class="keywordflow">for</span> ytmp <span class="keywordflow">in</span> rates ]</div>
+<div class="line"><a name="l00031"></a><span class="lineno"><a class="line" href="namespacecreate__rates__grid.html#a8da34913e7936a1f09b2b262be4cda75">   31</a></span>&#160;stringlist = [<span class="stringliteral">&quot;{:.3e}&quot;</span>.<a class="code" href="namespacesummarize.html#a472ee0ec19e3e9ca2f766d6377c8d12a">format</a>(ytmp) <span class="keywordflow">for</span> ytmp <span class="keywordflow">in</span> rates ]</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;rate_file += <span class="stringliteral">&quot; &quot;</span>+<span class="stringliteral">&quot; &quot;</span>.join(stringlist)+<span class="stringliteral">&quot;\n&quot;</span></div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="comment"># The next rate, O17(a,g)Ne21</span></div>
@@ -142,7 +142,7 @@ $(document).ready(function(){initNavTree('create__rates__grid_8py_source.html','
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="comment"># Write the rate into the string again</span></div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;rate_file += <span class="stringliteral">&quot;       he4  o17 ne21                       cf88n     7.35100e+00          \n&quot;</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;stringlist = [<span class="stringliteral">&quot;{:.3e}&quot;</span>.format(ytmp*0.1) <span class="keywordflow">for</span> ytmp <span class="keywordflow">in</span> rates ]</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;stringlist = [<span class="stringliteral">&quot;{:.3e}&quot;</span>.<a class="code" href="namespacesummarize.html#a472ee0ec19e3e9ca2f766d6377c8d12a">format</a>(ytmp*0.1) <span class="keywordflow">for</span> ytmp <span class="keywordflow">in</span> rates ]</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;rate_file += <span class="stringliteral">&quot; &quot;</span>+<span class="stringliteral">&quot; &quot;</span>.join(stringlist)+<span class="stringliteral">&quot;\n&quot;</span></div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
@@ -159,7 +159,7 @@ $(document).ready(function(){initNavTree('create__rates__grid_8py_source.html','
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="comment"># Write the rate into the string again</span></div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;rate_file += <span class="stringliteral">&quot;5\n\n&quot;</span></div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;rate_file += <span class="stringliteral">&quot;       he4 ne22    n mg25                  ja01     -4.78290e-01          \n&quot;</span></div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;stringlist = [<span class="stringliteral">&quot;{:.3e}&quot;</span>.format(ytmp) <span class="keywordflow">for</span> ytmp <span class="keywordflow">in</span> y ]</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;stringlist = [<span class="stringliteral">&quot;{:.3e}&quot;</span>.<a class="code" href="namespacesummarize.html#a472ee0ec19e3e9ca2f766d6377c8d12a">format</a>(ytmp) <span class="keywordflow">for</span> ytmp <span class="keywordflow">in</span> y ]</div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;rate_file += <span class="stringliteral">&quot; &quot;</span>+<span class="stringliteral">&quot; &quot;</span>.join(stringlist)+<span class="stringliteral">&quot;\n&quot;</span></div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
@@ -174,7 +174,7 @@ $(document).ready(function(){initNavTree('create__rates__grid_8py_source.html','
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="comment"># Write again to the string</span></div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;rate_file += <span class="stringliteral">&quot;       he4  o17    n ne20                  an99      5.86000e-01          \n&quot;</span></div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;stringlist = [<span class="stringliteral">&quot;{:.3e}&quot;</span>.format(ytmp) <span class="keywordflow">for</span> ytmp <span class="keywordflow">in</span> rates ]</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;stringlist = [<span class="stringliteral">&quot;{:.3e}&quot;</span>.<a class="code" href="namespacesummarize.html#a472ee0ec19e3e9ca2f766d6377c8d12a">format</a>(ytmp) <span class="keywordflow">for</span> ytmp <span class="keywordflow">in</span> rates ]</div>
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;rate_file += <span class="stringliteral">&quot; &quot;</span>+<span class="stringliteral">&quot; &quot;</span>.join(stringlist)+<span class="stringliteral">&quot;\n&quot;</span></div>
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160; </div>
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="comment"># Write the string to the file</span></div>
@@ -191,6 +191,7 @@ $(document).ready(function(){initNavTree('create__rates__grid_8py_source.html','
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="anamespacecreate__rates__grid_html_a743b73148e9ffd51708b857da194bdd5"><div class="ttname"><a href="namespacecreate__rates__grid.html#a743b73148e9ffd51708b857da194bdd5">create_rates_grid.func</a></div><div class="ttdeci">func</div><div class="ttdef"><b>Definition:</b> <a href="create__rates__grid_8py_source.html#l00054">create_rates_grid.py:54</a></div></div>
+<div class="ttc" id="anamespacesummarize_html_a472ee0ec19e3e9ca2f766d6377c8d12a"><div class="ttname"><a href="namespacesummarize.html#a472ee0ec19e3e9ca2f766d6377c8d12a">summarize.format</a></div><div class="ttdeci">format</div><div class="ttdef"><b>Definition:</b> <a href="summarize_8py_source.html#l00073">summarize.py:73</a></div></div>
 <div class="ttc" id="anamespaceinter__module_html_a206d3ceb40bd2e40d41c462a31ad057e"><div class="ttname"><a href="namespaceinter__module.html#a206d3ceb40bd2e40d41c462a31ad057e">inter_module::interp1d</a></div><div class="ttdeci">subroutine, public interp1d(n, xp, xb, yp, res, flin, itype)</div><div class="ttdoc">Interface for 1D interpolation routines.</div><div class="ttdef"><b>Definition:</b> <a href="inter__module_8f90_source.html#l00098">inter_module.f90:99</a></div></div>
 <div class="ttc" id="anamespacecreate__rates__grid_html_ab35ccc28810134e751cded859f7b51e2"><div class="ttname"><a href="namespacecreate__rates__grid.html#ab35ccc28810134e751cded859f7b51e2">create_rates_grid.f</a></div><div class="ttdeci">f</div><div class="ttdef"><b>Definition:</b> <a href="create__rates__grid_8py_source.html#l00023">create_rates_grid.py:23</a></div></div>
 <!-- HTML footer for doxygen 1.8.17-->

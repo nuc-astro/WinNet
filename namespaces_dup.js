@@ -108,6 +108,7 @@ var namespaces_dup =
     [ "screening_module", "namespacescreening__module.html", null ],
     [ "single_zone_vars", "namespacesingle__zone__vars.html", null ],
     [ "src_files", "namespacesrc__files.html", "namespacesrc__files" ],
+    [ "summarize", "namespacesummarize.html", null ],
     [ "switch_evolution", "namespaceswitch__evolution.html", null ],
     [ "tabulated_rate_module", "namespacetabulated__rate__module.html", null ],
     [ "tabulated_rates", "namespacetabulated__rates.html", null ],

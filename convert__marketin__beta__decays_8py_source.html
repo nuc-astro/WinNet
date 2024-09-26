@@ -146,12 +146,12 @@ $(document).ready(function(){initNavTree('convert__marketin__beta__decays_8py_so
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        print(<span class="stringliteral">&quot;Skipped &quot;</span>+str(name)+<span class="stringliteral">&quot; due to large halflife.&quot;</span>)</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="keywordflow">continue</span></div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    print(Etot,Enu,Enu/Etot)</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    out+=name.rjust(5)+<span class="stringliteral">&quot; &quot;</span>*4+<span class="stringliteral">&quot;{:12.6e}&quot;</span>.format(halflive)+<span class="stringliteral">&quot;  &quot;</span>+<span class="stringliteral">&quot;{:10.6e}&quot;</span>.format(Etot)+<span class="stringliteral">&quot;  &quot;</span>+<span class="stringliteral">&quot;{:10.6e}&quot;</span>.format(Enu)+<span class="stringliteral">&quot;\n&quot;</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    out+=name.rjust(5)+<span class="stringliteral">&quot; &quot;</span>*4+<span class="stringliteral">&quot;{:12.6e}&quot;</span>.<a class="code" href="namespacesummarize.html#a472ee0ec19e3e9ca2f766d6377c8d12a">format</a>(halflive)+<span class="stringliteral">&quot;  &quot;</span>+<span class="stringliteral">&quot;{:10.6e}&quot;</span>.<a class="code" href="namespacesummarize.html#a472ee0ec19e3e9ca2f766d6377c8d12a">format</a>(Etot)+<span class="stringliteral">&quot;  &quot;</span>+<span class="stringliteral">&quot;{:10.6e}&quot;</span>.<a class="code" href="namespacesummarize.html#a472ee0ec19e3e9ca2f766d6377c8d12a">format</a>(Enu)+<span class="stringliteral">&quot;\n&quot;</span></div>
 <div class="line"><a name="l00051"></a><span class="lineno"><a class="line" href="namespacebin_1_1convert__marketin__beta__decays.html#a2c5417d88def0a18b8ca179cd6d388c5">   51</a></span>&#160;    pns = np.zeros(11)</div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(6):</div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        pns[i] = row[<span class="stringliteral">&quot;P&quot;</span>+str(i)+<span class="stringliteral">&quot;n&quot;</span>]</div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordflow">for</span> p <span class="keywordflow">in</span> pns:</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        out+=<span class="stringliteral">&quot;{:1.4f}&quot;</span>.format(p)+<span class="stringliteral">&quot;   &quot;</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        out+=<span class="stringliteral">&quot;{:1.4f}&quot;</span>.<a class="code" href="namespacesummarize.html#a472ee0ec19e3e9ca2f766d6377c8d12a">format</a>(p)+<span class="stringliteral">&quot;   &quot;</span></div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    out+=<span class="stringliteral">&quot;\n&quot;</span></div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
@@ -161,6 +161,7 @@ $(document).ready(function(){initNavTree('convert__marketin__beta__decays_8py_so
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
+<div class="ttc" id="anamespacesummarize_html_a472ee0ec19e3e9ca2f766d6377c8d12a"><div class="ttname"><a href="namespacesummarize.html#a472ee0ec19e3e9ca2f766d6377c8d12a">summarize.format</a></div><div class="ttdeci">format</div><div class="ttdef"><b>Definition:</b> <a href="summarize_8py_source.html#l00073">summarize.py:73</a></div></div>
 <!-- HTML footer for doxygen 1.8.17-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

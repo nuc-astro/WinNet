@@ -6,6 +6,7 @@ var dir_a18022b7ee7318edb75c309326f8b714 =
     ] ],
     [ "nucleus_multiple_class.py", "class__files_2nucleus__multiple__class_8py.html", "class__files_2nucleus__multiple__class_8py" ],
     [ "reaclib_class.py", "reaclib__class_8py.html", "reaclib__class_8py" ],
+    [ "template_class.py", "class__files_2template__class_8py.html", "class__files_2template__class_8py" ],
     [ "winnet_class.py", "winnet__class_8py.html", [
       [ "winnet", "classbin_1_1class__files_1_1winnet__class_1_1winnet.html", "classbin_1_1class__files_1_1winnet__class_1_1winnet" ]
     ] ],
