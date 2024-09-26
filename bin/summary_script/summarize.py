@@ -152,7 +152,7 @@ nuclei_data = nucleus_multiple(nuclei)
 # Create the time grid
 if options.time_file is not None:
     logger.info(f"Using time grid from {options.time_file}.")
-    mainout_time = np.loadtxt(options.time_file,dtype=float)
+    mainout_time = np.loadtxt(options.time_file, dtype=float, unpack=True)
 else:
     if options.time_final is not None:
         final_time = float(options.time_final)
@@ -175,7 +175,7 @@ else:
     else:
         time_number = 200
 
-    mainout_time = np.logspace(np.log10(initial_time),np.log10(final_time),time_number)
+    mainout_time = np.logspace(np.log10(initial_time), np.log10(final_time), time_number)
 
 
 
