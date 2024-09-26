@@ -13,13 +13,16 @@ class wreader(object):
        Minimalistic class to lazily read WinNet data.
     """
 
-    def __init__(self, path):
+    def __init__(self, path, silent=False):
         """
         Initialize the class
            - path: Path to the WinNet data
         """
         # The path to the WinNet run
         self.path = path
+
+        # Silent mode
+        self.silent = silent
 
         # The path to the hdf5 file
         self.filename = os.path.join(path, "WinNet_data.h5")
@@ -30,6 +33,29 @@ class wreader(object):
             self.__snapshot_path = os.path.join(path, "snaps")
         else:
             self.__mode = 'hdf5'
+
+
+    @property
+    def is_crashed(self):
+        """
+        Check if the run has crashed
+        """
+        if not hasattr(self,"_wreader__is_crashed"):
+            self.__read_is_crashed()
+        return self.__is_crashed
+
+
+    def __read_is_crashed(self):
+        """
+        Read if the run has crashed
+        """
+        # Check existence finab
+        mode = self.check_existence('finab')
+        if mode==0:
+            self.__is_crashed = True
+        else:
+            self.__is_crashed = False
+
 
 
     @property
@@ -96,7 +122,7 @@ class wreader(object):
             self.__snapshots_time = np.zeros(len(snapshot_files))
             self.__snapshots_Y = np.zeros((len(snapshot_files), len(self.A)))
             self.__snapshots_X = np.zeros((len(snapshot_files), len(self.A)))
-            for i, f in enumerate(tqdm(snapshot_files, desc='Reading snapshots')):
+            for i, f in enumerate(tqdm(snapshot_files, desc='Reading snapshots', disable=self.silent)):
                 fname = 'snapsh_' + str(i+1).zfill(4) + '.dat'
                 with open(os.path.join(self.__snapshot_path, fname), 'r') as file:
                     lines = file.readlines()
@@ -519,6 +545,22 @@ class wreader(object):
             raise ValueError(error_msg)
 
         return flow
+
+
+    def __getitem__(self, key):
+        """
+          Get the value of a specific key.
+        """
+        if key == "mainout":
+            return self.mainout
+        elif key == "timescales":
+            return self.tau
+        elif key == "energy":
+            return self.energy
+        elif key == "tracked_nuclei":
+            return self.tracked_nuclei
+
+
 
 if __name__ == "__main__":
     w = wreader('/home/mreichert/data/Networks/comparison_winNet/WinNet-dev/runs/Example_MRSN_r_process_winteler')
