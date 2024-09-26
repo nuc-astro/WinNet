@@ -27,12 +27,9 @@ class wreader(object):
         # The path to the hdf5 file
         self.filename = os.path.join(path, "WinNet_data.h5")
 
-        # Check whether hdf5 mode was activated or not
-        if not os.path.exists(self.filename):
-            self.__mode = 'ascii'
-            self.__snapshot_path = os.path.join(path, "snaps")
-        else:
-            self.__mode = 'hdf5'
+        # The path to the snapshots in case of ascii mode
+        self.__snapshot_path = os.path.join(path, "snaps")
+
 
 
     @property
@@ -348,8 +345,8 @@ class wreader(object):
         elif mode == 1:
             with h5py.File(self.filename, 'r') as hf:
                 self.__nuloss = {}
-                for key in hf['nuloss'].keys():
-                    self.__nuloss[key] = hf['nuloss'][key][:]
+                for key in hf['nu_loss_gain'].keys():
+                    self.__nuloss[key] = hf['nu_loss_gain'][key][:]
         elif mode == 0:
             error_msg = 'Failed to read nuloss in "'+str(self.path)+'". '+\
                         'Not present as Ascii nor as Hdf5!'
