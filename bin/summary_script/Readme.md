@@ -76,6 +76,10 @@ You can choose to disable certain parts of the summary process using the followi
 - **`--disable_snapshots`**  
   Disables summarizing the `snapshots` output.  
   **Default**: `False`
+
+- **`--disable_nuloss`**  
+  Disables summarizing the `nuloss` output.  
+  **Default**: `False`
   
 ## Hdf5 output
 
@@ -114,6 +118,9 @@ Below is a summary of the main entries in the HDF5 file:
    - **`time`**: Custom snapshot time grid (if using custom snapshots).
    - **`Y`**: Data corresponding to the abundances at snapshot times.
 
+9. **`nuloss/`** (if not disabled):
+   - **`time`**: Time grid for the neutrino loss and neutrino heating energy.
+   - **Other Keys**: Data corresponding to the nuloss output.
   
 
 ## Examples

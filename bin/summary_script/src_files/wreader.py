@@ -2,10 +2,9 @@
 # Date: 04.07.2024
 import numpy                as     np
 from tqdm                   import tqdm
-from nucleus_multiple_class import nucleus_multiple
+from src_files.nucleus_multiple_class import nucleus_multiple
 import h5py
 import os
-
 
 
 

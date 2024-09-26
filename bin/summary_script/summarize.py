@@ -7,13 +7,11 @@ import os
 import optparse
 import logging
 import re
-from tqdm                   import tqdm
-script_path = os.path.dirname(os.path.realpath(__file__))
-sys.path.append(os.path.join(script_path,'../movie_script/src_files'))
-from wreader                import wreader
-sys.path.append(os.path.join(script_path,'../class_files/'))
-from template_class         import template
-from nucleus_multiple_class import nucleus_multiple
+from tqdm                             import tqdm
+from src_files.wreader                import wreader
+from src_files.template_class         import template
+from src_files.nucleus_multiple_class import nucleus_multiple
+
 
 
 #--- define options ----------------------------------------------------------
@@ -49,6 +47,8 @@ p.add_option("--disable_timescales", action="store_true", dest="disable_timescal
     help="Disable the summary of the timescales output (default: False)")
 p.add_option("--disable_tracked_nuclei", action="store_true", dest="disable_tracked_nuclei",  default=False,  \
     help="Disable the summary of the tracked_nuclei output (default: False)")
+p.add_option("--disable_nuloss", action="store_true", dest="disable_nuloss",  default=False,  \
+    help="Disable the summary of the nuloss output (default: False)")
 p.add_option("--disable_snapshots", action="store_true", dest="disable_snapshots",  default=False,  \
     help="Disable the summary of the snapshots output (default: False)")
 p.set_usage("""
@@ -198,6 +198,10 @@ if not options.disable_tracked_nuclei:
     possible_entries.append("tracked_nuclei")
 else:
     logger.info("Ignoring tracked_nuclei output.")
+if not options.disable_nuloss:
+    possible_entries.append("nuloss")
+else:
+    logger.info("Ignoring nuloss output.")
 
 
 entry_dict = {}
@@ -210,7 +214,11 @@ for entry in possible_entries:
             if (key == "iteration" or key == "time" or key == "A" or key == "Z" or key == "N"
                or key == "names" or key == "latex_names"):
                 continue
+            # Ignore temperature, density, and radius for nuloss
+            if entry == "nuloss" and (key == "temp" or key == "dens" or key == "rad"):
+                continue
             entry_dict[entry][key] = np.zeros((len(mainout_time),buffsize))
+
         # Write the time already
         f_hdf[entry+"/time"] = mainout_time
 
@@ -238,6 +246,10 @@ if (data.check_existence("snapshot") != 0) and (not options.disable_snapshots):
             snapshot_time *= 24*3600
             # Write the time already
             f_hdf["snapshot/time"] = snapshot_time
+            # Write the A and Z data to the hdf5 file
+            f_hdf["snapshot/A"] = nuclei_data.A
+            f_hdf["snapshot/Z"] = nuclei_data.Z
+            f_hdf["snapshot/N"] = nuclei_data.N
             # Create an array to buffer the data
             snapshot_data = np.zeros((len(nuclei),len(snapshot_time),buffsize))
             logger.info(f"Summarize custom snapshots as well.")
@@ -354,11 +366,14 @@ for counter, d in enumerate(tqdm(dirs)):
             # Check if the dataset is already created and if not create it
             if "snapshot/Y" not in f_hdf:
                 f_hdf.create_dataset("snapshot/Y", (len(nuclei),len(snapshot_time),ind+1), maxshape=(len(nuclei),len(snapshot_time),None))
+                f_hdf.create_dataset("snapshot/X", (len(nuclei),len(snapshot_time),ind+1), maxshape=(len(nuclei),len(snapshot_time),None))
             # If necessary extend the dataset
             if ind > buffsize:
                 f_hdf["snapshot/Y"].resize((len(nuclei),len(snapshot_time),ind+1))
+                f_hdf["snapshot/X"].resize((len(nuclei),len(snapshot_time),ind+1))
             # Write the data to the hdf5 file
             f_hdf["snapshot/Y"][:,:,ind-buffsize:ind] = snapshot_data
+            f_hdf["snapshot/X"][:,:,ind-buffsize:ind] = snapshot_data*nuclei_data.A[:,np.newaxis,np.newaxis]
 
 
 
@@ -439,13 +454,17 @@ else:
 if summarize_snapshots:
     if "snapshot/Y" not in f_hdf:
         f_hdf.create_dataset("snapshot/Y", (len(nuclei),len(snapshot_time),ind+1), maxshape=(len(nuclei),len(snapshot_time),None))
+        f_hdf.create_dataset("snapshot/X", (len(nuclei),len(snapshot_time),ind+1), maxshape=(len(nuclei),len(snapshot_time),None))
     else:
         f_hdf["snapshot/Y"].resize((len(nuclei),len(snapshot_time),ind+1))
+        f_hdf["snapshot/X"].resize((len(nuclei),len(snapshot_time),ind+1))
     # Write the missing entries
     if ind>buffsize:
         f_hdf["snapshot/Y"][:,:,ind-buffsize+1:ind+1] = snapshot_data[:,:,:buffsize]
+        f_hdf["snapshot/X"][:,:,ind-buffsize+1:ind+1] = snapshot_data[:,:,:buffsize]*nuclei_data.A[:,np.newaxis,np.newaxis]
     else:
         f_hdf["snapshot/Y"][:,:,:ind+1] = snapshot_data[:,:,:ind+1]
+        f_hdf["snapshot/X"][:,:,:ind+1] = snapshot_data[:,:,:ind+1]*nuclei_data.A[:,np.newaxis,np.newaxis]
 
 
 #### Other entries ####
