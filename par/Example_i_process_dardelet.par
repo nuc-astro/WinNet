@@ -72,7 +72,7 @@ fissflag = 1
 
 # Beta-delayed fission:
 # Fission format in probabilities
-fission_format_beta_delayed= 2
+fission_format_beta_delayed= 3
 # Also rates from Panov et al. 2005:
 fission_rates_beta_delayed = "@WINNET@/data/fissionrates_beta_delayed_pa05"
 
