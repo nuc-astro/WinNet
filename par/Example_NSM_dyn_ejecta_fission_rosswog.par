@@ -112,7 +112,7 @@ nfission_file = @WINNET@/data/FISS_Mumpower
 
 # Beta-delayed fission:
 # Fission format in probabilities
-fission_format_beta_delayed= 2
+fission_format_beta_delayed= 3
 # Rates from Mumpower et al. 2022:
 fission_rates_beta_delayed = "@WINNET@/data/fissionrates_beta_delayed_mp22"
 
