@@ -988,9 +988,9 @@ subroutine set_default_param
    fission_format_beta_delayed = 3
    fission_format_n_induced    = 1
    fission_format_spontaneous  = 1
-   fission_rates_beta_delayed  = trim(adjustl(win_path))//"fission_rates_beta_delayed_mp22"
-   fission_rates_n_induced     = trim(adjustl(win_path))//"fission_rates_n_induced"
-   fission_rates_spontaneous   = trim(adjustl(win_path))//"fission_rates_spontaneous"
+   fission_rates_beta_delayed  = trim(adjustl(win_path))//"fissionrates_beta_delayed_mp22"
+   fission_rates_n_induced     = trim(adjustl(win_path))//"fissionrates_n_induced"
+   fission_rates_spontaneous   = trim(adjustl(win_path))//"fissionrates_spontaneous"
    read_initial_composition    = .false.
    rho_analytic                = "1.e12"
    Rkm_analytic                = "50.e0"
