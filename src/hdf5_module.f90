@@ -1055,20 +1055,20 @@ contains
       call h5screate_simple_f(2, dims_track, dataspace, i_stat, maxdims)
       if (i_stat .ne. 0) then
          call raise_exception("Unable to create necessary dataspace.",&
-                              "init_snaps",240006)
+                              "init_track_nuclei",240006)
       end if
 
       ! Modify dataset properties
       call h5pcreate_f(H5P_DATASET_CREATE_F, crp_list, i_stat)
       if (i_stat .ne. 0) then
          call raise_exception("Unable to modify dataset properties.",&
-                              "init_snaps",240010)
+                              "init_track_nuclei",240010)
       end if
 
       call h5pset_chunk_f(crp_list, 2, dims_track, i_stat)
       if (i_stat .ne. 0) then
          call raise_exception("Unable to enable chunking.",&
-                              "init_snaps",240012)
+                              "init_track_nuclei",240012)
       end if
 
       ! Create a dataset using cparms creation property
@@ -1076,12 +1076,12 @@ contains
           tracked_abu_id, i_stat, crp_list )
       if (i_stat .ne. 0) then
          call raise_exception("Unable to create dataspace.",&
-                              "init_snaps",240006)
+                              "init_track_nuclei",240006)
       end if
       call h5sclose_f(dataspace, i_stat) ! close the dataspace again
       if (i_stat .ne. 0) then
          call raise_exception("Unable to close the dataspace.",&
-                              "init_snaps",240007)
+                              "init_track_nuclei",240007)
       end if
 
       ! Store the names
