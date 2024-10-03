@@ -108,6 +108,12 @@ subroutine read_custom_snapshots()
      file_length = file_length + 1
   end do
 
+  ! Raise error if file_length is 0
+  if (file_length .eq. 0) then
+     call raise_exception('No custom snapshots found in the file given with the parameter "snapshot_file".',&
+                          "read_custom_snapshots",390027)
+  end if
+
   ! Allocate Array
   allocate(snapshot_time(file_length),stat=rstat)
   if (rstat /= 0) call raise_exception('Allocation of "snapshot_time" failed.',"read_custom_snapshots",&
@@ -176,11 +182,13 @@ end subroutine read_custom_snapshots
 !!
 !! \b Edited:
 !!     - 09.06.17
+!!     - 03.10.24 - MR
 !! .
 subroutine read_track_nuclei()
    use parameter_class, only: track_nuclei_file
-   use global_class, only: track_nuclei_indices,track_nuclei_nr
-   use benam_class, only: benam
+   use global_class,    only: track_nuclei_indices, track_nuclei_nr
+   use benam_class,     only: benam
+   use error_msg_class, only: raise_exception, write_data_to_std_out, int_to_str
    implicit none
    integer              :: track_id       !< File ID
    integer              :: istat          !< Status of reading and allocation
@@ -219,6 +227,14 @@ subroutine read_track_nuclei()
       if (ind_tmp .ne. 0) track_nuclei_nr= track_nuclei_nr + 1
       file_length = file_length + 1
    end do
+
+   ! Check if at least one was found. If not raise an error.
+   if (track_nuclei_nr .eq. 0) then
+      call raise_exception('No nuclei to track found in the track_nuclei_file. '//NEW_LINE("A")//&
+                           'Check the file and the format of the file! '//NEW_LINE("A")//&
+                           'Each line must have five characters and be right oriented, e.g., " ni56".',&
+                           "read_track_nuclei", 390026)
+   end if
 
    ! Allocate the array that will contain the indices of the nuclei
    allocate(track_nuclei_indices(track_nuclei_nr),stat=istat)
@@ -259,6 +275,9 @@ subroutine read_track_nuclei()
      write(debug_track,'("Tracking ",I10," nuclei")') track_nuclei_nr
      call close_io_file(debug_track,'debug_track_nuclei.dat')
    end if
+
+   ! Output the amount of tracked nuclei
+   call write_data_to_std_out("Amount of tracked nuclei",int_to_str(track_nuclei_nr))
 
    INFO_EXIT("read_track_nuclei")
 
