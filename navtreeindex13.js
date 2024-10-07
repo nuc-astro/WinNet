@@ -1,5 +1,6 @@
 var NAVTREEINDEX13 =
 {
+"structglobal__class_1_1reactionrate__type.html#af231cf4b641b7f40954257935b2fcd0f":[14,0,3,3,2],
 "structglobal__class_1_1reactionrate__type.html#afdf98db97d686e4d7378d67d16298e96":[14,0,3,3,12],
 "structls__timmes__eos__module_1_1timmes__eos__state.html":[14,0,4,0],
 "structls__timmes__eos__module_1_1timmes__eos__state.html#a08b57854e7de54a98eb0f6ade1d3bff8":[14,0,4,0,13],
@@ -248,6 +249,5 @@ var NAVTREEINDEX13 =
 "tw__rate_8py_source.html":[15,0,4,38],
 "tw__rate__module_8f90.html":[15,0,3,37],
 "tw__rate__module_8f90.html#a0016151f3d88cbbea719a9028390dcb4":[15,0,3,37,14],
-"tw__rate__module_8f90.html#a01b731e61d4d703b12fcb65513a22c20":[15,0,3,37,24],
-"tw__rate__module_8f90.html#a245abf84e3851a5ce7d9b88a55919e0e":[15,0,3,37,11]
+"tw__rate__module_8f90.html#a01b731e61d4d703b12fcb65513a22c20":[15,0,3,37,24]
 };

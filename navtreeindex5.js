@@ -1,5 +1,6 @@
 var NAVTREEINDEX5 =
 {
+"create__neutrino__loss__file_8py.html#a5faeeccc6ec646ecf8558876b5abd717":[15,0,0,8,11],
 "create__neutrino__loss__file_8py.html#a6663dc42409f8e12b0c3f60f766e3063":[15,0,0,8,5],
 "create__neutrino__loss__file_8py.html#a674f8b49632bbb1c5f332d717a757c0f":[15,0,0,8,2],
 "create__neutrino__loss__file_8py.html#a735e0cf5d68a472c285e6b971b50ce49":[15,0,0,8,15],
@@ -248,6 +249,5 @@ var NAVTREEINDEX5 =
 "error__msg__class_8f90.html#a7e065585cc806a5c264de1f088266498":[15,0,3,10,0],
 "error__msg__class_8f90.html#aaa34695f1c5a0f550723eed7343cee4f":[15,0,3,10,8],
 "error__msg__class_8f90.html#ab3db7be364fe35f85db2b3b10197c8d5":[15,0,3,10,9],
-"error__msg__class_8f90.html#ada6613c01af16f16987b19e633cb822a":[15,0,3,10,6],
-"error__msg__class_8f90.html#af62b9a0c5997255e792b9ebd7322a6a3":[15,0,3,10,7]
+"error__msg__class_8f90.html#ada6613c01af16f16987b19e633cb822a":[15,0,3,10,6]
 };
