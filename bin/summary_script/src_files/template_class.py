@@ -41,7 +41,9 @@ class template(object):
         """
           Get the entries of the template file.
         """
-        if not hasattr(self, '__entries'):
+        # Check if entry exists.
+        #print all attributes of the object
+        if not hasattr(self, '_template__entries'):
             self.read_data()
         return self.__entries
 
@@ -50,10 +52,17 @@ class template(object):
         """
           Get the value of a specific key.
         """
-        if not hasattr(self, 'entries'):
+        if not hasattr(self, '_template__entries'):
             self.read_data()
         return self.entries[key]
 
+    def __setitem__(self, key, value):
+        """
+        Set the value of a specific key.
+        """
+        if not hasattr(self, '_template__entries'):
+            self.read_data()
+        self.__entries[key] = value
 
 if __name__ == '__main__':
     # Example:

@@ -97,9 +97,8 @@ logger.info(f"Started summarizing run at {run_path}.")
 # Get a list of all directories in the run_path. Ignore "network_data" directory
 dirs = [d for d in os.listdir(run_path) if os.path.isdir(os.path.join(run_path, d)) and d != "network_data"]
 
+# Say something
 logger.info(f"Found {len(dirs)} directories in {run_path}.")
-
-
 
 
 # Create output hdf5 file
@@ -135,7 +134,7 @@ t = template(os.path.join(run_path, d, template_name))
 if options.sunet_path is not None:
     net_source = options.sunet_path
 else:
-    if not "net_source" in t.entries:
+    if (not "net_source" in t.entries):
         # Raise an error if the net_source is not given
         raise ValueError("net_source not given in the template file.")
     else:
@@ -146,7 +145,6 @@ else:
 logger.info(f"Using sunet file from {net_source}.")
 nuclei = np.loadtxt(net_source,dtype=str)
 nuclei_data = nucleus_multiple(nuclei)
-
 
 
 # Create the time grid
@@ -211,11 +209,11 @@ for entry in possible_entries:
         entry_dict[entry] = {}
         for key in data[entry].keys():
             # Ignore iteration and time key
-            if (key == "iteration" or key == "time" or key == "A" or key == "Z" or key == "N"
-               or key == "names" or key == "latex_names"):
+            if ((key == "iteration") or (key == "time") or (key == "A") or (key == "Z") or (key == "N")
+               or (key == "names") or (key == "latex_names")):
                 continue
             # Ignore temperature, density, and radius for nuloss
-            if entry == "nuloss" and (key == "temp" or key == "dens" or key == "rad"):
+            if (entry == "nuloss") and ((key == "temp") or (key == "dens") or (key == "rad")):
                 continue
             entry_dict[entry][key] = np.zeros((len(mainout_time),buffsize))
 
@@ -235,8 +233,20 @@ for entry in possible_entries:
 
 # Take care of snapshots, check if they are custom or not
 if (data.check_existence("snapshot") != 0) and (not options.disable_snapshots):
-    if "custom_snapshots" in t.entries:
-        summarize_snapshots = (t["custom_snapshots"].lower() == "yes")
+    if ("custom_snapshots" in t.entries) or ("h_custom_snapshots" in t.entries):
+        # Check if either ascii or hdf5 custom snapshots are given
+        summarize_snapshots = False
+        if ("custom_snapshots" in t.entries):
+            summarize_snapshots = (t["custom_snapshots"].strip().lower() == "yes")
+            # Debug statement
+            if (t["custom_snapshots"].strip().lower() == "yes"):
+                logger.info("Found custom snapshots in ascii format.")
+        if ("h_custom_snapshots" in t.entries):
+            summarize_snapshots = (summarize_snapshots or (t["h_custom_snapshots"].strip().lower() == "yes"))
+            # Debug statement
+            if (t["h_custom_snapshots"].strip().lower() == "yes"):
+                logger.info("Found custom snapshots in hdf5 format.")
+
         # Read the time for the custom snapshots
         if summarize_snapshots:
             if "snapshot_file" not in t.entries:
@@ -245,11 +255,11 @@ if (data.check_existence("snapshot") != 0) and (not options.disable_snapshots):
             # Convert from days to seconds
             snapshot_time *= 24*3600
             # Write the time already
-            f_hdf["snapshot/time"] = snapshot_time
+            f_hdf["snapshots/time"] = snapshot_time
             # Write the A and Z data to the hdf5 file
-            f_hdf["snapshot/A"] = nuclei_data.A
-            f_hdf["snapshot/Z"] = nuclei_data.Z
-            f_hdf["snapshot/N"] = nuclei_data.N
+            f_hdf["snapshots/A"] = nuclei_data.A
+            f_hdf["snapshots/Z"] = nuclei_data.Z
+            f_hdf["snapshots/N"] = nuclei_data.N
             # Create an array to buffer the data
             snapshot_data = np.zeros((len(nuclei),len(snapshot_time),buffsize))
             logger.info(f"Summarize custom snapshots as well.")
