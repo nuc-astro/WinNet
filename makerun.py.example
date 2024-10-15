@@ -414,7 +414,8 @@ if options.many_runs and options.prepare:
 if not options.force_run:
     ans = input("Launch the simulation? (y/N)")
     print(ans)
-    if (ans=="" or ans=="n" or ans=="N" or ans=="No" or ans=="no"): sys.exit(0)
+    if not ((ans.lower()=="y") or (ans.lower() == "yes")):
+        sys.exit(0)
 
 
 #--- single run mode ---------------------------------------------------------
