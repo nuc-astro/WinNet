@@ -133,6 +133,8 @@ The error codes are translated to the following problems:
 <tr><td> W240005 <td> Detailed balance parameter turned off, but trying to calculate rate.
 <tr><td> W270003 <td> Value for interpolation was out of bounds.
 <tr><td> W270004 <td> Unknown interpolation type.
+<tr><td> W270005 <td> Unknown reverse interpolation method.
+<tr><td> W270006 <td> Root must be bracketed for Brents method.
 <tr><td> W280003 <td> Reaclib rate got infinity.
 <tr><td> W280004 <td> Fission rate got infinity.
 <tr><td> W280005 <td> n-induced fission rate got infinity.
