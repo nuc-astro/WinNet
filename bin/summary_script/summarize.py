@@ -278,6 +278,13 @@ f_hdf["finab/A"] = nuclei_data.A
 f_hdf["finab/Z"] = nuclei_data.Z
 f_hdf["finab/N"] = nuclei_data.N
 
+# Prepare for efficient mapping
+dtype_nuclei = np.dtype([('A', int), ('Z', int)])
+nuclei_struct = np.array(list(zip(nuclei_data.A.astype(int), nuclei_data.Z.astype(int))), dtype=dtype_nuclei)
+# Sort the structured nuclei array and get sorting indices
+nuclei_sorted_idx = np.argsort(nuclei_struct)
+sorted_nuclei_struct = nuclei_struct[nuclei_sorted_idx]
+
 # Create array that will contain the names of the runs
 # Array of strings:
 run_names = np.zeros(buffsize,dtype="S100")
@@ -302,8 +309,16 @@ for counter, d in enumerate(tqdm(dirs)):
     # A is contained in data.finab["A"] and Z in data.finab["Z"]. It should fit to the nuclei_data.A and nuclei_data.Z
     # All of them are 1D arrays
     # Getting indices where match occurs
-    indices = [(np.where((nuclei_data.A.astype(int) == A) & (nuclei_data.Z.astype(int) == Z))[0][0])
-               for A, Z in zip(data.finab["A"].astype(int), data.finab["Z"].astype(int))]
+    # indices = [(np.where((nuclei_data.A.astype(int) == A) & (nuclei_data.Z.astype(int) == Z))[0][0])
+    #            for A, Z in zip(data.finab["A"].astype(int), data.finab["Z"].astype(int))]
+
+    # Convert the finab data to structured array
+    finab_struct = np.array(list(zip(data.finab["A"].astype(int), data.finab["Z"].astype(int))), dtype=dtype_nuclei)
+    # Find the matching indices
+    # Use np.searchsorted to find matching indices
+    matching_idx = np.searchsorted(sorted_nuclei_struct, finab_struct)
+    # Recover the original indices from the sorted index
+    indices = nuclei_sorted_idx[matching_idx]
 
     finab_data_Y[indices,ind % buffsize] = data.finab["Y"][:]
     finab_data_X[indices,ind % buffsize] = data.finab["X"][:]
@@ -366,9 +381,15 @@ for counter, d in enumerate(tqdm(dirs)):
         snapstime = data.snapshot_time
         # Now get the indexes of the entries that agree with snapshot_time
         indexes = np.searchsorted(snapstime, snapshot_time)
-        # Put the data in the snapshot_data
-        indices_nuclei = [(np.where((nuclei_data.A.astype(int) == A) & (nuclei_data.Z.astype(int) == Z))[0][0])
-                           for A, Z in zip(data.A.astype(int), data.Z.astype(int))]
+
+        # Convert the snapshot data to structured array
+        finab_struct = np.array(list(zip(data.A.astype(int), data.Z.astype(int))), dtype=dtype_nuclei)
+        # Find the matching indices
+        # Use np.searchsorted to find matching indices
+        matching_idx = np.searchsorted(sorted_nuclei_struct, finab_struct)
+        # Recover the original indices from the sorted index
+        indices_nuclei = nuclei_sorted_idx[matching_idx]
+
         # Store it
         snapshot_data[indices_nuclei,:,ind % buffsize] = data.Y[indexes][:, :].T
 
