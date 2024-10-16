@@ -1251,6 +1251,7 @@ contains
 
      ! Allocate arrays
      allocate(Y_tmp(count))
+     allocate(X_tmp(count))
      allocate(A_tmp(count))
      allocate(Z_tmp(count))
 
@@ -1262,6 +1263,7 @@ contains
           Y_tmp(count) = Y(i)
           A_tmp(count) = isotope(i)%mass
           Z_tmp(count) = isotope(i)%p_nr
+          X_tmp(count) = Y_tmp(count)*A_tmp(count)
        end if
      end do
 
@@ -1269,12 +1271,13 @@ contains
      call create_constant_1d_int_arrays(count,A_tmp,"A",finab_group_id)
      call create_constant_1d_int_arrays(count,Z_tmp,"Z",finab_group_id)
      call create_constant_1d_arrays(count,Y_tmp,"Y",finab_group_id)
-     call create_constant_1d_arrays(count,Y_tmp*A_tmp,"X",finab_group_id)
+     call create_constant_1d_arrays(count,X_tmp,"X",finab_group_id)
 
      ! Deallocate arrays
      deallocate(Y_tmp)
      deallocate(A_tmp)
      deallocate(Z_tmp)
+     deallocate(X_tmp)
 
      ! Close the group
      call h5gclose_f(finab_group_id    , i_stat)
@@ -1305,6 +1308,7 @@ contains
      ! Allocate arrays once more
      allocate(Y_tmp(count))
      allocate(A_tmp(count))
+     allocate(X_tmp(count))
 
      ! Prepare helper arrays for the output
      count = 0
@@ -1313,17 +1317,19 @@ contains
           count = count+1
           A_tmp(count) = i
           Y_tmp(count) = Y_tmpA(i)
+          X_tmp(count) = Y_tmp(count)*A_tmp(count)
        end if
      end do
 
      ! Write the arrays
      call create_constant_1d_int_arrays(count,A_tmp,"A",finab_group_id)
      call create_constant_1d_arrays(count,Y_tmp,"Y",finab_group_id)
-     call create_constant_1d_arrays(count,Y_tmp*A_tmp,"X",finab_group_id)
+     call create_constant_1d_arrays(count,X_tmp,"X",finab_group_id)
 
      ! Deallocate again
      deallocate(Y_tmp)
      deallocate(A_tmp)
+     deallocate(X_tmp)
      deallocate(Y_tmpA)
 
      ! Close the group
