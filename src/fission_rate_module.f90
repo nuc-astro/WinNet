@@ -125,13 +125,85 @@ contains
          !!  ch_amount at the beginning.
          call reorder_fragments()
 
+         ! Bullet proof fission reactions and normalize the fragments
+         ! if deviation is acceptable (otherwise throw error)
+         ! in case of rounding problems from file reading.
+         if (nfiss .gt. 0) then
+            call check_fission_mass_conservation()
+         end if
+
         end if
         !-- Write an overview of the reactions
         call write_reac_verbose_out()
       end if
 
-
    end subroutine init_fission_rates
+
+
+   !> Check the mass conservation during the fission process.
+   !!
+   !! This subroutine ensures that the total number of nucleons is conserved
+   !! during fission reactions. It calculates the number of nucleons created
+   !! and destroyed for each fission rate, checks for discrepancies against
+   !! a defined error threshold, and raises an exception if the mass
+   !! conservation is violated. If small deviations are within the threshold,
+   !! the subroutine rescales the fragments accordingly.
+   !!
+   !! @author M. Reichert
+   !! @date 17.10.24
+   subroutine check_fission_mass_conservation
+    use global_class,    only: isotope, net_names
+    use error_msg_class, only: raise_exception, num_to_str, int_to_str
+    implicit none
+    integer                :: i,j                  !< loop variables
+    real(r_kind)           :: n_nucleons_created   !< Number of nucleons
+    real(r_kind)           :: n_nucleons_destroyed !< Number of nucleons
+    real(r_kind)           :: conservation         !< Conservation of nucleons
+    real(r_kind)           :: norm_factor          !< Factor to normalize the fragments
+    real(r_kind),parameter :: error_thresh = 1d-3  !< Error threshold
+
+    INFO_ENTRY("check_fission_mass_conservation")
+
+    do i=1,nfiss
+
+        n_nucleons_created = 0d0
+        n_nucleons_destroyed = 0d0
+
+        do j=1,fissrate(i)%dimens
+            ! Now count the number of nucleons, this has to be conserved!
+            if (fissrate(i)%ch_amount(j) .gt. 0) then
+                n_nucleons_created = n_nucleons_created + fissrate(i)%ch_amount(j)*isotope(fissrate(i)%fissparts(j))%mass
+            else
+                n_nucleons_destroyed = n_nucleons_destroyed - fissrate(i)%ch_amount(j)*isotope(fissrate(i)%fissparts(j))%mass
+            end if
+        end do
+
+        ! Check if the number of nucleons is conserved
+        conservation = n_nucleons_created - n_nucleons_destroyed
+
+        ! Check if an error should be raised
+        ! Note that small deviations can happen when reading from a file
+        if (abs(conservation) .gt. error_thresh) then
+            call raise_exception("Fission rate does not conserve mass (threshold = 1e-4)! Check your fission fragments! "//NEW_LINE("A")//&
+                                 "Parent: "//trim(adjustl(net_names(fissrate(i)%fissnuc_index)))//NEW_LINE("A")//&
+                                 "Conservation: "//num_to_str(conservation)//NEW_LINE("A")//&
+                                 "Fissmode: "//int_to_str(fissrate(i)%mode),&
+                                 "check_fission_mass_conservation",190018)
+        end if
+
+        ! Rescale the fragments
+        norm_factor = n_nucleons_destroyed/n_nucleons_created
+        do j=1,fissrate(i)%dimens
+            ! Scale only fragments
+            if (fissrate(i)%ch_amount(j) .gt. 0) then
+                fissrate(i)%ch_amount(j) = fissrate(i)%ch_amount(j)*norm_factor
+            end if
+        end do
+    end do
+
+    INFO_EXIT("check_fission_mass_conservation")
+
+   end subroutine check_fission_mass_conservation
 
 
 
@@ -1705,7 +1777,7 @@ contains
       end select
 
       if (a1.gt.minmax(z1,2)) then
-         nemiss = a1 - minmax(z1,2)
+         nemiss = nemiss + a1 - minmax(z1,2)
          a1 = minmax(z1,2)
       else if (a1.lt.minmax(z1,1)) then
          if (VERBOSE_LEVEL .ge. 2) then
@@ -1879,6 +1951,7 @@ contains
         additional_neutrons = fissrate_inout%released_n
         af = mass-additional_neutrons
         zf = pnr + 1
+        neutronflag = 1
       end if
 
       al = 0.85d0*af - 104.98d0
@@ -2369,14 +2442,22 @@ contains
       ! Loop through the fission fragments
        if (fissrate_inout%reac_type .eq. rrt_bf) then
           nfrac_distr = size(fissfrags_beta_delayed)
+          ! Set also the mode just to be sure
+          fissrate_inout%mode = 3
        else if (fissrate_inout%reac_type .eq. rrt_nf) then
           nfrac_distr = size(fissfrags_n_induced)
+          ! Set also the mode just to be sure
+          fissrate_inout%mode = 1
        else if (fissrate_inout%reac_type .eq. rrt_sf) then
           nfrac_distr = size(fissfrags_spontaneous)
+          ! Set also the mode just to be sure
+          fissrate_inout%mode = 2
        end if
 
        ! Assume first that there are no additional neutrons
        additional_neutrons = fissrate_inout%released_n
+
+
 
        ! Check which nuclei is fissioning
        zfiss = pnr

@@ -106,6 +106,7 @@ The error codes are translated to the following problems:
 <tr><td> W190015 <td> Unknown missing fragment distribution.
 <tr><td> W190016 <td> Fragment not specified in file.
 <tr><td> W190017 <td> Fission probability greater than 1.
+<tr><td> W190018 <td> Fission reaction violates mass.
 <tr><td> W220001 <td> Allocation failure.
 <tr><td> W240001 <td> Allocation failure.
 <tr><td> W240002 <td> Deallocation failure.
