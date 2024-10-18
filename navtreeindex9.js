@@ -1,5 +1,8 @@
 var NAVTREEINDEX9 =
 {
+"namespacebin_1_1class__files_1_1nucleus__class.html":[14,0,1,0,0],
+"namespacebin_1_1class__files_1_1nucleus__multiple__class.html":[14,0,1,0,1],
+"namespacebin_1_1class__files_1_1nucleus__multiple__class.html":[13,0,35,0,1],
 "namespacebin_1_1class__files_1_1reaclib__class.html":[13,0,35,0,2],
 "namespacebin_1_1class__files_1_1reaclib__class.html":[14,0,1,0,2],
 "namespacebin_1_1class__files_1_1template__class.html":[14,0,1,0,3],
@@ -59,8 +62,8 @@ var NAVTREEINDEX9 =
 "namespacejacobian__class.html":[13,0,67],
 "namespacels__timmes__eos__module.html":[13,0,68],
 "namespacels__timmes__eos__module.html":[14,0,4],
-"namespacemembers.html":[13,1,0],
 "namespacemembers.html":[13,1,0,0],
+"namespacemembers.html":[13,1,0],
 "namespacemembers_b.html":[13,1,0,1],
 "namespacemembers_c.html":[13,1,0,2],
 "namespacemembers_d.html":[13,1,0,3],
@@ -170,8 +173,8 @@ var NAVTREEINDEX9 =
 "namespacesrc__files.html":[14,0,7],
 "namespacesrc__files_1_1FlowAnimation.html":[13,0,96,0],
 "namespacesrc__files_1_1FlowAnimation.html":[14,0,7,0],
-"namespacesrc__files_1_1nucleus__class.html":[14,0,7,1],
 "namespacesrc__files_1_1nucleus__class.html":[13,0,96,1],
+"namespacesrc__files_1_1nucleus__class.html":[14,0,7,1],
 "namespacesrc__files_1_1nucleus__multiple__class.html":[14,0,7,2],
 "namespacesrc__files_1_1nucleus__multiple__class.html":[13,0,96,2],
 "namespacesrc__files_1_1parallel__save.html":[13,0,96,3],
@@ -246,8 +249,5 @@ var NAVTREEINDEX9 =
 "nse_8py.html#a2e3f9f1c2a7bd39d556b9f0d22edd5df":[15,0,4,27,1],
 "nse_8py_source.html":[15,0,4,27],
 "nuclear__heating_8f90.html":[15,0,3,25],
-"nuclear__heating_8f90.html#a023afdea870faaed9f6de83d1198c942":[15,0,3,25,16],
-"nuclear__heating_8f90.html#a1350214d11ddbf5b0d69d41e60991ee8":[15,0,3,25,14],
-"nuclear__heating_8f90.html#a16554aba9a2d0d1629cd3232c2e36a56":[15,0,3,25,7],
-"nuclear__heating_8f90.html#a1a9f126204557a34778a64d52b81871c":[15,0,3,25,17]
+"nuclear__heating_8f90.html#a023afdea870faaed9f6de83d1198c942":[15,0,3,25,16]
 };

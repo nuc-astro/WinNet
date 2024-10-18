@@ -1,33 +1,35 @@
 <map id="fission_rate_module::init_fission_rates" name="fission_rate_module::init_fission_rates">
-<area shape="rect" id="node1" title="Initialize the fission reactions." alt="" coords="5,997,143,1038"/>
-<area shape="rect" id="node2" href="$namespacefission__rate__module.html#a56a55c06edae09a1540ee2db9ef7d4ff" title="Initializes the rates with fragments." alt="" coords="195,394,353,435"/>
-<area shape="rect" id="node5" href="$namespaceerror__msg__class.html#a2453d3b7cb363115c046840baa1dfb75" title="Raise a exception with a given error message." alt="" coords="1072,747,1224,789"/>
-<area shape="rect" id="node15" href="$namespacefission__rate__module.html#ad32a6a04e2414163ecffd8f083291673" title="Count the amount of fission rates." alt="" coords="204,997,344,1038"/>
-<area shape="rect" id="node20" href="$namespacefission__rate__module.html#aaabbc87af022a4cae9e74747c84e134d" title="Read the fission reactions and fragment distributions from a binary file." alt="" coords="417,701,555,757"/>
-<area shape="rect" id="node22" href="$namespacefission__rate__module.html#a66a09d5b4e3a95b7c3ac9b70528ca482" title="Read the fission rates, splitted into different types of fission." alt="" coords="205,1317,343,1358"/>
-<area shape="rect" id="node26" href="$namespacefission__rate__module.html#a482abf656979513ab2b0de0855d472a8" title="Reorder the fission fragments." alt="" coords="629,1566,766,1607"/>
-<area shape="rect" id="node29" href="$namespacefission__rate__module.html#a3784e5987def2b49c3e0df3c3f575e12" title="Write the amount of individual reactions to the out." alt="" coords="191,1062,357,1103"/>
-<area shape="rect" id="node3" href="$namespacefission__rate__module.html#a3eccee43c86cd1e5ec4fc35e11c8ac8e" title="Calculates the (beta&#45;delayed and spontaneous) fission fragment mass distribution according to the ABL..." alt="" coords="857,211,995,253"/>
-<area shape="rect" id="node6" href="$namespaceerror__msg__class.html#a7e065585cc806a5c264de1f088266498" title="Converts a given integer to a string." alt="" coords="1272,747,1411,789"/>
-<area shape="rect" id="node7" href="$namespacefission__rate__module.html#a07f34766739ee866664d2edd5134257e" title="Calculates the (neutron&#45;induced) fission fragment mass distribution according to the ABLA07 model: Ke..." alt="" coords="857,277,995,318"/>
-<area shape="rect" id="node8" href="$namespacefile__handling__class.html#a01ba26324d7662cc0fb2e0eb306cd3e2" title="Close an external file." alt="" coords="861,511,991,553"/>
-<area shape="rect" id="node9" href="$namespacefission__rate__module.html#a6fd5b533d68c298b67c8a59fdef90e6b" title="Fill the rates with the correct fragments." alt="" coords="629,335,766,377"/>
-<area shape="rect" id="node10" href="$namespacefission__rate__module.html#acb8bde13a563d9a5f99739b6cdb1682b" title="Determines fission fragment mass distribution as described in Panov et al. 2001." alt="" coords="857,94,995,135"/>
-<area shape="rect" id="node11" href="$namespacefission__rate__module.html#aa9bd5afd5fef2fd78f7a26f5a401e854" title="Kodama&#45;Takahashi distribution." alt="" coords="857,394,995,435"/>
-<area shape="rect" id="node12" href="$namespacefile__handling__class.html#aab870caaf9cbaaf635d537708efbf793" title="Same for reading (input file)" alt="" coords="632,1026,763,1067"/>
-<area shape="rect" id="node14" href="$namespacefission__rate__module.html#afcee2134788e99f2e791a7d1ee3daa68" title=" " alt="" coords="405,526,567,567"/>
-<area shape="rect" id="node4" href="$namespacebenam__class.html#ad2f566697809a5731e560509d2ca7062" title="Finds an isotope index in the network table, given its A and Z. In case it was not found,..." alt="" coords="1079,203,1217,229"/>
-<area shape="rect" id="node13" href="$namespacefile__handling__class.html#af02196bd5eaf70ecd5ab4cc650094d5e" title="Finds the next unused unit number." alt="" coords="861,831,991,873"/>
-<area shape="rect" id="node16" href="$namespacefission__rate__module.html#a2dbd5728daa5fdbff9298bcffefddef0" title=" " alt="" coords="416,1109,556,1165"/>
-<area shape="rect" id="node18" href="$namespacefission__rate__module.html#a0a751f5633cad35f24663f97245307e5" title=" " alt="" coords="416,949,556,1005"/>
-<area shape="rect" id="node19" href="$namespacefission__rate__module.html#a38fd7f41190a7ea401edbc0a653ac34b" title="Count the amount of fission rates in reaclib format." alt="" coords="416,1029,556,1085"/>
-<area shape="rect" id="node17" href="$namespacebenam__class.html#ad20c821347dd5f7c08dff59c98e69657" title="Returns the index number of isotope &#39;name&#39;." alt="" coords="625,1164,769,1191"/>
-<area shape="rect" id="node21" href="$namespacefile__handling__class.html#a25b51db64738e74a129daae7428c8163" title="Open an unformatted file for reading." alt="" coords="615,781,780,822"/>
-<area shape="rect" id="node23" href="$namespacefission__rate__module.html#a4a2793ba7b5bdff0ad6a519b7518cc00" title=" " alt="" coords="417,1269,555,1325"/>
-<area shape="rect" id="node24" href="$namespacefission__rate__module.html#a43a1f5e1e83f2a8babe622506d26a3a9" title=" " alt="" coords="417,1349,555,1405"/>
-<area shape="rect" id="node25" href="$namespacefission__rate__module.html#a911476fdfed2d6d2a13a04a04ec768ee" title=" " alt="" coords="417,1189,555,1245"/>
-<area shape="rect" id="node27" href="$namespacemergesort__module.html#a68c6cd380e0fbe122d41846adf3f6a5d" title="Bubblesort of array." alt="" coords="829,1581,1023,1608"/>
-<area shape="rect" id="node28" href="$namespacemergesort__module.html#acbae2585fc0a5f2f3d14238cb54614d6" title="Takes an array and an array with indices to reorder the first array." alt="" coords="828,1531,1024,1557"/>
-<area shape="rect" id="node30" href="$namespaceerror__msg__class.html#a339dd5b38c125b6a04653762c94a91f2" title="Write data to the standard output (usually OUT)" alt="" coords="410,833,562,874"/>
-<area shape="rect" id="node31" href="$namespaceerror__msg__class.html#af62b9a0c5997255e792b9ebd7322a6a3" title="Write the header of the standard output (usually OUT)" alt="" coords="621,898,773,939"/>
+<area shape="rect" id="node1" title="Initialize the fission reactions." alt="" coords="5,800,143,842"/>
+<area shape="rect" id="node2" href="$namespacefission__rate__module.html#a56a55c06edae09a1540ee2db9ef7d4ff" title="Initializes the rates with fragments." alt="" coords="195,314,353,355"/>
+<area shape="rect" id="node5" href="$namespaceerror__msg__class.html#a2453d3b7cb363115c046840baa1dfb75" title="Raise a exception with a given error message." alt="" coords="1072,830,1224,871"/>
+<area shape="rect" id="node15" href="$namespacefission__rate__module.html#ade62e67318ef02409f94a827b526dc81" title="Check the mass conservation during the fission process." alt="" coords="853,525,999,581"/>
+<area shape="rect" id="node17" href="$namespacefission__rate__module.html#ad32a6a04e2414163ecffd8f083291673" title="Count the amount of fission rates." alt="" coords="204,967,344,1008"/>
+<area shape="rect" id="node22" href="$namespacefission__rate__module.html#aaabbc87af022a4cae9e74747c84e134d" title="Read the fission reactions and fragment distributions from a binary file." alt="" coords="417,1410,555,1466"/>
+<area shape="rect" id="node24" href="$namespacefission__rate__module.html#a66a09d5b4e3a95b7c3ac9b70528ca482" title="Read the fission rates, splitted into different types of fission." alt="" coords="205,1247,343,1288"/>
+<area shape="rect" id="node28" href="$namespacefission__rate__module.html#a482abf656979513ab2b0de0855d472a8" title="Reorder the fission fragments." alt="" coords="629,1440,766,1482"/>
+<area shape="rect" id="node31" href="$namespacefission__rate__module.html#a3784e5987def2b49c3e0df3c3f575e12" title="Write the amount of individual reactions to the out." alt="" coords="191,712,357,754"/>
+<area shape="rect" id="node3" href="$namespacefission__rate__module.html#a3eccee43c86cd1e5ec4fc35e11c8ac8e" title="Calculates the (beta&#45;delayed and spontaneous) fission fragment mass distribution according to the ABL..." alt="" coords="857,330,995,371"/>
+<area shape="rect" id="node6" href="$namespaceerror__msg__class.html#a7e065585cc806a5c264de1f088266498" title="Converts a given integer to a string." alt="" coords="1272,724,1411,766"/>
+<area shape="rect" id="node7" href="$namespacefission__rate__module.html#a07f34766739ee866664d2edd5134257e" title="Calculates the (neutron&#45;induced) fission fragment mass distribution according to the ABLA07 model: Ke..." alt="" coords="857,395,995,436"/>
+<area shape="rect" id="node8" href="$namespacefile__handling__class.html#a01ba26324d7662cc0fb2e0eb306cd3e2" title="Close an external file." alt="" coords="861,460,991,502"/>
+<area shape="rect" id="node9" href="$namespacefission__rate__module.html#a6fd5b533d68c298b67c8a59fdef90e6b" title="Fill the rates with the correct fragments." alt="" coords="629,154,766,195"/>
+<area shape="rect" id="node10" href="$namespacefission__rate__module.html#acb8bde13a563d9a5f99739b6cdb1682b" title="Determines fission fragment mass distribution as described in Panov et al. 2001." alt="" coords="857,212,995,254"/>
+<area shape="rect" id="node11" href="$namespacefission__rate__module.html#aa9bd5afd5fef2fd78f7a26f5a401e854" title="Kodama&#45;Takahashi distribution." alt="" coords="857,95,995,136"/>
+<area shape="rect" id="node12" href="$namespacefile__handling__class.html#aab870caaf9cbaaf635d537708efbf793" title="Same for reading (input file)" alt="" coords="632,1011,763,1052"/>
+<area shape="rect" id="node14" href="$namespacefission__rate__module.html#afcee2134788e99f2e791a7d1ee3daa68" title=" " alt="" coords="405,424,567,466"/>
+<area shape="rect" id="node4" href="$namespacebenam__class.html#ad2f566697809a5731e560509d2ca7062" title="Finds an isotope index in the network table, given its A and Z. In case it was not found,..." alt="" coords="1079,277,1217,304"/>
+<area shape="rect" id="node13" href="$namespacefile__handling__class.html#af02196bd5eaf70ecd5ab4cc650094d5e" title="Finds the next unused unit number." alt="" coords="861,1230,991,1271"/>
+<area shape="rect" id="node16" href="$namespaceerror__msg__class.html#a5bc9f3b670b725cc43276934b867d801" title="Converts a given real to a string with format &quot;(1pE10.2)&quot;." alt="" coords="1073,532,1223,574"/>
+<area shape="rect" id="node18" href="$namespacefission__rate__module.html#a2dbd5728daa5fdbff9298bcffefddef0" title=" " alt="" coords="416,1120,556,1176"/>
+<area shape="rect" id="node20" href="$namespacefission__rate__module.html#a0a751f5633cad35f24663f97245307e5" title=" " alt="" coords="416,880,556,936"/>
+<area shape="rect" id="node21" href="$namespacefission__rate__module.html#a38fd7f41190a7ea401edbc0a653ac34b" title="Count the amount of fission rates in reaclib format." alt="" coords="416,1040,556,1096"/>
+<area shape="rect" id="node19" href="$namespacebenam__class.html#ad20c821347dd5f7c08dff59c98e69657" title="Returns the index number of isotope &#39;name&#39;." alt="" coords="625,1077,769,1104"/>
+<area shape="rect" id="node23" href="$namespacefile__handling__class.html#a25b51db64738e74a129daae7428c8163" title="Open an unformatted file for reading." alt="" coords="615,1280,780,1322"/>
+<area shape="rect" id="node25" href="$namespacefission__rate__module.html#a4a2793ba7b5bdff0ad6a519b7518cc00" title=" " alt="" coords="417,960,555,1016"/>
+<area shape="rect" id="node26" href="$namespacefission__rate__module.html#a43a1f5e1e83f2a8babe622506d26a3a9" title=" " alt="" coords="417,1280,555,1336"/>
+<area shape="rect" id="node27" href="$namespacefission__rate__module.html#a911476fdfed2d6d2a13a04a04ec768ee" title=" " alt="" coords="417,1200,555,1256"/>
+<area shape="rect" id="node29" href="$namespacemergesort__module.html#a68c6cd380e0fbe122d41846adf3f6a5d" title="Bubblesort of array." alt="" coords="829,1448,1023,1474"/>
+<area shape="rect" id="node30" href="$namespacemergesort__module.html#acbae2585fc0a5f2f3d14238cb54614d6" title="Takes an array and an array with indices to reorder the first array." alt="" coords="828,1397,1024,1424"/>
+<area shape="rect" id="node32" href="$namespaceerror__msg__class.html#a339dd5b38c125b6a04653762c94a91f2" title="Write data to the standard output (usually OUT)" alt="" coords="410,712,562,754"/>
+<area shape="rect" id="node33" href="$namespaceerror__msg__class.html#af62b9a0c5997255e792b9ebd7322a6a3" title="Write the header of the standard output (usually OUT)" alt="" coords="621,792,773,834"/>
 </map>

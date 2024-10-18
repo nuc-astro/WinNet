@@ -118,6 +118,9 @@ Functions/Subroutines</h2></td></tr>
 <tr class="memitem:a604945049b84968ca266f9c178a9cfa8"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacefission__rate__module.html#a604945049b84968ca266f9c178a9cfa8">init_fission_rates</a> ()</td></tr>
 <tr class="memdesc:a604945049b84968ca266f9c178a9cfa8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the fission reactions.  <a href="namespacefission__rate__module.html#a604945049b84968ca266f9c178a9cfa8">More...</a><br /></td></tr>
 <tr class="separator:a604945049b84968ca266f9c178a9cfa8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ade62e67318ef02409f94a827b526dc81"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacefission__rate__module.html#ade62e67318ef02409f94a827b526dc81">check_fission_mass_conservation</a></td></tr>
+<tr class="memdesc:ade62e67318ef02409f94a827b526dc81"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check the mass conservation during the fission process.  <a href="namespacefission__rate__module.html#ade62e67318ef02409f94a827b526dc81">More...</a><br /></td></tr>
+<tr class="separator:ade62e67318ef02409f94a827b526dc81"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a482abf656979513ab2b0de0855d472a8"><td class="memItemLeft" align="right" valign="top">subroutine, private&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacefission__rate__module.html#a482abf656979513ab2b0de0855d472a8">reorder_fragments</a> ()</td></tr>
 <tr class="memdesc:a482abf656979513ab2b0de0855d472a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reorder the fission fragments.  <a href="namespacefission__rate__module.html#a482abf656979513ab2b0de0855d472a8">More...</a><br /></td></tr>
 <tr class="separator:a482abf656979513ab2b0de0855d472a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -284,7 +287,7 @@ Variables</h2></td></tr>
 <p>Calculates the (beta-delayed and spontaneous) fission fragment mass distribution according to the ABLA07 model: Kelic, Ricciardi, &amp; Schmidt (arXiv:0906.4193) </p>
 <dl class="section see"><dt>See also</dt><dd><a href="https://ui.adsabs.harvard.edu/abs/2009arXiv0906.4193K/abstract">Kelic et al. 2009</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fission__rate__module_8f90_source.html#l02742">2742</a> of file <a class="el" href="fission__rate__module_8f90_source.html">fission_rate_module.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fission__rate__module_8f90_source.html#l02823">2823</a> of file <a class="el" href="fission__rate__module_8f90_source.html">fission_rate_module.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -349,7 +352,7 @@ Here is the call graph for this function:</div>
 <p>Calculates the (neutron-induced) fission fragment mass distribution according to the ABLA07 model: Kelic, Ricciardi, &amp; Schmidt (arXiv:0906.4193) </p>
 <dl class="section see"><dt>See also</dt><dd><a href="https://ui.adsabs.harvard.edu/abs/2009arXiv0906.4193K/abstract">Kelic et al. 2009</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fission__rate__module_8f90_source.html#l02508">2508</a> of file <a class="el" href="fission__rate__module_8f90_source.html">fission_rate_module.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fission__rate__module_8f90_source.html#l02589">2589</a> of file <a class="el" href="fission__rate__module_8f90_source.html">fission_rate_module.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -377,11 +380,38 @@ Here is the call graph for this function:</div>
 <li>31.05.2024 (MR): Created this subroutine from code parts contained in other routines</li>
 </ul>
 
-<p class="definition">Definition at line <a class="el" href="fission__rate__module_8f90_source.html#l01006">1006</a> of file <a class="el" href="fission__rate__module_8f90_source.html">fission_rate_module.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fission__rate__module_8f90_source.html#l01078">1078</a> of file <a class="el" href="fission__rate__module_8f90_source.html">fission_rate_module.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="namespacefission__rate__module_a56a55c06edae09a1540ee2db9ef7d4ff_cgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+</div>
+
+</div>
+</div>
+<a id="ade62e67318ef02409f94a827b526dc81"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ade62e67318ef02409f94a827b526dc81">&#9670;&nbsp;</a></span>check_fission_mass_conservation()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">subroutine fission_rate_module::check_fission_mass_conservation</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Check the mass conservation during the fission process. </p>
+<p>This subroutine ensures that the total number of nucleons is conserved during fission reactions. It calculates the number of nucleons created and destroyed for each fission rate, checks for discrepancies against a defined error threshold, and raises an exception if the mass conservation is violated. If small deviations are within the threshold, the subroutine rescales the fragments accordingly.</p>
+<dl class="section author"><dt>Author</dt><dd>M. Reichert </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>17.10.24 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="fission__rate__module_8f90_source.html#l00154">154</a> of file <a class="el" href="fission__rate__module_8f90_source.html">fission_rate_module.f90</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="namespacefission__rate__module_ade62e67318ef02409f94a827b526dc81_cgraph.svg" width="544" height="138"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 
@@ -436,7 +466,7 @@ Here is the call graph for this function:</div>
 <dl class="section author"><dt>Author</dt><dd>M. Reichert </dd></dl>
 <dl class="section date"><dt>Date</dt><dd>25.01.21 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fission__rate__module_8f90_source.html#l00692">692</a> of file <a class="el" href="fission__rate__module_8f90_source.html">fission_rate_module.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fission__rate__module_8f90_source.html#l00764">764</a> of file <a class="el" href="fission__rate__module_8f90_source.html">fission_rate_module.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -487,7 +517,7 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="fission__rate__module_8f90_source.html#l00839">839</a> of file <a class="el" href="fission__rate__module_8f90_source.html">fission_rate_module.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fission__rate__module_8f90_source.html#l00911">911</a> of file <a class="el" href="fission__rate__module_8f90_source.html">fission_rate_module.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -545,7 +575,7 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="fission__rate__module_8f90_source.html#l00922">922</a> of file <a class="el" href="fission__rate__module_8f90_source.html">fission_rate_module.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fission__rate__module_8f90_source.html#l00994">994</a> of file <a class="el" href="fission__rate__module_8f90_source.html">fission_rate_module.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -602,7 +632,7 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="fission__rate__module_8f90_source.html#l00770">770</a> of file <a class="el" href="fission__rate__module_8f90_source.html">fission_rate_module.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fission__rate__module_8f90_source.html#l00842">842</a> of file <a class="el" href="fission__rate__module_8f90_source.html">fission_rate_module.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -650,7 +680,7 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="fission__rate__module_8f90_source.html#l02333">2333</a> of file <a class="el" href="fission__rate__module_8f90_source.html">fission_rate_module.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fission__rate__module_8f90_source.html#l02406">2406</a> of file <a class="el" href="fission__rate__module_8f90_source.html">fission_rate_module.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -695,7 +725,7 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="fission__rate__module_8f90_source.html#l01644">1644</a> of file <a class="el" href="fission__rate__module_8f90_source.html">fission_rate_module.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fission__rate__module_8f90_source.html#l01716">1716</a> of file <a class="el" href="fission__rate__module_8f90_source.html">fission_rate_module.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -772,7 +802,7 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="fission__rate__module_8f90_source.html#l01826">1826</a> of file <a class="el" href="fission__rate__module_8f90_source.html">fission_rate_module.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fission__rate__module_8f90_source.html#l01898">1898</a> of file <a class="el" href="fission__rate__module_8f90_source.html">fission_rate_module.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -828,7 +858,7 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="fission__rate__module_8f90_source.html#l00387">387</a> of file <a class="el" href="fission__rate__module_8f90_source.html">fission_rate_module.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fission__rate__module_8f90_source.html#l00459">459</a> of file <a class="el" href="fission__rate__module_8f90_source.html">fission_rate_module.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -901,7 +931,7 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="fission__rate__module_8f90_source.html#l00444">444</a> of file <a class="el" href="fission__rate__module_8f90_source.html">fission_rate_module.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fission__rate__module_8f90_source.html#l00516">516</a> of file <a class="el" href="fission__rate__module_8f90_source.html">fission_rate_module.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -932,7 +962,7 @@ Here is the call graph for this function:</div>
 <dl class="section author"><dt>Author</dt><dd>M. Reichert </dd></dl>
 <dl class="section date"><dt>Date</dt><dd>21.07.23 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fission__rate__module_8f90_source.html#l00315">315</a> of file <a class="el" href="fission__rate__module_8f90_source.html">fission_rate_module.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fission__rate__module_8f90_source.html#l00387">387</a> of file <a class="el" href="fission__rate__module_8f90_source.html">fission_rate_module.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -977,7 +1007,7 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="fission__rate__module_8f90_source.html#l00219">219</a> of file <a class="el" href="fission__rate__module_8f90_source.html">fission_rate_module.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fission__rate__module_8f90_source.html#l00291">291</a> of file <a class="el" href="fission__rate__module_8f90_source.html">fission_rate_module.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1020,7 +1050,7 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="fission__rate__module_8f90_source.html#l02119">2119</a> of file <a class="el" href="fission__rate__module_8f90_source.html">fission_rate_module.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fission__rate__module_8f90_source.html#l02192">2192</a> of file <a class="el" href="fission__rate__module_8f90_source.html">fission_rate_module.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1078,7 +1108,7 @@ Here is the call graph for this function:</div>
 <dl class="section author"><dt>Author</dt><dd>M. Reichert </dd></dl>
 <dl class="section date"><dt>Date</dt><dd>31.05.2024 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fission__rate__module_8f90_source.html#l01207">1207</a> of file <a class="el" href="fission__rate__module_8f90_source.html">fission_rate_module.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fission__rate__module_8f90_source.html#l01279">1279</a> of file <a class="el" href="fission__rate__module_8f90_source.html">fission_rate_module.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1136,7 +1166,7 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="fission__rate__module_8f90_source.html#l01546">1546</a> of file <a class="el" href="fission__rate__module_8f90_source.html">fission_rate_module.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fission__rate__module_8f90_source.html#l01618">1618</a> of file <a class="el" href="fission__rate__module_8f90_source.html">fission_rate_module.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1194,7 +1224,7 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="fission__rate__module_8f90_source.html#l01433">1433</a> of file <a class="el" href="fission__rate__module_8f90_source.html">fission_rate_module.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fission__rate__module_8f90_source.html#l01505">1505</a> of file <a class="el" href="fission__rate__module_8f90_source.html">fission_rate_module.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1252,7 +1282,7 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="fission__rate__module_8f90_source.html#l01299">1299</a> of file <a class="el" href="fission__rate__module_8f90_source.html">fission_rate_module.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fission__rate__module_8f90_source.html#l01371">1371</a> of file <a class="el" href="fission__rate__module_8f90_source.html">fission_rate_module.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1287,7 +1317,7 @@ Here is the call graph for this function:</div>
 <dl class="section author"><dt>Author</dt><dd>M. Reichert </dd></dl>
 <dl class="section date"><dt>Date</dt><dd>22.02.23 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fission__rate__module_8f90_source.html#l00147">147</a> of file <a class="el" href="fission__rate__module_8f90_source.html">fission_rate_module.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fission__rate__module_8f90_source.html#l00219">219</a> of file <a class="el" href="fission__rate__module_8f90_source.html">fission_rate_module.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1322,7 +1352,7 @@ Here is the call graph for this function:</div>
 <dl class="section author"><dt>Author</dt><dd>M. Reichert </dd></dl>
 <dl class="section date"><dt>Date</dt><dd>27.01.21 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fission__rate__module_8f90_source.html#l00183">183</a> of file <a class="el" href="fission__rate__module_8f90_source.html">fission_rate_module.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fission__rate__module_8f90_source.html#l00255">255</a> of file <a class="el" href="fission__rate__module_8f90_source.html">fission_rate_module.f90</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">

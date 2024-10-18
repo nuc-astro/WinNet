@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['jacobi_5finit_2977',['jacobi_init',['../namespacejacobian__class.html#a6e0f79f200a99f37a2597186e29310c0',1,'jacobian_class']]]
+  ['jacobi_5finit_2989',['jacobi_init',['../namespacejacobian__class.html#a6e0f79f200a99f37a2597186e29310c0',1,'jacobian_class']]]
 ];

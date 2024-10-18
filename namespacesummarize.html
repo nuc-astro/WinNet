@@ -176,14 +176,26 @@ Variables</h2></td></tr>
 <tr class="separator:afd0654ed5b0fd7850c7772851a213847"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a81a1bdc5d1b433afb15eed5c0f5be373"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesummarize.html#a81a1bdc5d1b433afb15eed5c0f5be373">finab_data_X</a> = np.zeros((len(<a class="el" href="namespacesummarize.html#aebcd592906544a6eb17e902254c0b442">nuclei</a>),<a class="el" href="namespacesummarize.html#a61ed4de4cf6996671b2731e5ef97ae27">buffsize</a>))</td></tr>
 <tr class="separator:a81a1bdc5d1b433afb15eed5c0f5be373"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7bc4242a60fad49e92fb18ee75e0d056"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesummarize.html#a7bc4242a60fad49e92fb18ee75e0d056">dtype_nuclei</a> = np.dtype([('A', int), ('Z', int)])</td></tr>
+<tr class="separator:a7bc4242a60fad49e92fb18ee75e0d056"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4f114a51ce2b59df53415a6aa719a6e7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesummarize.html#a4f114a51ce2b59df53415a6aa719a6e7">nuclei_struct</a> = np.array(list(zip(nuclei_data.A.astype(int), nuclei_data.Z.astype(int))), <a class="el" href="namespacesummarize.html#a59827b4ae62c410e7cbdfc8c6ccf9153">dtype</a>=<a class="el" href="namespacesummarize.html#a7bc4242a60fad49e92fb18ee75e0d056">dtype_nuclei</a>)</td></tr>
+<tr class="separator:a4f114a51ce2b59df53415a6aa719a6e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a75e9cac26085d7ff4a0a780b4f11626a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesummarize.html#a75e9cac26085d7ff4a0a780b4f11626a">nuclei_sorted_idx</a> = np.argsort(<a class="el" href="namespacesummarize.html#a4f114a51ce2b59df53415a6aa719a6e7">nuclei_struct</a>)</td></tr>
+<tr class="separator:a75e9cac26085d7ff4a0a780b4f11626a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae53fef8f1b1973ee5fef2b2a7d3e206e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesummarize.html#ae53fef8f1b1973ee5fef2b2a7d3e206e">sorted_nuclei_struct</a> = <a class="el" href="namespacesummarize.html#a4f114a51ce2b59df53415a6aa719a6e7">nuclei_struct</a>[<a class="el" href="namespacesummarize.html#a75e9cac26085d7ff4a0a780b4f11626a">nuclei_sorted_idx</a>]</td></tr>
+<tr class="separator:ae53fef8f1b1973ee5fef2b2a7d3e206e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7ae2b6873dbca757a4818a40a7e6b105"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesummarize.html#a7ae2b6873dbca757a4818a40a7e6b105">run_names</a> = np.zeros(<a class="el" href="namespacesummarize.html#a61ed4de4cf6996671b2731e5ef97ae27">buffsize</a>,<a class="el" href="namespacesummarize.html#a59827b4ae62c410e7cbdfc8c6ccf9153">dtype</a>=&quot;S100&quot;)</td></tr>
 <tr class="separator:a7ae2b6873dbca757a4818a40a7e6b105"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a34fd4d48995b95dccb01d2d5f6a2ec1b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesummarize.html#a34fd4d48995b95dccb01d2d5f6a2ec1b">run_ids</a> = np.zeros(<a class="el" href="namespacesummarize.html#a61ed4de4cf6996671b2731e5ef97ae27">buffsize</a>,<a class="el" href="namespacesummarize.html#a59827b4ae62c410e7cbdfc8c6ccf9153">dtype</a>=int)</td></tr>
 <tr class="separator:a34fd4d48995b95dccb01d2d5f6a2ec1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af2156de183e02bab2abc758db7addb0d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesummarize.html#af2156de183e02bab2abc758db7addb0d">ind</a> = -1</td></tr>
 <tr class="separator:af2156de183e02bab2abc758db7addb0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a157acfb1d3284c4e2248aa77f8e67be8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesummarize.html#a157acfb1d3284c4e2248aa77f8e67be8">indices</a> = np.where(np.in1d(data.finab[&quot;A&quot;],nuclei_data.A) &amp; np.in1d(data.finab[&quot;Z&quot;], nuclei_data.Z))[0]</td></tr>
-<tr class="memdesc:a157acfb1d3284c4e2248aa77f8e67be8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finab ####.  <a href="namespacesummarize.html#a157acfb1d3284c4e2248aa77f8e67be8">More...</a><br /></td></tr>
+<tr class="memitem:acacf6af42b2a985aa44eb9e0d14daadf"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesummarize.html#acacf6af42b2a985aa44eb9e0d14daadf">finab_struct</a> = np.array(list(zip(data.finab[&quot;A&quot;].astype(int), data.finab[&quot;Z&quot;].astype(int))), <a class="el" href="namespacesummarize.html#a59827b4ae62c410e7cbdfc8c6ccf9153">dtype</a>=<a class="el" href="namespacesummarize.html#a7bc4242a60fad49e92fb18ee75e0d056">dtype_nuclei</a>)</td></tr>
+<tr class="memdesc:acacf6af42b2a985aa44eb9e0d14daadf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finab ####.  <a href="namespacesummarize.html#acacf6af42b2a985aa44eb9e0d14daadf">More...</a><br /></td></tr>
+<tr class="separator:acacf6af42b2a985aa44eb9e0d14daadf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a807da438d773e28dfdc41c205f792f2a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesummarize.html#a807da438d773e28dfdc41c205f792f2a">matching_idx</a> = np.searchsorted(<a class="el" href="namespacesummarize.html#ae53fef8f1b1973ee5fef2b2a7d3e206e">sorted_nuclei_struct</a>, <a class="el" href="namespacesummarize.html#acacf6af42b2a985aa44eb9e0d14daadf">finab_struct</a>)</td></tr>
+<tr class="separator:a807da438d773e28dfdc41c205f792f2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a157acfb1d3284c4e2248aa77f8e67be8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesummarize.html#a157acfb1d3284c4e2248aa77f8e67be8">indices</a> = <a class="el" href="namespacesummarize.html#a75e9cac26085d7ff4a0a780b4f11626a">nuclei_sorted_idx</a>[<a class="el" href="namespacesummarize.html#a807da438d773e28dfdc41c205f792f2a">matching_idx</a>]</td></tr>
 <tr class="separator:a157acfb1d3284c4e2248aa77f8e67be8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a31bc3280a44bde5ea60e2fd3aaa93410"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesummarize.html#a31bc3280a44bde5ea60e2fd3aaa93410">maxshape</a></td></tr>
 <tr class="memdesc:a31bc3280a44bde5ea60e2fd3aaa93410"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run name ####.  <a href="namespacesummarize.html#a31bc3280a44bde5ea60e2fd3aaa93410">More...</a><br /></td></tr>
@@ -195,7 +207,7 @@ Variables</h2></td></tr>
 <tr class="separator:ae7010ee25c97022be91e32b4c64ac702"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a035fcd49ea9a776d626f2c20ec77660a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesummarize.html#a035fcd49ea9a776d626f2c20ec77660a">indexes</a> = np.searchsorted(<a class="el" href="namespacesummarize.html#ae7010ee25c97022be91e32b4c64ac702">snapstime</a>, <a class="el" href="namespacesummarize.html#a0e5c2c0502d7b6811c380b6f100a650a">snapshot_time</a>)</td></tr>
 <tr class="separator:a035fcd49ea9a776d626f2c20ec77660a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a068c88fe6a8b985ef37af4005740ebff"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesummarize.html#a068c88fe6a8b985ef37af4005740ebff">indices_nuclei</a> = np.where(np.in1d(data.A,nuclei_data.A) &amp; np.in1d(data.Z, nuclei_data.Z))[0]</td></tr>
+<tr class="memitem:a068c88fe6a8b985ef37af4005740ebff"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesummarize.html#a068c88fe6a8b985ef37af4005740ebff">indices_nuclei</a> = <a class="el" href="namespacesummarize.html#a75e9cac26085d7ff4a0a780b4f11626a">nuclei_sorted_idx</a>[<a class="el" href="namespacesummarize.html#a807da438d773e28dfdc41c205f792f2a">matching_idx</a>]</td></tr>
 <tr class="separator:a068c88fe6a8b985ef37af4005740ebff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa8a155ff0a3e5c1aaf5113b286d8a4aa"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesummarize.html#aa8a155ff0a3e5c1aaf5113b286d8a4aa">left</a></td></tr>
 <tr class="memdesc:aa8a155ff0a3e5c1aaf5113b286d8a4aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Other entries ####.  <a href="namespacesummarize.html#aa8a155ff0a3e5c1aaf5113b286d8a4aa">More...</a><br /></td></tr>
@@ -346,7 +358,23 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00335">335</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00350">350</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+
+</div>
+</div>
+<a id="a7bc4242a60fad49e92fb18ee75e0d056"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7bc4242a60fad49e92fb18ee75e0d056">&#9670;&nbsp;</a></span>dtype_nuclei</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">summarize.dtype_nuclei = np.dtype([('A', int), ('Z', int)])</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00282">282</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -362,7 +390,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00205">205</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00203">203</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -410,7 +438,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00276">276</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00274">274</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -426,7 +454,26 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00275">275</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00273">273</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+
+</div>
+</div>
+<a id="acacf6af42b2a985aa44eb9e0d14daadf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acacf6af42b2a985aa44eb9e0d14daadf">&#9670;&nbsp;</a></span>finab_struct</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">summarize.finab_struct = np.array(list(zip(data.finab[&quot;A&quot;].astype(int), data.finab[&quot;Z&quot;].astype(int))), <a class="el" href="namespacesummarize.html#a59827b4ae62c410e7cbdfc8c6ccf9153">dtype</a>=<a class="el" href="namespacesummarize.html#a7bc4242a60fad49e92fb18ee75e0d056">dtype_nuclei</a>)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Finab ####. </p>
+<p>Put the data in the finab_data, Notice that it should be at the right A and Z position A is contained in data.finab["A"] and Z in data.finab["Z"]. It should fit to the nuclei_data.A and nuclei_data.Z All of them are 1D arrays Getting indices where match occurs indices = [(np.where((nuclei_data.A.astype(int) == A) &amp; (nuclei_data.Z.astype(int) == Z))[0][0]) for A, Z in zip(data.finab["A"].astype(int), data.finab["Z"].astype(int))] </p>
+
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00316">316</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -506,7 +553,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00290">290</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00294">294</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -522,7 +569,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00368">368</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00383">383</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -533,15 +580,12 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">summarize.indices = np.where(np.in1d(data.finab[&quot;A&quot;],nuclei_data.A) &amp; np.in1d(data.finab[&quot;Z&quot;], nuclei_data.Z))[0]</td>
+          <td class="memname">summarize.indices = <a class="el" href="namespacesummarize.html#a75e9cac26085d7ff4a0a780b4f11626a">nuclei_sorted_idx</a>[<a class="el" href="namespacesummarize.html#a807da438d773e28dfdc41c205f792f2a">matching_idx</a>]</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Finab ####. </p>
-<p>Put the data in the finab_data, Notice that it should be at the right A and Z position A is contained in data.finab["A"] and Z in data.finab["Z"]. It should fit to the nuclei_data.A and nuclei_data.Z All of them are 1D arrays </p>
-
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00307">307</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00321">321</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -552,12 +596,12 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">summarize.indices_nuclei = np.where(np.in1d(data.A,nuclei_data.A) &amp; np.in1d(data.Z, nuclei_data.Z))[0]</td>
+          <td class="memname">summarize.indices_nuclei = <a class="el" href="namespacesummarize.html#a75e9cac26085d7ff4a0a780b4f11626a">nuclei_sorted_idx</a>[<a class="el" href="namespacesummarize.html#a807da438d773e28dfdc41c205f792f2a">matching_idx</a>]</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00370">370</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00391">391</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -591,7 +635,7 @@ Variables</h2></td></tr>
 
 <p>Other entries ####. </p>
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00396">396</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00418">418</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -643,6 +687,22 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="a807da438d773e28dfdc41c205f792f2a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a807da438d773e28dfdc41c205f792f2a">&#9670;&nbsp;</a></span>matching_idx</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">summarize.matching_idx = np.searchsorted(<a class="el" href="namespacesummarize.html#ae53fef8f1b1973ee5fef2b2a7d3e206e">sorted_nuclei_struct</a>, <a class="el" href="namespacesummarize.html#acacf6af42b2a985aa44eb9e0d14daadf">finab_struct</a>)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00319">319</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+
+</div>
+</div>
 <a id="a31bc3280a44bde5ea60e2fd3aaa93410"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a31bc3280a44bde5ea60e2fd3aaa93410">&#9670;&nbsp;</a></span>maxshape</h2>
 
@@ -661,7 +721,7 @@ Variables</h2></td></tr>
 <p>Finab ####.</p>
 <p>Save the run name </p>
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00315">315</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00330">330</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -677,7 +737,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00396">396</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00418">418</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -726,6 +786,38 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00147">147</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+
+</div>
+</div>
+<a id="a75e9cac26085d7ff4a0a780b4f11626a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a75e9cac26085d7ff4a0a780b4f11626a">&#9670;&nbsp;</a></span>nuclei_sorted_idx</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">summarize.nuclei_sorted_idx = np.argsort(<a class="el" href="namespacesummarize.html#a4f114a51ce2b59df53415a6aa719a6e7">nuclei_struct</a>)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00285">285</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+
+</div>
+</div>
+<a id="a4f114a51ce2b59df53415a6aa719a6e7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4f114a51ce2b59df53415a6aa719a6e7">&#9670;&nbsp;</a></span>nuclei_struct</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">summarize.nuclei_struct = np.array(list(zip(nuclei_data.A.astype(int), nuclei_data.Z.astype(int))), <a class="el" href="namespacesummarize.html#a59827b4ae62c410e7cbdfc8c6ccf9153">dtype</a>=<a class="el" href="namespacesummarize.html#a7bc4242a60fad49e92fb18ee75e0d056">dtype_nuclei</a>)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00283">283</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -789,7 +881,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00182">182</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00180">180</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -821,7 +913,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00396">396</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00418">418</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -837,7 +929,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00287">287</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00291">291</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -853,7 +945,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00286">286</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00290">290</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -885,7 +977,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00264">264</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00262">262</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -901,7 +993,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00254">254</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00252">252</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -919,7 +1011,23 @@ Variables</h2></td></tr>
 
 <p>Custom snapshots ####. </p>
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00366">366</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00381">381</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+
+</div>
+</div>
+<a id="ae53fef8f1b1973ee5fef2b2a7d3e206e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae53fef8f1b1973ee5fef2b2a7d3e206e">&#9670;&nbsp;</a></span>sorted_nuclei_struct</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">summarize.sorted_nuclei_struct = <a class="el" href="namespacesummarize.html#a4f114a51ce2b59df53415a6aa719a6e7">nuclei_struct</a>[<a class="el" href="namespacesummarize.html#a75e9cac26085d7ff4a0a780b4f11626a">nuclei_sorted_idx</a>]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00286">286</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -951,7 +1059,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00238">238</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00236">236</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>

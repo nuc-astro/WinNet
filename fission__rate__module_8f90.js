@@ -5,6 +5,7 @@ var fission__rate__module_8f90 =
     [ "abla_betafiss", "fission__rate__module_8f90.html#a3eccee43c86cd1e5ec4fc35e11c8ac8e", null ],
     [ "abla_nfiss", "fission__rate__module_8f90.html#a07f34766739ee866664d2edd5134257e", null ],
     [ "add_fission_fragments", "fission__rate__module_8f90.html#a56a55c06edae09a1540ee2db9ef7d4ff", null ],
+    [ "check_fission_mass_conservation", "fission__rate__module_8f90.html#ade62e67318ef02409f94a827b526dc81", null ],
     [ "count_fission_rates", "fission__rate__module_8f90.html#ad32a6a04e2414163ecffd8f083291673", null ],
     [ "count_fission_rates_halflife_format", "fission__rate__module_8f90.html#a2dbd5728daa5fdbff9298bcffefddef0", null ],
     [ "count_fission_rates_probability_format", "fission__rate__module_8f90.html#a0a751f5633cad35f24663f97245307e5", null ],
