@@ -357,7 +357,7 @@ for counter, d in enumerate(tqdm(dirs)):
 
     # Get numbers out from the run name
     try:
-        run_ids[ind % buffsize] = int(re.findall(r'\d+', d)[0])
+        run_ids[ind % buffsize] = int(re.findall(r'\d+', d)[-1])
     except:
         run_ids[ind % buffsize] = -1
 
