@@ -106,6 +106,7 @@ The error codes are translated to the following problems:
 <tr><td> W190015 <td> Unknown missing fragment distribution.
 <tr><td> W190016 <td> Fragment not specified in file.
 <tr><td> W190017 <td> Fission probability greater than 1.
+<tr><td> W190018 <td> Fission reaction violates mass.
 <tr><td> W220001 <td> Allocation failure.
 <tr><td> W240001 <td> Allocation failure.
 <tr><td> W240002 <td> Deallocation failure.
@@ -133,6 +134,8 @@ The error codes are translated to the following problems:
 <tr><td> W240005 <td> Detailed balance parameter turned off, but trying to calculate rate.
 <tr><td> W270003 <td> Value for interpolation was out of bounds.
 <tr><td> W270004 <td> Unknown interpolation type.
+<tr><td> W270005 <td> Unknown reverse interpolation method.
+<tr><td> W270006 <td> Root must be bracketed for Brents method.
 <tr><td> W280003 <td> Reaclib rate got infinity.
 <tr><td> W280004 <td> Fission rate got infinity.
 <tr><td> W280005 <td> n-induced fission rate got infinity.

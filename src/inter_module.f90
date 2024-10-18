@@ -20,7 +20,8 @@ module inter_module
       lininter_2D, cubinter_2D, get_indice_2D, &
       calc_derivative_2D, interp1d, inverse_interp1d
   private:: &
-      lininter, cubinter, makimainter, akimainter, pchipinter
+      lininter, cubinter, makimainter, akimainter, pchipinter, &
+      inverse_NR, inverse_brent
 
 contains
 
@@ -913,103 +914,298 @@ end function cubinter_2D
 !>
 !! The inverse of the 1D interpolation function.
 !!
-!! Finds the inverse of cubinter and returns the value of x.
-!! This is done by using a Newton-Raphson method.
-!!
-!! @note The result depends on xb, because x_i does not necessarily have
-!!       to be monotonic. The result is the closest value to xb
+!! Interface to the inverse interpolation functions using either
+!! Newton-Raphson or Brent's method.
 !!
 !! @author M. Reichert
+!! @date 16.10.2024
 !!
 !! @see timestep_module::restrict_timestep
 !!
-!! \b Edited:
-!!        - 24.11.15
-!!        - 30.01.23
-!! .
-subroutine inverse_interp1d (n,xp,xb,yp,res,flin,itype)
-   use parameter_class, only: interp_mode
-   implicit none
+subroutine inverse_interp1d (n,xp,xb,yp,res,flin,itype,reverse_type)
+    use parameter_class, only: interp_mode
+    use error_msg_class, only: raise_exception
+    implicit none
+    integer,intent(in)                    :: n            !< array sizes
+    real(r_kind),dimension(n),intent(in)  :: xp           !< array of log(x)-values
+    real(r_kind),intent(in)               :: xb           !< value of x
+    real(r_kind),dimension(n),intent(in)  :: yp           !< array of y-values
+    real(r_kind),intent(inout)            :: res          !< interpolated value of y
+    logical,intent(in),optional           :: flin         !< flag for linear interpolation
+    integer,intent(in),optional           :: itype        !< interpolation type
+    integer, intent(in),optional          :: reverse_type !< flag for reverse interpolation (1: NR, 2: Brent)
 
-   integer,intent(in)                    :: n    !< array sizes
-   real(r_kind),dimension(n),intent(in)  :: xp   !< array of log(x)-values
-   real(r_kind),intent(in)               :: xb   !< value of x
-   real(r_kind),dimension(n),intent(in)  :: yp   !< array of y-values
-   real(r_kind),intent(inout)            :: res  !< interpolated value of y
-   logical,intent(in),optional           :: flin !< flag for linear interpolation
-   integer,intent(in),optional           :: itype !< interpolation type
-   !
-   integer                   :: ii
-   integer, parameter        :: maxiter=50
-   real(r_kind)              :: x1,x2
-   real(r_kind)              :: m,y1,y2,xnew,b
-   real(r_kind),parameter    :: diff=1d-4
-   real(r_kind),parameter    :: tol =1d-10
-   logical                   :: converged
-   logical                   :: linear
-   integer                   :: interp_type
+    ! Internal variables
+    logical                   :: linear
+    integer                   :: interp_type
+    integer                   :: rtype
 
-     ! Set default values
+    ! Set default values
+    ! Default: Interpolation type as given by parameters
     if (.not. present(itype)) then
-       interp_type = interp_mode
+        interp_type = interp_mode
     else
-       interp_type = itype
+        interp_type = itype
     end if
 
+    ! Default: non-linear interpolation
     if (.not. present(flin)) then
-       linear = .false.
+        linear = .false.
     else
-       linear = flin
+        linear = flin
     end if
 
-    x1 = res
-    x2=x1+diff
-    converged = .false.
-
-    inner_loop: do ii=1,maxiter
-       ! Calculate slope
-       call interp1d(n,yp,x1,xp,y1,linear,interp_type)
-       call interp1d(n,yp,x2,xp,y2,linear,interp_type)
-       y1 = y1-xb
-       y2 = y2-xb
-       if (x1 .ne. x2) then
-            m  = (y1-y2)/(x1-x2)
-       else
-            converged = .False.
-            exit inner_loop
-       endif
-
-        ! calculate new x value
-        b  = y1-m*x1
-
-        ! Exit if the slope is zero
-        if (m .eq. 0) then
-            converged = .False.
-            ! Give a very large negative number
-            exit
-        end if
-
-        xnew = -b/m
-
-        ! Exit if converged
-        if (abs(x1-xnew) .lt. tol) then
-            converged = .True.
-            exit inner_loop
-        end if
-
-        ! Reshuffle variables if it is not converged
-        x1 = xnew
-        x2 = x1+diff
-    end do inner_loop
-
-    ! Take NR value if it converged
-    if (converged) then
-        res = xnew
+    ! Default: Newton-Raphson method
+    if (.not. present(reverse_type)) then
+        rtype = 1
     else
-        res = res
+        rtype = reverse_type
     end if
+
+    ! Call the reverse interpolation
+    if (rtype .eq. 1) then
+        call inverse_NR(n,xp,xb,yp,res,linear,interp_type)
+    else if (rtype .eq. 2) then
+        call inverse_brent(n,xp,xb,yp,res,linear,interp_type)
+    else
+        call raise_exception("Unknown reverse interpolation method.",&
+                             "inverse_interp1d", 270004)
+    end if
+
 
    return
 end subroutine inverse_interp1d
+
+
+
+!>
+!! The inverse of the 1D interpolation function.
+!!
+!! Finds the inverse of interp1d and returns the value of x.
+!! This is done by using a Newton-Raphson method.
+!!
+!! @note The result depends on xb, because x_i does not necessarily have
+!!       to be monotonic. The result should be the closest value to xb.
+!!       This is however not always the case in which brents method might be
+!!       more suitable.
+!!
+!! @author M. Reichert
+!!
+!! \b Edited:
+!!        - 30.01.23
+!! .
+subroutine inverse_NR (n,xp,xb,yp,res,flin,itype)
+    implicit none
+
+    integer,intent(in)                    :: n    !< array sizes
+    real(r_kind),dimension(n),intent(in)  :: xp   !< array of log(x)-values
+    real(r_kind),intent(in)               :: xb   !< value of x
+    real(r_kind),dimension(n),intent(in)  :: yp   !< array of y-values
+    real(r_kind),intent(inout)            :: res  !< interpolated value of y
+    logical,intent(in)                    :: flin !< flag for linear interpolation
+    integer,intent(in)                    :: itype !< interpolation type
+    !
+    integer                   :: ii
+    integer, parameter        :: maxiter=50
+    real(r_kind)              :: x1,x2
+    real(r_kind)              :: m,y1,y2,xnew,b
+    real(r_kind),parameter    :: diff=1d-4
+    real(r_kind),parameter    :: tol =1d-10
+    logical                   :: converged
+
+
+     x1 = res
+     x2=x1+diff
+     converged = .false.
+
+     inner_loop: do ii=1,maxiter
+        ! Calculate slope
+        call interp1d(n,yp,x1,xp,y1,flin,itype)
+        call interp1d(n,yp,x2,xp,y2,flin,itype)
+        y1 = y1-xb
+        y2 = y2-xb
+        if (x1 .ne. x2) then
+             m  = (y1-y2)/(x1-x2)
+        else
+             converged = .False.
+             exit inner_loop
+        endif
+
+         ! calculate new x value
+         b  = y1-m*x1
+
+         ! Exit if the slope is zero
+         if (m .eq. 0) then
+             converged = .False.
+             ! Give a very large negative number
+             exit
+         end if
+
+         xnew = -b/m
+
+         ! Exit if converged
+         if (abs(x1-xnew) .lt. tol) then
+             converged = .True.
+             exit inner_loop
+         end if
+
+         ! Reshuffle variables if it is not converged
+         x1 = xnew
+         x2 = x1+diff
+
+     end do inner_loop
+
+     ! Take NR value if it converged
+     if (converged) then
+         res = xnew
+     else
+         res = res
+     end if
+
+    return
+ end subroutine inverse_NR
+
+
+!>
+!! The inverse of the 1D interpolation function.
+!!
+!! Finds the inverse of interp1d and returns the value of x using Brent's method,
+!! a hybrid root-finding algorithm that combines the robustness of the bisection method
+!! with the speed of inverse quadratic interpolation and the secant method.
+!! Brent's method ensures that the root is bracketed at every iteration,
+!! providing a reliable and efficient way to converge on the solution.
+!! For more details, see the
+!! [wikipedia](https://en.wikipedia.org/wiki/Brent%27s_method) article.
+!!
+!! @note The result depends on xb, because x_i does not necessarily have
+!!       to be monotonic. The result should be the closest value to xb.
+!!
+!! @author M. Reichert
+!! @date 16.10.2024
+subroutine inverse_brent(n, xp, xb, yp, res, flin, itype)
+    use error_msg_class, only: raise_exception
+    implicit none
+    integer, intent(in)                    :: n    !< size of the array
+    real(r_kind), dimension(n), intent(in) :: xp   !< array of x-values
+    real(r_kind), dimension(n), intent(in) :: yp   !< array of y-values
+    real(r_kind), intent(in)               :: xb   !< target x-value for root finding
+    real(r_kind), intent(inout)            :: res  !< interpolated root result
+    logical,intent(in)                     :: flin !< flag for linear interpolation
+    integer,intent(in)                     :: itype!< interpolation type
+    ! Internal variables
+    real(r_kind)                           :: input_res
+    real(r_kind)                           :: y1, y2
+    integer                                :: ii
+    real(r_kind)                           :: a, b, c, d, fa, fb, fc, fs, s
+    real(r_kind)                           :: x1
+    logical                                :: mflag, converged
+    real(r_kind), parameter                :: tol=1d-10    !< tolerance for convergence
+    integer, parameter                     :: maxiter=100  !< Maximum allowed iterations
+
+    ! Save the input res
+    input_res = res
+
+    ! Initialize variables
+    ! Find value of res in yp
+    ii = minloc(abs(yp(:)-res),DIM=1)
+
+    a = yp(ii)   ! Assuming a starts at the index of "res"
+    b = yp(n)    ! Assuming b starts at the last x value
+    call interp1d(n,yp,a,xp,y1,flin,itype)
+    call interp1d(n,yp,b,xp,y2,flin,itype)
+
+    fa = y1 - xb
+    fb = y2 - xb
+
+    if (fa * fb >= 0.0d0) then
+      call raise_exception("Root must be bracketed in brents method.",&
+                           "inverse_brent", 270006)
+    endif
+
+    ! ! Swap a and b if necessary to ensure |f(a)| < |f(b)|
+    if (abs(fa) < abs(fb)) then
+      x1 = a
+      a = b
+      b = x1
+      call interp1d(n,yp,a,xp,y1,flin,itype)
+      call interp1d(n,yp,b,xp,y2,flin,itype)
+      fa = y1 - xb
+      fb = y2 - xb
+    endif
+
+    c = a
+    fc = fa
+    mflag = .true.
+    d = 0.0
+    ! Default: not converged
+    converged = .false.
+
+    ! Iteration loop
+    do ii = 1, maxiter
+      ! Check for convergence
+      if (abs(fb) < tol .or. abs(b - a) < tol) then
+        converged = .true.
+        res = b
+        exit
+      endif
+
+      ! Secant or inverse quadratic interpolation
+      if (fa /= fc .and. fb /= fc) then
+        s = a * fb * fc / ((fa - fb) * (fa - fc)) + &
+            b * fa * fc / ((fb - fa) * (fb - fc)) + &
+            c * fa * fb / ((fc - fa) * (fc - fb))
+      else
+        s = b - fb * (b - a) / (fb - fa)
+      endif
+
+      ! Check if the bisection method is needed
+      if ((s < (3.0 * a + b) / 4.0 .or. s > b) .or. &
+          (mflag .and. abs(s - b) >= abs(b - c) / 2.0) .or. &
+          (.not. mflag .and. abs(s - b) >= abs(c - d) / 2.0) .or. &
+          (mflag .and. abs(b - c) < tol) .or. &
+          (.not. mflag .and. abs(c - d) < tol)) then
+        ! Bisection method
+        s = (a + b) / 2.0
+        mflag = .true.
+      else
+        mflag = .false.
+      endif
+
+      ! Evaluate the function at the new point
+      call interp1d(n,yp,s,xp,y1,flin,itype)
+      fs = y1 - xb
+      d = c
+      c = b
+      fc = fb
+
+      ! Update a or b
+      if (fa * fs < 0.0) then
+        b = s
+        fb = fs
+      else
+        a = s
+        fa = fs
+      endif
+
+      ! Ensure |f(a)| < |f(b)|
+      if (abs(fa) < abs(fb)) then
+        x1 = a
+        a = b
+        b = x1
+        call interp1d(n,yp,a,xp,y1,flin,itype)
+        call interp1d(n,yp,b,xp,y2,flin,itype)
+        fa = y1 - xb
+        fb = y2 - xb
+      endif
+    end do
+
+    ! Check if it converged, if not keep the input estimate
+    if (.not. converged) then
+      res = input_res  ! Keep the previous result if no convergence
+    endif
+  end subroutine inverse_brent
+
+
+
 
 end module inter_module

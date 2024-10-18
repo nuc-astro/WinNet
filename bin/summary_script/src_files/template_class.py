@@ -33,7 +33,7 @@ class template(object):
                     continue
 
                 key = line.split("=")[0].strip()
-                value = line.split("=")[1].strip().replace('"', '')
+                value = line.split("=")[1].strip().replace('"', '').replace("'", "")
                 self.__entries[key] = value
 
     @property

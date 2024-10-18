@@ -176,8 +176,6 @@ else:
     mainout_time = np.logspace(np.log10(initial_time), np.log10(final_time), time_number)
 
 
-
-
 # Possible entries in the data
 possible_entries = []
 if not options.disable_mainout:
@@ -280,6 +278,12 @@ f_hdf["finab/A"] = nuclei_data.A
 f_hdf["finab/Z"] = nuclei_data.Z
 f_hdf["finab/N"] = nuclei_data.N
 
+# Prepare for efficient mapping
+dtype_nuclei = np.dtype([('A', int), ('Z', int)])
+nuclei_struct = np.array(list(zip(nuclei_data.A.astype(int), nuclei_data.Z.astype(int))), dtype=dtype_nuclei)
+# Sort the structured nuclei array and get sorting indices
+nuclei_sorted_idx = np.argsort(nuclei_struct)
+sorted_nuclei_struct = nuclei_struct[nuclei_sorted_idx]
 
 # Create array that will contain the names of the runs
 # Array of strings:
@@ -304,9 +308,20 @@ for counter, d in enumerate(tqdm(dirs)):
     # Put the data in the finab_data, Notice that it should be at the right A and Z position
     # A is contained in data.finab["A"] and Z in data.finab["Z"]. It should fit to the nuclei_data.A and nuclei_data.Z
     # All of them are 1D arrays
-    indices = np.where(np.in1d(data.finab["A"],nuclei_data.A) & np.in1d(data.finab["Z"], nuclei_data.Z))[0]
-    finab_data_Y[indices,ind % buffsize] = data.finab["Y"][indices]
-    finab_data_X[indices,ind % buffsize] = data.finab["X"][indices]
+    # Getting indices where match occurs
+    # indices = [(np.where((nuclei_data.A.astype(int) == A) & (nuclei_data.Z.astype(int) == Z))[0][0])
+    #            for A, Z in zip(data.finab["A"].astype(int), data.finab["Z"].astype(int))]
+
+    # Convert the finab data to structured array
+    finab_struct = np.array(list(zip(data.finab["A"].astype(int), data.finab["Z"].astype(int))), dtype=dtype_nuclei)
+    # Find the matching indices
+    # Use np.searchsorted to find matching indices
+    matching_idx = np.searchsorted(sorted_nuclei_struct, finab_struct)
+    # Recover the original indices from the sorted index
+    indices = nuclei_sorted_idx[matching_idx]
+
+    finab_data_Y[indices,ind % buffsize] = data.finab["Y"][:]
+    finab_data_X[indices,ind % buffsize] = data.finab["X"][:]
 
     # Check if the finab_data is full and write it to the hdf5 file
     if ind % buffsize == 0 and ind != 0:
@@ -342,7 +357,7 @@ for counter, d in enumerate(tqdm(dirs)):
 
     # Get numbers out from the run name
     try:
-        run_ids[ind % buffsize] = int(re.findall(r'\d+', d)[0])
+        run_ids[ind % buffsize] = int(re.findall(r'\d+', d)[-1])
     except:
         run_ids[ind % buffsize] = -1
 
@@ -366,24 +381,31 @@ for counter, d in enumerate(tqdm(dirs)):
         snapstime = data.snapshot_time
         # Now get the indexes of the entries that agree with snapshot_time
         indexes = np.searchsorted(snapstime, snapshot_time)
-        # Put the data in the snapshot_data
-        indices_nuclei = np.where(np.in1d(data.A,nuclei_data.A) & np.in1d(data.Z, nuclei_data.Z))[0]
+
+        # Convert the snapshot data to structured array
+        finab_struct = np.array(list(zip(data.A.astype(int), data.Z.astype(int))), dtype=dtype_nuclei)
+        # Find the matching indices
+        # Use np.searchsorted to find matching indices
+        matching_idx = np.searchsorted(sorted_nuclei_struct, finab_struct)
+        # Recover the original indices from the sorted index
+        indices_nuclei = nuclei_sorted_idx[matching_idx]
+
         # Store it
-        snapshot_data[:,:,ind % buffsize] = data.Y[indexes][:, indices_nuclei].T
+        snapshot_data[indices_nuclei,:,ind % buffsize] = data.Y[indexes][:, :].T
 
         # Check if the snapshot_data is full and write it to the hdf5 file
         if ind % buffsize == 0 and ind != 0:
             # Check if the dataset is already created and if not create it
-            if "snapshot/Y" not in f_hdf:
-                f_hdf.create_dataset("snapshot/Y", (len(nuclei),len(snapshot_time),ind+1), maxshape=(len(nuclei),len(snapshot_time),None))
-                f_hdf.create_dataset("snapshot/X", (len(nuclei),len(snapshot_time),ind+1), maxshape=(len(nuclei),len(snapshot_time),None))
+            if "snapshots/Y" not in f_hdf:
+                f_hdf.create_dataset("snapshots/Y", (len(nuclei),len(snapshot_time),ind+1), maxshape=(len(nuclei),len(snapshot_time),None))
+                f_hdf.create_dataset("snapshots/X", (len(nuclei),len(snapshot_time),ind+1), maxshape=(len(nuclei),len(snapshot_time),None))
             # If necessary extend the dataset
             if ind > buffsize:
-                f_hdf["snapshot/Y"].resize((len(nuclei),len(snapshot_time),ind+1))
-                f_hdf["snapshot/X"].resize((len(nuclei),len(snapshot_time),ind+1))
+                f_hdf["snapshots/Y"].resize((len(nuclei),len(snapshot_time),ind+1))
+                f_hdf["snapshots/X"].resize((len(nuclei),len(snapshot_time),ind+1))
             # Write the data to the hdf5 file
-            f_hdf["snapshot/Y"][:,:,ind-buffsize:ind] = snapshot_data
-            f_hdf["snapshot/X"][:,:,ind-buffsize:ind] = snapshot_data*nuclei_data.A[:,np.newaxis,np.newaxis]
+            f_hdf["snapshots/Y"][:,:,ind-buffsize:ind] = snapshot_data
+            f_hdf["snapshots/X"][:,:,ind-buffsize:ind] = snapshot_data*nuclei_data.A[:,np.newaxis,np.newaxis]
 
 
 
@@ -462,19 +484,19 @@ else:
 ##########################
 
 if summarize_snapshots:
-    if "snapshot/Y" not in f_hdf:
-        f_hdf.create_dataset("snapshot/Y", (len(nuclei),len(snapshot_time),ind+1), maxshape=(len(nuclei),len(snapshot_time),None))
-        f_hdf.create_dataset("snapshot/X", (len(nuclei),len(snapshot_time),ind+1), maxshape=(len(nuclei),len(snapshot_time),None))
+    if "snapshots/Y" not in f_hdf:
+        f_hdf.create_dataset("snapshots/Y", (len(nuclei),len(snapshot_time),ind+1), maxshape=(len(nuclei),len(snapshot_time),None))
+        f_hdf.create_dataset("snapshots/X", (len(nuclei),len(snapshot_time),ind+1), maxshape=(len(nuclei),len(snapshot_time),None))
     else:
-        f_hdf["snapshot/Y"].resize((len(nuclei),len(snapshot_time),ind+1))
-        f_hdf["snapshot/X"].resize((len(nuclei),len(snapshot_time),ind+1))
+        f_hdf["snapshots/Y"].resize((len(nuclei),len(snapshot_time),ind+1))
+        f_hdf["snapshots/X"].resize((len(nuclei),len(snapshot_time),ind+1))
     # Write the missing entries
     if ind>buffsize:
-        f_hdf["snapshot/Y"][:,:,ind-buffsize+1:ind+1] = snapshot_data[:,:,:buffsize]
-        f_hdf["snapshot/X"][:,:,ind-buffsize+1:ind+1] = snapshot_data[:,:,:buffsize]*nuclei_data.A[:,np.newaxis,np.newaxis]
+        f_hdf["snapshots/Y"][:,:,ind-buffsize+1:ind+1] = snapshot_data[:,:,:buffsize]
+        f_hdf["snapshots/X"][:,:,ind-buffsize+1:ind+1] = snapshot_data[:,:,:buffsize]*nuclei_data.A[:,np.newaxis,np.newaxis]
     else:
-        f_hdf["snapshot/Y"][:,:,:ind+1] = snapshot_data[:,:,:ind+1]
-        f_hdf["snapshot/X"][:,:,:ind+1] = snapshot_data[:,:,:ind+1]*nuclei_data.A[:,np.newaxis,np.newaxis]
+        f_hdf["snapshots/Y"][:,:,:ind+1] = snapshot_data[:,:,:ind+1]
+        f_hdf["snapshots/X"][:,:,:ind+1] = snapshot_data[:,:,:ind+1]*nuclei_data.A[:,np.newaxis,np.newaxis]
 
 
 #### Other entries ####

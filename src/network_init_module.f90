@@ -315,7 +315,8 @@ logical                               :: init,converged
          ! within 0.0001 of the desired temperature?
          if (abs(T9_i-initemp_hot) .gt. 1d-9) then
            ! Get the correct time
-           call inverse_interp1d(zsteps,ztemp,initemp_hot*(1+1d-9),ztime,t_i)
+           ! Better use Brent's method (reverse_type=2) as it respects boundaries
+           call inverse_interp1d(zsteps,ztemp,initemp_hot*(1+1d-9),ztime,t_i,reverse_type=2)
            ! Get the correct temperature, density, radius, ye
            call interp1d (zsteps,ztime,t_i,ztemp,T9_i)
            call interp1d (zsteps,ztime,t_i,zdens,rho_i)
