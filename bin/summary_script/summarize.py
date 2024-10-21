@@ -312,17 +312,6 @@ for counter, d in enumerate(tqdm(dirs)):
     # indices = [(np.where((nuclei_data.A.astype(int) == A) & (nuclei_data.Z.astype(int) == Z))[0][0])
     #            for A, Z in zip(data.finab["A"].astype(int), data.finab["Z"].astype(int))]
 
-    # Convert the finab data to structured array
-    finab_struct = np.array(list(zip(data.finab["A"].astype(int), data.finab["Z"].astype(int))), dtype=dtype_nuclei)
-    # Find the matching indices
-    # Use np.searchsorted to find matching indices
-    matching_idx = np.searchsorted(sorted_nuclei_struct, finab_struct)
-    # Recover the original indices from the sorted index
-    indices = nuclei_sorted_idx[matching_idx]
-
-    finab_data_Y[indices,ind % buffsize] = data.finab["Y"][:]
-    finab_data_X[indices,ind % buffsize] = data.finab["X"][:]
-
     # Check if the finab_data is full and write it to the hdf5 file
     if ind % buffsize == 0 and ind != 0:
         # Check if the dataset is already created and if not create it
@@ -337,11 +326,19 @@ for counter, d in enumerate(tqdm(dirs)):
         f_hdf["finab/Y"][:,ind-buffsize:ind] = finab_data_Y
         f_hdf["finab/X"][:,ind-buffsize:ind] = finab_data_X
 
+    # Convert the finab data to structured array
+    finab_struct = np.array(list(zip(data.finab["A"].astype(int), data.finab["Z"].astype(int))), dtype=dtype_nuclei)
+    # Find the matching indices
+    # Use np.searchsorted to find matching indices
+    matching_idx = np.searchsorted(sorted_nuclei_struct, finab_struct)
+    # Recover the original indices from the sorted index
+    indices = nuclei_sorted_idx[matching_idx]
+
+    finab_data_Y[indices,ind % buffsize] = data.finab["Y"][:]
+    finab_data_X[indices,ind % buffsize] = data.finab["X"][:]
 
     #### Run name ####
     ##################
-    # Save the run name
-    run_names[ind % buffsize] = d
 
     # Check if the run_names is full and write it to the hdf5 file
     if ind % buffsize == 0 and ind != 0:
@@ -354,12 +351,12 @@ for counter, d in enumerate(tqdm(dirs)):
         # Write the data to the hdf5 file
         f_hdf["run_names"][ind-buffsize:ind] = run_names
 
+    # Save the run name
+    run_names[ind % buffsize] = d
+
+
 
     # Get numbers out from the run name
-    try:
-        run_ids[ind % buffsize] = int(re.findall(r'\d+', d)[-1])
-    except:
-        run_ids[ind % buffsize] = -1
 
     # Check if the run_ids is full and write it to the hdf5 file
     if ind % buffsize == 0 and ind != 0:
@@ -372,6 +369,10 @@ for counter, d in enumerate(tqdm(dirs)):
         # Write the data to the hdf5 file
         f_hdf["run_ids"][ind-buffsize:ind] = run_ids
 
+    try:
+        run_ids[ind % buffsize] = int(re.findall(r'\d+', d)[-1])
+    except:
+        run_ids[ind % buffsize] = -1
 
     #### Custom snapshots ####
     ##########################
@@ -390,9 +391,6 @@ for counter, d in enumerate(tqdm(dirs)):
         # Recover the original indices from the sorted index
         indices_nuclei = nuclei_sorted_idx[matching_idx]
 
-        # Store it
-        snapshot_data[indices_nuclei,:,ind % buffsize] = data.Y[indexes][:, :].T
-
         # Check if the snapshot_data is full and write it to the hdf5 file
         if ind % buffsize == 0 and ind != 0:
             # Check if the dataset is already created and if not create it
@@ -407,16 +405,14 @@ for counter, d in enumerate(tqdm(dirs)):
             f_hdf["snapshots/Y"][:,:,ind-buffsize:ind] = snapshot_data
             f_hdf["snapshots/X"][:,:,ind-buffsize:ind] = snapshot_data*nuclei_data.A[:,np.newaxis,np.newaxis]
 
+        # Store it
+        snapshot_data[indices_nuclei,:,ind % buffsize] = data.Y[indexes][:, :].T
 
 
     #### Other entries ####
     #######################
 
     for entry in entry_dict.keys():
-        # Put the data in the data_dict
-        for key in entry_dict[entry].keys():
-            entry_dict[entry][key][:,ind % buffsize] = np.interp(mainout_time,data[entry]["time"],data[entry][key],left=np.nan,right=np.nan)
-
         # Check if the data_dict is full and write it to the hdf5 file
         if ind % buffsize == 0 and ind != 0:
             for key in entry_dict[entry].keys():
@@ -428,6 +424,10 @@ for counter, d in enumerate(tqdm(dirs)):
                     f_hdf[entry+"/"+key].resize((len(mainout_time),ind+1))
                 # Write the data to the hdf5 file
                 f_hdf[entry+"/"+key][:,ind-buffsize:ind] = entry_dict[entry][key]
+
+        # Put the data in the data_dict
+        for key in entry_dict[entry].keys():
+            entry_dict[entry][key][:,ind % buffsize] = np.interp(mainout_time,data[entry]["time"],data[entry][key],left=np.nan,right=np.nan)
 
 
 

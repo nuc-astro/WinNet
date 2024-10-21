@@ -384,7 +384,7 @@ logical                               :: init,converged
        evolution_mode= EM_NETHOT
        if (T9.gt.nsetemp_cold) evolution_mode= EM_NSE
     else
-       if (VERBOSE_LEVEL.ge.1) call write_data_to_std_out("Initial abundance source","NSE")
+
        Y(1:net_size)= 0.d0
        Y(ineu)= 1.d0-Ye  ! abundance of neutrons
        Y(ipro)= Ye       ! abundance of protons
@@ -393,10 +393,16 @@ logical                               :: init,converged
           if (VERBOSE_LEVEL.ge.1) then
              call write_data_to_std_out("Evolution mode","NSE")
           endif
+          if (VERBOSE_LEVEL.ge.1) call write_data_to_std_out("Initial abundance source","NSE")
           call winnse_guess(T9, rhob, Ye, Y(ineu), Y(ipro), Y)
           do i=1,net_size
              if(Y(i).lt.1.d-25) Y(i)=0.d0
           enddo
+        else
+          if (VERBOSE_LEVEL.ge.1) then
+             call write_data_to_std_out("Evolution mode","Network")
+          endif
+          if (VERBOSE_LEVEL.ge.1) call write_data_to_std_out("Initial abundance source","Nucleons")
        endif
     endif
     Y_p(1:net_size)= Y(1:net_size)
