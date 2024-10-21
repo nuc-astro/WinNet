@@ -411,122 +411,122 @@ $(document).ready(function(){initNavTree('summarize_8py_source.html',''); initRe
 <div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;<span class="comment">    # indices = [(np.where((nuclei_data.A.astype(int) == A) &amp; (nuclei_data.Z.astype(int) == Z))[0][0])</span></div>
 <div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;<span class="comment">    #            for A, Z in zip(data.finab[&quot;A&quot;].astype(int), data.finab[&quot;Z&quot;].astype(int))]</span></div>
 <div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160; </div>
-<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;    <span class="comment"># Convert the finab data to structured array</span></div>
-<div class="line"><a name="l00316"></a><span class="lineno"><a class="line" href="namespacesummarize.html#acacf6af42b2a985aa44eb9e0d14daadf">  316</a></span>&#160;    finab_struct = np.array(list(zip(data.finab[<span class="stringliteral">&quot;A&quot;</span>].astype(int), data.finab[<span class="stringliteral">&quot;Z&quot;</span>].astype(int))), dtype=dtype_nuclei)</div>
-<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;    <span class="comment"># Find the matching indices</span></div>
-<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;    <span class="comment"># Use np.searchsorted to find matching indices</span></div>
-<div class="line"><a name="l00319"></a><span class="lineno"><a class="line" href="namespacesummarize.html#a807da438d773e28dfdc41c205f792f2a">  319</a></span>&#160;    matching_idx = np.searchsorted(sorted_nuclei_struct, finab_struct)</div>
-<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;    <span class="comment"># Recover the original indices from the sorted index</span></div>
-<div class="line"><a name="l00321"></a><span class="lineno"><a class="line" href="namespacesummarize.html#a157acfb1d3284c4e2248aa77f8e67be8">  321</a></span>&#160;    indices = nuclei_sorted_idx[matching_idx]</div>
-<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160; </div>
-<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;    finab_data_Y[indices,ind % buffsize] = data.finab[<span class="stringliteral">&quot;Y&quot;</span>][:]</div>
-<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;    finab_data_X[indices,ind % buffsize] = data.finab[<span class="stringliteral">&quot;X&quot;</span>][:]</div>
-<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160; </div>
-<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;    <span class="comment"># Check if the finab_data is full and write it to the hdf5 file</span></div>
-<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;    <span class="keywordflow">if</span> ind % buffsize == 0 <span class="keywordflow">and</span> ind != 0:</div>
-<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;        <span class="comment"># Check if the dataset is already created and if not create it</span></div>
-<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;        <span class="keywordflow">if</span> <span class="stringliteral">&quot;finab/Y&quot;</span> <span class="keywordflow">not</span> <span class="keywordflow">in</span> f_hdf:</div>
-<div class="line"><a name="l00330"></a><span class="lineno"><a class="line" href="namespacesummarize.html#a31bc3280a44bde5ea60e2fd3aaa93410">  330</a></span>&#160;            f_hdf.create_dataset(<span class="stringliteral">&quot;finab/Y&quot;</span>, (len(nuclei),ind+1), maxshape=(len(nuclei),<span class="keywordtype">None</span>))</div>
-<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;            f_hdf.create_dataset(<span class="stringliteral">&quot;finab/X&quot;</span>, (len(nuclei),ind+1), maxshape=(len(nuclei),<span class="keywordtype">None</span>))</div>
-<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;        <span class="comment"># If necessary extend the dataset</span></div>
-<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;        <span class="keywordflow">if</span> ind &gt; buffsize:</div>
-<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;            f_hdf[<span class="stringliteral">&quot;finab/Y&quot;</span>].resize((len(nuclei),ind+1))</div>
-<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;            f_hdf[<span class="stringliteral">&quot;finab/X&quot;</span>].resize((len(nuclei),ind+1))</div>
-<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;        <span class="comment"># Write the data to the hdf5 file</span></div>
-<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;        f_hdf[<span class="stringliteral">&quot;finab/Y&quot;</span>][:,ind-buffsize:ind] = finab_data_Y</div>
-<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;        f_hdf[<span class="stringliteral">&quot;finab/X&quot;</span>][:,ind-buffsize:ind] = finab_data_X</div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;    <span class="comment"># Check if the finab_data is full and write it to the hdf5 file</span></div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;    <span class="keywordflow">if</span> ind % buffsize == 0 <span class="keywordflow">and</span> ind != 0:</div>
+<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;        <span class="comment"># Check if the dataset is already created and if not create it</span></div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;        <span class="keywordflow">if</span> <span class="stringliteral">&quot;finab/Y&quot;</span> <span class="keywordflow">not</span> <span class="keywordflow">in</span> f_hdf:</div>
+<div class="line"><a name="l00319"></a><span class="lineno"><a class="line" href="namespacesummarize.html#a31bc3280a44bde5ea60e2fd3aaa93410">  319</a></span>&#160;            f_hdf.create_dataset(<span class="stringliteral">&quot;finab/Y&quot;</span>, (len(nuclei),ind+1), maxshape=(len(nuclei),<span class="keywordtype">None</span>))</div>
+<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;            f_hdf.create_dataset(<span class="stringliteral">&quot;finab/X&quot;</span>, (len(nuclei),ind+1), maxshape=(len(nuclei),<span class="keywordtype">None</span>))</div>
+<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;        <span class="comment"># If necessary extend the dataset</span></div>
+<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;        <span class="keywordflow">if</span> ind &gt; buffsize:</div>
+<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;            f_hdf[<span class="stringliteral">&quot;finab/Y&quot;</span>].resize((len(nuclei),ind+1))</div>
+<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;            f_hdf[<span class="stringliteral">&quot;finab/X&quot;</span>].resize((len(nuclei),ind+1))</div>
+<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;        <span class="comment"># Write the data to the hdf5 file</span></div>
+<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;        f_hdf[<span class="stringliteral">&quot;finab/Y&quot;</span>][:,ind-buffsize:ind] = finab_data_Y</div>
+<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;        f_hdf[<span class="stringliteral">&quot;finab/X&quot;</span>][:,ind-buffsize:ind] = finab_data_X</div>
+<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160; </div>
+<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;    <span class="comment"># Convert the finab data to structured array</span></div>
+<div class="line"><a name="l00330"></a><span class="lineno"><a class="line" href="namespacesummarize.html#acacf6af42b2a985aa44eb9e0d14daadf">  330</a></span>&#160;    finab_struct = np.array(list(zip(data.finab[<span class="stringliteral">&quot;A&quot;</span>].astype(int), data.finab[<span class="stringliteral">&quot;Z&quot;</span>].astype(int))), dtype=dtype_nuclei)</div>
+<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;    <span class="comment"># Find the matching indices</span></div>
+<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;    <span class="comment"># Use np.searchsorted to find matching indices</span></div>
+<div class="line"><a name="l00333"></a><span class="lineno"><a class="line" href="namespacesummarize.html#a807da438d773e28dfdc41c205f792f2a">  333</a></span>&#160;    matching_idx = np.searchsorted(sorted_nuclei_struct, finab_struct)</div>
+<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;    <span class="comment"># Recover the original indices from the sorted index</span></div>
+<div class="line"><a name="l00335"></a><span class="lineno"><a class="line" href="namespacesummarize.html#a157acfb1d3284c4e2248aa77f8e67be8">  335</a></span>&#160;    indices = nuclei_sorted_idx[matching_idx]</div>
+<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160; </div>
+<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;    finab_data_Y[indices,ind % buffsize] = data.finab[<span class="stringliteral">&quot;Y&quot;</span>][:]</div>
+<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;    finab_data_X[indices,ind % buffsize] = data.finab[<span class="stringliteral">&quot;X&quot;</span>][:]</div>
 <div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160; </div>
-<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160; </div>
-<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;    <span class="comment">#### Run name ####</span></div>
-<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;<span class="comment">    ##################</span></div>
-<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;<span class="comment">    # Save the run name</span></div>
-<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;    run_names[ind % buffsize] = d</div>
-<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160; </div>
-<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;    <span class="comment"># Check if the run_names is full and write it to the hdf5 file</span></div>
-<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;    <span class="keywordflow">if</span> ind % buffsize == 0 <span class="keywordflow">and</span> ind != 0:</div>
-<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;        <span class="comment"># Check if the dataset is already created and if not create it</span></div>
-<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;        <span class="keywordflow">if</span> <span class="stringliteral">&quot;run_names&quot;</span> <span class="keywordflow">not</span> <span class="keywordflow">in</span> f_hdf:</div>
-<div class="line"><a name="l00350"></a><span class="lineno"><a class="line" href="namespacesummarize.html#a59827b4ae62c410e7cbdfc8c6ccf9153">  350</a></span>&#160;            f_hdf.create_dataset(<span class="stringliteral">&quot;run_names&quot;</span>, (ind+1,), maxshape=(<span class="keywordtype">None</span>,),dtype=<span class="stringliteral">&quot;S100&quot;</span>)</div>
-<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;        <span class="comment"># If necessary extend the dataset</span></div>
-<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;        <span class="keywordflow">if</span> ind &gt; buffsize:</div>
-<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;            f_hdf[<span class="stringliteral">&quot;run_names&quot;</span>].resize((ind+1,))</div>
-<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;        <span class="comment"># Write the data to the hdf5 file</span></div>
-<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;        f_hdf[<span class="stringliteral">&quot;run_names&quot;</span>][ind-buffsize:ind] = run_names</div>
+<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;    <span class="comment">#### Run name ####</span></div>
+<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;<span class="comment">    ##################</span></div>
+<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160; </div>
+<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;    <span class="comment"># Check if the run_names is full and write it to the hdf5 file</span></div>
+<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;    <span class="keywordflow">if</span> ind % buffsize == 0 <span class="keywordflow">and</span> ind != 0:</div>
+<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;        <span class="comment"># Check if the dataset is already created and if not create it</span></div>
+<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;        <span class="keywordflow">if</span> <span class="stringliteral">&quot;run_names&quot;</span> <span class="keywordflow">not</span> <span class="keywordflow">in</span> f_hdf:</div>
+<div class="line"><a name="l00347"></a><span class="lineno"><a class="line" href="namespacesummarize.html#a59827b4ae62c410e7cbdfc8c6ccf9153">  347</a></span>&#160;            f_hdf.create_dataset(<span class="stringliteral">&quot;run_names&quot;</span>, (ind+1,), maxshape=(<span class="keywordtype">None</span>,),dtype=<span class="stringliteral">&quot;S100&quot;</span>)</div>
+<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;        <span class="comment"># If necessary extend the dataset</span></div>
+<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;        <span class="keywordflow">if</span> ind &gt; buffsize:</div>
+<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;            f_hdf[<span class="stringliteral">&quot;run_names&quot;</span>].resize((ind+1,))</div>
+<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;        <span class="comment"># Write the data to the hdf5 file</span></div>
+<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;        f_hdf[<span class="stringliteral">&quot;run_names&quot;</span>][ind-buffsize:ind] = run_names</div>
+<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160; </div>
+<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;    <span class="comment"># Save the run name</span></div>
+<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;    run_names[ind % buffsize] = d</div>
 <div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160; </div>
 <div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160; </div>
-<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;    <span class="comment"># Get numbers out from the run name</span></div>
-<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;    <span class="keywordflow">try</span>:</div>
-<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;        run_ids[ind % buffsize] = int(re.findall(<span class="stringliteral">r&#39;\d+&#39;</span>, d)[-1])</div>
-<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;    <span class="keywordflow">except</span>:</div>
-<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;        run_ids[ind % buffsize] = -1</div>
-<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160; </div>
-<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;    <span class="comment"># Check if the run_ids is full and write it to the hdf5 file</span></div>
-<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;    <span class="keywordflow">if</span> ind % buffsize == 0 <span class="keywordflow">and</span> ind != 0:</div>
-<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;        <span class="comment"># Check if the dataset is already created and if not create it</span></div>
-<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;        <span class="keywordflow">if</span> <span class="stringliteral">&quot;run_ids&quot;</span> <span class="keywordflow">not</span> <span class="keywordflow">in</span> f_hdf:</div>
-<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;            f_hdf.create_dataset(<span class="stringliteral">&quot;run_ids&quot;</span>, (ind+1,), maxshape=(<span class="keywordtype">None</span>,),dtype=int)</div>
-<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;        <span class="comment"># If necessary extend the dataset</span></div>
-<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;        <span class="keywordflow">if</span> ind &gt; buffsize:</div>
-<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;            f_hdf[<span class="stringliteral">&quot;run_ids&quot;</span>].resize((ind+1,))</div>
-<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;        <span class="comment"># Write the data to the hdf5 file</span></div>
-<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;        f_hdf[<span class="stringliteral">&quot;run_ids&quot;</span>][ind-buffsize:ind] = run_ids</div>
-<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160; </div>
-<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160; </div>
-<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;    <span class="comment">#### Custom snapshots ####</span></div>
-<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;<span class="comment">    ##########################</span></div>
-<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160; </div>
-<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;    <span class="keywordflow">if</span> summarize_snapshots:</div>
-<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;        <span class="comment"># Get the time of the snapshots</span></div>
-<div class="line"><a name="l00381"></a><span class="lineno"><a class="line" href="namespacesummarize.html#ae7010ee25c97022be91e32b4c64ac702">  381</a></span>&#160;        snapstime = data.snapshot_time</div>
-<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;        <span class="comment"># Now get the indexes of the entries that agree with snapshot_time</span></div>
-<div class="line"><a name="l00383"></a><span class="lineno"><a class="line" href="namespacesummarize.html#a035fcd49ea9a776d626f2c20ec77660a">  383</a></span>&#160;        indexes = np.searchsorted(snapstime, snapshot_time)</div>
-<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160; </div>
-<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;        <span class="comment"># Convert the snapshot data to structured array</span></div>
-<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;        finab_struct = np.array(list(zip(data.A.astype(int), data.Z.astype(int))), dtype=dtype_nuclei)</div>
-<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;        <span class="comment"># Find the matching indices</span></div>
-<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;        <span class="comment"># Use np.searchsorted to find matching indices</span></div>
-<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;        matching_idx = np.searchsorted(sorted_nuclei_struct, finab_struct)</div>
-<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;        <span class="comment"># Recover the original indices from the sorted index</span></div>
-<div class="line"><a name="l00391"></a><span class="lineno"><a class="line" href="namespacesummarize.html#a068c88fe6a8b985ef37af4005740ebff">  391</a></span>&#160;        indices_nuclei = nuclei_sorted_idx[matching_idx]</div>
-<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160; </div>
-<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;        <span class="comment"># Store it</span></div>
-<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;        snapshot_data[indices_nuclei,:,ind % buffsize] = data.Y[indexes][:, :].T</div>
-<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160; </div>
-<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;        <span class="comment"># Check if the snapshot_data is full and write it to the hdf5 file</span></div>
-<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;        <span class="keywordflow">if</span> ind % buffsize == 0 <span class="keywordflow">and</span> ind != 0:</div>
-<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;            <span class="comment"># Check if the dataset is already created and if not create it</span></div>
-<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;            <span class="keywordflow">if</span> <span class="stringliteral">&quot;snapshots/Y&quot;</span> <span class="keywordflow">not</span> <span class="keywordflow">in</span> f_hdf:</div>
-<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;                f_hdf.create_dataset(<span class="stringliteral">&quot;snapshots/Y&quot;</span>, (len(nuclei),len(snapshot_time),ind+1), maxshape=(len(nuclei),len(snapshot_time),<span class="keywordtype">None</span>))</div>
-<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;                f_hdf.create_dataset(<span class="stringliteral">&quot;snapshots/X&quot;</span>, (len(nuclei),len(snapshot_time),ind+1), maxshape=(len(nuclei),len(snapshot_time),<span class="keywordtype">None</span>))</div>
-<div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;            <span class="comment"># If necessary extend the dataset</span></div>
-<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;            <span class="keywordflow">if</span> ind &gt; buffsize:</div>
-<div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160;                f_hdf[<span class="stringliteral">&quot;snapshots/Y&quot;</span>].resize((len(nuclei),len(snapshot_time),ind+1))</div>
-<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;                f_hdf[<span class="stringliteral">&quot;snapshots/X&quot;</span>].resize((len(nuclei),len(snapshot_time),ind+1))</div>
-<div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;            <span class="comment"># Write the data to the hdf5 file</span></div>
-<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;            f_hdf[<span class="stringliteral">&quot;snapshots/Y&quot;</span>][:,:,ind-buffsize:ind] = snapshot_data</div>
-<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;            f_hdf[<span class="stringliteral">&quot;snapshots/X&quot;</span>][:,:,ind-buffsize:ind] = snapshot_data*nuclei_data.A[:,np.newaxis,np.newaxis]</div>
-<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160; </div>
+<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160; </div>
+<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;    <span class="comment"># Get numbers out from the run name</span></div>
+<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160; </div>
+<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;    <span class="comment"># Check if the run_ids is full and write it to the hdf5 file</span></div>
+<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;    <span class="keywordflow">if</span> ind % buffsize == 0 <span class="keywordflow">and</span> ind != 0:</div>
+<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;        <span class="comment"># Check if the dataset is already created and if not create it</span></div>
+<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;        <span class="keywordflow">if</span> <span class="stringliteral">&quot;run_ids&quot;</span> <span class="keywordflow">not</span> <span class="keywordflow">in</span> f_hdf:</div>
+<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;            f_hdf.create_dataset(<span class="stringliteral">&quot;run_ids&quot;</span>, (ind+1,), maxshape=(<span class="keywordtype">None</span>,),dtype=int)</div>
+<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;        <span class="comment"># If necessary extend the dataset</span></div>
+<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;        <span class="keywordflow">if</span> ind &gt; buffsize:</div>
+<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;            f_hdf[<span class="stringliteral">&quot;run_ids&quot;</span>].resize((ind+1,))</div>
+<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;        <span class="comment"># Write the data to the hdf5 file</span></div>
+<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;        f_hdf[<span class="stringliteral">&quot;run_ids&quot;</span>][ind-buffsize:ind] = run_ids</div>
+<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160; </div>
+<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;    <span class="keywordflow">try</span>:</div>
+<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;        run_ids[ind % buffsize] = int(re.findall(<span class="stringliteral">r&#39;\d+&#39;</span>, d)[-1])</div>
+<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;    <span class="keywordflow">except</span>:</div>
+<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;        run_ids[ind % buffsize] = -1</div>
+<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160; </div>
+<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;    <span class="comment">#### Custom snapshots ####</span></div>
+<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;<span class="comment">    ##########################</span></div>
+<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160; </div>
+<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;    <span class="keywordflow">if</span> summarize_snapshots:</div>
+<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;        <span class="comment"># Get the time of the snapshots</span></div>
+<div class="line"><a name="l00382"></a><span class="lineno"><a class="line" href="namespacesummarize.html#ae7010ee25c97022be91e32b4c64ac702">  382</a></span>&#160;        snapstime = data.snapshot_time</div>
+<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;        <span class="comment"># Now get the indexes of the entries that agree with snapshot_time</span></div>
+<div class="line"><a name="l00384"></a><span class="lineno"><a class="line" href="namespacesummarize.html#a035fcd49ea9a776d626f2c20ec77660a">  384</a></span>&#160;        indexes = np.searchsorted(snapstime, snapshot_time)</div>
+<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160; </div>
+<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;        <span class="comment"># Convert the snapshot data to structured array</span></div>
+<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;        finab_struct = np.array(list(zip(data.A.astype(int), data.Z.astype(int))), dtype=dtype_nuclei)</div>
+<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;        <span class="comment"># Find the matching indices</span></div>
+<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;        <span class="comment"># Use np.searchsorted to find matching indices</span></div>
+<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;        matching_idx = np.searchsorted(sorted_nuclei_struct, finab_struct)</div>
+<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;        <span class="comment"># Recover the original indices from the sorted index</span></div>
+<div class="line"><a name="l00392"></a><span class="lineno"><a class="line" href="namespacesummarize.html#a068c88fe6a8b985ef37af4005740ebff">  392</a></span>&#160;        indices_nuclei = nuclei_sorted_idx[matching_idx]</div>
+<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160; </div>
+<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;        <span class="comment"># Check if the snapshot_data is full and write it to the hdf5 file</span></div>
+<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;        <span class="keywordflow">if</span> ind % buffsize == 0 <span class="keywordflow">and</span> ind != 0:</div>
+<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;            <span class="comment"># Check if the dataset is already created and if not create it</span></div>
+<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;            <span class="keywordflow">if</span> <span class="stringliteral">&quot;snapshots/Y&quot;</span> <span class="keywordflow">not</span> <span class="keywordflow">in</span> f_hdf:</div>
+<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;                f_hdf.create_dataset(<span class="stringliteral">&quot;snapshots/Y&quot;</span>, (len(nuclei),len(snapshot_time),ind+1), maxshape=(len(nuclei),len(snapshot_time),<span class="keywordtype">None</span>))</div>
+<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;                f_hdf.create_dataset(<span class="stringliteral">&quot;snapshots/X&quot;</span>, (len(nuclei),len(snapshot_time),ind+1), maxshape=(len(nuclei),len(snapshot_time),<span class="keywordtype">None</span>))</div>
+<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;            <span class="comment"># If necessary extend the dataset</span></div>
+<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;            <span class="keywordflow">if</span> ind &gt; buffsize:</div>
+<div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;                f_hdf[<span class="stringliteral">&quot;snapshots/Y&quot;</span>].resize((len(nuclei),len(snapshot_time),ind+1))</div>
+<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;                f_hdf[<span class="stringliteral">&quot;snapshots/X&quot;</span>].resize((len(nuclei),len(snapshot_time),ind+1))</div>
+<div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160;            <span class="comment"># Write the data to the hdf5 file</span></div>
+<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;            f_hdf[<span class="stringliteral">&quot;snapshots/Y&quot;</span>][:,:,ind-buffsize:ind] = snapshot_data</div>
+<div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;            f_hdf[<span class="stringliteral">&quot;snapshots/X&quot;</span>][:,:,ind-buffsize:ind] = snapshot_data*nuclei_data.A[:,np.newaxis,np.newaxis]</div>
+<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160; </div>
+<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;        <span class="comment"># Store it</span></div>
+<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;        snapshot_data[indices_nuclei,:,ind % buffsize] = data.Y[indexes][:, :].T</div>
 <div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160; </div>
 <div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160; </div>
 <div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;    <span class="comment">#### Other entries ####</span></div>
 <div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160;<span class="comment">    #######################</span></div>
 <div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160; </div>
 <div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;    <span class="keywordflow">for</span> entry <span class="keywordflow">in</span> entry_dict.keys():</div>
-<div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;        <span class="comment"># Put the data in the data_dict</span></div>
-<div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;        <span class="keywordflow">for</span> key <span class="keywordflow">in</span> entry_dict[entry].keys():</div>
-<div class="line"><a name="l00418"></a><span class="lineno"><a class="line" href="namespacesummarize.html#a27712c92b8fa5ce01456f20dd42f7e82">  418</a></span>&#160;            entry_dict[entry][key][:,ind % buffsize] = np.interp(mainout_time,data[entry][<span class="stringliteral">&quot;time&quot;</span>],data[entry][key],left=np.nan,right=np.nan)</div>
-<div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160; </div>
-<div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160;        <span class="comment"># Check if the data_dict is full and write it to the hdf5 file</span></div>
-<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;        <span class="keywordflow">if</span> ind % buffsize == 0 <span class="keywordflow">and</span> ind != 0:</div>
-<div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160;            <span class="keywordflow">for</span> key <span class="keywordflow">in</span> entry_dict[entry].keys():</div>
-<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;                <span class="comment"># Check if the dataset is already created and if not create it</span></div>
-<div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;                <span class="keywordflow">if</span> entry+<span class="stringliteral">&quot;/&quot;</span>+key <span class="keywordflow">not</span> <span class="keywordflow">in</span> f_hdf:</div>
-<div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160;                    f_hdf.create_dataset(entry+<span class="stringliteral">&quot;/&quot;</span>+key, (len(mainout_time),ind+1), maxshape=(len(mainout_time),<span class="keywordtype">None</span>))</div>
-<div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160;                <span class="comment"># If necessary extend the dataset</span></div>
-<div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160;                <span class="keywordflow">if</span> ind &gt; buffsize:</div>
-<div class="line"><a name="l00428"></a><span class="lineno">  428</span>&#160;                    f_hdf[entry+<span class="stringliteral">&quot;/&quot;</span>+key].resize((len(mainout_time),ind+1))</div>
-<div class="line"><a name="l00429"></a><span class="lineno">  429</span>&#160;                <span class="comment"># Write the data to the hdf5 file</span></div>
-<div class="line"><a name="l00430"></a><span class="lineno">  430</span>&#160;                f_hdf[entry+<span class="stringliteral">&quot;/&quot;</span>+key][:,ind-buffsize:ind] = entry_dict[entry][key]</div>
+<div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;        <span class="comment"># Check if the data_dict is full and write it to the hdf5 file</span></div>
+<div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;        <span class="keywordflow">if</span> ind % buffsize == 0 <span class="keywordflow">and</span> ind != 0:</div>
+<div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160;            <span class="keywordflow">for</span> key <span class="keywordflow">in</span> entry_dict[entry].keys():</div>
+<div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160;                <span class="comment"># Check if the dataset is already created and if not create it</span></div>
+<div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160;                <span class="keywordflow">if</span> entry+<span class="stringliteral">&quot;/&quot;</span>+key <span class="keywordflow">not</span> <span class="keywordflow">in</span> f_hdf:</div>
+<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;                    f_hdf.create_dataset(entry+<span class="stringliteral">&quot;/&quot;</span>+key, (len(mainout_time),ind+1), maxshape=(len(mainout_time),<span class="keywordtype">None</span>))</div>
+<div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160;                <span class="comment"># If necessary extend the dataset</span></div>
+<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;                <span class="keywordflow">if</span> ind &gt; buffsize:</div>
+<div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;                    f_hdf[entry+<span class="stringliteral">&quot;/&quot;</span>+key].resize((len(mainout_time),ind+1))</div>
+<div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160;                <span class="comment"># Write the data to the hdf5 file</span></div>
+<div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160;                f_hdf[entry+<span class="stringliteral">&quot;/&quot;</span>+key][:,ind-buffsize:ind] = entry_dict[entry][key]</div>
+<div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160; </div>
+<div class="line"><a name="l00428"></a><span class="lineno">  428</span>&#160;        <span class="comment"># Put the data in the data_dict</span></div>
+<div class="line"><a name="l00429"></a><span class="lineno">  429</span>&#160;        <span class="keywordflow">for</span> key <span class="keywordflow">in</span> entry_dict[entry].keys():</div>
+<div class="line"><a name="l00430"></a><span class="lineno"><a class="line" href="namespacesummarize.html#a27712c92b8fa5ce01456f20dd42f7e82">  430</a></span>&#160;            entry_dict[entry][key][:,ind % buffsize] = np.interp(mainout_time,data[entry][<span class="stringliteral">&quot;time&quot;</span>],data[entry][key],left=np.nan,right=np.nan)</div>
 <div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160; </div>
 <div class="line"><a name="l00432"></a><span class="lineno">  432</span>&#160; </div>
 <div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160; </div>
