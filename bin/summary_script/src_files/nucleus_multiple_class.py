@@ -1,4 +1,4 @@
-from nucleus_class      import nucleus
+from .nucleus_class      import nucleus
 import pandas           as pd
 import numpy            as np
 import os
