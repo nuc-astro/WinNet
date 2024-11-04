@@ -2,6 +2,7 @@ var summarize_8py =
 [
     [ "action", "summarize_8py.html#a20e397fde47decf0558cd01456db3230", null ],
     [ "args", "summarize_8py.html#a66425d7fe7fdae093ecd3fad3827cc5a", null ],
+    [ "axis", "summarize_8py.html#a287141bb585ecec67dd27bd0ea2c8ab6", null ],
     [ "buffsize", "summarize_8py.html#a61ed4de4cf6996671b2731e5ef97ae27", null ],
     [ "data", "summarize_8py.html#ac76cea6a8fecbfbd3c57a43fa77adbdc", null ],
     [ "datefmt", "summarize_8py.html#ae39b56ee14b64cb24f3a05fda537f311", null ],
@@ -29,6 +30,7 @@ var summarize_8py =
     [ "level", "summarize_8py.html#a2db3918872962e1c5b263f4d03d993ff", null ],
     [ "logger", "summarize_8py.html#a937a2f430fe3d64341e7732ce1edbf8f", null ],
     [ "mainout_time", "summarize_8py.html#abbfe8f019af05a372d1b300405ddfcb3", null ],
+    [ "mask", "summarize_8py.html#a1c52a241154ecc9b73e44cc09bada8ab", null ],
     [ "matching_idx", "summarize_8py.html#a807da438d773e28dfdc41c205f792f2a", null ],
     [ "maxshape", "summarize_8py.html#a31bc3280a44bde5ea60e2fd3aaa93410", null ],
     [ "nan", "summarize_8py.html#a1570f7e65077a8c3eea39c8d481add04", null ],
