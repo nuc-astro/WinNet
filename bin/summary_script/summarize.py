@@ -380,8 +380,18 @@ for counter, d in enumerate(tqdm(dirs)):
     if summarize_snapshots:
         # Get the time of the snapshots
         snapstime = data.snapshot_time
+
         # Now get the indexes of the entries that agree with snapshot_time
         indexes = np.searchsorted(snapstime, snapshot_time)
+
+        # In case snapstime is shorter than snapshot_time, we need to get a mask to set it nan
+        if (len(snapstime) < len(snapshot_time)):
+            mask = np.zeros(len(snapshot_time),dtype=bool)
+            # Check where the time deviates more than 1e-5
+            mask[np.min(np.abs(snapstime - snapshot_time[:,np.newaxis]),axis=1) > 1e-5] = True
+        else:
+            mask = None
+
 
         # Convert the snapshot data to structured array
         finab_struct = np.array(list(zip(data.A.astype(int), data.Z.astype(int))), dtype=dtype_nuclei)
@@ -407,6 +417,10 @@ for counter, d in enumerate(tqdm(dirs)):
 
         # Store it
         snapshot_data[indices_nuclei,:,ind % buffsize] = data.Y[indexes][:, :].T
+
+        # Set entries to nan if necessary (e.g., if run does not contain a time at the beginning or end)
+        if mask is not None:
+            snapshot_data[:,mask,ind % buffsize] = np.nan
 
 
     #### Other entries ####

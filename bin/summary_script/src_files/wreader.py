@@ -182,13 +182,17 @@ class wreader(object):
             else:
                 value = 2
         else:
-            with h5py.File(self.filename, 'r') as hf:
-                if hdf5_key in hf.keys():
-                    value = 1
-                elif os.path.exists(os.path.join(self.path, ascii_file_path)):
-                    value = 2
-                else:
-                    value = 0
+            try:
+                with h5py.File(self.filename, 'r') as hf:
+                    if hdf5_key in hf.keys():
+                        value = 1
+                    elif os.path.exists(os.path.join(self.path, ascii_file_path)):
+                        value = 2
+                    else:
+                        value = 0
+            except OSError:
+                # Not able to read the file
+                value = 0
 
         return value
 
@@ -518,6 +522,49 @@ class wreader(object):
         if not hasattr(self,"_wreader__finabelem"):
             self.__read_finabelem()
         return self.__finabelem
+
+
+    def __read_out(self):
+        """
+           Read the OUT file
+        """
+        path = os.path.join(self.path,"OUT")
+
+        self.__out_data = {}
+
+        if os.path.isfile(path):
+            with open(path,"r") as f:
+                lines = f.readlines()
+
+                for ind,l in enumerate(lines[::-1]):
+                    # Read iterations and time in the last lines
+                    if "iterations" in l:
+                        self.__out_data["num_iterations"] =int(l.split()[4])
+                    elif "Elapsed time:" in l:
+                        self.__out_data["elapsed_time"] = float(l.split()[3])
+                    elif "Final time:" in l:
+                        self.__out_data["final_time"] = float(l.split()[-1])
+                    elif "Expansion velocity" in l:
+                        self.__out_data["exp_velocity"] = float(l.split()[-2])
+                    elif l.strip() == "============================":
+                        final_stats = True
+                    elif final_stats:
+                        self.__out_data["final_entropy"] = float(l.split()[-1])
+                        self.__out_data["final_density"] = float(l.split()[-2])
+                        self.__out_data["final_temperature"] = float(l.split()[-3])
+                        final_stats = False
+
+
+
+    @property
+    def out_data(self):
+        """
+        Get the data from the OUT file
+        """
+        if not hasattr(self,"_wreader__out_data"):
+            self.__read_out()
+        return self.__out_data
+
 
     def __read_finabelem(self):
         """
