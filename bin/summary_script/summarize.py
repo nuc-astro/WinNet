@@ -11,6 +11,7 @@ from tqdm                             import tqdm
 from src_files.wreader                import wreader
 from src_files.template_class         import template
 from src_files.nucleus_multiple_class import nucleus_multiple
+import matplotlib.pyplot as plt
 
 
 
@@ -334,6 +335,9 @@ for counter, d in enumerate(tqdm(dirs)):
     # Recover the original indices from the sorted index
     indices = nuclei_sorted_idx[matching_idx]
 
+    # Set first zero
+    finab_data_Y[:,ind % buffsize] = 0
+    finab_data_X[:,ind % buffsize] = 0
     finab_data_Y[indices,ind % buffsize] = data.finab["Y"][:]
     finab_data_X[indices,ind % buffsize] = data.finab["X"][:]
 
@@ -355,9 +359,7 @@ for counter, d in enumerate(tqdm(dirs)):
     run_names[ind % buffsize] = d
 
 
-
     # Get numbers out from the run name
-
     # Check if the run_ids is full and write it to the hdf5 file
     if ind % buffsize == 0 and ind != 0:
         # Check if the dataset is already created and if not create it
@@ -416,6 +418,7 @@ for counter, d in enumerate(tqdm(dirs)):
             f_hdf["snapshots/X"][:,:,ind-buffsize:ind] = snapshot_data*nuclei_data.A[:,np.newaxis,np.newaxis]
 
         # Store it
+        snapshot_data[:,:,ind % buffsize] = 0
         snapshot_data[indices_nuclei,:,ind % buffsize] = data.Y[indexes][:, :].T
 
         # Set entries to nan if necessary (e.g., if run does not contain a time at the beginning or end)
@@ -449,7 +452,7 @@ for counter, d in enumerate(tqdm(dirs)):
 logger.info(f"Finished looping over all directories, writing the last data to the hdf5 file.")
 
 
-# Write the last data to the hdf5 file
+# # Write the last data to the hdf5 file
 
 #### Finab ####
 ###############
