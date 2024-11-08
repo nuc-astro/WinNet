@@ -13,6 +13,7 @@ from matplotlib.patches import Arrow, FancyBboxPatch
 from matplotlib.colors    import LogNorm, SymLogNorm
 from matplotlib.colors    import ListedColormap, LinearSegmentedColormap
 from matplotlib.animation import FuncAnimation
+from matplotlib.widgets import Slider
 from wreader              import wreader
 from h5py                 import File
 from nucleus_multiple_class import nucleus_multiple
@@ -73,7 +74,8 @@ class FlowAnimation(object):
         densityrange     = (1e-5, 1e12),
         temperaturerange = (0, 10),
         yerange          = (0.0, 0.55),
-        plot_logo        = True
+        plot_logo        = True,
+        slider           = False
        ):
         """
         Parameters
@@ -152,6 +154,8 @@ class FlowAnimation(object):
             Range of the electron fraction axis in the mainout plot.
         plot_logo : bool
             Plot the WinNet logo.
+        slider : bool
+            Use a slider widget.
         """
 
 
@@ -194,6 +198,7 @@ class FlowAnimation(object):
         self.timerange        = timerange         # Range of the time axis
         self.plot_mainout     = plot_mainout      # Plot the mainout data
         self.plot_logo        = plot_logo         # Plot the WinNet logo
+        self.use_slider        = slider           # Use slider widget
         self.flow_group       = 'flows'           # Name of the group in the HDF5 file that contains the flow data
         self.plot_flow        = plot_flow         # Plot the flow of the abundances
         self.fig              = fig               # Figure to plot the animation on
@@ -332,6 +337,16 @@ class FlowAnimation(object):
         if self.plot_logo:
             self.__init_logo()
 
+        # Slider
+        if self.use_slider:
+            self.__init_slider()
+
+        
+        self.movie_paused = False
+
+        self.fig.canvas.mpl_connect('button_press_event', self.pause_movie)
+        self.fig.canvas.mpl_connect('key_press_event', self.arrow_update)
+
 
     def __init_nucchart_ax(self):
         """
@@ -449,6 +464,10 @@ class FlowAnimation(object):
         self.axLogo.axis('off')
         self.axLogo.imshow(plt.imread(os.path.join(self.__data_path,'WinNet_logo.png')))
 
+    def __init_slider(self):
+
+        self.ax_slider = plt.axes([0.1, 0.1, 0.8, 0.05], facecolor='lightgoldenrodyellow')
+
 
     def init_data(self):
         """
@@ -539,7 +558,6 @@ class FlowAnimation(object):
         """
            Initialize the plots.
         """
-
         # Plot the nuclear chart
         self.abun_im = self.ax.pcolormesh(self.n,self.z,self.abun.T,
                        cmap = self.__abundance_colors,vmin=(min(self.values)),
@@ -561,7 +579,10 @@ class FlowAnimation(object):
                 # Create patchcollection of arrows
                 width = (self.flow_maxArrowWidth-self.flow_minArrowWidth)/self.flow_prange
                 with np.errstate(divide='ignore'):
-                    arrowwidth = (np.log10(self.flow)-np.log10(self.flow_min))*width + self.flow_minArrowWidth
+                    arrowwidth = (np.log10(self.flow)-np.log10(self.flow_min))*width 
+                    arrowwidth = np.maximum(arrowwidth, self.flow_minArrowWidth)
+                
+
                 flow_arrows = [Arrow(self.flow_N[i],self.flow_Z[i],self.flow_dn[i],self.flow_dz[i],width=arrowwidth[i],color='k') for i in range(len(self.flow))]
                 a = PatchCollection(flow_arrows, cmap=self.cmapNameFlow, norm=self.flow_norm)
                 a.set_array(self.flow)
@@ -811,7 +832,11 @@ class FlowAnimation(object):
             self.flow = flow[mask]
             # Keep track of the maximum flows for the colorbar
             self.flow_max_history    = np.roll(self.flow_max_history,1)
-            self.flow_max_history[0] = np.max(self.flow)
+            try:
+                ## might raise error if flow is not above threshold
+                self.flow_max_history[0] = np.max(self.flow)
+            except:
+                pass
         if self.separate_fission:
             self.handle_fission()
 
@@ -923,6 +948,7 @@ class FlowAnimation(object):
         self.update_abun_plot()
         self.update_fission_plot()
         self.update_flow_plot()
+        self.update_slider(ii)
         return ii
 
 
@@ -937,8 +963,61 @@ class FlowAnimation(object):
     def get_funcanimation(self, frames=None, **kwargs):
         if frames is None:
             frames = range(self.n_timesteps)
-        return FuncAnimation(self.fig, self.update_frame,
+        self.frames=frames
+        self.animation = FuncAnimation(self.fig, self.update_frame,
             frames=frames, **kwargs)
+        if self.use_slider:
+            self.time_slider()
+        return self.animation
+
+    def time_slider(self):
+        self.slider_bar = Slider(self.ax_slider, '', 1, self.n_timesteps-1, valinit=1)
+        self.slider_bar.valtext.set_text('')
+        self.slider_bar.on_changed(self.on_slider_update)
+
+    def on_slider_update(self, val):
+        ii = int(self.slider_bar.val)
+        self.update_frame(ii)
+
+    def update_slider(self, ii):
+        try:
+            # avoid infinite recursion if misusing slider as timebar for animation
+            self.slider_bar.eventson =False
+            self.slider_bar.set_val(ii)
+            self.slider_bar.eventson = True
+
+            self.slider_bar.valtext.set_text('')
+        except:
+            pass
+    
+    def pause_movie(self, click_event):
+        if click_event.inaxes == self.ax_slider:
+            self.animation.pause()
+            pass
+        elif self.movie_paused:
+            ii = int(self.slider_bar.val)
+            new_seq = list(range(ii, self.frames[-1])) + list(range(self.frames[0], ii))
+            self.animation._iter_gen = lambda: iter(new_seq)
+            self.animation.frame_seq = self.animation.new_frame_seq()
+            self.animation.resume()
+            self.movie_paused = False
+        else:
+            self.animation.pause()
+            self.movie_paused = True
+    
+    def arrow_update(self, event):
+        ii = int(self.slider_bar.val)
+        if event.key in ['left', 'down']:
+            self.animation.pause()
+            self.movie_paused = True
+            if ii !=self.slider_bar.valmin:
+                self.slider_bar.set_val(ii-1)
+        elif event.key in ['right', 'up']:
+            self.animation.pause()
+            self.movie_paused = True
+            if ii !=self.slider_bar.valmax:
+                self.slider_bar.set_val(ii+1)
+
 
 
     @staticmethod

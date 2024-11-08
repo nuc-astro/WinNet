@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # Authors: M. Jacobi, J. Kuske, M. Reichert
+# Slider option added by H. Rose.
 # Movie script inspired by Skynet (J. Lippuner)
 import sys
 import os
@@ -100,6 +101,8 @@ p.add_option("--interval", action="store", dest="interval", default='10', \
   help="Interval of the movie (larger value equals slower).")
 p.add_option("--mpirun_path", action="store", dest="mpirun_path", default='', \
   help="Path of the mpirun command to use for parallel saving.")
+p.add_option("--slider", action="store_true", default=False, \
+  help="Whether to display a timeslider to the simulation to jump to specific frames.")
 p.set_usage("""
   Visualize a WinNet simulation. Ensure that at least
   snapshot_every or h_snapshot_every parameter was enabled in the
@@ -116,6 +119,7 @@ p.set_usage("""
 run_path = options.rundir
 
 kwargs = {}
+kwargs['slider']           = options.slider
 kwargs['timescalerange']   = (1e-12, 1e10)
 kwargs['trackedrange']     = (1e-8, 1e0)
 kwargs['energyrange']      = (1e10, 1e20)
