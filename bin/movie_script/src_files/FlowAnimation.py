@@ -9,11 +9,11 @@ import matplotlib.patheffects as PathEffects
 from matplotlib.collections import PatchCollection
 from tqdm                 import tqdm
 from matplotlib           import cm
-from matplotlib.patches import Arrow, FancyBboxPatch
+from matplotlib.patches   import Arrow, FancyBboxPatch
 from matplotlib.colors    import LogNorm, SymLogNorm
 from matplotlib.colors    import ListedColormap, LinearSegmentedColormap
 from matplotlib.animation import FuncAnimation
-from matplotlib.widgets import Slider
+from matplotlib.widgets   import Slider, Button
 from wreader              import wreader
 from h5py                 import File
 from nucleus_multiple_class import nucleus_multiple
@@ -341,11 +341,9 @@ class FlowAnimation(object):
         if self.use_slider:
             self.__init_slider()
 
-        
+        # Start with a running movie
         self.movie_paused = False
 
-        self.fig.canvas.mpl_connect('button_press_event', self.pause_movie)
-        self.fig.canvas.mpl_connect('key_press_event', self.arrow_update)
 
 
     def __init_nucchart_ax(self):
@@ -466,7 +464,14 @@ class FlowAnimation(object):
 
     def __init_slider(self):
 
-        self.ax_slider = plt.axes([0.1, 0.1, 0.8, 0.05], facecolor='lightgoldenrodyellow')
+        self.ax_slider = plt.axes([0.18, 0.08, 0.72, 0.02], facecolor='lightgoldenrodyellow')
+        self.ax_button = plt.axes([0.18-0.018, 0.08, 0.012, 0.022])  # Adjust `bottom` for centering
+
+        self.play_button = Button(self.ax_button, "❚❚")
+        self.play_button.label.set_color("red")
+        self.play_button.label.set_fontsize(8)
+        self.play_button.on_clicked(self.pause_movie)
+        self.fig.canvas.mpl_connect('key_press_event', self.arrow_update)
 
 
     def init_data(self):
@@ -579,9 +584,9 @@ class FlowAnimation(object):
                 # Create patchcollection of arrows
                 width = (self.flow_maxArrowWidth-self.flow_minArrowWidth)/self.flow_prange
                 with np.errstate(divide='ignore'):
-                    arrowwidth = (np.log10(self.flow)-np.log10(self.flow_min))*width 
+                    arrowwidth = (np.log10(self.flow)-np.log10(self.flow_min))*width
                     arrowwidth = np.maximum(arrowwidth, self.flow_minArrowWidth)
-                
+
 
                 flow_arrows = [Arrow(self.flow_N[i],self.flow_Z[i],self.flow_dn[i],self.flow_dz[i],width=arrowwidth[i],color='k') for i in range(len(self.flow))]
                 a = PatchCollection(flow_arrows, cmap=self.cmapNameFlow, norm=self.flow_norm)
@@ -974,6 +979,8 @@ class FlowAnimation(object):
         self.slider_bar = Slider(self.ax_slider, '', 1, self.n_timesteps-1, valinit=1)
         self.slider_bar.valtext.set_text('')
         self.slider_bar.on_changed(self.on_slider_update)
+        self.fig.canvas.mpl_connect('button_press_event', self.on_slider_click)
+        self.fig.canvas.mpl_connect('button_release_event', self.on_slider_release)
 
     def on_slider_update(self, val):
         ii = int(self.slider_bar.val)
@@ -989,34 +996,56 @@ class FlowAnimation(object):
             self.slider_bar.valtext.set_text('')
         except:
             pass
-    
+
     def pause_movie(self, click_event):
-        if click_event.inaxes == self.ax_slider:
-            self.animation.pause()
-            pass
-        elif self.movie_paused:
+        if self.movie_paused:
+            # Only resume if the slider is not being dragged
             ii = int(self.slider_bar.val)
             new_seq = list(range(ii, self.frames[-1])) + list(range(self.frames[0], ii))
             self.animation._iter_gen = lambda: iter(new_seq)
             self.animation.frame_seq = self.animation.new_frame_seq()
             self.animation.resume()
             self.movie_paused = False
+            self.play_button.label.set_text("❚❚")
+            self.play_button.label.set_color("red")
+            # Update the appearance of the button
+            self.fig.canvas.draw_idle()
         else:
             self.animation.pause()
             self.movie_paused = True
-    
+            self.play_button.label.set_text(" ▶")
+            self.play_button.label.set_color("green")
+
+            # Update the appearance of the button
+            self.fig.canvas.draw_idle()
+
+    def on_slider_click(self, event):
+        if event.inaxes == self.ax_slider:
+            self.animation.pause()  # Pause the animation when clicking the slider
+            self.movie_paused = True
+            self.play_button.label.set_text(" ▶")
+            self.play_button.label.set_color("green")
+
+    def on_slider_release(self, event):
+        # Reset slider_dragging to False when the mouse is released
+        if event.inaxes == self.ax_slider:
+            self.on_slider_update(self.slider_bar.val)  # Final update after release
+
     def arrow_update(self, event):
         ii = int(self.slider_bar.val)
         if event.key in ['left', 'down']:
-            self.animation.pause()
-            self.movie_paused = True
+            self.movie_paused = False
+            self.pause_movie(event)
             if ii !=self.slider_bar.valmin:
                 self.slider_bar.set_val(ii-1)
         elif event.key in ['right', 'up']:
-            self.animation.pause()
-            self.movie_paused = True
+            self.movie_paused = False
+            self.pause_movie(event)
             if ii !=self.slider_bar.valmax:
                 self.slider_bar.set_val(ii+1)
+        elif event.key == " ":
+            self.pause_movie(event)
+            # Update the appearance of the button
 
 
 
