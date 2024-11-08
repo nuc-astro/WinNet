@@ -1457,8 +1457,8 @@ An example file looks like:
 
 
    \section nu_max_time        nu_max_time
-   Specifies the time limit in seconds for neutrino reactions. Neutrino interactions will be disabled after this duration. The default value is 100s.
-   A value of -1 keeps neutrino reactions active indefinitely. Note that this is necessary as WinNet keeps the neutrino quantities constant after the 
+   Specifies the time limit in seconds for neutrino reactions. Neutrino interactions will be disabled after this duration. 
+   A value of -1 keeps neutrino reactions active indefinitely (default). Note that this can be necessary as WinNet keeps the neutrino quantities constant after the 
    trajectory has ended.
 
    @par Example template line:
