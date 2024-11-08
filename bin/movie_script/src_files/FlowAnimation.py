@@ -299,6 +299,9 @@ class FlowAnimation(object):
         # Initialize the colorbars
         self.init_cbars(abun_cbar, flow_cbar)
 
+        # Set up the limits of the plot
+        self.limits_plot = self.ax.get_xlim(), self.ax.get_ylim()
+
 
     def init_axes(self):
         """
@@ -343,6 +346,10 @@ class FlowAnimation(object):
 
         # Start with a running movie
         self.movie_paused = False
+
+        # Make white behind the colorbars and plots
+        self.ax.add_patch(patches.Rectangle((0.3, 0.84), 0.8, 0.15, fill=True, color='w', zorder=100, transform=self.fig.transFigure))
+        self.ax.add_patch(patches.Rectangle((0.15, 0.745), 0.395, 0.2, fill=True, color='w', zorder=100, transform=self.fig.transFigure))
 
 
 
@@ -472,6 +479,90 @@ class FlowAnimation(object):
         self.play_button.label.set_fontsize(8)
         self.play_button.on_clicked(self.pause_movie)
         self.fig.canvas.mpl_connect('key_press_event', self.arrow_update)
+        self.__interactive_ax = None
+
+        # Check which data could be shown
+        self.available_data = []
+        self.toggle_buttons = []
+        if self.wreader.check_existence('tracked_nuclei') !=0:
+            self.available_data.append('tracked_nuclei')
+            self.toggle_buttons.append(Button(plt.axes([0.18-0.018, 0.05, 0.012, 0.022]), "⚛"))
+            # Fontsize
+            self.toggle_buttons[-1].label.set_fontsize(12)
+            self.toggle_buttons[-1].label.set_color('k')
+            self.toggle_buttons[-1].on_clicked(self.toggle_button_event)
+
+        if self.wreader.check_existence('timescales') !=0:
+            self.available_data.append('timescales')
+            amount_buttons = len(self.toggle_buttons)
+            self.toggle_buttons.append(Button(plt.axes([0.18-0.018+0.015*amount_buttons, 0.05, 0.012, 0.022]), r"$\tau$"))
+            self.toggle_buttons[-1].label.set_fontsize(12)
+            self.toggle_buttons[-1].label.set_color('tab:green')
+            self.toggle_buttons[-1].on_clicked(self.toggle_button_event)
+
+        if self.wreader.check_existence('energy') !=0:
+            self.available_data.append('energy')
+            amount_buttons = len(self.toggle_buttons)
+            self.toggle_buttons.append(Button(plt.axes([0.18-0.018+0.015*amount_buttons, 0.05, 0.012, 0.022]), "⚡"))
+            self.toggle_buttons[-1].label.set_fontsize(12)
+            self.toggle_buttons[-1].label.set_color('tab:orange')
+            self.toggle_buttons[-1].on_clicked(self.toggle_button_event)
+        self.active_button = None
+
+        # Add zoom button
+        self.zoom_button = Button(plt.axes([0.18-0.018+0.015*(len(self.toggle_buttons)+0.2), 0.05, 0.012, 0.022]), "+")
+        self.zoom_button.label.set_fontsize(12)
+        self.zoom_button.label.set_color('k')
+        self.zoom_button.on_clicked(self.zoom_button_event)
+        self.zoomed = False
+
+    def zoom_button_event(self, event):
+        self.__toggle_zoom()
+        if self.zoomed:
+            self.zoom_button.label.set_text("-")
+        else:
+            self.zoom_button.label.set_text("+")
+
+    def toggle_button_event(self, event):
+        # Find the button that was clicked
+        for i, button in enumerate(self.toggle_buttons):
+            if event.inaxes == button.ax:
+                # Toggle the state: activate this button and deactivate others
+                if self.active_button != button:
+                    # Unpress the previously active button if there is one
+                    if self.active_button:
+                        for t in ['top','right','bottom','left']:
+                            self.active_button.ax.spines[t].set_color('k')
+                            self.active_button.ax.spines[t].set_linewidth(0.5)
+                    # Set the new active button
+                    # Ändere die Umrandung des Buttons
+                    for t in ['top','right','bottom','left']:
+                        button.ax.spines[t].set_color('red')
+                        button.ax.spines[t].set_linewidth(2)
+
+                    self.active_button = button
+                    if not (self.__interactive_ax is None):
+                        self.__interactive_ax.remove()
+                    if self.available_data[i] == 'timescales':
+                        self.__toggle_timescales()
+                    elif self.available_data[i] == 'energy':
+                        self.__toggle_energy()
+                    elif self.available_data[i] == 'tracked_nuclei':
+                        self.__toggle_tracked()
+                else:
+                    # Unpress the button
+                    for t in ['top','right','bottom','left']:
+                        button.ax.spines[t].set_color('k')
+                        button.ax.spines[t].set_linewidth(0.5)
+                    self.active_button = None
+                    if not (self.__interactive_ax is None):
+                        self.__interactive_ax.remove()
+                    self.__interactive_ax = None
+                    self.plot_timescales = False
+                    self.plot_energy = False
+                    self.plot_tracked = False
+                self.fig.canvas.draw_idle()
+                return
 
 
     def init_data(self):
@@ -488,21 +579,15 @@ class FlowAnimation(object):
 
         # Set up timescale data
         if self.plot_timescales:
-            self.ts_time = self.wreader.tau['time']
-            self.ts_data = [ [ self.wreader.tau["tau_"+str(self.timescale_entries[i][j])]
-                                for j in range(len(self.timescale_entries[i]))] for i in range(len(self.timescale_entries)) ]
+            self.__init_data_timescales(-1)
 
         # Set up energy data
         if self.plot_energy:
-            self.energy_time = self.wreader.energy['time']
-            self.energy_data = [ self.wreader.energy['engen_'+self.energy_entries[i]] for i in range(len(self.energy_entries)) ]
+            self.__init_data_energy(-1)
 
         # Set up tracked nuclei data
         if self.plot_tracked:
-            self.tracked_time = self.wreader.tracked_nuclei['time']
-            self.track_nuclei_data  = [ self.wreader.tracked_nuclei[n] for n in self.wreader.tracked_nuclei['names'] ]
-            self.track_nuclei_labels= self.wreader.tracked_nuclei['latex_names']
-
+            self.__init_data_tracked(-1)
 
         # Set up mainout data
         if self.plot_mainout:
@@ -683,25 +768,13 @@ class FlowAnimation(object):
 
         # Plot the timescales
         if self.plot_timescales:
-            ls = ["-","--"]
-            self.ts_plot = [ [ self.axTimescales.plot(self.ts_time,self.ts_data[i][j], color=self.timescale_colors[i], ls=ls[j],
-                               label=(self.timescale_labels[i] if (j == 0) else "")) for j in range(len(self.ts_data[i]))] for i in range(len(self.ts_data))]
-            # Also make the background of the box non-transparent
-            self.axTimescales.legend(loc='upper right', ncol=2, bbox_to_anchor=(1.3, 1.0), frameon=True, facecolor='white', edgecolor='black', framealpha=1.0, fontsize=8)
-
+            self.__init_plot_timescales()
         # Plot the energy
         if self.plot_energy:
-            self.energy_plot = [self.axEnergy.plot(self.energy_time,self.energy_data[i], color=self.energy_colors[i],
-                                                   label=self.energy_labels[i], lw=self.energy_lw[i]) for i in range(len(self.energy_data))]
-            # Also make the background of the box non-transparent
-            self.axEnergy.legend(loc='upper right', ncol=2, bbox_to_anchor=(1.3, 1.0), frameon=True, facecolor='white', edgecolor='black', framealpha=1.0, fontsize=8)
-
+            self.__init_plot_energy()
         # Plot the tracked nuclei
         if self.plot_tracked:
-            self.tracked_plot = [self.axTracked.plot(self.tracked_time,self.track_nuclei_data[i],
-                                                   label=self.track_nuclei_labels[i]) for i in range(len(self.track_nuclei_labels))]
-            # Also make the background of the box non-transparent
-            self.axTracked.legend(loc='upper right', ncol=2, bbox_to_anchor=(1.3, 1.0), frameon=True, facecolor='white', edgecolor='black', framealpha=1.0, fontsize=8)
+            self.__init_plot_tracked()
 
         # Plot magic numbers
         if self.plot_magic:
@@ -735,6 +808,28 @@ class FlowAnimation(object):
             self.ax.text(0.9, 0.70, 'Fissioning region', transform=self.ax.transAxes, fontsize=8, verticalalignment='bottom', horizontalalignment='left')
             self.ax.add_patch(mpl.patches.Rectangle((0.88, 0.67), 0.01, 0.01*ratio, fill=False, transform=self.ax.transAxes, hatch="////", edgecolor='tab:red', lw=1))
             self.ax.text(0.9, 0.67, 'Fission products', transform=self.ax.transAxes, fontsize=8, verticalalignment='bottom', horizontalalignment='left')
+
+
+
+    def __init_plot_timescales(self):
+        ls = ["-","--"]
+        self.ts_plot = [ [ self.axTimescales.plot(self.ts_time,self.ts_data[i][j], color=self.timescale_colors[i], ls=ls[j],
+                            label=(self.timescale_labels[i] if (j == 0) else "")) for j in range(len(self.ts_data[i]))] for i in range(len(self.ts_data))]
+        # Also make the background of the box non-transparent
+        self.axTimescales.legend(loc='upper right', ncol=2, bbox_to_anchor=(1.3, 1.0), frameon=True, facecolor='white', edgecolor='black', framealpha=1.0, fontsize=8)
+
+    def __init_plot_energy(self):
+        self.energy_plot = [self.axEnergy.plot(self.energy_time,self.energy_data[i], color=self.energy_colors[i],
+                                                label=self.energy_labels[i], lw=self.energy_lw[i]) for i in range(len(self.energy_data))]
+        # Also make the background of the box non-transparent
+        self.axEnergy.legend(loc='upper right', ncol=2, bbox_to_anchor=(1.3, 1.0), frameon=True, facecolor='white', edgecolor='black', framealpha=1.0, fontsize=8)
+
+    def __init_plot_tracked(self):
+        self.tracked_plot = [self.axTracked.plot(self.tracked_time,self.track_nuclei_data[i],
+                                                label=self.track_nuclei_labels[i]) for i in range(len(self.track_nuclei_labels))]
+        # Also make the background of the box non-transparent
+        self.axTracked.legend(loc='upper right', ncol=2, bbox_to_anchor=(1.3, 1.0), frameon=True, facecolor='white', edgecolor='black', framealpha=1.0, fontsize=8)
+
 
 
     def init_cbars(self, abun_cbar, flow_cbar):
@@ -795,20 +890,13 @@ class FlowAnimation(object):
 
 
         if self.plot_timescales:
-            self.ts_time = self.wreader.tau['time'][:ii]
-            self.ts_time = self.ts_time-self.ts_time[0]
-            self.ts_data = [ [ self.wreader.tau['tau_'+str(self.timescale_entries[i][j])][:ii]
-                              for j in range(len(self.timescale_entries[i]))] for i in range(len(self.timescale_entries)) ]
+            self.__init_data_timescales(ii)
 
         if self.plot_energy:
-            self.energy_time = self.wreader.energy['time'][:ii]
-            self.energy_time = self.energy_time-self.energy_time[0]
-            self.energy_data = [ self.wreader.energy['engen_'+self.energy_entries[i]][:ii] for i in range(len(self.energy_entries)) ]
+            self.__init_data_energy(ii)
 
         if self.plot_tracked:
-            self.tracked_time = self.wreader.tracked_nuclei['time'][:ii]
-            self.tracked_time = self.tracked_time-self.tracked_time[0]
-            self.track_nuclei_data  = [ self.wreader.tracked_nuclei[n][:ii] for n in self.wreader.tracked_nuclei['names'] ]
+            self.__init_data_tracked(ii)
 
         if self.plot_mainout:
             self.mainout_time        = self.wreader.mainout['time'][:ii]
@@ -845,7 +933,23 @@ class FlowAnimation(object):
         if self.separate_fission:
             self.handle_fission()
 
+    def __init_data_timescales(self, ii):
+        self.ts_time = self.wreader.tau['time'][:ii]
+        self.ts_time = self.ts_time-self.ts_time[0]
+        self.ts_data = [ [ self.wreader.tau['tau_'+str(self.timescale_entries[i][j])][:ii]
+                            for j in range(len(self.timescale_entries[i]))] for i in range(len(self.timescale_entries)) ]
 
+    def __init_data_energy(self, ii):
+        self.energy_time = self.wreader.energy['time'][:ii]
+        self.energy_time = self.energy_time-self.energy_time[0]
+        self.energy_data = [ self.wreader.energy['engen_'+self.energy_entries[i]][:ii] for i in range(len(self.energy_entries)) ]
+
+    def __init_data_tracked(self, ii, force_label_init=False):
+        self.tracked_time = self.wreader.tracked_nuclei['time'][:ii]
+        self.tracked_time = self.tracked_time-self.tracked_time[0]
+        self.track_nuclei_data  = [ self.wreader.tracked_nuclei[n][:ii] for n in self.wreader.tracked_nuclei['names'] ]
+        if ii == -1 or force_label_init:
+            self.track_nuclei_labels= self.wreader.tracked_nuclei['latex_names']
 
     def handle_fission(self,):
         """
@@ -1045,7 +1149,94 @@ class FlowAnimation(object):
                 self.slider_bar.set_val(ii+1)
         elif event.key == " ":
             self.pause_movie(event)
-            # Update the appearance of the button
+        elif ((event.key == "t") or (event.key == "e")
+               or (event.key == 'n') or (event.key == 'd')):
+
+            if not (self.__interactive_ax is None):
+                self.__interactive_ax.remove()
+
+            if event.key == "t":
+                # Toggle timescales
+                self.__toggle_timescales()
+            elif event.key == 'e':
+                # Toggle energy
+                self.__toggle_energy()
+            elif event.key == 'n':
+                # Toggle tracked nuclei
+                self.__toggle_tracked()
+            elif event.key == "d":
+                # Shut of additional plots
+                self.plot_timescales = False
+                self.plot_energy = False
+                self.plot_tracked = False
+                self.__interactive_ax = None
+
+            self.fig.canvas.draw_idle()
+
+    def __toggle_timescales(self):
+        if 'timescales' in self.available_data:
+            # Toggle timescales
+            if self.plot_timescales == True:
+                self.plot_timescales = False
+                self.plot_energy = False
+                self.plot_tracked = False
+                self.__interactive_ax = None
+            else:
+                ii = int(self.slider_bar.val)
+                self.__init_data_timescales(ii)
+                self.__init_axTimescales()
+                self.plot_timescales = True
+                self.plot_energy = False
+                self.plot_tracked = False
+                self.__init_plot_timescales()
+                self.__interactive_ax = self.axTimescales
+
+    def __toggle_energy(self):
+        if 'energy' in self.available_data:
+            # Toggle energy
+            if self.plot_energy == True:
+                self.plot_timescales = False
+                self.plot_energy = False
+                self.plot_tracked = False
+                self.__interactive_ax = None
+            else:
+                ii = int(self.slider_bar.val)
+                self.__init_data_energy(ii)
+                self.__init_axEnergy()
+                self.plot_timescales = False
+                self.plot_energy = True
+                self.plot_tracked = False
+                self.__init_plot_energy()
+                self.__interactive_ax = self.axEnergy
+
+    def __toggle_tracked(self):
+        if 'tracked_nuclei' in self.available_data:
+            # Toggle energy
+            if self.plot_tracked == True:
+                self.plot_timescales = False
+                self.plot_energy = False
+                self.plot_tracked = False
+                self.__interactive_ax = None
+            else:
+                ii = int(self.slider_bar.val)
+                self.__init_data_tracked(ii, force_label_init=True)
+                self.__init_axTracked()
+                self.plot_timescales = False
+                self.plot_energy = False
+                self.plot_tracked = True
+                self.__init_plot_tracked()
+                self.__interactive_ax = self.axTracked
+
+    def __toggle_zoom(self):
+        if self.zoomed:
+            self.ax.set_xlim(self.limits_plot[0])
+            self.ax.set_ylim(self.limits_plot[1])
+            self.zoomed = False
+        else:
+            self.ax.set_xlim(-5.5, 100)
+            self.ax.set_ylim(-6.5, 50)
+            self.zoomed = True
+        self.fig.canvas.draw_idle()
 
 
 
