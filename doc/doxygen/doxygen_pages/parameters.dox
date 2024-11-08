@@ -1456,6 +1456,18 @@ An example file looks like:
         \ref use_thermal_nu_loss, \ref h_nu_loss_every
 
 
+   \section nu_max_time        nu_max_time
+   Specifies the time limit in seconds for neutrino reactions. Neutrino interactions will be disabled after this duration. The default value is 100s.
+   A value of -1 keeps neutrino reactions active indefinitely. Note that this is necessary as WinNet keeps the neutrino quantities constant after the 
+   trajectory has ended.
+
+   @par Example template line:
+   `` nu_max_time= 10.0 ``
+
+   @see parameter_class::nu_max_time, \ref nuflag, [Roberts \& Reddy 2017](https://ui.adsabs.harvard.edu/abs/2017hsn..book.1605R/abstract)
+
+
+
    \section nunucleo_rates_file        nunucleo_rates_file
    Path to a file, containing neutrino capture rates on protons and neutrons. 
    The file contains tabulated values of the rates, using a neutrino

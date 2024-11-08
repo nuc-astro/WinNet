@@ -25,6 +25,7 @@ module jacobian_class
   real(r_kind),parameter,private :: rate_min_cutoff  = 1d-50 !< Minimum cutoff for the reaction rates
   real(r_kind),parameter,private :: rate_max_cutoff  = 1d99  !< Maximum cutoff for the reaction rates
   logical,private                :: freeze_rate_indicator = .False. !< Indicator for debug statement
+  logical,private                :: nu_shutoff_indicator = .False. !< Indicator for debug statement
   real(r_kind),private           :: old_time=-99, old_temp=-99, old_dens=-99, old_ye=-99, old_rad=-99
   !
   ! Public and private fields and methods of the module (all routines are publis)
@@ -120,8 +121,8 @@ subroutine calculate_reaction_rate(time, temp, rho, Ye, rkm, rrate_array, idx, r
         mue = mue + unit%mass_e
      end if
 
-     ! Interpolate neutrino quantities at given time
-     if (nuflag.ge.1) then
+    !  ! Interpolate neutrino quantities at given time
+     if ((nuflag.ge.1) .and. ((time .lt. nu_max_time) .or. (nu_max_time .eq. -1d0))) then
         call nuflux(time, rkm)   ! returns fluxnu(4)
         call nutemp(time)        ! returns tempnu(4)
         call nucs()
@@ -288,6 +289,7 @@ end subroutine calculate_reaction_rate
 subroutine abchange (time, itemp, rho, Ye, rkm, Y, dYdt, evolution_mode)
    use global_class,        only: nreac, rrate, net_names
    use fission_rate_module, only: fissrate, nfiss, fiss_neglect
+   use parameter_class,     only: nuflag, nu_max_time
    implicit none
 
    real(r_kind),intent(in)                 :: time     !< time [s]
@@ -319,6 +321,16 @@ subroutine abchange (time, itemp, rho, Ye, rkm, Y, dYdt, evolution_mode)
       temp = itemp
    end if
 
+   ! Shut off neutrinos
+   if (nuflag .ge. 1) then
+       if ((time .gt. nu_max_time) .and. (nu_max_time .ne. -1d0)) then
+           if (.not. nu_shutoff_indicator) then
+              print *,"Shutting off neutrino reactions at "//num_to_str(nu_max_time)//" s"
+              nu_shutoff_indicator = .True.
+           end if
+       end if
+   end if
+
    ! Be sure to call the reaction rate calculation at least ones to initialize
    ! (important for fission later on)
    call calculate_reaction_rate(time, temp, rho, Ye, rkm)
@@ -329,14 +341,17 @@ subroutine abchange (time, itemp, rho, Ye, rkm, Y, dYdt, evolution_mode)
       ! Only consider weak reactions in NSE
       if ((evolution_mode.eq.EM_NSE).and.(rrate(i)%is_weak.eqv..false.)) cycle outer
 
+      ! Check if neutrino rates are still necessary
+      if ((nuflag .ge. 1) .and. (nu_max_time .ne. -1d0) .and. (time .ge. nu_max_time) .and. &
+          (rrate(i)%reac_src .eq. rrs_nu)) then
+        cycle outer
+      end if
+
       ! Calculate the reaction rate
       call calculate_reaction_rate(time, temp, rho, Ye, rkm, rrate, i, rat)
 
       ! Check if one can ignore the rate
       if (skip_rate(rat, rrate(i),Y)) cycle outer
-
-      ! Ignore negligible rates
-      if (rat .lt. rate_min_cutoff) cycle outer
 
       ! Don't do fission
       if ((rrate(i)%reac_type .eq. rrt_nf) .or. &
@@ -473,7 +488,8 @@ function skip_rate(rat, rrate_in,Y) result(res)
     integer :: zero_count
 
     res = .false.
-      ! Ignore negligible rates
+
+    ! Ignore negligible rates
     if (rat .lt. rate_min_cutoff) res = .True.
 
     ! Don't do fission
@@ -526,8 +542,8 @@ subroutine jacobi_init (time, itemp, rho, rkm, Y, Y_p, dYdt, rhs, h, evolution_m
    use pardiso_class,       only: dia, pt_e, pt_b, rows
    use gear_module,         only: get_l1, get_predictor_Y, get_predictor_dYdt
    use nuclear_heating,     only: calculate_qdot, reset_qdot
-   use screening_module,    only: iscreen, hv
-   use parameter_class,     only: heating_mode
+   use parameter_class,     only: nu_max_time, nuflag
+   use screening_module,    only: hv, iscreen
 
    real(r_kind),intent(in)                 :: time     !< time [s]
    real(r_kind),intent(in)                 :: itemp    !< initial temperature in units of 10**9 K
@@ -596,6 +612,16 @@ subroutine jacobi_init (time, itemp, rho, rkm, Y, Y_p, dYdt, rhs, h, evolution_m
       temp = itemp
    end if
 
+   ! Shut off neutrinos
+   if (nuflag .ge. 1) then
+       if ((time .gt. nu_max_time)  .and. (nu_max_time .ne. -1d0)) then
+           if (.not. nu_shutoff_indicator) then
+              print *,"Shutting off neutrino reactions at "//num_to_str(nu_max_time)//" s"
+              nu_shutoff_indicator = .True.
+           end if
+       end if
+   end if
+
    ! Initialize dydt and vals
    vals = 0.d0
    dYdt = 0.d0
@@ -624,6 +650,13 @@ subroutine jacobi_init (time, itemp, rho, rkm, Y, Y_p, dYdt, rhs, h, evolution_m
       ! Consider only weak reactions in NSE
       if ((evolution_mode.eq.EM_NSE).and.(rr_tmp%is_weak.eqv..false.)) cycle outer
 
+      ! Check if neutrino rates are still necessary
+      if ((nuflag .ge. 1) .and. (nu_max_time .ne. -1d0) .and. (time .ge. nu_max_time) .and. &
+          (rr_tmp%reac_src .eq. rrs_nu)) then
+        cycle outer
+      end if
+
+
       ! Calculate the reaction rate
       call calculate_reaction_rate(time, temp, rho, Ye, rkm, rrate, i, rat)
 
@@ -632,7 +665,7 @@ subroutine jacobi_init (time, itemp, rho, rkm, Y, Y_p, dYdt, rhs, h, evolution_m
 
       ! Create the jacobian and the DGLs
       select case (rr_tmp%group)
-      ! Chapter 1-3: one educt
+      ! Chapter 1-3: one reactant
       case(1:3,11)
          do j = 1, 5
             if (rr_tmp%parts(j) .eq. 0) exit
@@ -642,7 +675,7 @@ subroutine jacobi_init (time, itemp, rho, rkm, Y, Y_p, dYdt, rhs, h, evolution_m
             vals(rr_tmp%cscf_ind(1,j)) = vals(rr_tmp%cscf_ind(1,j)) - rat *      &
                  rr_tmp%ch_amount(j)
          end do
-         ! Chapter 1-4: two educts
+         ! Chapter 1-4: two reactants
       case(4:7)
          do j = 1, 6
             if (rr_tmp%parts(j) .eq. 0) exit
@@ -655,7 +688,7 @@ subroutine jacobi_init (time, itemp, rho, rkm, Y, Y_p, dYdt, rhs, h, evolution_m
             vals(rr_tmp%cscf_ind(2,j)) = vals(rr_tmp%cscf_ind(2,j)) - rat *      &
                  rr_tmp%ch_amount(j) * Y(rr_tmp%parts(1))
          end do
-      ! Chapter 8-9: three educts
+      ! Chapter 8-9: three reactants
     case(8:9)
          do j = 1, 6
             if (rr_tmp%parts(j) .eq. 0) exit
@@ -673,7 +706,7 @@ subroutine jacobi_init (time, itemp, rho, rkm, Y, Y_p, dYdt, rhs, h, evolution_m
                  rr_tmp%ch_amount(j) * Y(rr_tmp%parts(1)) *        &
                  Y(rr_tmp%parts(2))
          end do
-      ! Chapter 10: four educts
+      ! Chapter 10: four reactants
     case(10)
          do j = 1, 6
             if (rr_tmp%parts(j) .eq. 0) exit
