@@ -93,6 +93,12 @@ This command will display the movie in a separate window. Note that this process
 - `--tracked_max=TRACKED_MAX`
   Upper limit of the tracked nuclei mass fractions.
 
+- `--amainout_min=AMAINOUT_MIN`
+  Lower limit of the additional mainout abundances.
+
+- `--amainout_max=AMAINOUT_MAX`
+  Upper limit of the additional mainout abundances.
+
 - `--time_min=T_MIN`
   Lower limit of the time.
 
@@ -126,8 +132,8 @@ This command will display the movie in a separate window. Note that this process
 - `--frame_max=FRAME_MAX`
   Value of the last frame (default: end of the simulation).
 
-- `--slider`
-  Whether or not to add a slider to the simulation to jump to specific frames.
+- `--interactive`
+  Whether to show the movie in interactive mode.
 
 - `--save`
   Whether or not saving the movie.

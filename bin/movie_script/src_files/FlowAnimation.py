@@ -64,6 +64,8 @@ class FlowAnimation(object):
         additional_plot  = 'none',
         # Tracked nuclei
         trackedrange     = (1e-8, 1),
+        # Additional mainout
+        amainoutrange    = (5e-10, 1),
         # Energy
         energyrange      = (1e10, 1e20),
         # Timescales
@@ -75,7 +77,7 @@ class FlowAnimation(object):
         temperaturerange = (0, 10),
         yerange          = (0.0, 0.55),
         plot_logo        = True,
-        slider           = False
+        interactive      = False
        ):
         """
         Parameters
@@ -138,6 +140,8 @@ class FlowAnimation(object):
             Additional plot to be made, possible values: 'None', 'timescales', 'energy', 'tracked'.
         trackedrange : tuple
             Range of the tracked nuclei plot.
+        amainoutrange : tuple
+            Range of the additional mainout plot.
         energyrange : tuple
             Range of the energy axis.
         timescalerange : tuple
@@ -154,8 +158,8 @@ class FlowAnimation(object):
             Range of the electron fraction axis in the mainout plot.
         plot_logo : bool
             Plot the WinNet logo.
-        slider : bool
-            Use a slider widget.
+        interactive : bool
+            Enable interactive mode.
         """
 
 
@@ -198,7 +202,7 @@ class FlowAnimation(object):
         self.timerange        = timerange         # Range of the time axis
         self.plot_mainout     = plot_mainout      # Plot the mainout data
         self.plot_logo        = plot_logo         # Plot the WinNet logo
-        self.use_slider        = slider           # Use slider widget
+        self.interactive      = interactive       # Have it interactive
         self.flow_group       = 'flows'           # Name of the group in the HDF5 file that contains the flow data
         self.plot_flow        = plot_flow         # Plot the flow of the abundances
         self.fig              = fig               # Figure to plot the animation on
@@ -212,10 +216,11 @@ class FlowAnimation(object):
         self.flow_adapt_width = flow_adapt_width  # Adapt the width of the flow arrows to the flow
         self.flow_maxArrowWidth = flow_maxArrowWidth # Maximum width of the flow arrows
         self.flow_minArrowWidth = flow_minArrowWidth # Minimum width of the flow arrows
-        self.flow_min        = flow_min          # Minimum value for the flow
-        self.flow_max        = flow_max          # Maximum value for the flow
-        self.flow_adapt_prange = flow_adapt_prange # Adapt the color range of the flow to the data
-        self.fission_minflow = fission_minflow   # Minimum value for the fission flow
+        self.flow_min           = flow_min          # Minimum value for the flow
+        self.flow_max           = flow_max          # Maximum value for the flow
+        self.flow_adapt_prange  = flow_adapt_prange # Adapt the color range of the flow to the data
+        self.fission_minflow    = fission_minflow   # Minimum value for the fission flow
+        self.amainoutrange      = amainoutrange     # Range of the additional mainout plot
 
         if (self.flow_adapt_prange):
             self.flow_prange = flow_prange       # Range (in log10) of the flow
@@ -227,18 +232,27 @@ class FlowAnimation(object):
             self.plot_timescales = True
             self.plot_energy = False
             self.plot_tracked = False
+            self.plot_addmainout = False
         elif self.additional_plot == 'energy':
             self.plot_timescales = False
             self.plot_energy = True
             self.plot_tracked = False
+            self.plot_addmainout = False
         elif self.additional_plot == 'tracked':
             self.plot_timescales = False
             self.plot_energy = False
             self.plot_tracked = True
+            self.plot_addmainout = False
+        elif self.additional_plot == 'mainout':
+            self.plot_timescales = False
+            self.plot_energy = False
+            self.plot_tracked = False
+            self.plot_addmainout = True
         elif self.additional_plot == 'none':
             self.plot_timescales = False
             self.plot_energy = False
             self.plot_tracked = False
+            self.plot_addmainout = False
         else:
             raise ValueError(f"Additional plot {self.additional_plot} not recognized. Possible values: 'None', 'timescales', 'energy', 'tracked'")
 
@@ -302,6 +316,70 @@ class FlowAnimation(object):
         # Set up the limits of the plot
         self.limits_plot = self.ax.get_xlim(), self.ax.get_ylim()
 
+        # For interactive flow range
+        self.flow_max_offset = 0.0
+        self.flow_min_offset = 0.0
+
+        if self.interactive:
+            self.__init_sunet_indicator()
+
+
+    def __init_sunet_indicator(self):
+        sunet_path = self.wreader.template['net_source']
+        nuclei_names = np.loadtxt(sunet_path,dtype=str)
+        nm = nucleus_multiple(names=nuclei_names)
+
+        self.__sunet_lines = []
+        # Loop through Zs
+        for Z in np.unique(nm.Z):
+            # Find the Ns that are have larger than distance one to the next N
+            mask = (nm.Z == Z)
+            Ns = nm.N[mask]
+            # Find the Ns that are have larger than distance one to the next N
+            diff = np.diff(Ns)
+            mask = np.where(diff > 1)[0]
+            # Loop through the Ns
+            # Plot left and right
+            line = self.ax.plot([np.min(Ns)-0.5, np.min(Ns)-0.5], [Z-0.5, Z+0.5], color='red', zorder=1000, lw=1)
+            self.__sunet_lines.append(line)
+            line = self.ax.plot([np.max(Ns)+0.5, np.max(Ns)+0.5], [Z-0.5, Z+0.5], color='red', zorder=1000, lw=1)
+            self.__sunet_lines.append(line)
+            for i in mask:
+                # Add a line to the plot
+                line = self.ax.plot([Ns[i]+0.5, Ns[i]+0.5], [Z-0.5, Z+0.5], color='red', zorder=1000, lw=1)
+                self.__sunet_lines.append(line)
+                line = self.ax.plot([Ns[i+1]-0.5, Ns[i+1]-0.5], [Z-0.5, Z+0.5], color='red', zorder=1000, lw=1)
+                self.__sunet_lines.append(line)
+
+        # Same but for Z
+        for N in np.unique(nm.N):
+            # Find the Ns that are have larger than distance one to the next N
+            mask = (nm.N == N)
+            Zs = nm.Z[mask]
+            # Find the Ns that are have larger than distance one to the next N
+            diff = np.diff(Zs)
+            mask = np.where(diff > 1)[0]
+            # Loop through the Ns
+            # Plot left and right
+            line = self.ax.plot([N-0.5, N+0.5], [np.min(Zs)-0.5, np.min(Zs)-0.5], color='red', zorder=1000, lw=1)
+            self.__sunet_lines.append(line)
+            line = self.ax.plot([N-0.5, N+0.5], [np.max(Zs)+0.5, np.max(Zs)+0.5], color='red', zorder=1000, lw=1)
+            self.__sunet_lines.append(line)
+            for i in mask:
+                # Add a line to the plot
+                line = self.ax.plot([N-0.5, N+0.5], [Zs[i]+0.5, Zs[i]+0.5], color='red', zorder=1000, lw=1)
+                self.__sunet_lines.append(line)
+                line = self.ax.plot([N-0.5, N+0.5], [Zs[i+1]-0.5, Zs[i+1]-0.5], color='red', zorder=1000, lw=1)
+                self.__sunet_lines.append(line)
+
+        # Hide the lines
+        for line in self.__sunet_lines:
+            for l in line:
+                l.set_visible(False)
+        self.sunet_indication = False
+
+
+
 
     def init_axes(self):
         """
@@ -336,13 +414,17 @@ class FlowAnimation(object):
         if self.plot_tracked:
             self.__init_axTracked()
 
+        # Additional mainout
+        if self.plot_addmainout:
+            self.__init_axAddMainout()
+
         # WinNet logo
         if self.plot_logo:
             self.__init_logo()
 
-        # Slider
-        if self.use_slider:
-            self.__init_slider()
+        # interactive stuff
+        if self.interactive:
+            self.__init_interactive()
 
         # Start with a running movie
         self.movie_paused = False
@@ -421,6 +503,18 @@ class FlowAnimation(object):
         self.axEnergy.set_xscale('log')
         self.axEnergy.set_xlim(self.timerange[0],self.timerange[1])
 
+    def __init_axAddMainout(self):
+        """
+           Initialize the axes and everything figure related of the energy plot.
+        """
+        self.axAddMainout = plt.axes([0.15,0.55,0.20,0.17])
+        self.axAddMainout.set_xlabel('Time [s]')
+        self.axAddMainout.set_ylabel('Abundance')
+        self.axAddMainout.set_yscale('log')
+        self.axAddMainout.set_ylim(self.amainoutrange[0],self.amainoutrange[1])
+        self.axAddMainout.set_xscale('log')
+        self.axAddMainout.set_xlim(self.timerange[0],self.timerange[1])
+
     def __init_axMainout(self):
         """
            Initialize the axes and everything figure related of the mainout plot.
@@ -469,7 +563,7 @@ class FlowAnimation(object):
         self.axLogo.axis('off')
         self.axLogo.imshow(plt.imread(os.path.join(self.__data_path,'WinNet_logo.png')))
 
-    def __init_slider(self):
+    def __init_interactive(self):
 
         self.ax_slider = plt.axes([0.18, 0.08, 0.72, 0.02], facecolor='lightgoldenrodyellow')
         self.ax_button = plt.axes([0.18-0.018, 0.08, 0.012, 0.022])  # Adjust `bottom` for centering
@@ -480,6 +574,11 @@ class FlowAnimation(object):
         self.play_button.on_clicked(self.pause_movie)
         self.fig.canvas.mpl_connect('key_press_event', self.arrow_update)
         self.__interactive_ax = None
+
+        # Add a bookmark at a certain time in the slider
+        # Calculate neutron freeze-out time
+        # nfreezeout = np.argmin(abs(1-self.wreader.mainout['yn']/self.wreader.mainout['yheavy']))
+        # self.ax_slider.axvline(nfreezeout, color='red', linestyle='--', linewidth=1)  # Bookmark indicators
 
         # Check which data could be shown
         self.available_data = []
@@ -507,6 +606,14 @@ class FlowAnimation(object):
             self.toggle_buttons[-1].label.set_fontsize(12)
             self.toggle_buttons[-1].label.set_color('tab:orange')
             self.toggle_buttons[-1].on_clicked(self.toggle_button_event)
+
+        if self.wreader.check_existence('mainout') !=0:
+            self.available_data.append('mainout')
+            amount_buttons = len(self.toggle_buttons)
+            self.toggle_buttons.append(Button(plt.axes([0.18-0.018+0.015*amount_buttons, 0.05, 0.012, 0.022]), "m"))
+            self.toggle_buttons[-1].label.set_fontsize(12)
+            self.toggle_buttons[-1].label.set_color('tab:blue')
+            self.toggle_buttons[-1].on_clicked(self.toggle_button_event)
         self.active_button = None
 
         # Add zoom button
@@ -515,6 +622,74 @@ class FlowAnimation(object):
         self.zoom_button.label.set_color('k')
         self.zoom_button.on_clicked(self.zoom_button_event)
         self.zoomed = False
+
+        # Check if the sunet path exists
+        supath = self.wreader.template['net_source']
+        if os.path.exists(supath):
+            self.sunet_button = Button(plt.axes([0.18-0.018+0.015*(len(self.toggle_buttons)+1+0.2), 0.05, 0.012, 0.022]), "S")
+            self.sunet_button.label.set_fontsize(12)
+            self.sunet_button.label.set_color('k')
+            self.sunet_button.on_clicked(self.sunet_button_event)
+
+        # Check if flow is plotted and add a button to change the flow range
+        if self.plot_flow:
+            self.flow_buttons = [Button(plt.axes([0.88, 0.905, 0.01, 0.02]), "+")]
+            self.flow_buttons[-1].label.set_fontsize(12)
+            self.flow_buttons[-1].label.set_color('k')
+            self.flow_buttons[-1].on_clicked(self.flow_button_event)
+
+            self.flow_buttons.append(Button(plt.axes([0.868, 0.905, 0.01, 0.02]), "-"))
+            self.flow_buttons[-1].label.set_fontsize(12)
+            self.flow_buttons[-1].label.set_color('k')
+            self.flow_buttons[-1].on_clicked(self.flow_button_event)
+
+            self.flow_buttons.append(Button(plt.axes([0.762, 0.905, 0.01, 0.02]),"+"))
+            self.flow_buttons[-1].label.set_fontsize(12)
+            self.flow_buttons[-1].label.set_color('k')
+            self.flow_buttons[-1].on_clicked(self.flow_button_event)
+
+            self.flow_buttons.append(Button(plt.axes([0.75, 0.905, 0.01, 0.02]), "-"))
+            self.flow_buttons[-1].label.set_fontsize(12)
+            self.flow_buttons[-1].label.set_color('k')
+            self.flow_buttons[-1].on_clicked(self.flow_button_event)
+
+            # Add a button to change reset
+            self.flow_buttons.append(Button(plt.axes([0.775, 0.905, 0.01, 0.02]), "⟲"))
+            self.flow_buttons[-1].label.set_fontsize(12)
+            self.flow_buttons[-1].label.set_color('k')
+            self.flow_buttons[-1].on_clicked(self.flow_button_event)
+
+            # self.flow_button.on_clicked(self.flow_button_event)
+
+    def flow_button_event(self, event):
+        if event.inaxes == self.flow_buttons[0].ax:
+            self.flow_max_offset += 0.5
+        elif event.inaxes == self.flow_buttons[1].ax:
+            self.flow_max_offset -= 0.5
+        elif event.inaxes == self.flow_buttons[2].ax:
+            self.flow_min_offset -= 0.5
+        elif event.inaxes == self.flow_buttons[3].ax:
+            self.flow_min_offset += 0.5
+        elif event.inaxes == self.flow_buttons[4].ax:
+            self.flow_max_offset = 0.0
+            self.flow_min_offset = 0.0
+
+        # Refresh the animation at current position
+        if self.movie_paused:
+            self.update_frame(self.slider_bar.val)
+
+        self.fig.canvas.draw_idle()
+        pass
+
+
+
+    def sunet_button_event(self, event):
+        self.sunet_indication = not self.sunet_indication
+        for line in self.__sunet_lines:
+            for l in line:
+                l.set_visible(self.sunet_indication)
+        self.fig.canvas.draw_idle()
+
 
     def zoom_button_event(self, event):
         self.__toggle_zoom()
@@ -549,6 +724,8 @@ class FlowAnimation(object):
                         self.__toggle_energy()
                     elif self.available_data[i] == 'tracked_nuclei':
                         self.__toggle_tracked()
+                    elif self.available_data[i] == 'mainout':
+                        self.__toggle_addmainout()
                 else:
                     # Unpress the button
                     for t in ['top','right','bottom','left']:
@@ -561,6 +738,7 @@ class FlowAnimation(object):
                     self.plot_timescales = False
                     self.plot_energy = False
                     self.plot_tracked = False
+                    self.plot_addmainout = False
                 self.fig.canvas.draw_idle()
                 return
 
@@ -588,6 +766,10 @@ class FlowAnimation(object):
         # Set up tracked nuclei data
         if self.plot_tracked:
             self.__init_data_tracked(-1)
+
+        # Set up additional mainout data
+        if self.plot_addmainout:
+            self.__init_data_addmainout(-1)
 
         # Set up mainout data
         if self.plot_mainout:
@@ -772,6 +954,9 @@ class FlowAnimation(object):
         # Plot the energy
         if self.plot_energy:
             self.__init_plot_energy()
+        # Plot the additional mainout
+        if self.plot_addmainout:
+            self.__init_plot_addmainout()
         # Plot the tracked nuclei
         if self.plot_tracked:
             self.__init_plot_tracked()
@@ -817,6 +1002,13 @@ class FlowAnimation(object):
                             label=(self.timescale_labels[i] if (j == 0) else "")) for j in range(len(self.ts_data[i]))] for i in range(len(self.ts_data))]
         # Also make the background of the box non-transparent
         self.axTimescales.legend(loc='upper right', ncol=2, bbox_to_anchor=(1.3, 1.0), frameon=True, facecolor='white', edgecolor='black', framealpha=1.0, fontsize=8)
+
+    def __init_plot_addmainout(self):
+        self.addmainout_plot = [self.axAddMainout.plot(self.addmainout_time,self.addmainout_data[k],
+                                                label=self.addmainout_label[i], lw=1) for i,k in enumerate(self.addmainout_data.keys())]
+        # Also make the background of the box non-transparent
+        self.axAddMainout.legend(loc='upper right', ncol=2, bbox_to_anchor=(1.3, 1.0), frameon=True, facecolor='white', edgecolor='black', framealpha=1.0, fontsize=8)
+
 
     def __init_plot_energy(self):
         self.energy_plot = [self.axEnergy.plot(self.energy_time,self.energy_data[i], color=self.energy_colors[i],
@@ -895,6 +1087,9 @@ class FlowAnimation(object):
         if self.plot_energy:
             self.__init_data_energy(ii)
 
+        if self.plot_addmainout:
+            self.__init_data_addmainout(ii)
+
         if self.plot_tracked:
             self.__init_data_tracked(ii)
 
@@ -938,6 +1133,17 @@ class FlowAnimation(object):
         self.ts_time = self.ts_time-self.ts_time[0]
         self.ts_data = [ [ self.wreader.tau['tau_'+str(self.timescale_entries[i][j])][:ii]
                             for j in range(len(self.timescale_entries[i]))] for i in range(len(self.timescale_entries)) ]
+
+    def __init_data_addmainout(self, ii):
+        self.addmainout_time = self.wreader.mainout['time'][:ii]
+        self.addmainout_time = self.addmainout_time-self.addmainout_time[0]
+        self.addmainout_label = [r"Y$_n$", r"Y$_p$", r"Y$_\alpha$", r"Y$_{\text{heavy}}$", r"Y$_{\text{light}}$"]
+        self.addmainout_data = {}
+        self.addmainout_data["yn"]  = self.wreader.mainout['yn'][:ii]
+        self.addmainout_data["yp"]  = self.wreader.mainout['yp'][:ii]
+        self.addmainout_data["ya"]  = self.wreader.mainout['ya'][:ii]
+        self.addmainout_data["yheavy"]  = self.wreader.mainout['yheavy'][:ii]
+        self.addmainout_data["ylight"]  = self.wreader.mainout['ylight'][:ii]
 
     def __init_data_energy(self, ii):
         self.energy_time = self.wreader.energy['time'][:ii]
@@ -991,6 +1197,9 @@ class FlowAnimation(object):
         if self.plot_energy:
             [ self.energy_plot[i][0].set_xdata(self.energy_time) for i in range(len(self.energy_plot))]
             [ self.energy_plot[i][0].set_ydata(self.energy_data[i]) for i in range(len(self.energy_plot))]
+        if self.plot_addmainout:
+            [ self.addmainout_plot[i][0].set_xdata(self.addmainout_time) for i in range(len(self.addmainout_plot))]
+            [ self.addmainout_plot[i][0].set_ydata(self.addmainout_data[k]) for i,k in enumerate(self.addmainout_data.keys())]
         if self.plot_tracked:
             [ self.tracked_plot[i][0].set_xdata(self.tracked_time) for i in range(len(self.tracked_plot))]
             [ self.tracked_plot[i][0].set_ydata(self.track_nuclei_data[i]) for i in range(len(self.tracked_plot))]
@@ -1027,8 +1236,8 @@ class FlowAnimation(object):
         if self.plot_flow:
             # Adapt flowmin and flowmax
             if self.flow_adapt_prange:
-                lmaxflow = (np.nanmean(np.log10(self.flow_max_history)))+0.5
-                lminflow = lmaxflow-self.flow_prange
+                lmaxflow = (np.nanmean(np.log10(self.flow_max_history)))+0.5+self.flow_max_offset
+                lminflow = lmaxflow-self.flow_prange-self.flow_min_offset
                 self.flow_cbar.mappable.set_clim(vmin=10**lminflow, vmax=10**lmaxflow)
                 self.flow_max = 10**lmaxflow
                 self.flow_min = 10**lminflow
@@ -1075,7 +1284,7 @@ class FlowAnimation(object):
         self.frames=frames
         self.animation = FuncAnimation(self.fig, self.update_frame,
             frames=frames, **kwargs)
-        if self.use_slider:
+        if self.interactive:
             self.time_slider()
         return self.animation
 
@@ -1150,7 +1359,8 @@ class FlowAnimation(object):
         elif event.key == " ":
             self.pause_movie(event)
         elif ((event.key == "t") or (event.key == "e")
-               or (event.key == 'n') or (event.key == 'd')):
+               or (event.key == 'n') or (event.key == 'd')
+               or (event.key == 'm')):
 
             if not (self.__interactive_ax is None):
                 self.__interactive_ax.remove()
@@ -1164,11 +1374,15 @@ class FlowAnimation(object):
             elif event.key == 'n':
                 # Toggle tracked nuclei
                 self.__toggle_tracked()
+            elif event.key == 'm':
+                # Toggle tracked nuclei
+                self.__toggle_addmainout()
             elif event.key == "d":
                 # Shut of additional plots
                 self.plot_timescales = False
                 self.plot_energy = False
                 self.plot_tracked = False
+                self.plot_addmainout = False
                 self.__interactive_ax = None
 
             self.fig.canvas.draw_idle()
@@ -1180,6 +1394,7 @@ class FlowAnimation(object):
                 self.plot_timescales = False
                 self.plot_energy = False
                 self.plot_tracked = False
+                self.plot_addmainout = False
                 self.__interactive_ax = None
             else:
                 ii = int(self.slider_bar.val)
@@ -1188,6 +1403,7 @@ class FlowAnimation(object):
                 self.plot_timescales = True
                 self.plot_energy = False
                 self.plot_tracked = False
+                self.plot_addmainout = False
                 self.__init_plot_timescales()
                 self.__interactive_ax = self.axTimescales
 
@@ -1198,6 +1414,7 @@ class FlowAnimation(object):
                 self.plot_timescales = False
                 self.plot_energy = False
                 self.plot_tracked = False
+                self.plot_addmainout = False
                 self.__interactive_ax = None
             else:
                 ii = int(self.slider_bar.val)
@@ -1206,8 +1423,29 @@ class FlowAnimation(object):
                 self.plot_timescales = False
                 self.plot_energy = True
                 self.plot_tracked = False
+                self.plot_addmainout = False
                 self.__init_plot_energy()
                 self.__interactive_ax = self.axEnergy
+
+    def __toggle_addmainout(self):
+        if 'mainout' in self.available_data:
+            # Toggle additional mainout information
+            if self.plot_addmainout == True:
+                self.plot_timescales = False
+                self.plot_energy = False
+                self.plot_tracked = False
+                self.plot_addmainout = False
+                self.__interactive_ax = None
+            else:
+                ii = int(self.slider_bar.val)
+                self.__init_data_addmainout(ii)
+                self.__init_axAddMainout()
+                self.plot_timescales = False
+                self.plot_energy = False
+                self.plot_tracked = False
+                self.plot_addmainout = True
+                self.__init_plot_addmainout()
+                self.__interactive_ax = self.axAddMainout
 
     def __toggle_tracked(self):
         if 'tracked_nuclei' in self.available_data:
@@ -1216,6 +1454,7 @@ class FlowAnimation(object):
                 self.plot_timescales = False
                 self.plot_energy = False
                 self.plot_tracked = False
+                self.plot_addmainout = False
                 self.__interactive_ax = None
             else:
                 ii = int(self.slider_bar.val)
@@ -1224,6 +1463,7 @@ class FlowAnimation(object):
                 self.plot_timescales = False
                 self.plot_energy = False
                 self.plot_tracked = True
+                self.plot_addmainout = False
                 self.__init_plot_tracked()
                 self.__interactive_ax = self.axTracked
 

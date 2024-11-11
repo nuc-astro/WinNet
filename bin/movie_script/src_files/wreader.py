@@ -3,6 +3,7 @@
 import numpy                as     np
 from tqdm                   import tqdm
 from nucleus_multiple_class import nucleus_multiple
+from template_class         import template
 import h5py
 import os
 
@@ -30,6 +31,18 @@ class wreader(object):
         # The path to the snapshots in case of ascii mode
         self.__snapshot_path = os.path.join(path, "snaps")
 
+        # Path to template file. Find file with .par ending
+        self.__template_path = os.path.join(path, [f for f in os.listdir(path) if f.endswith('.par')][0])
+
+
+    @property
+    def template(self):
+        """
+        Check if the run has crashed
+        """
+        if not hasattr(self,"_wreader__template"):
+            self.__template = template(self.__template_path)
+        return self.__template
 
 
     @property
@@ -52,7 +65,6 @@ class wreader(object):
             self.__is_crashed = True
         else:
             self.__is_crashed = False
-
 
 
     @property
