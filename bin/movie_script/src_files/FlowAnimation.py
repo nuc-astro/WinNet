@@ -327,7 +327,7 @@ class FlowAnimation(object):
         self.flow_max_offset = 0.0
         self.flow_min_offset = 0.0
 
-        if self.indicate_r_path:
+        if self.indicate_r_path or self.interactive:
             self.__init_ngamma_eq()
 
         if self.interactive:
@@ -727,6 +727,11 @@ class FlowAnimation(object):
 
     def r_path_button_event(self, event):
         self.indicate_r_path = not self.indicate_r_path
+        if self.indicate_r_path:
+            # Update the data and the animation
+            ii = self.slider_bar.val
+            self.update_data(ii)
+            self.update_frame(ii)
         self.ngamma_eq_plot[0].set_visible(self.indicate_r_path)
         self.ngamma_eq_plot_o[0].set_visible(self.indicate_r_path)
         self.fig.canvas.draw_idle()
