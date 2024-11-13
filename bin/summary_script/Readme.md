@@ -1,7 +1,7 @@
 # Simulation Data Summary Tool
 
 This Python script summarizes the data from simulation runs that have been run with the --many option. The result is saved in an HDF5 file. It offers flexible options for customization and supports a variety of output formats.
-The output of the individual runs is (linearly) interpolated to one common time grid. If the trajectory starts later or ends earlier than this time grid, the data in the summary is filled with NaNs. 
+The output of the individual runs is (linearly) interpolated to one common time grid. If the trajectory starts later or ends earlier than this time grid, the data in the summary is filled with NaNs.
 
 ## Usage
 
@@ -13,78 +13,82 @@ python summarize.py -i <rundir> [options]
 
 ## Options
 
-- **`-i`, `--input`**  
-  Specifies the simulation directory to summarize.  
+- **`-i`, `--input`**
+  Specifies the simulation directory to summarize.
   **Default**: `.` (current directory)
 
-- **`-o`, `--output`**  
-  Specifies the output path for the summary file.  
+- **`-o`, `--output`**
+  Specifies the output path for the summary file.
   **Default**: `./summary.hdf5`
 
-- **`-b`, `--buf`**  
-  Buffer size before writing data to the output file.  
+- **`-b`, `--buf`**
+  Buffer size before writing data to the output file.
   **Default**: `500`
 
-- **`-f`, `--force`**  
-  Forces overwriting the output file if it already exists.  
+- **`-f`, `--force`**
+  Forces overwriting the output file if it already exists.
   **Default**: `False`
 
-- **`-v`, `--verbose`**  
-  Enables verbose output, which is logged to `debug.log`.  
+- **`-v`, `--verbose`**
+  Enables verbose output, which is logged to `debug.log`.
   **Default**: `False`
 
-- **`--time_file`**  
-  Specifies the path to a file containing the time grid in seconds.  
+- **`--time_file`**
+  Specifies the path to a file containing the time grid in seconds.
   **Default**: `None`
 
-- **`--time_final`**  
-  Specifies the final time for the time grid. This is only used if `--time_file` is not given.  
+- **`--time_final`**
+  Specifies the final time for the time grid. This is only used if `--time_file` is not given.
   **Default**: Read from the template file.
 
-- **`--time_initial`**  
-  Specifies the initial time for the time grid. This is only used if `--time_file` is not given.  
+- **`--time_initial`**
+  Specifies the initial time for the time grid. This is only used if `--time_file` is not given.
   **Default**: `1e-5`
 
-- **`--time_number`**  
-  Specifies the number of time steps for the time grid. This is only used if `--time_file` is not given.  
+- **`--time_number`**
+  Specifies the number of time steps for the time grid. This is only used if `--time_file` is not given.
   **Default**: `200`
 
-- **`--sunet_path`**  
-  Specifies the path to the `sunet` file.  
+- **`-r`, `--recursive`**
+  Specifies if only one run folder should be summarized or all that are contained in a specific folder.
+  **Default**: `False`
+
+- **`--sunet_path`**
+  Specifies the path to the `sunet` file.
   **Default**: Read from the template.
 
 ### Output Disabling Options
 
 You can choose to disable certain parts of the summary process using the following options:
 
-- **`--disable_mainout`**  
-  Disables summarizing the `mainout` output.  
+- **`--disable_mainout`**
+  Disables summarizing the `mainout` output.
   **Default**: `False`
 
-- **`--disable_energy`**  
-  Disables summarizing the `energy` output.  
+- **`--disable_energy`**
+  Disables summarizing the `energy` output.
   **Default**: `False`
 
-- **`--disable_timescales`**  
-  Disables summarizing the `timescales` output.  
+- **`--disable_timescales`**
+  Disables summarizing the `timescales` output.
   **Default**: `False`
 
-- **`--disable_tracked_nuclei`**  
-  Disables summarizing the `tracked_nuclei` output.  
+- **`--disable_tracked_nuclei`**
+  Disables summarizing the `tracked_nuclei` output.
   **Default**: `False`
 
-- **`--disable_snapshots`**  
-  Disables summarizing the `snapshots` output.  
+- **`--disable_snapshots`**
+  Disables summarizing the `snapshots` output.
   **Default**: `False`
 
-- **`--disable_nuloss`**  
-  Disables summarizing the `nuloss` output.  
+- **`--disable_nuloss`**
+  Disables summarizing the `nuloss` output.
   **Default**: `False`
-  
+
 ## Hdf5 output
 
-The HDF5 file contains several key datasets based on the simulation results. 
-Note that there are tools like HDF compass to visualize the content of the Hdf5 file. 
+The HDF5 file contains several key datasets based on the simulation results.
+Note that there are tools like HDF compass to visualize the content of the Hdf5 file.
 Below is a summary of the main entries in the HDF5 file:
 
 1. **`finab/`**:
@@ -121,7 +125,7 @@ Below is a summary of the main entries in the HDF5 file:
 9. **`nuloss/`** (if not disabled):
    - **`time`**: Time grid for the neutrino loss and neutrino heating energy.
    - **Other Keys**: Data corresponding to the nuloss output.
-  
+
 
 ## Examples
 
