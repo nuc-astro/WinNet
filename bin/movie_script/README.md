@@ -126,6 +126,9 @@ This command will display the movie in a separate window. Note that this process
 - `--ye_max=YE_MAX`
   Upper limit of the electron fraction.
 
+- `--indicate_r_path`
+  Whether or not to indicate a theoretical r-process path that has been calculated assuming (n,gamma)(gamma,n) equilibrium.
+
 - `--frame_min=FRAME_MIN`
   Value of the first frame (default: 1).
 

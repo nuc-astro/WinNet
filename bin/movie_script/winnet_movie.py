@@ -14,7 +14,6 @@ import matplotlib.pyplot     as plt
 import optparse
 
 
-
 #--- define options ----------------------------------------------------------
 p = optparse.OptionParser()
 p.add_option("-i","--input", action="store", dest="rundir",  default='.',  \
@@ -88,6 +87,9 @@ p.add_option("--ye_min", action="store", dest="ye_min", default="", \
   help="Lower limit of the electron fraction.")
 p.add_option("--ye_max", action="store", dest="ye_max", default="", \
   help="Upper limit of the electron fraction.")
+p.add_option("--indicate_r_path", action="store_true", dest="indicate_r_path", default=False, \
+  help="Whether or not to indicate a theoretical r-process path that has been calculated assuming "+\
+       "(n,gamma)(gamma,n) equilibrium.")
 p.add_option("--frame_min", action="store", dest="frame_min", default="", \
   help="Value of the first frame (default = 1).")
 p.add_option("--frame_max", action="store", dest="frame_max", default="", \
@@ -167,6 +169,7 @@ if options.ye_min: kwargs['yerange'] = (float(options.ye_min), kwargs['yerange']
 if options.ye_max: kwargs['yerange'] = (kwargs['yerange'][0], float(options.ye_max))
 if options.amainout_min: kwargs['amainoutrange'] = (float(options.amainout_min), kwargs['amainoutrange'][1])
 if options.amainout_max: kwargs['amainoutrange'] = (kwargs['amainoutrange'][0], float(options.amainout_max))
+if options.indicate_r_path: kwargs['indicate_r_path'] = True
 
 
 
@@ -200,6 +203,21 @@ if options.additional_plot:
         if value == 0:
             print('No mainout found. Disabling mainout. Remove --additional_plot to disable this message.')
             kwargs['additional_plot'] = 'none'
+if options.indicate_r_path:
+    value = w.check_existence('mainout')
+    if value == 0:
+        print('No mainout found. Disabling r-process path. Remove --indicate_r_path to disable this message.')
+        kwargs['indicate_r_path'] = False
+if options.indicate_r_path or options.interactive:
+    # Check if the winvn.dat file is present
+    winvn_path = w.template['isotopes_file']
+    if not os.path.exists(os.path.join(run_path, winvn_path)):
+        print('No winvn.dat found. Falling back to default winvn path.')
+        # relative to the file here
+        winvn_path = os.path.join(script_path, '../../data/winvne_v2.0.dat')
+    kwargs['winvn_path'] = winvn_path
+if options.interactive:
+    kwargs['additional_plot'] = 'none'
 if not options.disable_mainout:
     value = w.check_existence('mainout')
     if value == 0:

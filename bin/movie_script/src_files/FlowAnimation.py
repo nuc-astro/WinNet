@@ -7,16 +7,18 @@ import matplotlib         as mpl
 import matplotlib.patches as patches
 import matplotlib.patheffects as PathEffects
 from matplotlib.collections import PatchCollection
-from tqdm                 import tqdm
-from matplotlib           import cm
-from matplotlib.patches   import Arrow, FancyBboxPatch
-from matplotlib.colors    import LogNorm, SymLogNorm
-from matplotlib.colors    import ListedColormap, LinearSegmentedColormap
-from matplotlib.animation import FuncAnimation
-from matplotlib.widgets   import Slider, Button
-from wreader              import wreader
-from h5py                 import File
+from tqdm                   import tqdm
+from matplotlib             import cm
+from matplotlib.patches     import Arrow, FancyBboxPatch
+from matplotlib.colors      import LogNorm, SymLogNorm
+from matplotlib.colors      import ListedColormap, LinearSegmentedColormap
+from matplotlib.animation   import FuncAnimation
+from matplotlib.widgets     import Slider, Button
+from wreader                import wreader
+from h5py                   import File
 from nucleus_multiple_class import nucleus_multiple
+from ngamma_eq              import ngamma_eq
+from winvn_class            import winvn
 
 ################################################################################
 
@@ -77,6 +79,8 @@ class FlowAnimation(object):
         temperaturerange = (0, 10),
         yerange          = (0.0, 0.55),
         plot_logo        = True,
+        indicate_r_path  = False,
+        winvn_path       = None,
         interactive      = False
        ):
         """
@@ -158,6 +162,10 @@ class FlowAnimation(object):
             Range of the electron fraction axis in the mainout plot.
         plot_logo : bool
             Plot the WinNet logo.
+        indicate_r_path : bool
+            Indicate the r-process path.
+        winvn_path : str
+            Path to the winvn file in case r-process path should be indicated.
         interactive : bool
             Enable interactive mode.
         """
@@ -181,9 +189,6 @@ class FlowAnimation(object):
 
         # WinNet run path
         self.path = path
-
-
-
 
         # Save the parameters in class variables
         self.X_min            = X_min             # Minimum value for the mass fractions
@@ -221,6 +226,8 @@ class FlowAnimation(object):
         self.flow_adapt_prange  = flow_adapt_prange # Adapt the color range of the flow to the data
         self.fission_minflow    = fission_minflow   # Minimum value for the fission flow
         self.amainoutrange      = amainoutrange     # Range of the additional mainout plot
+        self.indicate_r_path    = indicate_r_path   # Indicate the r-process path
+        self.winvn_path         = winvn_path        # Path to the winvn file in case r-process path should be indicated
 
         if (self.flow_adapt_prange):
             self.flow_prange = flow_prange       # Range (in log10) of the flow
@@ -320,8 +327,29 @@ class FlowAnimation(object):
         self.flow_max_offset = 0.0
         self.flow_min_offset = 0.0
 
+        if self.indicate_r_path:
+            self.__init_ngamma_eq()
+
         if self.interactive:
             self.__init_sunet_indicator()
+            self.__interactive_box = None
+            self.__interactive_textbox = None
+            self.winvn = winvn(self.winvn_path)
+            self.winvn.read_winvn()
+            df = self.winvn.get_dataframe()
+            # Set a tuple of N and Z as index
+            df.set_index(['N','Z'], inplace=True)
+            self.winvn.set_dataframe(df)
+
+
+    def __init_ngamma_eq(self):
+        """
+           Initialize the ngamma_eq class.
+        """
+        self.ngamma_eq = ngamma_eq(self.winvn_path)
+        self.ngamma_eq_plot   = self.ax.plot([],[],color='purple',lw=1.5,zorder=99)
+        self.ngamma_eq_plot_o = self.ax.plot([],[],color='w',lw=2.5,zorder=98)
+
 
 
     def __init_sunet_indicator(self):
@@ -577,8 +605,12 @@ class FlowAnimation(object):
 
         # Add a bookmark at a certain time in the slider
         # Calculate neutron freeze-out time
-        # nfreezeout = np.argmin(abs(1-self.wreader.mainout['yn']/self.wreader.mainout['yheavy']))
-        # self.ax_slider.axvline(nfreezeout, color='red', linestyle='--', linewidth=1)  # Bookmark indicators
+        min_val = 1-self.wreader.mainout['yn']/self.wreader.mainout['yheavy']
+        nfreezeout = np.argmin(abs(min_val))
+        # Check if its really the freeze-out time by checking if it switches from larger one to smaller 1
+        if (min_val[nfreezeout-1] < 0) and (min_val[nfreezeout+1] > 0):
+            # self.ax_slider.plot([nfreezeout,nfreezeout],[0,0.25], color='tab:red', linestyle='-', linewidth=1)  # Bookmark indicators
+            self.ax_slider.axvline(nfreezeout, color='tab:red', linestyle='-', linewidth=1)  # Bookmark indicators
 
         # Check which data could be shown
         self.available_data = []
@@ -625,11 +657,23 @@ class FlowAnimation(object):
 
         # Check if the sunet path exists
         supath = self.wreader.template['net_source']
+        addbutton = 0
         if os.path.exists(supath):
             self.sunet_button = Button(plt.axes([0.18-0.018+0.015*(len(self.toggle_buttons)+1+0.2), 0.05, 0.012, 0.022]), "S")
             self.sunet_button.label.set_fontsize(12)
             self.sunet_button.label.set_color('k')
             self.sunet_button.on_clicked(self.sunet_button_event)
+            addbutton += 1
+        if self.wreader.check_existence('mainout') !=0:
+            if not self.indicate_r_path:
+                self.__init_ngamma_eq()
+                self.ngamma_eq_plot[0].set_visible(self.indicate_r_path)
+                self.ngamma_eq_plot_o[0].set_visible(self.indicate_r_path)
+            self.r_path_button = Button(plt.axes([0.18-0.018+0.015*(len(self.toggle_buttons)+1+addbutton+0.2), 0.05, 0.012, 0.022]), "r")
+            self.r_path_button.label.set_fontsize(12)
+            self.r_path_button.label.set_color('k')
+            self.r_path_button.on_clicked(self.r_path_button_event)
+            addbutton += 1
 
         # Check if flow is plotted and add a button to change the flow range
         if self.plot_flow:
@@ -681,7 +725,11 @@ class FlowAnimation(object):
         self.fig.canvas.draw_idle()
         pass
 
-
+    def r_path_button_event(self, event):
+        self.indicate_r_path = not self.indicate_r_path
+        self.ngamma_eq_plot[0].set_visible(self.indicate_r_path)
+        self.ngamma_eq_plot_o[0].set_visible(self.indicate_r_path)
+        self.fig.canvas.draw_idle()
 
     def sunet_button_event(self, event):
         self.sunet_indication = not self.sunet_indication
@@ -777,6 +825,9 @@ class FlowAnimation(object):
             self.mainout_density     = self.wreader.mainout['dens']
             self.mainout_temperature = self.wreader.mainout['temp']
             self.mainout_ye          = self.wreader.mainout['ye']
+
+        if self.indicate_r_path:
+            self.__init_ngamma_eq()
 
         self.time = 0
 
@@ -1005,9 +1056,9 @@ class FlowAnimation(object):
 
     def __init_plot_addmainout(self):
         self.addmainout_plot = [self.axAddMainout.plot(self.addmainout_time,self.addmainout_data[k],
-                                                label=self.addmainout_label[i], lw=1) for i,k in enumerate(self.addmainout_data.keys())]
+                                                label=self.addmainout_label[i], lw=2) for i,k in enumerate(self.addmainout_data.keys())]
         # Also make the background of the box non-transparent
-        self.axAddMainout.legend(loc='upper right', ncol=2, bbox_to_anchor=(1.3, 1.0), frameon=True, facecolor='white', edgecolor='black', framealpha=1.0, fontsize=8)
+        self.axAddMainout.legend(loc='upper right', ncol=1, bbox_to_anchor=(1.15, 1.0), frameon=True, facecolor='white', edgecolor='black', framealpha=1.0, fontsize=8)
 
 
     def __init_plot_energy(self):
@@ -1099,6 +1150,10 @@ class FlowAnimation(object):
             self.mainout_density     = self.wreader.mainout['dens'][:ii]
             self.mainout_temperature = self.wreader.mainout['temp'][:ii]
             self.mainout_ye          = self.wreader.mainout['ye'][:ii]
+
+        if self.indicate_r_path:
+            self.ngamma_eq.calc_r_process_path(self.wreader.mainout['dens'][ii],self.wreader.mainout['temp'][ii],self.wreader.mainout['yn'][ii])
+
 
         if ii == 0: return # no flows in first timestep
 
@@ -1259,6 +1314,13 @@ class FlowAnimation(object):
                 a.set_array(self.flow)
                 self.flow_patch = self.ax.add_collection(a)
 
+    def update_ngamma_plot(self,):
+        if self.indicate_r_path:
+            self.ngamma_eq_plot[0].set_xdata(self.ngamma_eq.path_N)
+            self.ngamma_eq_plot[0].set_ydata(self.ngamma_eq.path_Z)
+            self.ngamma_eq_plot_o[0].set_xdata(self.ngamma_eq.path_N)
+            self.ngamma_eq_plot_o[0].set_ydata(self.ngamma_eq.path_Z)
+
 
     def update_frame(self, ii):
         self.update_data(ii)
@@ -1266,9 +1328,25 @@ class FlowAnimation(object):
         self.update_abun_plot()
         self.update_fission_plot()
         self.update_flow_plot()
+        self.update_ngamma_plot()
         self.update_slider(ii)
+        self.update_interactive_text(ii)
         return ii
 
+
+    def update_interactive_text(self, ii):
+        if self.interactive:
+            if self.__interactive_textbox is not None:
+                # Get the text and only change the last line
+                text = self.__interactive_textbox.get_text()
+                text = text.split("\n")
+                N = int(text[1].split(" = ")[1])
+                Z = int(text[2].split(" = ")[1])
+                X = 10**self.abun[N,Z]
+                if X < self.X_min:
+                    X = 0
+                text[-1] = f"X = {X:.2e}"
+                self.__interactive_textbox.set_text("\n".join(text))
 
     def save_frame(self, ii):
         self.update_frame(ii)
@@ -1322,7 +1400,6 @@ class FlowAnimation(object):
             self.play_button.label.set_text("❚❚")
             self.play_button.label.set_color("red")
             # Update the appearance of the button
-            self.fig.canvas.draw_idle()
         else:
             self.animation.pause()
             self.movie_paused = True
@@ -1330,7 +1407,6 @@ class FlowAnimation(object):
             self.play_button.label.set_color("green")
 
             # Update the appearance of the button
-            self.fig.canvas.draw_idle()
 
     def on_slider_click(self, event):
         if event.inaxes == self.ax_slider:
@@ -1338,6 +1414,62 @@ class FlowAnimation(object):
             self.movie_paused = True
             self.play_button.label.set_text(" ▶")
             self.play_button.label.set_color("green")
+        elif event.inaxes == self.ax:
+            toolbar = plt.get_current_fig_manager().toolbar
+            active_tool = toolbar.mode  # Get the current active tool
+            if active_tool == '':
+                if event.dblclick:
+                    self.__toggle_zoom()
+                else:
+                    # Get the coordinates of the click
+                    x, y = event.xdata, event.ydata
+                    nucl_n = int(np.round(x))
+                    nucl_z = int(np.round(y))
+                    # Check if abundances are nan there
+                    if np.isnan(self.abun[nucl_n, nucl_z]):
+                        if not (self.__interactive_box is None):
+                            # Remove the rectangle if it exists
+                            self.__interactive_box.remove()
+                            self.__interactive_box = None
+                        if not (self.__interactive_textbox is None):
+                            # Remove the textbox if it exists
+                            self.__interactive_textbox.remove()
+                            self.__interactive_textbox = None
+                    else:
+                        if not (self.__interactive_box is None):
+                            # Remove the rectangle if it exists
+                            self.__interactive_box.remove()
+                            self.__interactive_box = None
+                        if not (self.__interactive_textbox is None):
+                            # Remove the textbox if it exists
+                            self.__interactive_textbox.remove()
+                            self.__interactive_textbox = None
+
+                        # Create a rectangle there
+                        self.__interactive_box = self.ax.add_patch(
+                            patches.Rectangle((nucl_n-0.5, nucl_z-0.5), 1, 1, linewidth=1, edgecolor='r', facecolor='none'))
+
+                        # Create textbox with information
+                        df = self.winvn.get_dataframe()
+                        # Get the name of the nucleus
+                        nucl_name = df.loc[(nucl_n, nucl_z), 'name']
+                        text = nucl_name.capitalize() + "\n"
+                        text+= f"N = {nucl_n}\nZ = {nucl_z}\nA = {nucl_n+nucl_z}"
+                        # Add mass fraction
+                        X = 10**self.abun[nucl_n, nucl_z]
+                        # Set 0 if below limit
+                        if X < self.X_min:
+                            X = 0
+                        text+= f"\nX = {X:.2e}"
+
+
+                        # Also make a border around it
+                        self.__interactive_textbox = self.ax.text(0.44, 0.23, text, transform=self.ax.transAxes, fontsize=10,
+                                                                horizontalalignment='left',
+                                                                verticalalignment='bottom', bbox=dict(facecolor='white',
+                                                                edgecolor='black', boxstyle='round,pad=0.5'))
+        self.fig.canvas.draw_idle()
+
 
     def on_slider_release(self, event):
         # Reset slider_dragging to False when the mouse is released
