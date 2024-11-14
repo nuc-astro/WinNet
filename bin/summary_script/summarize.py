@@ -11,6 +11,7 @@ from tqdm                             import tqdm
 from src_files.wreader                import wreader
 from src_files.template_class         import template
 from src_files.nucleus_multiple_class import nucleus_multiple
+from scipy.interpolate                import interp1d
 import matplotlib.pyplot as plt
 
 
@@ -255,7 +256,13 @@ while looping:
                 # Ignore temperature, density, and radius for nuloss
                 if (entry == "nuloss") and ((key == "temp") or (key == "dens") or (key == "rad")):
                     continue
-                entry_dict[entry][key] = np.zeros((len(mainout_time),buffsize))
+                # Check shape of the data
+                if data[entry][key].ndim == 1:
+                    entry_dict[entry][key] = np.zeros((len(mainout_time),buffsize))
+                elif data[entry][key].ndim == 2:
+                    entry_dict[entry][key] = np.zeros((len(mainout_time),data[entry][key].shape[1],buffsize))
+                else:
+                    raise ValueError(f"Invalid shape of {entry}/{key} in the data.")
 
             # Write the time already
             f_hdf[entry+"/time"] = mainout_time
@@ -474,18 +481,34 @@ while looping:
             # Check if the data_dict is full and write it to the hdf5 file
             if ind % buffsize == 0 and ind != 0:
                 for key in entry_dict[entry].keys():
+                    # Check dimensions
+                    dim = entry_dict[entry][key].ndim
                     # Check if the dataset is already created and if not create it
-                    if entry+"/"+key not in f_hdf:
-                        f_hdf.create_dataset(entry+"/"+key, (len(mainout_time),ind+1), maxshape=(len(mainout_time),None))
-                    # If necessary extend the dataset
-                    if ind > buffsize:
-                        f_hdf[entry+"/"+key].resize((len(mainout_time),ind+1))
-                    # Write the data to the hdf5 file
-                    f_hdf[entry+"/"+key][:,ind-buffsize:ind] = entry_dict[entry][key]
+                    if dim == 2:
+                        if entry+"/"+key not in f_hdf:
+                            f_hdf.create_dataset(entry+"/"+key, (len(mainout_time),ind+1), maxshape=(len(mainout_time),None))
+                        # If necessary extend the dataset
+                        if ind > buffsize:
+                            f_hdf[entry+"/"+key].resize((len(mainout_time),ind+1))
+                        # Write the data to the hdf5 file
+                        f_hdf[entry+"/"+key][:,ind-buffsize:ind] = entry_dict[entry][key]
+                    elif dim == 3:
+                        if entry+"/"+key not in f_hdf:
+                            f_hdf.create_dataset(entry+"/"+key, (len(mainout_time),data[entry][key].shape[1],ind+1), maxshape=(len(mainout_time),data[entry][key].shape[1],None))
+                        # If necessary extend the dataset
+                        if ind > buffsize:
+                            f_hdf[entry+"/"+key].resize((len(mainout_time),data[entry][key].shape[1],ind+1))
+                        # Write the data to the hdf5 file
+                        f_hdf[entry+"/"+key][:,:,ind-buffsize:ind] = entry_dict[entry][key]
 
             # Put the data in the data_dict
             for key in entry_dict[entry].keys():
-                entry_dict[entry][key][:,ind % buffsize] = np.interp(mainout_time,data[entry]["time"],data[entry][key],left=np.nan,right=np.nan)
+                value = interp1d(data[entry]["time"],data[entry][key],
+                                 bounds_error = False, fill_value = np.nan, axis = 0)(mainout_time)
+                if entry_dict[entry][key].ndim == 2:
+                    entry_dict[entry][key][:,ind % buffsize] = value
+                elif entry_dict[entry][key].ndim == 3:
+                    entry_dict[entry][key][:,:,ind % buffsize] = value
 
 
 
@@ -562,15 +585,29 @@ while looping:
 
     for entry in entry_dict.keys():
         for key in entry_dict[entry].keys():
-            if entry+"/"+key not in f_hdf:
-                f_hdf.create_dataset(entry+"/"+key, (len(mainout_time),ind+1), maxshape=(len(mainout_time),None))
-            else:
-                f_hdf[entry+"/"+key].resize((len(mainout_time),ind+1))
-            # Write the missing entries
-            if ind>buffsize:
-                f_hdf[entry+"/"+key][:,ind-buffsize+1:ind+1] = entry_dict[entry][key][:,:buffsize]
-            else:
-                f_hdf[entry+"/"+key][:,:ind+1] = entry_dict[entry][key][:,:ind+1]
+            # Check dimensions
+            dim = entry_dict[entry][key].ndim
+
+            if dim == 2:
+                if entry+"/"+key not in f_hdf:
+                    f_hdf.create_dataset(entry+"/"+key, (len(mainout_time),ind+1), maxshape=(len(mainout_time),None))
+                else:
+                    f_hdf[entry+"/"+key].resize((len(mainout_time),ind+1))
+                # Write the missing entries
+                if ind>buffsize:
+                    f_hdf[entry+"/"+key][:,ind-buffsize+1:ind+1] = entry_dict[entry][key][:,:buffsize]
+                else:
+                    f_hdf[entry+"/"+key][:,:ind+1] = entry_dict[entry][key][:,:ind+1]
+            elif dim == 3:
+                if entry+"/"+key not in f_hdf:
+                    f_hdf.create_dataset(entry+"/"+key, (len(mainout_time),data[entry][key].shape[1],ind+1), maxshape=(len(mainout_time),data[entry][key].shape[1],None))
+                else:
+                    f_hdf[entry+"/"+key].resize((len(mainout_time),data[entry][key].shape[1],ind+1))
+                # Write the missing entries
+                if ind>buffsize:
+                    f_hdf[entry+"/"+key][:,:,ind-buffsize+1:ind+1] = entry_dict[entry][key][:,:,:buffsize]
+                else:
+                    f_hdf[entry+"/"+key][:,:,:ind+1] = entry_dict[entry][key][:,:,:ind+1]
 
 
 
