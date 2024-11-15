@@ -11,6 +11,7 @@ from tqdm                             import tqdm
 from src_files.wreader                import wreader
 from src_files.template_class         import template
 from src_files.nucleus_multiple_class import nucleus_multiple
+from scipy.interpolate                import interp1d
 import matplotlib.pyplot as plt
 
 
@@ -52,6 +53,8 @@ p.add_option("--disable_nuloss", action="store_true", dest="disable_nuloss",  de
     help="Disable the summary of the nuloss output (default: False)")
 p.add_option("--disable_snapshots", action="store_true", dest="disable_snapshots",  default=False,  \
     help="Disable the summary of the snapshots output (default: False)")
+p.add_option("-r", "--recursive", action="store_true", dest="recursive",  default=False,  \
+    help="Give a folder that contains subfolders with runs inside (default: False)")
 p.set_usage("""
 
   Usage:   ./summarize.py -i <rundir>
@@ -95,447 +98,525 @@ logger.propagate = False
 # Say something
 logger.info(f"Started summarizing run at {run_path}.")
 
-# Get a list of all directories in the run_path. Ignore "network_data" directory
-dirs = [d for d in os.listdir(run_path) if os.path.isdir(os.path.join(run_path, d)) and d != "network_data"]
 
-# Say something
-logger.info(f"Found {len(dirs)} directories in {run_path}.")
-
-
-# Create output hdf5 file
-output_file = options.outdir
-# Check if the file already exists
-if os.path.exists(output_file) and not options.force:
-    logger.error(f"Output file {output_file} already exists. Exiting.")
-    raise ValueError(f"Output file {output_file} already exists. Either delete or use -f option to overwrite.")
-elif os.path.exists(output_file) and options.force:
-    logger.warning(f"Output file {output_file} already exists. Overwriting it.")
-f_hdf = h5py.File(output_file, 'w')
-
-
-# Check already one run to see what has been outputted
-# Find a run that didnt crash
-found = False
-for d in dirs:
-    data = wreader(os.path.join(run_path, d))
-    if not data.is_crashed:
-        logger.info(f"Found {d} to look up the output.")
-        found = True
-        break
-if not found:
-    # Raise an error if all runs are crashed
-    logger.error("All runs are crashed!")
-    raise ValueError("All runs are crashed!")
-
-# Get the template name (ends with .par)
-template_name = [f for f in os.listdir(os.path.join(run_path, d)) if f.endswith('.par')][0]
-t = template(os.path.join(run_path, d, template_name))
-
-# Check if the sunet is given in the template
-if options.sunet_path is not None:
-    net_source = options.sunet_path
-else:
-    if (not "net_source" in t.entries):
-        # Raise an error if the net_source is not given
-        raise ValueError("net_source not given in the template file.")
+if options.recursive:
+    # Find all folders in the run_path
+    folders = [f for f in os.listdir(run_path) if os.path.isdir(os.path.join(run_path, f))]
+    # Do it recursively
+    logger.info(f"Recursively going through {len(folders)} folders.")
+    # Create folder at output path
+    fold = options.outdir.replace(".hdf5","")
+    basepath = run_path
+    if not os.path.exists(fold):
+        os.makedirs(fold)
     else:
-        # Get the net_source
-        net_source = t["net_source"]
+        # Raise exception if the folder already exists and not force
+        if not options.force:
+            logger.error(f"Folder {fold} already exists. Exiting.")
+            raise ValueError(f"Folder {fold} already exists. Exiting.")
+        else:
+            logger.warning(f"Folder {fold} already exists. Overwriting it.")
+            os.system(f"rm -r {fold}")
+            os.makedirs(fold)
 
-# Read the net_source file
-logger.info(f"Using sunet file from {net_source}.")
-nuclei = np.loadtxt(net_source,dtype=str)
-nuclei_data = nucleus_multiple(nuclei)
+# Loop over runs (if recursive)
+looping = True
 
+while looping:
 
-# Create the time grid
-if options.time_file is not None:
-    logger.info(f"Using time grid from {options.time_file}.")
-    mainout_time = np.loadtxt(options.time_file, dtype=float, unpack=True)
-else:
-    if options.time_final is not None:
-        final_time = float(options.time_final)
+    if options.recursive:
+        # Get the next folder
+        try:
+            output_file = os.path.join(fold, folders[0]+".hdf5")
+            run_path = os.path.join(basepath, folders.pop(0))
+        except IndexError:
+            looping = False
+            break
     else:
-        final_time = 3.15e16
-        # Make some reasonable time grid
-        # Check if termination criterion is given
-        if "termination_criterion" in t.entries:
-            if t["termination_criterion"] == "1":
-                if "final_time" in t.entries:
-                    final_time = float(t["final_time"])
+        # Create output hdf5 file
+        output_file = options.outdir
 
-    if options.time_initial is not None:
-        initial_time = float(options.time_initial)
+    # Get a list of all directories in the run_path. Ignore "network_data" directory
+    dirs = [d for d in os.listdir(run_path) if os.path.isdir(os.path.join(run_path, d)) and d != "network_data"]
+
+    # Say something
+    logger.info(f"Found {len(dirs)} directories in {run_path}.")
+
+
+    # Check if the file already exists
+    if os.path.exists(output_file) and not options.force:
+        logger.error(f"Output file {output_file} already exists. Exiting.")
+        raise ValueError(f"Output file {output_file} already exists. Either delete or use -f option to overwrite.")
+    elif os.path.exists(output_file) and options.force:
+        logger.warning(f"Output file {output_file} already exists. Overwriting it.")
+    f_hdf = h5py.File(output_file, 'w')
+
+
+    # Check already one run to see what has been outputted
+    # Find a run that didnt crash
+    found = False
+    for d in dirs:
+        data = wreader(os.path.join(run_path, d))
+        if not data.is_crashed:
+            logger.info(f"Found {d} to look up the output.")
+            found = True
+            break
+    if not found:
+        # Raise an error if all runs are crashed
+        if options.recursive:
+            logger.warning("Detected folder where all runs have crashed!")
+            continue
+        logger.error("All runs are crashed!")
+        raise ValueError("All runs are crashed!")
+
+    # Get the template name (ends with .par)
+    template_name = [f for f in os.listdir(os.path.join(run_path, d)) if f.endswith('.par')][0]
+    t = template(os.path.join(run_path, d, template_name))
+
+    # Check if the sunet is given in the template
+    if options.sunet_path is not None:
+        net_source = options.sunet_path
     else:
-        initial_time = 1e-5
+        if (not "net_source" in t.entries):
+            # Raise an error if the net_source is not given
+            raise ValueError("net_source not given in the template file.")
+        else:
+            # Get the net_source
+            net_source = t["net_source"]
 
-    if options.time_number is not None:
-        time_number = int(options.time_number)
+    # Read the net_source file
+    logger.info(f"Using sunet file from {net_source}.")
+    nuclei = np.loadtxt(net_source,dtype=str)
+    nuclei_data = nucleus_multiple(nuclei)
+
+
+    # Create the time grid
+    if options.time_file is not None:
+        logger.info(f"Using time grid from {options.time_file}.")
+        mainout_time = np.loadtxt(options.time_file, dtype=float, unpack=True)
     else:
-        time_number = 200
+        if options.time_final is not None:
+            final_time = float(options.time_final)
+        else:
+            final_time = 3.15e16
+            # Make some reasonable time grid
+            # Check if termination criterion is given
+            if "termination_criterion" in t.entries:
+                if t["termination_criterion"] == "1":
+                    if "final_time" in t.entries:
+                        final_time = float(t["final_time"])
 
-    mainout_time = np.logspace(np.log10(initial_time), np.log10(final_time), time_number)
+        if options.time_initial is not None:
+            initial_time = float(options.time_initial)
+        else:
+            initial_time = 1e-5
 
+        if options.time_number is not None:
+            time_number = int(options.time_number)
+        else:
+            time_number = 200
 
-# Possible entries in the data
-possible_entries = []
-if not options.disable_mainout:
-    possible_entries.append("mainout")
-else:
-    logger.info("Ignoring mainout output.")
-if not options.disable_energy:
-    possible_entries.append("energy")
-else:
-    logger.info("Ignoring energy output.")
-if not options.disable_timescales:
-    possible_entries.append("timescales")
-else:
-    logger.info("Ignoring timescales output.")
-if not options.disable_tracked_nuclei:
-    possible_entries.append("tracked_nuclei")
-else:
-    logger.info("Ignoring tracked_nuclei output.")
-if not options.disable_nuloss:
-    possible_entries.append("nuloss")
-else:
-    logger.info("Ignoring nuloss output.")
+        mainout_time = np.logspace(np.log10(initial_time), np.log10(final_time), time_number)
 
 
-entry_dict = {}
-for entry in possible_entries:
-    # Check existence
-    if data.check_existence(entry) != 0:
-        entry_dict[entry] = {}
-        for key in data[entry].keys():
-            # Ignore iteration and time key
-            if ((key == "iteration") or (key == "time") or (key == "A") or (key == "Z") or (key == "N")
-               or (key == "names") or (key == "latex_names")):
-                continue
-            # Ignore temperature, density, and radius for nuloss
-            if (entry == "nuloss") and ((key == "temp") or (key == "dens") or (key == "rad")):
-                continue
-            entry_dict[entry][key] = np.zeros((len(mainout_time),buffsize))
-
-        # Write the time already
-        f_hdf[entry+"/time"] = mainout_time
-
-        # Say something
-        logger.info(f"Found {entry} in the data.")
-
-        # Check if it is the tracked nuclei and put A, Z, and N
-        # if entry == "tracked_nuclei":
-        #     f_hdf[entry+"/A"] = data[entry]["A"]
-        #     f_hdf[entry+"/Z"] = data[entry]["Z"]
-        #     f_hdf[entry+"/N"] = data[entry]["N"]
-        #     f_hdf[entry+"/names"] = data[entry]["names"]
+    # Possible entries in the data
+    possible_entries = []
+    if not options.disable_mainout:
+        possible_entries.append("mainout")
+    else:
+        logger.info("Ignoring mainout output.")
+    if not options.disable_energy:
+        possible_entries.append("energy")
+    else:
+        logger.info("Ignoring energy output.")
+    if not options.disable_timescales:
+        possible_entries.append("timescales")
+    else:
+        logger.info("Ignoring timescales output.")
+    if not options.disable_tracked_nuclei:
+        possible_entries.append("tracked_nuclei")
+    else:
+        logger.info("Ignoring tracked_nuclei output.")
+    if not options.disable_nuloss:
+        possible_entries.append("nuloss")
+    else:
+        logger.info("Ignoring nuloss output.")
 
 
-# Take care of snapshots, check if they are custom or not
-if (data.check_existence("snapshot") != 0) and (not options.disable_snapshots):
-    if ("custom_snapshots" in t.entries) or ("h_custom_snapshots" in t.entries):
-        # Check if either ascii or hdf5 custom snapshots are given
-        summarize_snapshots = False
-        if ("custom_snapshots" in t.entries):
-            summarize_snapshots = (t["custom_snapshots"].strip().lower() == "yes")
-            # Debug statement
-            if (t["custom_snapshots"].strip().lower() == "yes"):
-                logger.info("Found custom snapshots in ascii format.")
-        if ("h_custom_snapshots" in t.entries):
-            summarize_snapshots = (summarize_snapshots or (t["h_custom_snapshots"].strip().lower() == "yes"))
-            # Debug statement
-            if (t["h_custom_snapshots"].strip().lower() == "yes"):
-                logger.info("Found custom snapshots in hdf5 format.")
+    entry_dict = {}
+    for entry in possible_entries:
+        # Check existence
+        if data.check_existence(entry) != 0:
+            entry_dict[entry] = {}
+            for key in data[entry].keys():
+                # Ignore iteration and time key
+                if ((key == "iteration") or (key == "time") or (key == "A") or (key == "Z") or (key == "N")
+                or (key == "names") or (key == "latex_names")):
+                    continue
+                # Ignore temperature, density, and radius for nuloss
+                if (entry == "nuloss") and ((key == "temp") or (key == "dens") or (key == "rad")):
+                    continue
+                # Check shape of the data
+                if data[entry][key].ndim == 1:
+                    entry_dict[entry][key] = np.zeros((len(mainout_time),buffsize))
+                elif data[entry][key].ndim == 2:
+                    entry_dict[entry][key] = np.zeros((len(mainout_time),data[entry][key].shape[1],buffsize))
+                else:
+                    raise ValueError(f"Invalid shape of {entry}/{key} in the data.")
 
-        # Read the time for the custom snapshots
-        if summarize_snapshots:
-            if "snapshot_file" not in t.entries:
-                raise ValueError("Invalid template file. snapshot_file not given in the template file.")
-            snapshot_time = np.loadtxt(os.path.join(t["snapshot_file"]),dtype=float)
-            # Convert from days to seconds
-            snapshot_time *= 24*3600
             # Write the time already
-            f_hdf["snapshots/time"] = snapshot_time
-            # Write the A and Z data to the hdf5 file
-            f_hdf["snapshots/A"] = nuclei_data.A
-            f_hdf["snapshots/Z"] = nuclei_data.Z
-            f_hdf["snapshots/N"] = nuclei_data.N
-            # Create an array to buffer the data
-            snapshot_data = np.zeros((len(nuclei),len(snapshot_time),buffsize))
-            logger.info(f"Summarize custom snapshots as well.")
+            f_hdf[entry+"/time"] = mainout_time
+
+            # Say something
+            logger.info(f"Found {entry} in the data.")
+
+            # Check if it is the tracked nuclei and put A, Z, and N
+            # if entry == "tracked_nuclei":
+            #     f_hdf[entry+"/A"] = data[entry]["A"]
+            #     f_hdf[entry+"/Z"] = data[entry]["Z"]
+            #     f_hdf[entry+"/N"] = data[entry]["N"]
+            #     f_hdf[entry+"/names"] = data[entry]["names"]
+
+
+    # Take care of snapshots, check if they are custom or not
+    if (data.check_existence("snapshot") != 0) and (not options.disable_snapshots):
+        if ("custom_snapshots" in t.entries) or ("h_custom_snapshots" in t.entries):
+            # Check if either ascii or hdf5 custom snapshots are given
+            summarize_snapshots = False
+            if ("custom_snapshots" in t.entries):
+                summarize_snapshots = (t["custom_snapshots"].strip().lower() == "yes")
+                # Debug statement
+                if (t["custom_snapshots"].strip().lower() == "yes"):
+                    logger.info("Found custom snapshots in ascii format.")
+            if ("h_custom_snapshots" in t.entries):
+                summarize_snapshots = (summarize_snapshots or (t["h_custom_snapshots"].strip().lower() == "yes"))
+                # Debug statement
+                if (t["h_custom_snapshots"].strip().lower() == "yes"):
+                    logger.info("Found custom snapshots in hdf5 format.")
+
+            # Read the time for the custom snapshots
+            if summarize_snapshots:
+                if "snapshot_file" not in t.entries:
+                    raise ValueError("Invalid template file. snapshot_file not given in the template file.")
+                snapshot_time = np.loadtxt(os.path.join(t["snapshot_file"]),dtype=float)
+                # Convert from days to seconds
+                snapshot_time *= 24*3600
+                # Write the time already
+                f_hdf["snapshots/time"] = snapshot_time
+                # Write the A and Z data to the hdf5 file
+                f_hdf["snapshots/A"] = nuclei_data.A
+                f_hdf["snapshots/Z"] = nuclei_data.Z
+                f_hdf["snapshots/N"] = nuclei_data.N
+                # Create an array to buffer the data
+                snapshot_data = np.zeros((len(nuclei),len(snapshot_time),buffsize))
+                logger.info(f"Summarize custom snapshots as well.")
+        else:
+            summarize_snapshots = False
     else:
         summarize_snapshots = False
-else:
-    summarize_snapshots = False
-    if not options.disable_snapshots:
-        logger.info("Ignoring snapshots output.")
+        if not options.disable_snapshots:
+            logger.info("Ignoring snapshots output.")
 
 
-# Finab should always be in
-finab_data_Y = np.zeros((len(nuclei),buffsize))
-finab_data_X = np.zeros((len(nuclei),buffsize))
-# Write already the A and Z data to the hdf5 file, this is the same for
-# all runs
-f_hdf["finab/A"] = nuclei_data.A
-f_hdf["finab/Z"] = nuclei_data.Z
-f_hdf["finab/N"] = nuclei_data.N
+    # Finab should always be in
+    finab_data_Y = np.zeros((len(nuclei),buffsize))
+    finab_data_X = np.zeros((len(nuclei),buffsize))
+    # Write already the A and Z data to the hdf5 file, this is the same for
+    # all runs
+    f_hdf["finab/A"] = nuclei_data.A
+    f_hdf["finab/Z"] = nuclei_data.Z
+    f_hdf["finab/N"] = nuclei_data.N
 
-# Prepare for efficient mapping
-dtype_nuclei = np.dtype([('A', int), ('Z', int)])
-nuclei_struct = np.array(list(zip(nuclei_data.A.astype(int), nuclei_data.Z.astype(int))), dtype=dtype_nuclei)
-# Sort the structured nuclei array and get sorting indices
-nuclei_sorted_idx = np.argsort(nuclei_struct)
-sorted_nuclei_struct = nuclei_struct[nuclei_sorted_idx]
+    # Prepare for efficient mapping
+    dtype_nuclei = np.dtype([('A', int), ('Z', int)])
+    nuclei_struct = np.array(list(zip(nuclei_data.A.astype(int), nuclei_data.Z.astype(int))), dtype=dtype_nuclei)
+    # Sort the structured nuclei array and get sorting indices
+    nuclei_sorted_idx = np.argsort(nuclei_struct)
+    sorted_nuclei_struct = nuclei_struct[nuclei_sorted_idx]
 
-# Create array that will contain the names of the runs
-# Array of strings:
-run_names = np.zeros(buffsize,dtype="S100")
-run_ids   = np.zeros(buffsize,dtype=int)
+    # Create array that will contain the names of the runs
+    # Array of strings:
+    run_names = np.zeros(buffsize,dtype="S100")
+    run_ids   = np.zeros(buffsize,dtype=int)
 
-# Loop over all directories
-ind = -1
-for counter, d in enumerate(tqdm(dirs)):
-    # Load data
-    data = wreader(os.path.join(run_path, d),silent=True)
+    # Loop over all directories
+    ind = -1
+    for counter, d in enumerate(tqdm(dirs)):
+        # Load data
+        data = wreader(os.path.join(run_path, d),silent=True)
 
-    if data.is_crashed:
-        logger.warning(f"Run {d} is crashed. Skipping it.")
-        continue
+        if data.is_crashed:
+            logger.warning(f"Run {d} is crashed. Skipping it.")
+            continue
 
-    # Increase the index
-    ind += 1
+        # Increase the index
+        ind += 1
+
+        #### Finab ####
+        ###############
+        # Put the data in the finab_data, Notice that it should be at the right A and Z position
+        # A is contained in data.finab["A"] and Z in data.finab["Z"]. It should fit to the nuclei_data.A and nuclei_data.Z
+        # All of them are 1D arrays
+        # Getting indices where match occurs
+        # indices = [(np.where((nuclei_data.A.astype(int) == A) & (nuclei_data.Z.astype(int) == Z))[0][0])
+        #            for A, Z in zip(data.finab["A"].astype(int), data.finab["Z"].astype(int))]
+
+        # Check if the finab_data is full and write it to the hdf5 file
+        if ind % buffsize == 0 and ind != 0:
+            # Check if the dataset is already created and if not create it
+            if "finab/Y" not in f_hdf:
+                f_hdf.create_dataset("finab/Y", (len(nuclei),ind+1), maxshape=(len(nuclei),None))
+                f_hdf.create_dataset("finab/X", (len(nuclei),ind+1), maxshape=(len(nuclei),None))
+            # If necessary extend the dataset
+            if ind > buffsize:
+                f_hdf["finab/Y"].resize((len(nuclei),ind+1))
+                f_hdf["finab/X"].resize((len(nuclei),ind+1))
+            # Write the data to the hdf5 file
+            f_hdf["finab/Y"][:,ind-buffsize:ind] = finab_data_Y
+            f_hdf["finab/X"][:,ind-buffsize:ind] = finab_data_X
+
+        # Convert the finab data to structured array
+        finab_struct = np.array(list(zip(data.finab["A"].astype(int), data.finab["Z"].astype(int))), dtype=dtype_nuclei)
+        # Find the matching indices
+        # Use np.searchsorted to find matching indices
+        matching_idx = np.searchsorted(sorted_nuclei_struct, finab_struct)
+        # Recover the original indices from the sorted index
+        indices = nuclei_sorted_idx[matching_idx]
+
+        # Set first zero
+        finab_data_Y[:,ind % buffsize] = 0
+        finab_data_X[:,ind % buffsize] = 0
+        finab_data_Y[indices,ind % buffsize] = data.finab["Y"][:]
+        finab_data_X[indices,ind % buffsize] = data.finab["X"][:]
+
+        #### Run name ####
+        ##################
+
+        # Check if the run_names is full and write it to the hdf5 file
+        if ind % buffsize == 0 and ind != 0:
+            # Check if the dataset is already created and if not create it
+            if "run_names" not in f_hdf:
+                f_hdf.create_dataset("run_names", (ind+1,), maxshape=(None,),dtype="S100")
+            # If necessary extend the dataset
+            if ind > buffsize:
+                f_hdf["run_names"].resize((ind+1,))
+            # Write the data to the hdf5 file
+            f_hdf["run_names"][ind-buffsize:ind] = run_names
+
+        # Save the run name
+        run_names[ind % buffsize] = d
+
+
+        # Get numbers out from the run name
+        # Check if the run_ids is full and write it to the hdf5 file
+        if ind % buffsize == 0 and ind != 0:
+            # Check if the dataset is already created and if not create it
+            if "run_ids" not in f_hdf:
+                f_hdf.create_dataset("run_ids", (ind+1,), maxshape=(None,),dtype=int)
+            # If necessary extend the dataset
+            if ind > buffsize:
+                f_hdf["run_ids"].resize((ind+1,))
+            # Write the data to the hdf5 file
+            f_hdf["run_ids"][ind-buffsize:ind] = run_ids
+
+        try:
+            run_ids[ind % buffsize] = int(re.findall(r'\d+', d)[-1])
+        except:
+            run_ids[ind % buffsize] = -1
+
+        #### Custom snapshots ####
+        ##########################
+
+        if summarize_snapshots:
+            # Get the time of the snapshots
+            snapstime = data.snapshot_time
+
+            # Now get the indexes of the entries that agree with snapshot_time
+            indexes = np.searchsorted(snapstime, snapshot_time)
+
+            # In case snapstime is shorter than snapshot_time, we need to get a mask to set it nan
+            if (len(snapstime) < len(snapshot_time)):
+                mask = np.zeros(len(snapshot_time),dtype=bool)
+                # Check where the time deviates more than 1e-5
+                mask[np.min(np.abs(snapstime - snapshot_time[:,np.newaxis]),axis=1) > 1e-5] = True
+            else:
+                mask = None
+
+
+            # Convert the snapshot data to structured array
+            finab_struct = np.array(list(zip(data.A.astype(int), data.Z.astype(int))), dtype=dtype_nuclei)
+            # Find the matching indices
+            # Use np.searchsorted to find matching indices
+            matching_idx = np.searchsorted(sorted_nuclei_struct, finab_struct)
+            # Recover the original indices from the sorted index
+            indices_nuclei = nuclei_sorted_idx[matching_idx]
+
+            # Check if the snapshot_data is full and write it to the hdf5 file
+            if ind % buffsize == 0 and ind != 0:
+                # Check if the dataset is already created and if not create it
+                if "snapshots/Y" not in f_hdf:
+                    f_hdf.create_dataset("snapshots/Y", (len(nuclei),len(snapshot_time),ind+1), maxshape=(len(nuclei),len(snapshot_time),None))
+                    f_hdf.create_dataset("snapshots/X", (len(nuclei),len(snapshot_time),ind+1), maxshape=(len(nuclei),len(snapshot_time),None))
+                # If necessary extend the dataset
+                if ind > buffsize:
+                    f_hdf["snapshots/Y"].resize((len(nuclei),len(snapshot_time),ind+1))
+                    f_hdf["snapshots/X"].resize((len(nuclei),len(snapshot_time),ind+1))
+                # Write the data to the hdf5 file
+                f_hdf["snapshots/Y"][:,:,ind-buffsize:ind] = snapshot_data
+                f_hdf["snapshots/X"][:,:,ind-buffsize:ind] = snapshot_data*nuclei_data.A[:,np.newaxis,np.newaxis]
+
+            # Store it
+            snapshot_data[:,:,ind % buffsize] = 0
+            snapshot_data[indices_nuclei,:,ind % buffsize] = data.Y[indexes][:, :].T
+
+            # Set entries to nan if necessary (e.g., if run does not contain a time at the beginning or end)
+            if mask is not None:
+                snapshot_data[:,mask,ind % buffsize] = np.nan
+
+
+        #### Other entries ####
+        #######################
+
+        for entry in entry_dict.keys():
+            # Check if the data_dict is full and write it to the hdf5 file
+            if ind % buffsize == 0 and ind != 0:
+                for key in entry_dict[entry].keys():
+                    # Check dimensions
+                    dim = entry_dict[entry][key].ndim
+                    # Check if the dataset is already created and if not create it
+                    if dim == 2:
+                        if entry+"/"+key not in f_hdf:
+                            f_hdf.create_dataset(entry+"/"+key, (len(mainout_time),ind+1), maxshape=(len(mainout_time),None))
+                        # If necessary extend the dataset
+                        if ind > buffsize:
+                            f_hdf[entry+"/"+key].resize((len(mainout_time),ind+1))
+                        # Write the data to the hdf5 file
+                        f_hdf[entry+"/"+key][:,ind-buffsize:ind] = entry_dict[entry][key]
+                    elif dim == 3:
+                        if entry+"/"+key not in f_hdf:
+                            f_hdf.create_dataset(entry+"/"+key, (len(mainout_time),data[entry][key].shape[1],ind+1), maxshape=(len(mainout_time),data[entry][key].shape[1],None))
+                        # If necessary extend the dataset
+                        if ind > buffsize:
+                            f_hdf[entry+"/"+key].resize((len(mainout_time),data[entry][key].shape[1],ind+1))
+                        # Write the data to the hdf5 file
+                        f_hdf[entry+"/"+key][:,:,ind-buffsize:ind] = entry_dict[entry][key]
+
+            # Put the data in the data_dict
+            for key in entry_dict[entry].keys():
+                value = interp1d(data[entry]["time"],data[entry][key],
+                                 bounds_error = False, fill_value = np.nan, axis = 0)(mainout_time)
+                if entry_dict[entry][key].ndim == 2:
+                    entry_dict[entry][key][:,ind % buffsize] = value
+                elif entry_dict[entry][key].ndim == 3:
+                    entry_dict[entry][key][:,:,ind % buffsize] = value
+
+
+
+    # Say something
+    logger.info(f"Finished looping over all directories, writing the last data to the hdf5 file.")
+
+
+    # # Write the last data to the hdf5 file
 
     #### Finab ####
     ###############
-    # Put the data in the finab_data, Notice that it should be at the right A and Z position
-    # A is contained in data.finab["A"] and Z in data.finab["Z"]. It should fit to the nuclei_data.A and nuclei_data.Z
-    # All of them are 1D arrays
-    # Getting indices where match occurs
-    # indices = [(np.where((nuclei_data.A.astype(int) == A) & (nuclei_data.Z.astype(int) == Z))[0][0])
-    #            for A, Z in zip(data.finab["A"].astype(int), data.finab["Z"].astype(int))]
 
-    # Check if the finab_data is full and write it to the hdf5 file
-    if ind % buffsize == 0 and ind != 0:
-        # Check if the dataset is already created and if not create it
-        if "finab/Y" not in f_hdf:
-            f_hdf.create_dataset("finab/Y", (len(nuclei),ind+1), maxshape=(len(nuclei),None))
-            f_hdf.create_dataset("finab/X", (len(nuclei),ind+1), maxshape=(len(nuclei),None))
-        # If necessary extend the dataset
-        if ind > buffsize:
-            f_hdf["finab/Y"].resize((len(nuclei),ind+1))
-            f_hdf["finab/X"].resize((len(nuclei),ind+1))
-        # Write the data to the hdf5 file
-        f_hdf["finab/Y"][:,ind-buffsize:ind] = finab_data_Y
-        f_hdf["finab/X"][:,ind-buffsize:ind] = finab_data_X
+    if "finab/Y" not in f_hdf:
+        f_hdf.create_dataset("finab/Y", (len(nuclei),ind+1), maxshape=(len(nuclei),None))
+        f_hdf.create_dataset("finab/X", (len(nuclei),ind+1), maxshape=(len(nuclei),None))
+    else:
+        f_hdf["finab/Y"].resize((len(nuclei),ind+1))
+        f_hdf["finab/X"].resize((len(nuclei),ind+1))
+    # Write the missing entries
+    if ind>buffsize:
+        f_hdf["finab/Y"][:,ind-buffsize+1:ind+1] = finab_data_Y[:,:buffsize]
+        f_hdf["finab/X"][:,ind-buffsize+1:ind+1] = finab_data_X[:,:buffsize]
+    else:
+        f_hdf["finab/Y"][:,:ind+1] = finab_data_Y[:,:ind+1]
+        f_hdf["finab/X"][:,:ind+1] = finab_data_X[:,:ind+1]
 
-    # Convert the finab data to structured array
-    finab_struct = np.array(list(zip(data.finab["A"].astype(int), data.finab["Z"].astype(int))), dtype=dtype_nuclei)
-    # Find the matching indices
-    # Use np.searchsorted to find matching indices
-    matching_idx = np.searchsorted(sorted_nuclei_struct, finab_struct)
-    # Recover the original indices from the sorted index
-    indices = nuclei_sorted_idx[matching_idx]
-
-    # Set first zero
-    finab_data_Y[:,ind % buffsize] = 0
-    finab_data_X[:,ind % buffsize] = 0
-    finab_data_Y[indices,ind % buffsize] = data.finab["Y"][:]
-    finab_data_X[indices,ind % buffsize] = data.finab["X"][:]
 
     #### Run name ####
     ##################
 
-    # Check if the run_names is full and write it to the hdf5 file
-    if ind % buffsize == 0 and ind != 0:
-        # Check if the dataset is already created and if not create it
-        if "run_names" not in f_hdf:
-            f_hdf.create_dataset("run_names", (ind+1,), maxshape=(None,),dtype="S100")
-        # If necessary extend the dataset
-        if ind > buffsize:
-            f_hdf["run_names"].resize((ind+1,))
-        # Write the data to the hdf5 file
-        f_hdf["run_names"][ind-buffsize:ind] = run_names
-
-    # Save the run name
-    run_names[ind % buffsize] = d
+    if "run_names" not in f_hdf:
+        f_hdf.create_dataset("run_names", (ind+1,), maxshape=(None,),dtype="S100")
+    else:
+        f_hdf["run_names"].resize((ind+1,))
+    # Write the missing entries
+    if ind>buffsize:
+        f_hdf["run_names"][ind-buffsize+1:ind+1] = run_names[:buffsize]
+    else:
+        f_hdf["run_names"][:ind+1] = run_names[:ind+1]
 
 
-    # Get numbers out from the run name
-    # Check if the run_ids is full and write it to the hdf5 file
-    if ind % buffsize == 0 and ind != 0:
-        # Check if the dataset is already created and if not create it
-        if "run_ids" not in f_hdf:
-            f_hdf.create_dataset("run_ids", (ind+1,), maxshape=(None,),dtype=int)
-        # If necessary extend the dataset
-        if ind > buffsize:
-            f_hdf["run_ids"].resize((ind+1,))
-        # Write the data to the hdf5 file
-        f_hdf["run_ids"][ind-buffsize:ind] = run_ids
+    if "run_ids" not in f_hdf:
+        f_hdf.create_dataset("run_ids", (ind+1,), maxshape=(None,),dtype=int)
+    else:
+        f_hdf["run_ids"].resize((ind+1,))
+    # Write the missing entries
+    if ind>buffsize:
+        f_hdf["run_ids"][ind-buffsize+1:ind+1] = run_ids[:buffsize]
+    else:
+        f_hdf["run_ids"][:ind+1] = run_ids[:ind+1]
 
-    try:
-        run_ids[ind % buffsize] = int(re.findall(r'\d+', d)[-1])
-    except:
-        run_ids[ind % buffsize] = -1
 
     #### Custom snapshots ####
     ##########################
 
     if summarize_snapshots:
-        # Get the time of the snapshots
-        snapstime = data.snapshot_time
-
-        # Now get the indexes of the entries that agree with snapshot_time
-        indexes = np.searchsorted(snapstime, snapshot_time)
-
-        # In case snapstime is shorter than snapshot_time, we need to get a mask to set it nan
-        if (len(snapstime) < len(snapshot_time)):
-            mask = np.zeros(len(snapshot_time),dtype=bool)
-            # Check where the time deviates more than 1e-5
-            mask[np.min(np.abs(snapstime - snapshot_time[:,np.newaxis]),axis=1) > 1e-5] = True
+        if "snapshots/Y" not in f_hdf:
+            f_hdf.create_dataset("snapshots/Y", (len(nuclei),len(snapshot_time),ind+1), maxshape=(len(nuclei),len(snapshot_time),None))
+            f_hdf.create_dataset("snapshots/X", (len(nuclei),len(snapshot_time),ind+1), maxshape=(len(nuclei),len(snapshot_time),None))
         else:
-            mask = None
-
-
-        # Convert the snapshot data to structured array
-        finab_struct = np.array(list(zip(data.A.astype(int), data.Z.astype(int))), dtype=dtype_nuclei)
-        # Find the matching indices
-        # Use np.searchsorted to find matching indices
-        matching_idx = np.searchsorted(sorted_nuclei_struct, finab_struct)
-        # Recover the original indices from the sorted index
-        indices_nuclei = nuclei_sorted_idx[matching_idx]
-
-        # Check if the snapshot_data is full and write it to the hdf5 file
-        if ind % buffsize == 0 and ind != 0:
-            # Check if the dataset is already created and if not create it
-            if "snapshots/Y" not in f_hdf:
-                f_hdf.create_dataset("snapshots/Y", (len(nuclei),len(snapshot_time),ind+1), maxshape=(len(nuclei),len(snapshot_time),None))
-                f_hdf.create_dataset("snapshots/X", (len(nuclei),len(snapshot_time),ind+1), maxshape=(len(nuclei),len(snapshot_time),None))
-            # If necessary extend the dataset
-            if ind > buffsize:
-                f_hdf["snapshots/Y"].resize((len(nuclei),len(snapshot_time),ind+1))
-                f_hdf["snapshots/X"].resize((len(nuclei),len(snapshot_time),ind+1))
-            # Write the data to the hdf5 file
-            f_hdf["snapshots/Y"][:,:,ind-buffsize:ind] = snapshot_data
-            f_hdf["snapshots/X"][:,:,ind-buffsize:ind] = snapshot_data*nuclei_data.A[:,np.newaxis,np.newaxis]
-
-        # Store it
-        snapshot_data[:,:,ind % buffsize] = 0
-        snapshot_data[indices_nuclei,:,ind % buffsize] = data.Y[indexes][:, :].T
-
-        # Set entries to nan if necessary (e.g., if run does not contain a time at the beginning or end)
-        if mask is not None:
-            snapshot_data[:,mask,ind % buffsize] = np.nan
+            f_hdf["snapshots/Y"].resize((len(nuclei),len(snapshot_time),ind+1))
+            f_hdf["snapshots/X"].resize((len(nuclei),len(snapshot_time),ind+1))
+        # Write the missing entries
+        if ind>buffsize:
+            f_hdf["snapshots/Y"][:,:,ind-buffsize+1:ind+1] = snapshot_data[:,:,:buffsize]
+            f_hdf["snapshots/X"][:,:,ind-buffsize+1:ind+1] = snapshot_data[:,:,:buffsize]*nuclei_data.A[:,np.newaxis,np.newaxis]
+        else:
+            f_hdf["snapshots/Y"][:,:,:ind+1] = snapshot_data[:,:,:ind+1]
+            f_hdf["snapshots/X"][:,:,:ind+1] = snapshot_data[:,:,:ind+1]*nuclei_data.A[:,np.newaxis,np.newaxis]
 
 
     #### Other entries ####
     #######################
 
     for entry in entry_dict.keys():
-        # Check if the data_dict is full and write it to the hdf5 file
-        if ind % buffsize == 0 and ind != 0:
-            for key in entry_dict[entry].keys():
-                # Check if the dataset is already created and if not create it
+        for key in entry_dict[entry].keys():
+            # Check dimensions
+            dim = entry_dict[entry][key].ndim
+
+            if dim == 2:
                 if entry+"/"+key not in f_hdf:
                     f_hdf.create_dataset(entry+"/"+key, (len(mainout_time),ind+1), maxshape=(len(mainout_time),None))
-                # If necessary extend the dataset
-                if ind > buffsize:
+                else:
                     f_hdf[entry+"/"+key].resize((len(mainout_time),ind+1))
-                # Write the data to the hdf5 file
-                f_hdf[entry+"/"+key][:,ind-buffsize:ind] = entry_dict[entry][key]
-
-        # Put the data in the data_dict
-        for key in entry_dict[entry].keys():
-            entry_dict[entry][key][:,ind % buffsize] = np.interp(mainout_time,data[entry]["time"],data[entry][key],left=np.nan,right=np.nan)
-
-
-
-# Say something
-logger.info(f"Finished looping over all directories, writing the last data to the hdf5 file.")
-
-
-# # Write the last data to the hdf5 file
-
-#### Finab ####
-###############
-
-if "finab/Y" not in f_hdf:
-    f_hdf.create_dataset("finab/Y", (len(nuclei),ind+1), maxshape=(len(nuclei),None))
-    f_hdf.create_dataset("finab/X", (len(nuclei),ind+1), maxshape=(len(nuclei),None))
-else:
-    f_hdf["finab/Y"].resize((len(nuclei),ind+1))
-    f_hdf["finab/X"].resize((len(nuclei),ind+1))
-# Write the missing entries
-if ind>buffsize:
-    f_hdf["finab/Y"][:,ind-buffsize+1:ind+1] = finab_data_Y[:,:buffsize]
-    f_hdf["finab/X"][:,ind-buffsize+1:ind+1] = finab_data_X[:,:buffsize]
-else:
-    f_hdf["finab/Y"][:,:ind+1] = finab_data_Y[:,:ind+1]
-    f_hdf["finab/X"][:,:ind+1] = finab_data_X[:,:ind+1]
-
-
-#### Run name ####
-##################
-
-if "run_names" not in f_hdf:
-    f_hdf.create_dataset("run_names", (ind+1,), maxshape=(None,),dtype="S100")
-else:
-    f_hdf["run_names"].resize((ind+1,))
-# Write the missing entries
-if ind>buffsize:
-    f_hdf["run_names"][ind-buffsize+1:ind+1] = run_names[:buffsize]
-else:
-    f_hdf["run_names"][:ind+1] = run_names[:ind+1]
-
-
-if "run_ids" not in f_hdf:
-    f_hdf.create_dataset("run_ids", (ind+1,), maxshape=(None,),dtype=int)
-else:
-    f_hdf["run_ids"].resize((ind+1,))
-# Write the missing entries
-if ind>buffsize:
-    f_hdf["run_ids"][ind-buffsize+1:ind+1] = run_ids[:buffsize]
-else:
-    f_hdf["run_ids"][:ind+1] = run_ids[:ind+1]
-
-
-#### Custom snapshots ####
-##########################
-
-if summarize_snapshots:
-    if "snapshots/Y" not in f_hdf:
-        f_hdf.create_dataset("snapshots/Y", (len(nuclei),len(snapshot_time),ind+1), maxshape=(len(nuclei),len(snapshot_time),None))
-        f_hdf.create_dataset("snapshots/X", (len(nuclei),len(snapshot_time),ind+1), maxshape=(len(nuclei),len(snapshot_time),None))
-    else:
-        f_hdf["snapshots/Y"].resize((len(nuclei),len(snapshot_time),ind+1))
-        f_hdf["snapshots/X"].resize((len(nuclei),len(snapshot_time),ind+1))
-    # Write the missing entries
-    if ind>buffsize:
-        f_hdf["snapshots/Y"][:,:,ind-buffsize+1:ind+1] = snapshot_data[:,:,:buffsize]
-        f_hdf["snapshots/X"][:,:,ind-buffsize+1:ind+1] = snapshot_data[:,:,:buffsize]*nuclei_data.A[:,np.newaxis,np.newaxis]
-    else:
-        f_hdf["snapshots/Y"][:,:,:ind+1] = snapshot_data[:,:,:ind+1]
-        f_hdf["snapshots/X"][:,:,:ind+1] = snapshot_data[:,:,:ind+1]*nuclei_data.A[:,np.newaxis,np.newaxis]
-
-
-#### Other entries ####
-#######################
-
-for entry in entry_dict.keys():
-    for key in entry_dict[entry].keys():
-        if entry+"/"+key not in f_hdf:
-            f_hdf.create_dataset(entry+"/"+key, (len(mainout_time),ind+1), maxshape=(len(mainout_time),None))
-        else:
-            f_hdf[entry+"/"+key].resize((len(mainout_time),ind+1))
-        # Write the missing entries
-        if ind>buffsize:
-            f_hdf[entry+"/"+key][:,ind-buffsize+1:ind+1] = entry_dict[entry][key][:,:buffsize]
-        else:
-            f_hdf[entry+"/"+key][:,:ind+1] = entry_dict[entry][key][:,:ind+1]
+                # Write the missing entries
+                if ind>buffsize:
+                    f_hdf[entry+"/"+key][:,ind-buffsize+1:ind+1] = entry_dict[entry][key][:,:buffsize]
+                else:
+                    f_hdf[entry+"/"+key][:,:ind+1] = entry_dict[entry][key][:,:ind+1]
+            elif dim == 3:
+                if entry+"/"+key not in f_hdf:
+                    f_hdf.create_dataset(entry+"/"+key, (len(mainout_time),data[entry][key].shape[1],ind+1), maxshape=(len(mainout_time),data[entry][key].shape[1],None))
+                else:
+                    f_hdf[entry+"/"+key].resize((len(mainout_time),data[entry][key].shape[1],ind+1))
+                # Write the missing entries
+                if ind>buffsize:
+                    f_hdf[entry+"/"+key][:,:,ind-buffsize+1:ind+1] = entry_dict[entry][key][:,:,:buffsize]
+                else:
+                    f_hdf[entry+"/"+key][:,:,:ind+1] = entry_dict[entry][key][:,:,:ind+1]
 
 
 
-# Say something
-logger.info(f"Finished summarizing run at {run_path}.")
+    # Say something
+    logger.info(f"Finished summarizing run at {run_path}.")
 
-# Close the hdf5 file
-f_hdf.close()
+    # Close the hdf5 file
+    f_hdf.close()
+
+    if not options.recursive:
+        looping = False
 

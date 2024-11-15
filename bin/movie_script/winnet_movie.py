@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # Authors: M. Jacobi, J. Kuske, M. Reichert
+# Slider option added by H. Rose.
 # Movie script inspired by Skynet (J. Lippuner)
 import sys
 import os
@@ -11,7 +12,6 @@ from src_files.wreader       import wreader
 from tqdm                    import tqdm
 import matplotlib.pyplot     as plt
 import optparse
-
 
 
 #--- define options ----------------------------------------------------------
@@ -50,8 +50,9 @@ p.add_option("--disable_magic", action="store_true", dest="disable_magic", defau
   help="Whether or not disabling the indication for the magic number.")
 p.add_option("--additional_plot", action="store", dest="additional_plot", default="", \
   help="Whether or not to show an additional plot in the top left corner. "+
-       "Possible options are 'timescales', 'tracked', or 'energy'"+
-       " for plotting average timescales, mass fractions of tracked nuclei, or nuclear energy generation.")
+       "Possible options are 'timescales', 'tracked', 'mainout', or 'energy'"+
+       " for plotting average timescales, mass fractions of tracked nuclei, additional mainout data"+
+       ", or nuclear energy generation.")
 p.add_option("--tau_min", action="store", dest="tau_min", default="", \
   help="Lower limit of the average timescales.")
 p.add_option("--tau_max", action="store", dest="tau_max", default="", \
@@ -63,7 +64,11 @@ p.add_option("--engen_max", action="store", dest="engen_max", default="", \
 p.add_option("--tracked_min", action="store", dest="tracked_min", default="", \
   help="Lower limit of the tracked nuclei mass fractions.")
 p.add_option("--tracked_max", action="store", dest="tracked_max", default="", \
-    help="Upper limit of the tracked nuclei mass fractions.")
+  help="Upper limit of the tracked nuclei mass fractions.")
+p.add_option("--amainout_min", action="store", dest="amainout_min", default="", \
+  help="Lower limit of the additional mainout abundances.")
+p.add_option("--amainout_max", action="store", dest="amainout_max", default="", \
+  help="Upper limit of the additional mainout abundances.")
 p.add_option("--time_min", action="store", dest="t_min", default="", \
   help="Lower limit of the time.")
 p.add_option("--time_max", action="store", dest="t_max", default="", \
@@ -82,6 +87,9 @@ p.add_option("--ye_min", action="store", dest="ye_min", default="", \
   help="Lower limit of the electron fraction.")
 p.add_option("--ye_max", action="store", dest="ye_max", default="", \
   help="Upper limit of the electron fraction.")
+p.add_option("--indicate_r_path", action="store_true", dest="indicate_r_path", default=False, \
+  help="Whether or not to indicate a theoretical r-process path that has been calculated assuming "+\
+       "(n,gamma)(gamma,n) equilibrium.")
 p.add_option("--frame_min", action="store", dest="frame_min", default="", \
   help="Value of the first frame (default = 1).")
 p.add_option("--frame_max", action="store", dest="frame_max", default="", \
@@ -100,6 +108,8 @@ p.add_option("--interval", action="store", dest="interval", default='10', \
   help="Interval of the movie (larger value equals slower).")
 p.add_option("--mpirun_path", action="store", dest="mpirun_path", default='', \
   help="Path of the mpirun command to use for parallel saving.")
+p.add_option("--interactive", action="store_true", default=False, \
+  help="Whether to show the movie in interactive mode.")
 p.set_usage("""
   Visualize a WinNet simulation. Ensure that at least
   snapshot_every or h_snapshot_every parameter was enabled in the
@@ -116,6 +126,7 @@ p.set_usage("""
 run_path = options.rundir
 
 kwargs = {}
+kwargs['interactive']      = options.interactive
 kwargs['timescalerange']   = (1e-12, 1e10)
 kwargs['trackedrange']     = (1e-8, 1e0)
 kwargs['energyrange']      = (1e10, 1e20)
@@ -123,6 +134,7 @@ kwargs['timerange']        = (1e-5 , 1e5)
 kwargs['densityrange']     = (1e-5, 1e12)
 kwargs['temperaturerange'] = (0, 10)
 kwargs['yerange']          = (0.0, 0.55)
+kwargs['amainoutrange']    = (5e-10,1e0)
 
 if options.flow_min:  kwargs['flow_min'] = float(options.flow_min)
 if options.flow_max:  kwargs['flow_max'] = float(options.flow_max)
@@ -155,6 +167,9 @@ if options.temperature_min: kwargs['temperaturerange'] = (float(options.temperat
 if options.temperature_max: kwargs['temperaturerange'] = (kwargs['temperaturerange'][0], float(options.temperature_max))
 if options.ye_min: kwargs['yerange'] = (float(options.ye_min), kwargs['yerange'][1])
 if options.ye_max: kwargs['yerange'] = (kwargs['yerange'][0], float(options.ye_max))
+if options.amainout_min: kwargs['amainoutrange'] = (float(options.amainout_min), kwargs['amainoutrange'][1])
+if options.amainout_max: kwargs['amainoutrange'] = (kwargs['amainoutrange'][0], float(options.amainout_max))
+if options.indicate_r_path: kwargs['indicate_r_path'] = True
 
 
 
@@ -183,6 +198,26 @@ if options.additional_plot:
         if value == 0:
             print('No tracked nuclei found. Disabling tracked nuclei. Remove --additional_plot to disable this message.')
             kwargs['additional_plot'] = 'none'
+    elif options.additional_plot == 'mainout':
+        value = w.check_existence('mainout')
+        if value == 0:
+            print('No mainout found. Disabling mainout. Remove --additional_plot to disable this message.')
+            kwargs['additional_plot'] = 'none'
+if options.indicate_r_path:
+    value = w.check_existence('mainout')
+    if value == 0:
+        print('No mainout found. Disabling r-process path. Remove --indicate_r_path to disable this message.')
+        kwargs['indicate_r_path'] = False
+if options.indicate_r_path or options.interactive:
+    # Check if the winvn.dat file is present
+    winvn_path = w.template['isotopes_file']
+    if not os.path.exists(os.path.join(run_path, winvn_path)):
+        print('No winvn.dat found. Falling back to default winvn path.')
+        # relative to the file here
+        winvn_path = os.path.join(script_path, '../../data/winvne_v2.0.dat')
+    kwargs['winvn_path'] = winvn_path
+if options.interactive:
+    kwargs['additional_plot'] = 'none'
 if not options.disable_mainout:
     value = w.check_existence('mainout')
     if value == 0:

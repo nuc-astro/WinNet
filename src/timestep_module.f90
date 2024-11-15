@@ -142,7 +142,7 @@ subroutine restrict_timestep(ctime,h,temp,dens,ttemp,tdens)
        termination_criterion,final_dens,final_temp,final_time,&
        custom_snapshots,trajectory_mode,heating_mode, &
        nsetemp_cold,T9_analytic,rho_analytic,solver,h_custom_snapshots, &
-       heating_density
+       heating_density, nu_max_time, nuflag
    use gear_module,      only: get_timestep, set_timestep
    use hydro_trajectory, only: ztime,zsteps,ztime,ztemp,zdens
    use analysis,         only: snapshot_time,snapshot_amount
@@ -311,6 +311,14 @@ subroutine restrict_timestep(ctime,h,temp,dens,ttemp,tdens)
          h = max(tnext-ctime,1e-15)
       end if
    end if
+
+   !-- Restrict timestep to switch off neutrinos
+   if (nuflag .ge. 1) then
+      if ((ctime .lt.nu_max_time) .and. (ctime+h .gt. nu_max_time)) then
+           h = max(nu_max_time-ctime,1e-15)
+      end if
+   end if
+
 
    ! Also gear should be regulated by the restriction so change the timestep
    if ((solver == 1) .and. (h_in .ne. h)) then

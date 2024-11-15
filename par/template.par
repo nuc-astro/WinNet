@@ -265,6 +265,10 @@ nurates_file =
 # has also to contain the neutrino information.
 neutrino_mode =
 
+# Maximum time (in s) for neutrino reactions to occure.
+# The default is 100s. Set -1 to never turn off neutrino reactions.
+nu_max_time =
+
 
 ### Case: neutrino_mode = 'analytic' ###
 

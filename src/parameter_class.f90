@@ -195,6 +195,7 @@ module parameter_class
   character(max_fname_len):: Lxbar                          !< Muon and Tauon  antineutrino luminosities [erg/s]
   character(max_fname_len):: Enux                           !< average Muon and Tauon neutrino energies [MeV]
   character(max_fname_len):: Enuxbar                        !< average Muon and Tauon antineutrino energies [MeV]
+  real(r_kind)            :: nu_max_time                    !< Maximum time for neutrino reactions to react
   character(max_fname_len):: prepared_network_path          !< Prepared network folder
 
 !>-- Newton-Raphson iterative loop parameters
@@ -404,6 +405,7 @@ subroutine set_param(param_name,param_value)
       ":final_temp"// &
       ":final_dens" // &
       ":initial_stepsize"// &
+      ":nu_max_time"// &
       ":freeze_rate_temp"// &
       ":nse_nr_tol"// &
       ":nse_delt_t9min" // &
@@ -653,6 +655,8 @@ subroutine set_param(param_name,param_value)
      nr_tol= read_float_param(str_value,param_name)
    elseif(param_name.eq."freeze_rate_temp") then
      freeze_rate_temp= read_float_param(str_value,param_name)
+   elseif(param_name.eq."nu_max_time") then
+     nu_max_time= read_float_param(str_value,param_name)
 !--- logical type parameters
    elseif(param_name.eq."read_initial_composition") then
      read_initial_composition= lparam_value
@@ -973,6 +977,7 @@ subroutine set_default_param
    nsetemp_hot                 = 8.e0
    nsetemp_cold                = 7.e0
    nuflag                      = 0
+   nu_max_time                 = -1d0 ! For CCSN 1d2 may be good e.g. Roberts & Reddy 2017 (https://ui.adsabs.harvard.edu/abs/2017hsn..book.1605R/abstract)
    neutrino_mode               = 'analytic'
    nuchannel_file              = trim(adjustl(win_path))//"nu_channels"
    nu_loss_every               = 0
@@ -1149,6 +1154,7 @@ subroutine output_param
          write(ofile,'(A,I1)') 'nuflag                      = ' , nuflag
            write(ofile,'(3A)') 'nuchannel_file              = "', trim(nuchannel_file),'"'
          write(ofile,'(A,I5)') 'nu_loss_every               = ' , nu_loss_every
+     write(ofile,'(A,es14.7)') 'nu_max_time                 = ' , nu_max_time
            write(ofile,'(3A)') 'nunucleo_rates_file         = "', trim(nunucleo_rates_file),'"'
            write(ofile,'(3A)') 'nurates_file                = "', trim(nurates_file),'"'
          write(ofile,'(A,I5)') 'out_every                   = ' , out_every

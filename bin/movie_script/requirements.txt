@@ -1,5 +1,6 @@
 h5py
 matplotlib>=3.8.4
+numba
 mpi4py
 numpy
 pandas
