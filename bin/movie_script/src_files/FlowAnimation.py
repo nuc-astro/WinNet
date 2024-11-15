@@ -176,6 +176,7 @@ class FlowAnimation(object):
             print('Using old version of Matplotlib ('+str(mpl.__version__)+'), some features may not work.')
             print('Need 3.8 or higher.')
 
+
         # Set the paths
         # Data directory:
         # Remember where this file is located
@@ -326,6 +327,9 @@ class FlowAnimation(object):
         # For interactive flow range
         self.flow_max_offset = 0.0
         self.flow_min_offset = 0.0
+        # For interactive mafra range
+        self.mafra_max_offset = 0.0
+        self.mafra_min_offset = 0.0
 
         if self.indicate_r_path or self.interactive:
             self.__init_ngamma_eq()
@@ -336,10 +340,18 @@ class FlowAnimation(object):
             self.__interactive_textbox = None
             self.winvn = winvn(self.winvn_path)
             self.winvn.read_winvn()
+            self.winvn.calculate_Sn()
             df = self.winvn.get_dataframe()
+            Z = df['Z'].values
+            N = df['N'].values
             # Set a tuple of N and Z as index
             df.set_index(['N','Z'], inplace=True)
             self.winvn.set_dataframe(df)
+            # Prepare the other backgrounds
+            self.__background_Y_2 = np.zeros_like(self.__background_Y_1)*np.nan
+            self.__background_Y_2[N,Z] = df['binding energy'].values/(Z+N)
+            self.__background_Y_3 = np.zeros_like(self.__background_Y_1)*np.nan
+            self.__background_Y_3[N,Z] = df['Sn'].values
 
 
     def __init_ngamma_eq(self):
@@ -589,7 +601,7 @@ class FlowAnimation(object):
         """
         self.axLogo = plt.axes([0.75,0.45,0.15,0.15])
         self.axLogo.axis('off')
-        self.axLogo.imshow(plt.imread(os.path.join(self.__data_path,'WinNet_logo.png')))
+        self.logo = self.axLogo.imshow(plt.imread(os.path.join(self.__data_path,'WinNet_logo.png')))
 
     def __init_interactive(self):
 
@@ -602,6 +614,7 @@ class FlowAnimation(object):
         self.play_button.on_clicked(self.pause_movie)
         self.fig.canvas.mpl_connect('key_press_event', self.arrow_update)
         self.__interactive_ax = None
+
 
         # Add a bookmark at a certain time in the slider
         # Calculate neutron freeze-out time
@@ -675,35 +688,109 @@ class FlowAnimation(object):
             self.r_path_button.on_clicked(self.r_path_button_event)
             addbutton += 1
 
+        # Create button for background color
+        self.ax_button_bg = plt.axes([0.18-0.018+0.015*(len(self.toggle_buttons)+1+addbutton+0.4), 0.05, 0.012, 0.022])
+        self.bg_button = Button(self.ax_button_bg, "B")
+        self.bg_button.label.set_fontsize(12)
+        self.bg_button.label.set_color('k')
+        self.bg_button.on_clicked(self.change_bg)
+        self.background = 1
+        addbutton += 1
+
+
         # Check if flow is plotted and add a button to change the flow range
         if self.plot_flow:
             self.flow_buttons = [Button(plt.axes([0.88, 0.905, 0.01, 0.02]), "+")]
-            self.flow_buttons[-1].label.set_fontsize(12)
-            self.flow_buttons[-1].label.set_color('k')
-            self.flow_buttons[-1].on_clicked(self.flow_button_event)
-
-            self.flow_buttons.append(Button(plt.axes([0.868, 0.905, 0.01, 0.02]), "-"))
-            self.flow_buttons[-1].label.set_fontsize(12)
-            self.flow_buttons[-1].label.set_color('k')
-            self.flow_buttons[-1].on_clicked(self.flow_button_event)
-
-            self.flow_buttons.append(Button(plt.axes([0.762, 0.905, 0.01, 0.02]),"+"))
-            self.flow_buttons[-1].label.set_fontsize(12)
-            self.flow_buttons[-1].label.set_color('k')
-            self.flow_buttons[-1].on_clicked(self.flow_button_event)
-
+            self.flow_buttons.append(Button(plt.axes([0.869, 0.905, 0.01, 0.02]), "-"))
+            self.flow_buttons.append(Button(plt.axes([0.7605, 0.905, 0.01, 0.02]),"+"))
             self.flow_buttons.append(Button(plt.axes([0.75, 0.905, 0.01, 0.02]), "-"))
-            self.flow_buttons[-1].label.set_fontsize(12)
-            self.flow_buttons[-1].label.set_color('k')
-            self.flow_buttons[-1].on_clicked(self.flow_button_event)
-
             # Add a button to change reset
-            self.flow_buttons.append(Button(plt.axes([0.775, 0.905, 0.01, 0.02]), "⟲"))
-            self.flow_buttons[-1].label.set_fontsize(12)
-            self.flow_buttons[-1].label.set_color('k')
-            self.flow_buttons[-1].on_clicked(self.flow_button_event)
+            self.flow_buttons.append(Button(plt.axes([0.771, 0.905, 0.01, 0.02]), "⟲"))
+            # Add button next to - to switch off
+            self.flow_buttons.append(Button(plt.axes([0.858, 0.905, 0.01, 0.02]),"○"))
 
-            # self.flow_button.on_clicked(self.flow_button_event)
+            for f in self.flow_buttons:
+                f.label.set_fontsize(12)
+                f.label.set_color('k')
+                f.on_clicked(self.flow_button_event)
+
+            # Mass fraction buttons
+            self.mafra_buttons = [Button(plt.axes([0.71, 0.905, 0.01, 0.02]), "+")]
+            self.mafra_buttons.append(Button(plt.axes([0.699, 0.905, 0.01, 0.02]), "-"))
+            self.mafra_buttons.append(Button(plt.axes([0.5905, 0.905, 0.01, 0.02]),"+"))
+            self.mafra_buttons.append(Button(plt.axes([0.58, 0.905, 0.01, 0.02]), "-"))
+            # Add a button to change reset
+            self.mafra_buttons.append(Button(plt.axes([0.601, 0.905, 0.01, 0.02]), "⟲"))
+            # Add button next to - to switch off
+            self.mafra_buttons.append(Button(plt.axes([0.688, 0.905, 0.01, 0.02]),"○"))
+
+        else:
+            self.mafra_buttons = [Button(plt.axes([0.88, 0.905, 0.01, 0.02]), "+")]
+            self.mafra_buttons.append(Button(plt.axes([0.869, 0.905, 0.01, 0.02]), "-"))
+            self.mafra_buttons.append(Button(plt.axes([0.7605, 0.905, 0.01, 0.02]),"+"))
+            self.mafra_buttons.append(Button(plt.axes([0.75, 0.905, 0.01, 0.02]), "-"))
+            # Add a button to change reset
+            self.mafra_buttons.append(Button(plt.axes([0.771, 0.905, 0.01, 0.02]), "⟲"))
+            # Add button next to - to switch off
+            self.mafra_buttons.append(Button(plt.axes([0.858, 0.905, 0.01, 0.02]),"○"))
+
+        for f in self.mafra_buttons:
+            f.label.set_fontsize(12)
+            f.label.set_color('k')
+            f.on_clicked(self.mafra_button_event)
+
+
+    def change_bg(self, event):
+        self.background = self.background + 1
+        if self.background >3:
+            self.background = 1
+
+        if self.background == 1:
+            self.background_Y = self.__background_Y_1
+            self.background_im.set_cmap(self.__background_cmap)
+            self.background_im.set_array(self.background_Y.T)
+            # also set the limits again
+            self.background_im.set_clim(vmin=(min(self.values)),vmax=(max(self.values)))
+            self.cb_bg.ax.set_visible(False)
+            self.logo.set_visible(True)
+        elif self.background == 2:
+            self.background_Y = self.__background_Y_2
+            self.background_im.set_cmap('nipy_spectral')
+            self.cb_bg.set_label('BE/A [MeV]')
+            # Set the norm (linear)
+            self.background_im.set_norm( plt.Normalize(vmin=5,vmax=np.nanmax(self.background_Y)))
+            self.background_im.set_array((self.background_Y.T))
+            self.cb_bg.ax.set_visible(True)
+            # Hide the WinNet logo
+            self.logo.set_visible(False)
+        elif self.background == 3:
+            self.background_Y = self.__background_Y_3
+
+            # Create a colormap with alpha
+            original_cmap = cm.nipy_spectral  # Choose your colormap
+            alpha = 0.5  # Set alpha value (0.0 to 1.0)
+
+            # Create a colormap with modified alpha
+            colors = original_cmap(np.linspace(0, 1, original_cmap.N))
+            colors[:, -1] = alpha  # Set alpha channel
+            transparent_cmap = ListedColormap(colors)
+
+            self.background_im.set_cmap(transparent_cmap)
+            self.cb_bg.set_label('Sn [MeV]')
+            # Set the norm (linear)
+            self.background_im.set_norm( plt.Normalize(vmin=0,vmax=10))
+            self.background_im.set_array((self.background_Y.T))
+            self.cb_bg.ax.set_visible(True)
+            # Hide the WinNet logo
+            self.logo.set_visible(False)
+
+
+            # also set the limits again and make it log scale
+            # self.background_im.set_clim(vmin=np.nanmin(self.background_Y),vmax=np.nanmax(self.background_Y))
+
+
+        self.fig.canvas.draw_idle()
+
 
     def flow_button_event(self, event):
         if event.inaxes == self.flow_buttons[0].ax:
@@ -717,13 +804,46 @@ class FlowAnimation(object):
         elif event.inaxes == self.flow_buttons[4].ax:
             self.flow_max_offset = 0.0
             self.flow_min_offset = 0.0
+        elif event.inaxes == self.flow_buttons[5].ax:
+            if self.flow_adapt_width:
+                self.flow_patch.set_visible(not self.flow_patch.get_visible())
+            else:
+                self.quiver.set_visible(not self.quiver.get_visible())
+            self.flow_buttons[5].label.set_text("○" if self.quiver.get_visible() else "●")
+
 
         # Refresh the animation at current position
         if self.movie_paused:
             self.update_frame(self.slider_bar.val)
 
         self.fig.canvas.draw_idle()
-        pass
+
+    def mafra_button_event(self, event):
+        if event.inaxes == self.mafra_buttons[0].ax:
+            self.mafra_max_offset += 0.5
+        elif event.inaxes == self.mafra_buttons[1].ax:
+            self.mafra_max_offset -= 0.5
+        elif event.inaxes == self.mafra_buttons[2].ax:
+            self.mafra_min_offset += 0.5
+        elif event.inaxes == self.mafra_buttons[3].ax:
+            self.mafra_min_offset -= 0.5
+        elif event.inaxes == self.mafra_buttons[4].ax:
+            self.mafra_max_offset = 0.0
+            self.mafra_min_offset = 0.0
+        elif event.inaxes == self.mafra_buttons[5].ax:
+            self.abun_im.set_visible(not self.abun_im.get_visible())
+            self.mafra_buttons[5].label.set_text("○" if self.abun_im.get_visible() else "●")
+
+
+        norm = plt.Normalize(vmin=np.log10(self.X_min*10**self.mafra_min_offset), vmax=np.log10(self.X_max*10**self.mafra_max_offset))
+        # self.abun_cbar.set_norm(norm)
+        self.abun_im.set_norm(norm)
+        # Also change the colorbar
+        norm = LogNorm(vmin=self.X_min*10**self.mafra_min_offset, vmax=self.X_max*10**self.mafra_max_offset, clip=True)
+        self.mafra_sm.set_norm(norm)
+
+        self.fig.canvas.draw_idle()
+
 
     def r_path_button_event(self, event):
         self.indicate_r_path = not self.indicate_r_path
@@ -844,18 +964,19 @@ class FlowAnimation(object):
         self.Xbins = np.zeros(len(self.massBins),dtype=float)
 
         # Create custom colormap, with colormap for abundances and also the background colors
-        abucmap = mpl.colormaps[self.cmapNameX]
-        abundance_colors = abucmap(np.linspace(0, 1, 256))
+        abucmap                 = mpl.colormaps[self.cmapNameX]
+        self.__abundance_colors = abucmap
+
+        # Colors for background
         massbin_colormap = mpl.colormaps[self.cmapNameMassBins]
         amount_mass_bins = len(self.massBins)
         massbin_colors   = massbin_colormap(np.linspace(0, 1, amount_mass_bins))
         massbin_colors[:,3] = self.alphaMassBins
         self.massbin_colors = massbin_colors
-        newcolors = np.vstack((massbin_colors, abundance_colors))
-        self.__abundance_colors = ListedColormap(newcolors)
-        # Create the values for the colors
-        dist = (np.log10(self.X_max)-np.log10(self.X_min))/256.0
-        self.values = np.linspace(np.log10(self.X_min)-amount_mass_bins*dist, np.log10(self.X_max),num=256+amount_mass_bins+1,endpoint=True)
+        self.__background_cmap = ListedColormap(self.massbin_colors)
+
+        # self.values = np.linspace(np.log10(self.X_min)-amount_mass_bins*dist, np.log10(self.X_max),num=256+amount_mass_bins+1,endpoint=True)
+        self.values = np.linspace(0, 1,num=amount_mass_bins,endpoint=True)
 
         # Create the background array that will contain numbers according to the background colors
         background_Y = np.empty((self.__max_N+1, self.__max_Z+1))
@@ -864,13 +985,14 @@ class FlowAnimation(object):
             mask = (self.__A_plot >= self.massBins[index][0]) & (self.__A_plot <= self.massBins[index][1])
             background_Y[self.__N_plot[mask],self.__Z_plot[mask]] = self.values[index]
         self.__background_Y = background_Y
+        self.__background_Y_1 = np.copy(background_Y)
 
         # Set up the axes for the nuclear chart
         self.n = np.arange(0, self.__max_N+1)
         self.z = np.arange(0, self.__max_Z+1)
 
         # Set up the abundance array
-        self.abun = self.__background_Y
+        self.abun = np.zeros_like(self.__background_Y) * np.nan
 
         # Set up the array for the fission region
         self.fis_region = np.zeros_like(self.abun)
@@ -886,10 +1008,14 @@ class FlowAnimation(object):
         """
            Initialize the plots.
         """
+        self.background_im = self.ax.pcolormesh(self.n,self.z,self.__background_Y.T,
+                            cmap = self.__background_cmap,vmin=(min(self.values)),
+                            vmax=(max(self.values)),linewidth=0.0,edgecolor="face")
+
         # Plot the nuclear chart
         self.abun_im = self.ax.pcolormesh(self.n,self.z,self.abun.T,
-                       cmap = self.__abundance_colors,vmin=(min(self.values)),
-                       vmax=(max(self.values)),linewidth=0.0,edgecolor="face")
+                       cmap = self.__abundance_colors,vmin=(np.log10(self.X_min)),
+                       vmax=(np.log10(self.X_max)),linewidth=0.0,edgecolor="face")
 
 
         if (self.plot_flow):
@@ -1100,7 +1226,8 @@ class FlowAnimation(object):
         # Plot the abundance colorbar
         if abun_cbar:
             # Make a custom colormap since the abundance one has the background colors in as well
-            self.abun_cbar = self.fig.colorbar(mpl.cm.ScalarMappable(norm=LogNorm(vmin=self.X_min,vmax=self.X_max), cmap="inferno"),
+            self.mafra_sm = mpl.cm.ScalarMappable(norm=LogNorm(vmin=self.X_min,vmax=self.X_max), cmap="inferno")
+            self.abun_cbar = self.fig.colorbar(self.mafra_sm,
                     cax=self.cax[ii], orientation='horizontal', label='')
             self.abun_cbar.ax.set_title('Mass fraction')
             ii += 1
@@ -1116,6 +1243,15 @@ class FlowAnimation(object):
             self.flow_cbar.ax.set_title('Flow')
             ii += 1
 
+        if self.interactive:
+            self.ax_bg_cb = plt.axes([0.75,0.54,0.15,0.02])
+            # Horizontal colorbar
+            self.cb_bg = plt.colorbar(self.background_im, cax=self.ax_bg_cb, orientation='horizontal')
+            self.cb_bg.set_label('BE/A [MeV]')
+            # Hide the colorbar
+            self.cb_bg.ax.set_visible(False)
+
+
 
     def update_data(self, ii):
         """
@@ -1125,8 +1261,9 @@ class FlowAnimation(object):
         self.time = self.wreader.snapshot_time[ii]
         yy = self.wreader.Y[ii]
         xx = yy * self.A
-        self.abun = self.__background_Y.copy()
-        mask = xx > self.X_min
+        # self.abun = self.__background_Y.copy()
+        self.abun[:,:] = np.nan
+        mask = xx > self.X_min*10**self.mafra_min_offset
         self.abun[self.N[mask], self.Z[mask]] = np.log10(xx[mask])
 
         self.Asum, self.Xsum = self.sum_over_A(self.A, xx)
@@ -1310,14 +1447,16 @@ class FlowAnimation(object):
             else:
                 # Quiver does not allow for changing the width of the arrows
                 # Therefore, we have to us a patchcollection and draw it everytime new.
-                self.flow_patch.remove()
-                width = (self.flow_maxArrowWidth-self.flow_minArrowWidth)/self.flow_prange
-                with np.errstate(divide='ignore'):
-                    arrowwidth = (np.log10(self.flow)-np.log10(self.flow_min))*width + self.flow_minArrowWidth
-                flow_arrows = [Arrow(self.flow_N[i],self.flow_Z[i],self.flow_dn[i],self.flow_dz[i],width=arrowwidth[i],color='k') for i in range(len(self.flow))]
-                a = PatchCollection(flow_arrows, cmap=self.cmapNameFlow, norm=self.flow_norm)
-                a.set_array(self.flow)
-                self.flow_patch = self.ax.add_collection(a)
+                if self.flow_patch.get_visible():
+                    self.flow_patch.remove()
+                    width = (self.flow_maxArrowWidth-self.flow_minArrowWidth)/self.flow_prange
+                    with np.errstate(divide='ignore'):
+                        arrowwidth = (np.log10(self.flow)-np.log10(self.flow_min))*width + self.flow_minArrowWidth
+                    flow_arrows = [Arrow(self.flow_N[i],self.flow_Z[i],self.flow_dn[i],self.flow_dz[i],width=arrowwidth[i],color='k') for i in range(len(self.flow))]
+                    a = PatchCollection(flow_arrows, cmap=self.cmapNameFlow, norm=self.flow_norm)
+                    a.set_array(self.flow)
+                    self.flow_patch = self.ax.add_collection(a)
+
 
     def update_ngamma_plot(self,):
         if self.indicate_r_path:
@@ -1348,7 +1487,7 @@ class FlowAnimation(object):
                 N = int(text[1].split(" = ")[1])
                 Z = int(text[2].split(" = ")[1])
                 X = 10**self.abun[N,Z]
-                if X < self.X_min:
+                if (X < self.X_min*10**self.mafra_min_offset) or np.isnan(X):
                     X = 0
                 text[-1] = f"X = {X:.2e}"
                 self.__interactive_textbox.set_text("\n".join(text))
@@ -1431,7 +1570,7 @@ class FlowAnimation(object):
                     nucl_n = int(np.round(x))
                     nucl_z = int(np.round(y))
                     # Check if abundances are nan there
-                    if np.isnan(self.abun[nucl_n, nucl_z]):
+                    if np.isnan(self.__background_Y[nucl_n, nucl_z]):
                         if not (self.__interactive_box is None):
                             # Remove the rectangle if it exists
                             self.__interactive_box.remove()
@@ -1463,7 +1602,7 @@ class FlowAnimation(object):
                         # Add mass fraction
                         X = 10**self.abun[nucl_n, nucl_z]
                         # Set 0 if below limit
-                        if X < self.X_min:
+                        if (X < (self.X_min*10**self.mafra_min_offset)) or np.isnan(X):
                             X = 0
                         text+= f"\nX = {X:.2e}"
 

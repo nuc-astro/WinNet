@@ -127,7 +127,27 @@ class winvn(object):
             f.write(out)
 
 
-    # def get_pf_Z_N(self):
+    def calculate_Sn(self):
+        """
+          Calculate the neutron separation energies
+        """
+        mexc_n = self.__df.loc["n","mass excess"]
+
+        # Put mass excesses in 2D array
+        Zwinvn = self.__df["Z"].values
+        Nwinvn = self.__df["N"].values
+        mexc   = self.__df["mass excess"].values
+
+        # Create 2D array with Z and N, fill non existing with nans
+        Sn_Z_N_winvn = np.zeros((Zwinvn.max()+1,Nwinvn.max()+1))
+        Sn_Z_N_winvn[:] = np.nan
+        Sn_Z_N_winvn[Zwinvn,Nwinvn] = mexc
+
+        # Now calculate the neutron separation energy
+        Sn_Z_N_winvn[:,1:] = (Sn_Z_N_winvn[:,0:-1] + mexc_n) - Sn_Z_N_winvn[:,1:]
+
+        # Put it into df
+        self.__df["Sn"] = Sn_Z_N_winvn[Zwinvn,Nwinvn]
 
 
     def rate_factor(self,reactants,products,temperature):
