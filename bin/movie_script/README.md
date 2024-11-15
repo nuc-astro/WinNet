@@ -165,3 +165,36 @@ This command will display the movie in a separate window. Note that this process
 An example output could look like the following:
 
 ![Simulation visualization](../../doc/doxygen/figures/winteler_mhd.gif)
+
+
+#### Interactive Mode
+
+The **Interactive Mode** enhances the functionality of the nuclear reaction flow visualization by enabling real-time interaction with the plots. Below are the features and instructions for using the interactive mode effectively:
+
+
+1. **Dynamic Controls:**
+   - **Slider**: Allows the user to navigate through the simulation timeline seamlessly.
+   - **Play/Pause Button**: Toggles the animation playback.
+   - **Zoom Button**: Enables zooming in and out on the low mass region of the chart.
+
+2. **Toggle Data Layers:**
+   - Activate or deactivate specific plots (e.g., `tracked nuclei`, `timescales`, `energy`) with dedicated buttons.
+
+3. **R-process path**
+   - Highlight the r-process path that is calculated assuming (n,gamma) equilibrium.
+
+4. **Highlight sunet**
+   - Highlight the nuclei that have been used in the calculation with a red outline.
+
+5. **Neutron freezeout**
+   - Neutron freezeout is indicated as red vertical line on the slider.
+
+6. **Flow and Abundance Adjustments:**
+   - Fine-tune flow and abundance ranges dynamically using buttons to increment, decrement, or reset the values.
+   - Toggle visualization elements such as arrows for flow or background mass fractions.
+
+7. **Custom Backgrounds:**
+   - Switch between different background visualizations (e.g., Binding energy, Neutron separation energy) for a tailored view of nuclear properties.
+
+
+![Interactive mode](../../doc/doxygen/figures/interactive.png)

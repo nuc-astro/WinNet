@@ -352,6 +352,7 @@ class FlowAnimation(object):
             self.__background_Y_2[N,Z] = df['binding energy'].values/(Z+N)
             self.__background_Y_3 = np.zeros_like(self.__background_Y_1)*np.nan
             self.__background_Y_3[N,Z] = df['Sn'].values
+            self.forward_mode = 0
 
 
     def __init_ngamma_eq(self):
@@ -615,7 +616,6 @@ class FlowAnimation(object):
         self.fig.canvas.mpl_connect('key_press_event', self.arrow_update)
         self.__interactive_ax = None
 
-
         # Add a bookmark at a certain time in the slider
         # Calculate neutron freeze-out time
         min_val = 1-self.wreader.mainout['yn']/self.wreader.mainout['yheavy']
@@ -807,9 +807,10 @@ class FlowAnimation(object):
         elif event.inaxes == self.flow_buttons[5].ax:
             if self.flow_adapt_width:
                 self.flow_patch.set_visible(not self.flow_patch.get_visible())
+                self.flow_buttons[5].label.set_text("○" if self.flow_patch.get_visible() else "●")
             else:
                 self.quiver.set_visible(not self.quiver.get_visible())
-            self.flow_buttons[5].label.set_text("○" if self.quiver.get_visible() else "●")
+                self.flow_buttons[5].label.set_text("○" if self.quiver.get_visible() else "●")
 
 
         # Refresh the animation at current position
@@ -1503,6 +1504,8 @@ class FlowAnimation(object):
     def get_funcanimation(self, frames=None, **kwargs):
         if frames is None:
             frames = range(self.n_timesteps)
+        if self.interactive and self.forward_mode == 1:
+            frames = frames[::100]
         self.frames=frames
         self.animation = FuncAnimation(self.fig, self.update_frame,
             frames=frames, **kwargs)
