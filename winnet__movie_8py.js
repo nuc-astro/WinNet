@@ -21,5 +21,6 @@ var winnet__movie_8py =
     [ "run_path", "winnet__movie_8py.html#ac4faafb4c45b17b61fb8ef8cb7a8ac01", null ],
     [ "script_path", "winnet__movie_8py.html#ad2c32d28cde25bc714a0009c8e1a54f9", null ],
     [ "value", "winnet__movie_8py.html#ad8d61f7a281514881a9edd8e39a23017", null ],
-    [ "w", "winnet__movie_8py.html#af69d276240710c4ba8b840c97403c11c", null ]
+    [ "w", "winnet__movie_8py.html#af69d276240710c4ba8b840c97403c11c", null ],
+    [ "winvn_path", "winnet__movie_8py.html#ae9d92c0257c76364f92fafc4afea1268", null ]
 ];

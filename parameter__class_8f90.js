@@ -115,6 +115,7 @@ var parameter__class_8f90 =
     [ "nsetemp_cold", "parameter__class_8f90.html#aa1882ec5cf5418ea8f78df72e09cd241", null ],
     [ "nsetemp_hot", "parameter__class_8f90.html#ababfddff4ac51a8eb5737061ab4b48fc", null ],
     [ "nu_loss_every", "parameter__class_8f90.html#adf16710e7a1b3fef9ae8fb2a56a45400", null ],
+    [ "nu_max_time", "parameter__class_8f90.html#a8d68bb54c2ad41fcd7359cc3ef90b297", null ],
     [ "nuchannel_file", "parameter__class_8f90.html#a8bf8314016a133f7d6916c84defa951d", null ],
     [ "nuflag", "parameter__class_8f90.html#a0052726a5a9aa290c95270b1696d31d8", null ],
     [ "nunucleo_rates_file", "parameter__class_8f90.html#aefff7a99c2c026fb40ee435b199071d6", null ],

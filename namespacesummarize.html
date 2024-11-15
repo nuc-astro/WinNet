@@ -134,10 +134,18 @@ Variables</h2></td></tr>
 <tr class="separator:a937a2f430fe3d64341e7732ce1edbf8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4b2db18df544dcbd84a139cf5ce61857"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesummarize.html#a4b2db18df544dcbd84a139cf5ce61857">propagate</a></td></tr>
 <tr class="separator:a4b2db18df544dcbd84a139cf5ce61857"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa6306ab72c18775755272120dc3ddb25"><td class="memItemLeft" align="right" valign="top">list&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesummarize.html#aa6306ab72c18775755272120dc3ddb25">folders</a> = [f for f in os.listdir(<a class="el" href="namespacesummarize.html#a78ebea3e68645e60ed97b0b5aacd8599">run_path</a>) if os.path.isdir(os.path.join(<a class="el" href="namespacesummarize.html#a78ebea3e68645e60ed97b0b5aacd8599">run_path</a>, f))]</td></tr>
+<tr class="separator:aa6306ab72c18775755272120dc3ddb25"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a41727621d16a906d63106267d01d483a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesummarize.html#a41727621d16a906d63106267d01d483a">fold</a> = options.outdir.replace(&quot;.hdf5&quot;,&quot;&quot;)</td></tr>
+<tr class="separator:a41727621d16a906d63106267d01d483a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a515a9a23ee37280d990c9e4f181001e6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesummarize.html#a515a9a23ee37280d990c9e4f181001e6">basepath</a> = <a class="el" href="namespacesummarize.html#a78ebea3e68645e60ed97b0b5aacd8599">run_path</a></td></tr>
+<tr class="separator:a515a9a23ee37280d990c9e4f181001e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a72b8bd654fa439f5fdede2f285bd25a8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesummarize.html#a72b8bd654fa439f5fdede2f285bd25a8">looping</a> = True</td></tr>
+<tr class="separator:a72b8bd654fa439f5fdede2f285bd25a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ffd78a3c623fcacb5466f2d7a3a21ad"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesummarize.html#a2ffd78a3c623fcacb5466f2d7a3a21ad">output_file</a> = os.path.join(<a class="el" href="namespacesummarize.html#a41727621d16a906d63106267d01d483a">fold</a>, <a class="el" href="namespacesummarize.html#aa6306ab72c18775755272120dc3ddb25">folders</a>[0]+&quot;.hdf5&quot;)</td></tr>
+<tr class="separator:a2ffd78a3c623fcacb5466f2d7a3a21ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a223fb099ab6a2a8ae3b50e19654fc4c8"><td class="memItemLeft" align="right" valign="top">list&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesummarize.html#a223fb099ab6a2a8ae3b50e19654fc4c8">dirs</a> = [d for d in os.listdir(<a class="el" href="namespacesummarize.html#a78ebea3e68645e60ed97b0b5aacd8599">run_path</a>) if os.path.isdir(os.path.join(<a class="el" href="namespacesummarize.html#a78ebea3e68645e60ed97b0b5aacd8599">run_path</a>, d)) and d != &quot;network_data&quot;]</td></tr>
 <tr class="separator:a223fb099ab6a2a8ae3b50e19654fc4c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2ffd78a3c623fcacb5466f2d7a3a21ad"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesummarize.html#a2ffd78a3c623fcacb5466f2d7a3a21ad">output_file</a> = options.outdir</td></tr>
-<tr class="separator:a2ffd78a3c623fcacb5466f2d7a3a21ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1ed3df7e570132c941e31ae792339ba8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesummarize.html#a1ed3df7e570132c941e31ae792339ba8">f_hdf</a> = h5py.File(<a class="el" href="namespacesummarize.html#a2ffd78a3c623fcacb5466f2d7a3a21ad">output_file</a>, 'w')</td></tr>
 <tr class="separator:a1ed3df7e570132c941e31ae792339ba8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4c7374e87c355674080f8ff5cf11dc23"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesummarize.html#a4c7374e87c355674080f8ff5cf11dc23">found</a> = False</td></tr>
@@ -212,12 +220,11 @@ Variables</h2></td></tr>
 <tr class="separator:a287141bb585ecec67dd27bd0ea2c8ab6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a068c88fe6a8b985ef37af4005740ebff"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesummarize.html#a068c88fe6a8b985ef37af4005740ebff">indices_nuclei</a> = <a class="el" href="namespacesummarize.html#a75e9cac26085d7ff4a0a780b4f11626a">nuclei_sorted_idx</a>[<a class="el" href="namespacesummarize.html#a807da438d773e28dfdc41c205f792f2a">matching_idx</a>]</td></tr>
 <tr class="separator:a068c88fe6a8b985ef37af4005740ebff"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa8a155ff0a3e5c1aaf5113b286d8a4aa"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesummarize.html#aa8a155ff0a3e5c1aaf5113b286d8a4aa">left</a></td></tr>
-<tr class="separator:aa8a155ff0a3e5c1aaf5113b286d8a4aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1570f7e65077a8c3eea39c8d481add04"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesummarize.html#a1570f7e65077a8c3eea39c8d481add04">nan</a></td></tr>
-<tr class="separator:a1570f7e65077a8c3eea39c8d481add04"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a27712c92b8fa5ce01456f20dd42f7e82"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesummarize.html#a27712c92b8fa5ce01456f20dd42f7e82">right</a></td></tr>
-<tr class="separator:a27712c92b8fa5ce01456f20dd42f7e82"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a92c1033f9fdaa8272d5ad9ebc5dab7a9"><td class="memItemLeft" align="right" valign="top">dictionary&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesummarize.html#a92c1033f9fdaa8272d5ad9ebc5dab7a9">dim</a> = <a class="el" href="namespacesummarize.html#a57fbbc0e4040ead8758a5a4054f932dc">entry_dict</a>[entry][key].ndim</td></tr>
+<tr class="memdesc:a92c1033f9fdaa8272d5ad9ebc5dab7a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Other entries ####.  <a href="namespacesummarize.html#a92c1033f9fdaa8272d5ad9ebc5dab7a9">More...</a><br /></td></tr>
+<tr class="separator:a92c1033f9fdaa8272d5ad9ebc5dab7a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a073f8b2235294cb90b2b3c976d02a548"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesummarize.html#a073f8b2235294cb90b2b3c976d02a548">value</a></td></tr>
+<tr class="separator:a073f8b2235294cb90b2b3c976d02a548"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Variable Documentation</h2>
 <a id="a20e397fde47decf0558cd01456db3230"></a>
@@ -232,7 +239,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00020">20</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00021">21</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -248,7 +255,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00062">62</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00065">65</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -264,7 +271,23 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00393">393</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00441">441</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+
+</div>
+</div>
+<a id="a515a9a23ee37280d990c9e4f181001e6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a515a9a23ee37280d990c9e4f181001e6">&#9670;&nbsp;</a></span>basepath</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">summarize.basepath = <a class="el" href="namespacesummarize.html#a78ebea3e68645e60ed97b0b5aacd8599">run_path</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00109">109</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -280,7 +303,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00067">67</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00070">70</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -296,7 +319,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00120">120</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00159">159</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -312,7 +335,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00076">76</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00079">79</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -328,7 +351,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00020">20</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00021">21</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -344,7 +367,25 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00020">20</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00021">21</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+
+</div>
+</div>
+<a id="a92c1033f9fdaa8272d5ad9ebc5dab7a9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a92c1033f9fdaa8272d5ad9ebc5dab7a9">&#9670;&nbsp;</a></span>dim</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">dictionary summarize.dim = <a class="el" href="namespacesummarize.html#a57fbbc0e4040ead8758a5a4054f932dc">entry_dict</a>[entry][key].ndim</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Other entries ####. </p>
+
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00485">485</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -360,7 +401,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00099">99</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00140">140</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -376,7 +417,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00351">351</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00399">399</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -392,7 +433,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00283">283</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00331">331</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -408,7 +449,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00204">204</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00246">246</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -424,7 +465,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00113">113</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00152">152</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -440,7 +481,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00079">79</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00082">82</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -456,7 +497,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00275">275</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00323">323</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -472,7 +513,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00274">274</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00322">322</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -488,7 +529,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00331">331</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00379">379</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -504,7 +545,39 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00157">157</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00199">199</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+
+</div>
+</div>
+<a id="a41727621d16a906d63106267d01d483a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a41727621d16a906d63106267d01d483a">&#9670;&nbsp;</a></span>fold</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">summarize.fold = options.outdir.replace(&quot;.hdf5&quot;,&quot;&quot;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00108">108</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+
+</div>
+</div>
+<a id="aa6306ab72c18775755272120dc3ddb25"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa6306ab72c18775755272120dc3ddb25">&#9670;&nbsp;</a></span>folders</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">list summarize.folders = [f for f in os.listdir(<a class="el" href="namespacesummarize.html#a78ebea3e68645e60ed97b0b5aacd8599">run_path</a>) if os.path.isdir(os.path.join(<a class="el" href="namespacesummarize.html#a78ebea3e68645e60ed97b0b5aacd8599">run_path</a>, f))]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00104">104</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -520,7 +593,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00074">74</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00077">77</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -536,7 +609,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00118">118</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00157">157</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -552,7 +625,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00021">21</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00022">22</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -568,7 +641,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00295">295</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00343">343</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -584,7 +657,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00387">387</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00435">435</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -600,7 +673,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00336">336</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00384">384</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -616,7 +689,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00404">404</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00452">452</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -632,23 +705,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00168">168</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
-
-</div>
-</div>
-<a id="aa8a155ff0a3e5c1aaf5113b286d8a4aa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa8a155ff0a3e5c1aaf5113b286d8a4aa">&#9670;&nbsp;</a></span>left</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">summarize.left</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00447">447</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00210">210</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -664,7 +721,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00077">77</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00080">80</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -680,7 +737,23 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00080">80</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00083">83</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+
+</div>
+</div>
+<a id="a72b8bd654fa439f5fdede2f285bd25a8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a72b8bd654fa439f5fdede2f285bd25a8">&#9670;&nbsp;</a></span>looping</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool summarize.looping = True</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00123">123</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -696,7 +769,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00154">154</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00196">196</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -712,7 +785,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00391">391</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00439">439</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -728,7 +801,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00334">334</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00382">382</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -746,27 +819,10 @@ Variables</h2></td></tr>
 
 <p>Finab ####. </p>
 <p>Custom snapshots ####.</p>
-<p>Other entries ####.</p>
 <p>Run name ####.</p>
 <p>Put the data in the finab_data, Notice that it should be at the right A and Z position A is contained in data.finab["A"] and Z in data.finab["Z"]. It should fit to the nuclei_data.A and nuclei_data.Z All of them are 1D arrays Getting indices where match occurs indices = [(np.where((nuclei_data.A.astype(int) == A) &amp; (nuclei_data.Z.astype(int) == Z))[0][0]) for A, Z in zip(data.finab["A"].astype(int), data.finab["Z"].astype(int))] </p>
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00320">320</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
-
-</div>
-</div>
-<a id="a1570f7e65077a8c3eea39c8d481add04"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1570f7e65077a8c3eea39c8d481add04">&#9670;&nbsp;</a></span>nan</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">summarize.nan</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00447">447</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00368">368</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -782,7 +838,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00136">136</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00178">178</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -798,7 +854,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00147">147</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00189">189</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -814,7 +870,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00148">148</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00190">190</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -830,7 +886,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00286">286</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00334">334</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -846,7 +902,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00284">284</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00332">332</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -862,7 +918,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00062">62</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00065">65</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -873,12 +929,12 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">summarize.output_file = options.outdir</td>
+          <td class="memname">summarize.output_file = os.path.join(<a class="el" href="namespacesummarize.html#a41727621d16a906d63106267d01d483a">fold</a>, <a class="el" href="namespacesummarize.html#aa6306ab72c18775755272120dc3ddb25">folders</a>[0]+&quot;.hdf5&quot;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00106">106</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00130">130</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -894,7 +950,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00019">19</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00020">20</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -910,7 +966,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00181">181</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00223">223</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -926,23 +982,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00094">94</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
-
-</div>
-</div>
-<a id="a27712c92b8fa5ce01456f20dd42f7e82"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a27712c92b8fa5ce01456f20dd42f7e82">&#9670;&nbsp;</a></span>right</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">summarize.right</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00447">447</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00097">97</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -958,7 +998,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00292">292</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00340">340</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -974,7 +1014,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00291">291</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00339">339</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -990,7 +1030,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00063">63</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00066">66</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -1006,7 +1046,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00263">263</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00311">311</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -1022,7 +1062,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00253">253</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00301">301</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -1040,7 +1080,7 @@ Variables</h2></td></tr>
 
 <p>Custom snapshots ####. </p>
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00384">384</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00432">432</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -1056,7 +1096,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00287">287</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00335">335</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -1072,7 +1112,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00075">75</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00078">78</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -1088,7 +1128,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00237">237</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00285">285</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -1104,7 +1144,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00132">132</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00174">174</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -1120,7 +1160,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00131">131</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00173">173</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
@@ -1136,12 +1176,31 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00173">173</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00215">215</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
+
+</div>
+</div>
+<a id="a073f8b2235294cb90b2b3c976d02a548"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a073f8b2235294cb90b2b3c976d02a548">&#9670;&nbsp;</a></span>value</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">summarize.value</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;=  <a class="code" href="namespaceinter__module.html#a206d3ceb40bd2e40d41c462a31ad057e">interp1d</a>(data[entry][<span class="stringliteral">&quot;time&quot;</span>],data[entry][key],</div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;                                 bounds_error = <span class="keyword">False</span>, fill_value = np.nan, axis = 0)(mainout_time)</div>
+</div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="summarize_8py_source.html#l00506">506</a> of file <a class="el" href="summarize_8py_source.html">summarize.py</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 </div><!-- doc-content -->
+<div class="ttc" id="anamespaceinter__module_html_a206d3ceb40bd2e40d41c462a31ad057e"><div class="ttname"><a href="namespaceinter__module.html#a206d3ceb40bd2e40d41c462a31ad057e">inter_module::interp1d</a></div><div class="ttdeci">subroutine, public interp1d(n, xp, xb, yp, res, flin, itype)</div><div class="ttdoc">Interface for 1D interpolation routines.</div><div class="ttdef"><b>Definition:</b> <a href="inter__module_8f90_source.html#l00099">inter_module.f90:100</a></div></div>
 <!-- HTML footer for doxygen 1.8.17-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

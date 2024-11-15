@@ -99,18 +99,18 @@ $(document).ready(function(){initNavTree('winnet__movie_8py_source.html',''); in
 <div class="contents">
 <a href="winnet__movie_8py.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno"><a class="line" href="namespacewinnet__movie.html">    1</a></span>&#160;<span class="comment">#!/usr/bin/env python</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"># Authors: M. Jacobi, J. Kuske, M. Reichert</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"># Movie script inspired by Skynet (J. Lippuner)</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="keyword">import</span> sys</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">import</span> os</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"># Get the path of the script and add it to the path (necessary for the imports)</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno"><a class="line" href="namespacewinnet__movie.html#ad2c32d28cde25bc714a0009c8e1a54f9">    7</a></span>&#160;script_path = os.path.dirname(os.path.realpath(__file__))</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;sys.path.append(os.path.join(script_path,<span class="stringliteral">&#39;src_files/&#39;</span>))</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">from</span> <a class="code" href="namespacesrc__files_1_1FlowAnimation.html">src_files.FlowAnimation</a> <span class="keyword">import</span> FlowAnimation</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">from</span> <a class="code" href="namespacesrc__files_1_1wreader.html">src_files.wreader</a>       <span class="keyword">import</span> wreader</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">from</span> tqdm                    <span class="keyword">import</span> tqdm</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">import</span> matplotlib.pyplot     <span class="keyword">as</span> plt</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">import</span> optparse</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"># Slider option added by H. Rose.</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"># Movie script inspired by Skynet (J. Lippuner)</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">import</span> sys</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">import</span> os</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"># Get the path of the script and add it to the path (necessary for the imports)</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno"><a class="line" href="namespacewinnet__movie.html#ad2c32d28cde25bc714a0009c8e1a54f9">    8</a></span>&#160;script_path = os.path.dirname(os.path.realpath(__file__))</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;sys.path.append(os.path.join(script_path,<span class="stringliteral">&#39;src_files/&#39;</span>))</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">from</span> <a class="code" href="namespacesrc__files_1_1FlowAnimation.html">src_files.FlowAnimation</a> <span class="keyword">import</span> FlowAnimation</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">from</span> <a class="code" href="namespacesrc__files_1_1wreader.html">src_files.wreader</a>       <span class="keyword">import</span> wreader</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">from</span> tqdm                    <span class="keyword">import</span> tqdm</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">import</span> matplotlib.pyplot     <span class="keyword">as</span> plt</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">import</span> optparse</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; </div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment">#--- define options ----------------------------------------------------------</span></div>
@@ -149,311 +149,346 @@ $(document).ready(function(){initNavTree('winnet__movie_8py_source.html',''); in
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  help=<span class="stringliteral">&quot;Whether or not disabling the indication for the magic number.&quot;</span>)</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;p.add_option(<span class="stringliteral">&quot;--additional_plot&quot;</span>, action=<span class="stringliteral">&quot;store&quot;</span>, dest=<span class="stringliteral">&quot;additional_plot&quot;</span>, default=<span class="stringliteral">&quot;&quot;</span>, \</div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  help=<span class="stringliteral">&quot;Whether or not to show an additional plot in the top left corner. &quot;</span>+</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;       <span class="stringliteral">&quot;Possible options are &#39;timescales&#39;, &#39;tracked&#39;, or &#39;energy&#39;&quot;</span>+</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;       <span class="stringliteral">&quot; for plotting average timescales, mass fractions of tracked nuclei, or nuclear energy generation.&quot;</span>)</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;p.add_option(<span class="stringliteral">&quot;--tau_min&quot;</span>, action=<span class="stringliteral">&quot;store&quot;</span>, dest=<span class="stringliteral">&quot;tau_min&quot;</span>, default=<span class="stringliteral">&quot;&quot;</span>, \</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  help=<span class="stringliteral">&quot;Lower limit of the average timescales.&quot;</span>)</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;p.add_option(<span class="stringliteral">&quot;--tau_max&quot;</span>, action=<span class="stringliteral">&quot;store&quot;</span>, dest=<span class="stringliteral">&quot;tau_max&quot;</span>, default=<span class="stringliteral">&quot;&quot;</span>, \</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  help=<span class="stringliteral">&quot;Upper limit of the average timescales.&quot;</span>)</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;p.add_option(<span class="stringliteral">&quot;--engen_min&quot;</span>, action=<span class="stringliteral">&quot;store&quot;</span>, dest=<span class="stringliteral">&quot;engen_min&quot;</span>, default=<span class="stringliteral">&quot;&quot;</span>, \</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;  help=<span class="stringliteral">&quot;Lower limit of the Energy.&quot;</span>)</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;p.add_option(<span class="stringliteral">&quot;--engen_max&quot;</span>, action=<span class="stringliteral">&quot;store&quot;</span>, dest=<span class="stringliteral">&quot;engen_max&quot;</span>, default=<span class="stringliteral">&quot;&quot;</span>, \</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;  help=<span class="stringliteral">&quot;Upper limit of the Energy.&quot;</span>)</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;p.add_option(<span class="stringliteral">&quot;--tracked_min&quot;</span>, action=<span class="stringliteral">&quot;store&quot;</span>, dest=<span class="stringliteral">&quot;tracked_min&quot;</span>, default=<span class="stringliteral">&quot;&quot;</span>, \</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;  help=<span class="stringliteral">&quot;Lower limit of the tracked nuclei mass fractions.&quot;</span>)</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;p.add_option(<span class="stringliteral">&quot;--tracked_max&quot;</span>, action=<span class="stringliteral">&quot;store&quot;</span>, dest=<span class="stringliteral">&quot;tracked_max&quot;</span>, default=<span class="stringliteral">&quot;&quot;</span>, \</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    help=<span class="stringliteral">&quot;Upper limit of the tracked nuclei mass fractions.&quot;</span>)</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;p.add_option(<span class="stringliteral">&quot;--time_min&quot;</span>, action=<span class="stringliteral">&quot;store&quot;</span>, dest=<span class="stringliteral">&quot;t_min&quot;</span>, default=<span class="stringliteral">&quot;&quot;</span>, \</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;  help=<span class="stringliteral">&quot;Lower limit of the time.&quot;</span>)</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;p.add_option(<span class="stringliteral">&quot;--time_max&quot;</span>, action=<span class="stringliteral">&quot;store&quot;</span>, dest=<span class="stringliteral">&quot;t_max&quot;</span>, default=<span class="stringliteral">&quot;&quot;</span>, \</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;  help=<span class="stringliteral">&quot;Upper limit of the time.&quot;</span>)</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;p.add_option(<span class="stringliteral">&quot;--disable_mainout&quot;</span>, action=<span class="stringliteral">&quot;store_true&quot;</span>, dest=<span class="stringliteral">&quot;disable_mainout&quot;</span>, default=<span class="keyword">False</span>, \</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;  help=<span class="stringliteral">&quot;Whether or not disabling the mainout plot.&quot;</span>)</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;p.add_option(<span class="stringliteral">&quot;--density_min&quot;</span>, action=<span class="stringliteral">&quot;store&quot;</span>, dest=<span class="stringliteral">&quot;density_min&quot;</span>, default=<span class="stringliteral">&quot;&quot;</span>, \</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;  help=<span class="stringliteral">&quot;Lower limit of the density.&quot;</span>)</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;p.add_option(<span class="stringliteral">&quot;--density_max&quot;</span>, action=<span class="stringliteral">&quot;store&quot;</span>, dest=<span class="stringliteral">&quot;density_max&quot;</span>, default=<span class="stringliteral">&quot;&quot;</span>, \</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;  help=<span class="stringliteral">&quot;Upper limit of the density.&quot;</span>)</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;p.add_option(<span class="stringliteral">&quot;--temperature_min&quot;</span>, action=<span class="stringliteral">&quot;store&quot;</span>, dest=<span class="stringliteral">&quot;temperature_min&quot;</span>, default=<span class="stringliteral">&quot;&quot;</span>, \</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;  help=<span class="stringliteral">&quot;Lower limit of the temperatures.&quot;</span>)</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;p.add_option(<span class="stringliteral">&quot;--temperature_max&quot;</span>, action=<span class="stringliteral">&quot;store&quot;</span>, dest=<span class="stringliteral">&quot;temperature_max&quot;</span>, default=<span class="stringliteral">&quot;&quot;</span>, \</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;  help=<span class="stringliteral">&quot;Upper limit of the temperature.&quot;</span>)</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;p.add_option(<span class="stringliteral">&quot;--ye_min&quot;</span>, action=<span class="stringliteral">&quot;store&quot;</span>, dest=<span class="stringliteral">&quot;ye_min&quot;</span>, default=<span class="stringliteral">&quot;&quot;</span>, \</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;  help=<span class="stringliteral">&quot;Lower limit of the electron fraction.&quot;</span>)</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;p.add_option(<span class="stringliteral">&quot;--ye_max&quot;</span>, action=<span class="stringliteral">&quot;store&quot;</span>, dest=<span class="stringliteral">&quot;ye_max&quot;</span>, default=<span class="stringliteral">&quot;&quot;</span>, \</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;  help=<span class="stringliteral">&quot;Upper limit of the electron fraction.&quot;</span>)</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;p.add_option(<span class="stringliteral">&quot;--frame_min&quot;</span>, action=<span class="stringliteral">&quot;store&quot;</span>, dest=<span class="stringliteral">&quot;frame_min&quot;</span>, default=<span class="stringliteral">&quot;&quot;</span>, \</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;  help=<span class="stringliteral">&quot;Value of the first frame (default = 1).&quot;</span>)</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;p.add_option(<span class="stringliteral">&quot;--frame_max&quot;</span>, action=<span class="stringliteral">&quot;store&quot;</span>, dest=<span class="stringliteral">&quot;frame_max&quot;</span>, default=<span class="stringliteral">&quot;&quot;</span>, \</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;  help=<span class="stringliteral">&quot;Value of the last frame (default = end of the simulation).&quot;</span>)</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;p.add_option(<span class="stringliteral">&quot;--save&quot;</span>, action=<span class="stringliteral">&quot;store_true&quot;</span>, dest=<span class="stringliteral">&quot;save&quot;</span>, default=<span class="keyword">False</span>, \</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;  help=<span class="stringliteral">&quot;Whether or not saving the movie.&quot;</span>)</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;p.add_option(<span class="stringliteral">&quot;--save_frames&quot;</span>, action=<span class="stringliteral">&quot;store_true&quot;</span>, dest=<span class="stringliteral">&quot;save_frames&quot;</span>, default=<span class="keyword">False</span>, \</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;  help=<span class="stringliteral">&quot;Whether or not saving the frames into a folder.&quot;</span>)</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;p.add_option(<span class="stringliteral">&quot;--output&quot;</span>, action=<span class="stringliteral">&quot;store&quot;</span>, dest=<span class="stringliteral">&quot;output_name&quot;</span>, default=<span class="stringliteral">&#39;flow_movie.mp4&#39;</span>, \</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;  help=<span class="stringliteral">&quot;Output name of the movie.&quot;</span>)</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;p.add_option(<span class="stringliteral">&#39;--parallel_save&#39;</span>, action=<span class="stringliteral">&#39;store_true&#39;</span>, dest=<span class="stringliteral">&#39;parallel_save&#39;</span>, default=<span class="keyword">False</span>, \</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;             help=<span class="stringliteral">&#39;Whether or not to save the movie in parallel.&#39;</span>)</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;p.add_option(<span class="stringliteral">&#39;--parallel_cpus&#39;</span>, action=<span class="stringliteral">&#39;store&#39;</span>, dest=<span class="stringliteral">&#39;parallel_cpus&#39;</span>, default=<span class="stringliteral">&#39;5&#39;</span>, \</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;             help=<span class="stringliteral">&#39;Number of CPUs to use for parallel saving.&#39;</span>)</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;p.add_option(<span class="stringliteral">&quot;--interval&quot;</span>, action=<span class="stringliteral">&quot;store&quot;</span>, dest=<span class="stringliteral">&quot;interval&quot;</span>, default=<span class="stringliteral">&#39;10&#39;</span>, \</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;  help=<span class="stringliteral">&quot;Interval of the movie (larger value equals slower).&quot;</span>)</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;p.add_option(<span class="stringliteral">&quot;--mpirun_path&quot;</span>, action=<span class="stringliteral">&quot;store&quot;</span>, dest=<span class="stringliteral">&quot;mpirun_path&quot;</span>, default=<span class="stringliteral">&#39;&#39;</span>, \</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;  help=<span class="stringliteral">&quot;Path of the mpirun command to use for parallel saving.&quot;</span>)</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;p.set_usage(<span class="stringliteral">&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;<span class="stringliteral">  Visualize a WinNet simulation. Ensure that at least</span></div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;<span class="stringliteral">  snapshot_every or h_snapshot_every parameter was enabled in the</span></div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;<span class="stringliteral">  parameter file. To plot timescales, energy, tracked nuclei, mainout,</span></div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;<span class="stringliteral">  or reaction flows, the necessary parameters have to be enabled in the</span></div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;<span class="stringliteral">  parameter file.</span></div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;<span class="stringliteral"></span> </div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;<span class="stringliteral">  Usage:   ./winnet_movie.py -i &lt;rundir&gt;</span></div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;<span class="stringliteral">  Example: ./winnet_movie.py -i runs/test&quot;&quot;&quot;</span>)</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160; </div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160; </div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;<span class="comment">#--- parse options -----------------------------------------------------------</span></div>
-<div class="line"><a name="l00115"></a><span class="lineno"><a class="line" href="namespacewinnet__movie.html#a69e3f523555fde4c1f18bb36606774e7">  115</a></span>&#160;(options,args) = p.parse_args()</div>
-<div class="line"><a name="l00116"></a><span class="lineno"><a class="line" href="namespacewinnet__movie.html#ac4faafb4c45b17b61fb8ef8cb7a8ac01">  116</a></span>&#160;run_path = options.rundir</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160; </div>
-<div class="line"><a name="l00118"></a><span class="lineno"><a class="line" href="namespacewinnet__movie.html#a1c527f2b7188c4b4ba081579c1461b81">  118</a></span>&#160;kwargs = {}</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;kwargs[<span class="stringliteral">&#39;timescalerange&#39;</span>]   = (1e-12, 1e10)</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;kwargs[<span class="stringliteral">&#39;trackedrange&#39;</span>]     = (1e-8, 1e0)</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;kwargs[<span class="stringliteral">&#39;energyrange&#39;</span>]      = (1e10, 1e20)</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;kwargs[<span class="stringliteral">&#39;timerange&#39;</span>]        = (1e-5 , 1e5)</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;kwargs[<span class="stringliteral">&#39;densityrange&#39;</span>]     = (1e-5, 1e12)</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;kwargs[<span class="stringliteral">&#39;temperaturerange&#39;</span>] = (0, 10)</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;kwargs[<span class="stringliteral">&#39;yerange&#39;</span>]          = (0.0, 0.55)</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160; </div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;<span class="keywordflow">if</span> options.flow_min:  kwargs[<span class="stringliteral">&#39;flow_min&#39;</span>] = float(options.flow_min)</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;<span class="keywordflow">if</span> options.flow_max:  kwargs[<span class="stringliteral">&#39;flow_max&#39;</span>] = float(options.flow_max)</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;<span class="keywordflow">if</span> options.plot_flow: kwargs[<span class="stringliteral">&#39;plot_flow&#39;</span>] = <span class="keyword">False</span> <span class="keywordflow">if</span> options.plot_flow <span class="keywordflow">else</span> <span class="keyword">True</span></div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;<span class="keywordflow">if</span> options.separate_fission: kwargs[<span class="stringliteral">&#39;separate_fission&#39;</span>] = <span class="keyword">True</span></div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;<span class="keywordflow">if</span> options.fission_minflow: kwargs[<span class="stringliteral">&#39;fission_minflow&#39;</span>] = float(options.fission_minflow)</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;<span class="keywordflow">if</span> options.fix_flows: kwargs[<span class="stringliteral">&#39;flow_adapt_prange&#39;</span>] = <span class="keyword">False</span></div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;<span class="keywordflow">if</span> options.flow_range: kwargs[<span class="stringliteral">&#39;flow_prange&#39;</span>] = float(options.flow_range)</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;<span class="keywordflow">if</span> options.fix_flow_arrow_width: kwargs[<span class="stringliteral">&#39;flow_adapt_width&#39;</span>] = <span class="keyword">True</span></div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;<span class="keywordflow">if</span> options.flow_cmap: kwargs[<span class="stringliteral">&#39;cmapNameFlow&#39;</span>] = options.flow_cmap</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;<span class="keywordflow">if</span> options.x_min: kwargs[<span class="stringliteral">&#39;X_min&#39;</span>] = float(options.x_min)</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;<span class="keywordflow">if</span> options.x_max: kwargs[<span class="stringliteral">&#39;X_max&#39;</span>] = float(options.x_max)</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;<span class="keywordflow">if</span> options.x_cmap: kwargs[<span class="stringliteral">&#39;cmapNameX&#39;</span>] = options.x_cmap</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;<span class="keywordflow">if</span> options.disable_abar: kwargs[<span class="stringliteral">&#39;plot_abar&#39;</span>] = (<span class="keywordflow">not</span> options.disable_abar)</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;<span class="keywordflow">if</span> options.mass_bins_cmap: kwargs[<span class="stringliteral">&#39;cmapNameMassBins&#39;</span>] = options.mass_bins_cmap</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;<span class="keywordflow">if</span> options.disable_magic: kwargs[<span class="stringliteral">&#39;plot_magic&#39;</span>] = (<span class="keywordflow">not</span> options.disable_magic)</div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;<span class="keywordflow">if</span> options.additional_plot: kwargs[<span class="stringliteral">&#39;additional_plot&#39;</span>] = options.additional_plot.lower().strip()</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;<span class="keywordflow">if</span> options.tau_min: kwargs[<span class="stringliteral">&#39;timescalerange&#39;</span>] = (float(options.tau_min),kwargs[<span class="stringliteral">&#39;timescalerange&#39;</span>][1])</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;<span class="keywordflow">if</span> options.tau_max: kwargs[<span class="stringliteral">&#39;timescalerange&#39;</span>] = (kwargs[<span class="stringliteral">&#39;timescalerange&#39;</span>][0], float(options.tau_max))</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;<span class="keywordflow">if</span> options.engen_min: kwargs[<span class="stringliteral">&#39;energyrange&#39;</span>] = (float(options.engen_min), kwargs[<span class="stringliteral">&#39;energyrange&#39;</span>][1])</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;<span class="keywordflow">if</span> options.engen_max: kwargs[<span class="stringliteral">&#39;energyrange&#39;</span>] = (kwargs[<span class="stringliteral">&#39;energyrange&#39;</span>][0], float(options.engen_max))</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;<span class="keywordflow">if</span> options.tracked_min: kwargs[<span class="stringliteral">&#39;trackedrange&#39;</span>] = (float(options.tracked_min), kwargs[<span class="stringliteral">&#39;trackedrange&#39;</span>][1])</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;<span class="keywordflow">if</span> options.tracked_max: kwargs[<span class="stringliteral">&#39;trackedrange&#39;</span>] = (kwargs[<span class="stringliteral">&#39;trackedrange&#39;</span>][0], float(options.tracked_max))</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;<span class="keywordflow">if</span> options.t_min: kwargs[<span class="stringliteral">&#39;timerange&#39;</span>] = (float(options.t_min), kwargs[<span class="stringliteral">&#39;timerange&#39;</span>][1])</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;<span class="keywordflow">if</span> options.t_max: kwargs[<span class="stringliteral">&#39;timerange&#39;</span>] = (kwargs[<span class="stringliteral">&#39;timerange&#39;</span>][0], float(options.t_max))</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;<span class="keywordflow">if</span> options.disable_mainout: kwargs[<span class="stringliteral">&#39;plot_mainout&#39;</span>] = (<span class="keywordflow">not</span> options.disable_mainout)</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;<span class="keywordflow">if</span> options.density_min: kwargs[<span class="stringliteral">&#39;densityrange&#39;</span>] = (float(options.density_min), kwargs[<span class="stringliteral">&#39;densityrange&#39;</span>][1])</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;<span class="keywordflow">if</span> options.density_max: kwargs[<span class="stringliteral">&#39;densityrange&#39;</span>] = (kwargs[<span class="stringliteral">&#39;densityrange&#39;</span>][0], float(options.density_max))</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;<span class="keywordflow">if</span> options.temperature_min: kwargs[<span class="stringliteral">&#39;temperaturerange&#39;</span>] = (float(options.temperature_min), kwargs[<span class="stringliteral">&#39;temperaturerange&#39;</span>][1])</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;<span class="keywordflow">if</span> options.temperature_max: kwargs[<span class="stringliteral">&#39;temperaturerange&#39;</span>] = (kwargs[<span class="stringliteral">&#39;temperaturerange&#39;</span>][0], float(options.temperature_max))</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;<span class="keywordflow">if</span> options.ye_min: kwargs[<span class="stringliteral">&#39;yerange&#39;</span>] = (float(options.ye_min), kwargs[<span class="stringliteral">&#39;yerange&#39;</span>][1])</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;<span class="keywordflow">if</span> options.ye_max: kwargs[<span class="stringliteral">&#39;yerange&#39;</span>] = (kwargs[<span class="stringliteral">&#39;yerange&#39;</span>][0], float(options.ye_max))</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160; </div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160; </div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160; </div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;<span class="comment"># Sanity checks</span></div>
-<div class="line"><a name="l00162"></a><span class="lineno"><a class="line" href="namespacewinnet__movie.html#af69d276240710c4ba8b840c97403c11c">  162</a></span>&#160;w = <a class="code" href="classsrc__files_1_1wreader_1_1wreader.html">wreader</a>(run_path)</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160; </div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;<span class="comment"># Check if the run has snapshots</span></div>
-<div class="line"><a name="l00165"></a><span class="lineno"><a class="line" href="namespacewinnet__movie.html#ad8d61f7a281514881a9edd8e39a23017">  165</a></span>&#160;value = w.check_existence(<span class="stringliteral">&#39;snapshot&#39;</span>)</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;<span class="keywordflow">if</span> value == 0:</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;    <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&#39;No snapshots found. Please enable snapshots in the parameter file.&#39;</span>)</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160; </div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;<span class="comment"># Sanity for timescales and so on, disable if not found</span></div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;<span class="keywordflow">if</span> options.additional_plot:</div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;    <span class="keywordflow">if</span> options.additional_plot == <span class="stringliteral">&#39;timescales&#39;</span>:</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;        value = w.check_existence(<span class="stringliteral">&#39;timescales&#39;</span>)</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;        <span class="keywordflow">if</span> value == 0:</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;            print(<span class="stringliteral">&#39;No timescales found. Disabling timescales. Remove --additional_plot to disable this message.&#39;</span>)</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;            kwargs[<span class="stringliteral">&#39;additional_plot&#39;</span>] = <span class="stringliteral">&#39;none&#39;</span></div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;    <span class="keywordflow">elif</span> options.additional_plot == <span class="stringliteral">&#39;energy&#39;</span>:</div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;        value = w.check_existence(<span class="stringliteral">&#39;energy&#39;</span>)</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;        <span class="keywordflow">if</span> value == 0:</div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;            print(<span class="stringliteral">&#39;No energy found. Disabling energy. Remove --additional_plot to disable this message.&#39;</span>)</div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;            kwargs[<span class="stringliteral">&#39;additional_plot&#39;</span>] = <span class="stringliteral">&#39;none&#39;</span></div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;    <span class="keywordflow">elif</span> options.additional_plot == <span class="stringliteral">&#39;tracked&#39;</span>:</div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;        value = w.check_existence(<span class="stringliteral">&#39;tracked_nuclei&#39;</span>)</div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;        <span class="keywordflow">if</span> value == 0:</div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;            print(<span class="stringliteral">&#39;No tracked nuclei found. Disabling tracked nuclei. Remove --additional_plot to disable this message.&#39;</span>)</div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;            kwargs[<span class="stringliteral">&#39;additional_plot&#39;</span>] = <span class="stringliteral">&#39;none&#39;</span></div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;<span class="keywordflow">if</span> <span class="keywordflow">not</span> options.disable_mainout:</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;    value = w.check_existence(<span class="stringliteral">&#39;mainout&#39;</span>)</div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;    <span class="keywordflow">if</span> value == 0:</div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;        print(<span class="stringliteral">&#39;No mainout found. Disabling mainout. Set --disable_mainout to disable this message.&#39;</span>)</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;        kwargs[<span class="stringliteral">&#39;plot_mainout&#39;</span>] = <span class="keyword">False</span></div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;<span class="keywordflow">if</span> <span class="keywordflow">not</span> options.plot_flow:</div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;    value = w.check_existence(<span class="stringliteral">&#39;flows&#39;</span>)</div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;    <span class="keywordflow">if</span> value == 0:</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;        print(<span class="stringliteral">&#39;No flow found. Disabling flow. Set --disable_flow to disable this message.&#39;</span>)</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;        kwargs[<span class="stringliteral">&#39;plot_flow&#39;</span>] = <span class="keyword">False</span></div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160; </div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160; </div>
-<div class="line"><a name="l00198"></a><span class="lineno"><a class="line" href="namespacewinnet__movie.html#a2668a3a47dfd7c66573dc84f7d776f2e">  198</a></span>&#160;<span class="keywordflow">if</span> options.frame_min: frame_min = int(options.frame_min)</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;<span class="keywordflow">else</span>: frame_min = 1</div>
-<div class="line"><a name="l00200"></a><span class="lineno"><a class="line" href="namespacewinnet__movie.html#a61b7b4785327b85dcea8d86f7fb44245">  200</a></span>&#160;<span class="keywordflow">if</span> options.frame_max: frame_max = int(options.frame_max)</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;<span class="keywordflow">else</span>: frame_max = w.nr_of_snaps</div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160; </div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;<span class="comment"># Ensure that not both is chosen</span></div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;<span class="keywordflow">if</span> options.save_frames <span class="keywordflow">and</span> options.save:</div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;    <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&#39;Cannot save frames and movie at the same time. Please choose one of them.&#39;</span>)</div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160; </div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;<span class="comment"># Check if frames should be saved into a folder</span></div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;<span class="keywordflow">if</span> options.save_frames:</div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;    <span class="comment"># Create the output folder if it doesnt exist yet</span></div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;    <span class="keywordflow">if</span> options.output_name:</div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;        os.mkdir(options.output_name)</div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160; </div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;    <span class="keywordflow">if</span> <span class="keywordflow">not</span> options.parallel_save:</div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;        <span class="comment"># Create figure</span></div>
-<div class="line"><a name="l00215"></a><span class="lineno"><a class="line" href="namespacewinnet__movie.html#a632f0c80686427552ec8970e5e30938e">  215</a></span>&#160;        fig = plt.figure(figsize=(15, 8))</div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;        <span class="keywordflow">if</span> options.output_name:</div>
-<div class="line"><a name="l00217"></a><span class="lineno"><a class="line" href="namespacewinnet__movie.html#a47524b9515c6c36864dd9a31d8bfd4c6">  217</a></span>&#160;            anim = <a class="code" href="classsrc__files_1_1FlowAnimation_1_1FlowAnimation.html">FlowAnimation</a>(run_path, fig, frame_dir=options.output_name, **kwargs)</div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;        <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;            anim = <a class="code" href="classsrc__files_1_1FlowAnimation_1_1FlowAnimation.html">FlowAnimation</a>(run_path, fig, **kwargs)</div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160; </div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;        <span class="comment"># Save the frames</span></div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;        <span class="keywordflow">for</span> i <span class="keywordflow">in</span> tqdm(range(frame_min, frame_max)):</div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;            anim.save_frame(i)</div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;    <span class="keywordflow">else</span>: <span class="comment"># parallel saving</span></div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;        <span class="comment"># Sanity check, does mpi4py exist?</span></div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;        <span class="keywordflow">try</span>:</div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;            <span class="keyword">from</span> mpi4py <span class="keyword">import</span> MPI</div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;        <span class="keywordflow">except</span> ImportError:</div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;            <span class="keywordflow">raise</span> ImportError(<span class="stringliteral">&#39;mpi4py not found. Please install it to use parallel saving.&#39;</span>)</div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160; </div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;        <span class="comment"># Next check, is ffmpeg installed?</span></div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;        <span class="keywordflow">if</span> os.system(<span class="stringliteral">&#39;ffmpeg -version &gt; /dev/null&#39;</span>) != 0:</div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;            <span class="keywordflow">raise</span> ImportError(<span class="stringliteral">&#39;ffmpeg not found. Please install it to use parallel saving.&#39;</span>)</div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160; </div>
-<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;        <span class="comment"># Get folder location of this script</span></div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;        script_path = os.path.dirname(os.path.realpath(__file__))</div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;        <span class="comment"># The options have to be passed to the parallel_save.py script</span></div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;        <span class="comment"># Therefore save them</span></div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;        <span class="comment"># try to import pickle</span></div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;        <span class="keywordflow">try</span>:</div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;            <span class="keyword">import</span> pickle</div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;        <span class="keywordflow">except</span> ImportError:</div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;            <span class="keywordflow">raise</span> ImportError(<span class="stringliteral">&#39;pickle not found. Please install it to use parallel saving.&#39;</span>)</div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160; </div>
-<div class="line"><a name="l00245"></a><span class="lineno"><a class="line" href="namespacewinnet__movie.html#afd6f3717077be370995b002f6b513384">  245</a></span>&#160;        option_dict_path = os.path.join(script_path, <span class="stringliteral">&#39;src_files/data/options.pkl&#39;</span>)</div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;        <span class="keyword">with</span> open(option_dict_path, <span class="stringliteral">&#39;wb&#39;</span>) <span class="keyword">as</span> f:</div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;            pickle.dump(kwargs, f)</div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160; </div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;        <span class="comment"># Get the path to the parallel_save.py script</span></div>
-<div class="line"><a name="l00250"></a><span class="lineno"><a class="line" href="namespacewinnet__movie.html#a4bbc1fd9b0d9b5aeb5ccb6cc37bdffea">  250</a></span>&#160;        parallel_save_path = os.path.join(script_path, <span class="stringliteral">&#39;src_files&#39;</span>, <span class="stringliteral">&#39;parallel_save.py&#39;</span>)</div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160; </div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;        <span class="comment"># Check if the mpirun path is given</span></div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;        <span class="keywordflow">if</span> <span class="keywordflow">not</span> options.mpirun_path:</div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;            <span class="comment"># Get the correct mpirun</span></div>
-<div class="line"><a name="l00255"></a><span class="lineno"><a class="line" href="namespacewinnet__movie.html#a5d500a0d87a5daa386c099ab1761452e">  255</a></span>&#160;            mpirun = os.popen(<span class="stringliteral">&#39;whereis mpirun&#39;</span>).read().strip().split()</div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;            <span class="comment"># Get the mpirun that has oneapi in the path</span></div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;            mpirun = [m <span class="keywordflow">for</span> m <span class="keywordflow">in</span> mpirun <span class="keywordflow">if</span> <span class="stringliteral">&#39;oneapi&#39;</span> <span class="keywordflow">in</span> m]</div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;            <span class="keywordflow">if</span> <span class="keywordflow">not</span> mpirun:</div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;                <span class="keywordflow">raise</span> ImportError(<span class="stringliteral">&#39;No mpirun with oneapi found. Please install it to use parallel saving.&#39;</span>)</div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;            mpirun = mpirun[0]</div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;        <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;            <span class="comment"># Take the given mpirun path</span></div>
-<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;            mpirun = options.mpirun_path</div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160; </div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;        <span class="comment"># Test if the mpirun path is correct</span></div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;        <span class="keywordflow">if</span> os.system(f<span class="stringliteral">&#39;{mpirun} -version &gt; /dev/null&#39;</span>) != 0:</div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;            <span class="keywordflow">raise</span> ImportError(<span class="stringliteral">&#39;mpirun not found or wrong path. Please install it to use parallel saving.&#39;</span>)</div>
-<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160; </div>
-<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;        <span class="comment"># Run the parallel saving</span></div>
-<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;        os.system(f<span class="stringliteral">&#39;{mpirun} -n {options.parallel_cpus} python {parallel_save_path} {run_path} {frame_min} {frame_max} {options.interval} TRUE&#39;</span>)</div>
-<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160; </div>
-<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;        <span class="comment"># Remove the options file</span></div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;        os.remove(option_dict_path)</div>
-<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160; </div>
-<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;        <span class="comment"># Move to the output destination</span></div>
-<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;        <span class="keywordflow">if</span> options.output_name:</div>
-<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;            os.system(f<span class="stringliteral">&#39;mv {run_path}/frames/* {options.output_name}&#39;</span>)</div>
-<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160; </div>
-<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;    print(<span class="stringliteral">&#39;Finished saving frames!&#39;</span>)</div>
-<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160; </div>
-<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;<span class="comment"># Check if things should be saved or shown</span></div>
-<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;<span class="keywordflow">elif</span> options.save:</div>
-<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;    <span class="keywordflow">if</span> <span class="keywordflow">not</span> options.parallel_save:</div>
-<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;        <span class="comment"># Funcanimation</span></div>
-<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;        fig = plt.figure(figsize=(15, 8))</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;       <span class="stringliteral">&quot;Possible options are &#39;timescales&#39;, &#39;tracked&#39;, &#39;mainout&#39;, or &#39;energy&#39;&quot;</span>+</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;       <span class="stringliteral">&quot; for plotting average timescales, mass fractions of tracked nuclei, additional mainout data&quot;</span>+</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;       <span class="stringliteral">&quot;, or nuclear energy generation.&quot;</span>)</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;p.add_option(<span class="stringliteral">&quot;--tau_min&quot;</span>, action=<span class="stringliteral">&quot;store&quot;</span>, dest=<span class="stringliteral">&quot;tau_min&quot;</span>, default=<span class="stringliteral">&quot;&quot;</span>, \</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  help=<span class="stringliteral">&quot;Lower limit of the average timescales.&quot;</span>)</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;p.add_option(<span class="stringliteral">&quot;--tau_max&quot;</span>, action=<span class="stringliteral">&quot;store&quot;</span>, dest=<span class="stringliteral">&quot;tau_max&quot;</span>, default=<span class="stringliteral">&quot;&quot;</span>, \</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;  help=<span class="stringliteral">&quot;Upper limit of the average timescales.&quot;</span>)</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;p.add_option(<span class="stringliteral">&quot;--engen_min&quot;</span>, action=<span class="stringliteral">&quot;store&quot;</span>, dest=<span class="stringliteral">&quot;engen_min&quot;</span>, default=<span class="stringliteral">&quot;&quot;</span>, \</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;  help=<span class="stringliteral">&quot;Lower limit of the Energy.&quot;</span>)</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;p.add_option(<span class="stringliteral">&quot;--engen_max&quot;</span>, action=<span class="stringliteral">&quot;store&quot;</span>, dest=<span class="stringliteral">&quot;engen_max&quot;</span>, default=<span class="stringliteral">&quot;&quot;</span>, \</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;  help=<span class="stringliteral">&quot;Upper limit of the Energy.&quot;</span>)</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;p.add_option(<span class="stringliteral">&quot;--tracked_min&quot;</span>, action=<span class="stringliteral">&quot;store&quot;</span>, dest=<span class="stringliteral">&quot;tracked_min&quot;</span>, default=<span class="stringliteral">&quot;&quot;</span>, \</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;  help=<span class="stringliteral">&quot;Lower limit of the tracked nuclei mass fractions.&quot;</span>)</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;p.add_option(<span class="stringliteral">&quot;--tracked_max&quot;</span>, action=<span class="stringliteral">&quot;store&quot;</span>, dest=<span class="stringliteral">&quot;tracked_max&quot;</span>, default=<span class="stringliteral">&quot;&quot;</span>, \</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;  help=<span class="stringliteral">&quot;Upper limit of the tracked nuclei mass fractions.&quot;</span>)</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;p.add_option(<span class="stringliteral">&quot;--amainout_min&quot;</span>, action=<span class="stringliteral">&quot;store&quot;</span>, dest=<span class="stringliteral">&quot;amainout_min&quot;</span>, default=<span class="stringliteral">&quot;&quot;</span>, \</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;  help=<span class="stringliteral">&quot;Lower limit of the additional mainout abundances.&quot;</span>)</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;p.add_option(<span class="stringliteral">&quot;--amainout_max&quot;</span>, action=<span class="stringliteral">&quot;store&quot;</span>, dest=<span class="stringliteral">&quot;amainout_max&quot;</span>, default=<span class="stringliteral">&quot;&quot;</span>, \</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  help=<span class="stringliteral">&quot;Upper limit of the additional mainout abundances.&quot;</span>)</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;p.add_option(<span class="stringliteral">&quot;--time_min&quot;</span>, action=<span class="stringliteral">&quot;store&quot;</span>, dest=<span class="stringliteral">&quot;t_min&quot;</span>, default=<span class="stringliteral">&quot;&quot;</span>, \</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;  help=<span class="stringliteral">&quot;Lower limit of the time.&quot;</span>)</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;p.add_option(<span class="stringliteral">&quot;--time_max&quot;</span>, action=<span class="stringliteral">&quot;store&quot;</span>, dest=<span class="stringliteral">&quot;t_max&quot;</span>, default=<span class="stringliteral">&quot;&quot;</span>, \</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;  help=<span class="stringliteral">&quot;Upper limit of the time.&quot;</span>)</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;p.add_option(<span class="stringliteral">&quot;--disable_mainout&quot;</span>, action=<span class="stringliteral">&quot;store_true&quot;</span>, dest=<span class="stringliteral">&quot;disable_mainout&quot;</span>, default=<span class="keyword">False</span>, \</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;  help=<span class="stringliteral">&quot;Whether or not disabling the mainout plot.&quot;</span>)</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;p.add_option(<span class="stringliteral">&quot;--density_min&quot;</span>, action=<span class="stringliteral">&quot;store&quot;</span>, dest=<span class="stringliteral">&quot;density_min&quot;</span>, default=<span class="stringliteral">&quot;&quot;</span>, \</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;  help=<span class="stringliteral">&quot;Lower limit of the density.&quot;</span>)</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;p.add_option(<span class="stringliteral">&quot;--density_max&quot;</span>, action=<span class="stringliteral">&quot;store&quot;</span>, dest=<span class="stringliteral">&quot;density_max&quot;</span>, default=<span class="stringliteral">&quot;&quot;</span>, \</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;  help=<span class="stringliteral">&quot;Upper limit of the density.&quot;</span>)</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;p.add_option(<span class="stringliteral">&quot;--temperature_min&quot;</span>, action=<span class="stringliteral">&quot;store&quot;</span>, dest=<span class="stringliteral">&quot;temperature_min&quot;</span>, default=<span class="stringliteral">&quot;&quot;</span>, \</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;  help=<span class="stringliteral">&quot;Lower limit of the temperatures.&quot;</span>)</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;p.add_option(<span class="stringliteral">&quot;--temperature_max&quot;</span>, action=<span class="stringliteral">&quot;store&quot;</span>, dest=<span class="stringliteral">&quot;temperature_max&quot;</span>, default=<span class="stringliteral">&quot;&quot;</span>, \</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;  help=<span class="stringliteral">&quot;Upper limit of the temperature.&quot;</span>)</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;p.add_option(<span class="stringliteral">&quot;--ye_min&quot;</span>, action=<span class="stringliteral">&quot;store&quot;</span>, dest=<span class="stringliteral">&quot;ye_min&quot;</span>, default=<span class="stringliteral">&quot;&quot;</span>, \</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;  help=<span class="stringliteral">&quot;Lower limit of the electron fraction.&quot;</span>)</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;p.add_option(<span class="stringliteral">&quot;--ye_max&quot;</span>, action=<span class="stringliteral">&quot;store&quot;</span>, dest=<span class="stringliteral">&quot;ye_max&quot;</span>, default=<span class="stringliteral">&quot;&quot;</span>, \</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;  help=<span class="stringliteral">&quot;Upper limit of the electron fraction.&quot;</span>)</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;p.add_option(<span class="stringliteral">&quot;--indicate_r_path&quot;</span>, action=<span class="stringliteral">&quot;store_true&quot;</span>, dest=<span class="stringliteral">&quot;indicate_r_path&quot;</span>, default=<span class="keyword">False</span>, \</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;  help=<span class="stringliteral">&quot;Whether or not to indicate a theoretical r-process path that has been calculated assuming &quot;</span>+\</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;       <span class="stringliteral">&quot;(n,gamma)(gamma,n) equilibrium.&quot;</span>)</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;p.add_option(<span class="stringliteral">&quot;--frame_min&quot;</span>, action=<span class="stringliteral">&quot;store&quot;</span>, dest=<span class="stringliteral">&quot;frame_min&quot;</span>, default=<span class="stringliteral">&quot;&quot;</span>, \</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;  help=<span class="stringliteral">&quot;Value of the first frame (default = 1).&quot;</span>)</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;p.add_option(<span class="stringliteral">&quot;--frame_max&quot;</span>, action=<span class="stringliteral">&quot;store&quot;</span>, dest=<span class="stringliteral">&quot;frame_max&quot;</span>, default=<span class="stringliteral">&quot;&quot;</span>, \</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;  help=<span class="stringliteral">&quot;Value of the last frame (default = end of the simulation).&quot;</span>)</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;p.add_option(<span class="stringliteral">&quot;--save&quot;</span>, action=<span class="stringliteral">&quot;store_true&quot;</span>, dest=<span class="stringliteral">&quot;save&quot;</span>, default=<span class="keyword">False</span>, \</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;  help=<span class="stringliteral">&quot;Whether or not saving the movie.&quot;</span>)</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;p.add_option(<span class="stringliteral">&quot;--save_frames&quot;</span>, action=<span class="stringliteral">&quot;store_true&quot;</span>, dest=<span class="stringliteral">&quot;save_frames&quot;</span>, default=<span class="keyword">False</span>, \</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;  help=<span class="stringliteral">&quot;Whether or not saving the frames into a folder.&quot;</span>)</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;p.add_option(<span class="stringliteral">&quot;--output&quot;</span>, action=<span class="stringliteral">&quot;store&quot;</span>, dest=<span class="stringliteral">&quot;output_name&quot;</span>, default=<span class="stringliteral">&#39;flow_movie.mp4&#39;</span>, \</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;  help=<span class="stringliteral">&quot;Output name of the movie.&quot;</span>)</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;p.add_option(<span class="stringliteral">&#39;--parallel_save&#39;</span>, action=<span class="stringliteral">&#39;store_true&#39;</span>, dest=<span class="stringliteral">&#39;parallel_save&#39;</span>, default=<span class="keyword">False</span>, \</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;             help=<span class="stringliteral">&#39;Whether or not to save the movie in parallel.&#39;</span>)</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;p.add_option(<span class="stringliteral">&#39;--parallel_cpus&#39;</span>, action=<span class="stringliteral">&#39;store&#39;</span>, dest=<span class="stringliteral">&#39;parallel_cpus&#39;</span>, default=<span class="stringliteral">&#39;5&#39;</span>, \</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;             help=<span class="stringliteral">&#39;Number of CPUs to use for parallel saving.&#39;</span>)</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;p.add_option(<span class="stringliteral">&quot;--interval&quot;</span>, action=<span class="stringliteral">&quot;store&quot;</span>, dest=<span class="stringliteral">&quot;interval&quot;</span>, default=<span class="stringliteral">&#39;10&#39;</span>, \</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;  help=<span class="stringliteral">&quot;Interval of the movie (larger value equals slower).&quot;</span>)</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;p.add_option(<span class="stringliteral">&quot;--mpirun_path&quot;</span>, action=<span class="stringliteral">&quot;store&quot;</span>, dest=<span class="stringliteral">&quot;mpirun_path&quot;</span>, default=<span class="stringliteral">&#39;&#39;</span>, \</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;  help=<span class="stringliteral">&quot;Path of the mpirun command to use for parallel saving.&quot;</span>)</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;p.add_option(<span class="stringliteral">&quot;--interactive&quot;</span>, action=<span class="stringliteral">&quot;store_true&quot;</span>, default=<span class="keyword">False</span>, \</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;  help=<span class="stringliteral">&quot;Whether to show the movie in interactive mode.&quot;</span>)</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;p.set_usage(<span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;<span class="stringliteral">  Visualize a WinNet simulation. Ensure that at least</span></div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;<span class="stringliteral">  snapshot_every or h_snapshot_every parameter was enabled in the</span></div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;<span class="stringliteral">  parameter file. To plot timescales, energy, tracked nuclei, mainout,</span></div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;<span class="stringliteral">  or reaction flows, the necessary parameters have to be enabled in the</span></div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;<span class="stringliteral">  parameter file.</span></div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;<span class="stringliteral"></span> </div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;<span class="stringliteral">  Usage:   ./winnet_movie.py -i &lt;rundir&gt;</span></div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;<span class="stringliteral">  Example: ./winnet_movie.py -i runs/test&quot;&quot;&quot;</span>)</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160; </div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160; </div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;<span class="comment">#--- parse options -----------------------------------------------------------</span></div>
+<div class="line"><a name="l00125"></a><span class="lineno"><a class="line" href="namespacewinnet__movie.html#a69e3f523555fde4c1f18bb36606774e7">  125</a></span>&#160;(options,args) = p.parse_args()</div>
+<div class="line"><a name="l00126"></a><span class="lineno"><a class="line" href="namespacewinnet__movie.html#ac4faafb4c45b17b61fb8ef8cb7a8ac01">  126</a></span>&#160;run_path = options.rundir</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160; </div>
+<div class="line"><a name="l00128"></a><span class="lineno"><a class="line" href="namespacewinnet__movie.html#a1c527f2b7188c4b4ba081579c1461b81">  128</a></span>&#160;kwargs = {}</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;kwargs[<span class="stringliteral">&#39;interactive&#39;</span>]      = options.interactive</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;kwargs[<span class="stringliteral">&#39;timescalerange&#39;</span>]   = (1e-12, 1e10)</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;kwargs[<span class="stringliteral">&#39;trackedrange&#39;</span>]     = (1e-8, 1e0)</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;kwargs[<span class="stringliteral">&#39;energyrange&#39;</span>]      = (1e10, 1e20)</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;kwargs[<span class="stringliteral">&#39;timerange&#39;</span>]        = (1e-5 , 1e5)</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;kwargs[<span class="stringliteral">&#39;densityrange&#39;</span>]     = (1e-5, 1e12)</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;kwargs[<span class="stringliteral">&#39;temperaturerange&#39;</span>] = (0, 10)</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;kwargs[<span class="stringliteral">&#39;yerange&#39;</span>]          = (0.0, 0.55)</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;kwargs[<span class="stringliteral">&#39;amainoutrange&#39;</span>]    = (5e-10,1e0)</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160; </div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;<span class="keywordflow">if</span> options.flow_min:  kwargs[<span class="stringliteral">&#39;flow_min&#39;</span>] = float(options.flow_min)</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;<span class="keywordflow">if</span> options.flow_max:  kwargs[<span class="stringliteral">&#39;flow_max&#39;</span>] = float(options.flow_max)</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;<span class="keywordflow">if</span> options.plot_flow: kwargs[<span class="stringliteral">&#39;plot_flow&#39;</span>] = <span class="keyword">False</span> <span class="keywordflow">if</span> options.plot_flow <span class="keywordflow">else</span> <span class="keyword">True</span></div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;<span class="keywordflow">if</span> options.separate_fission: kwargs[<span class="stringliteral">&#39;separate_fission&#39;</span>] = <span class="keyword">True</span></div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;<span class="keywordflow">if</span> options.fission_minflow: kwargs[<span class="stringliteral">&#39;fission_minflow&#39;</span>] = float(options.fission_minflow)</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;<span class="keywordflow">if</span> options.fix_flows: kwargs[<span class="stringliteral">&#39;flow_adapt_prange&#39;</span>] = <span class="keyword">False</span></div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;<span class="keywordflow">if</span> options.flow_range: kwargs[<span class="stringliteral">&#39;flow_prange&#39;</span>] = float(options.flow_range)</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;<span class="keywordflow">if</span> options.fix_flow_arrow_width: kwargs[<span class="stringliteral">&#39;flow_adapt_width&#39;</span>] = <span class="keyword">True</span></div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;<span class="keywordflow">if</span> options.flow_cmap: kwargs[<span class="stringliteral">&#39;cmapNameFlow&#39;</span>] = options.flow_cmap</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;<span class="keywordflow">if</span> options.x_min: kwargs[<span class="stringliteral">&#39;X_min&#39;</span>] = float(options.x_min)</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;<span class="keywordflow">if</span> options.x_max: kwargs[<span class="stringliteral">&#39;X_max&#39;</span>] = float(options.x_max)</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;<span class="keywordflow">if</span> options.x_cmap: kwargs[<span class="stringliteral">&#39;cmapNameX&#39;</span>] = options.x_cmap</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;<span class="keywordflow">if</span> options.disable_abar: kwargs[<span class="stringliteral">&#39;plot_abar&#39;</span>] = (<span class="keywordflow">not</span> options.disable_abar)</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;<span class="keywordflow">if</span> options.mass_bins_cmap: kwargs[<span class="stringliteral">&#39;cmapNameMassBins&#39;</span>] = options.mass_bins_cmap</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;<span class="keywordflow">if</span> options.disable_magic: kwargs[<span class="stringliteral">&#39;plot_magic&#39;</span>] = (<span class="keywordflow">not</span> options.disable_magic)</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;<span class="keywordflow">if</span> options.additional_plot: kwargs[<span class="stringliteral">&#39;additional_plot&#39;</span>] = options.additional_plot.lower().strip()</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;<span class="keywordflow">if</span> options.tau_min: kwargs[<span class="stringliteral">&#39;timescalerange&#39;</span>] = (float(options.tau_min),kwargs[<span class="stringliteral">&#39;timescalerange&#39;</span>][1])</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;<span class="keywordflow">if</span> options.tau_max: kwargs[<span class="stringliteral">&#39;timescalerange&#39;</span>] = (kwargs[<span class="stringliteral">&#39;timescalerange&#39;</span>][0], float(options.tau_max))</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;<span class="keywordflow">if</span> options.engen_min: kwargs[<span class="stringliteral">&#39;energyrange&#39;</span>] = (float(options.engen_min), kwargs[<span class="stringliteral">&#39;energyrange&#39;</span>][1])</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;<span class="keywordflow">if</span> options.engen_max: kwargs[<span class="stringliteral">&#39;energyrange&#39;</span>] = (kwargs[<span class="stringliteral">&#39;energyrange&#39;</span>][0], float(options.engen_max))</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;<span class="keywordflow">if</span> options.tracked_min: kwargs[<span class="stringliteral">&#39;trackedrange&#39;</span>] = (float(options.tracked_min), kwargs[<span class="stringliteral">&#39;trackedrange&#39;</span>][1])</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;<span class="keywordflow">if</span> options.tracked_max: kwargs[<span class="stringliteral">&#39;trackedrange&#39;</span>] = (kwargs[<span class="stringliteral">&#39;trackedrange&#39;</span>][0], float(options.tracked_max))</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;<span class="keywordflow">if</span> options.t_min: kwargs[<span class="stringliteral">&#39;timerange&#39;</span>] = (float(options.t_min), kwargs[<span class="stringliteral">&#39;timerange&#39;</span>][1])</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;<span class="keywordflow">if</span> options.t_max: kwargs[<span class="stringliteral">&#39;timerange&#39;</span>] = (kwargs[<span class="stringliteral">&#39;timerange&#39;</span>][0], float(options.t_max))</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;<span class="keywordflow">if</span> options.disable_mainout: kwargs[<span class="stringliteral">&#39;plot_mainout&#39;</span>] = (<span class="keywordflow">not</span> options.disable_mainout)</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;<span class="keywordflow">if</span> options.density_min: kwargs[<span class="stringliteral">&#39;densityrange&#39;</span>] = (float(options.density_min), kwargs[<span class="stringliteral">&#39;densityrange&#39;</span>][1])</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;<span class="keywordflow">if</span> options.density_max: kwargs[<span class="stringliteral">&#39;densityrange&#39;</span>] = (kwargs[<span class="stringliteral">&#39;densityrange&#39;</span>][0], float(options.density_max))</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;<span class="keywordflow">if</span> options.temperature_min: kwargs[<span class="stringliteral">&#39;temperaturerange&#39;</span>] = (float(options.temperature_min), kwargs[<span class="stringliteral">&#39;temperaturerange&#39;</span>][1])</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;<span class="keywordflow">if</span> options.temperature_max: kwargs[<span class="stringliteral">&#39;temperaturerange&#39;</span>] = (kwargs[<span class="stringliteral">&#39;temperaturerange&#39;</span>][0], float(options.temperature_max))</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;<span class="keywordflow">if</span> options.ye_min: kwargs[<span class="stringliteral">&#39;yerange&#39;</span>] = (float(options.ye_min), kwargs[<span class="stringliteral">&#39;yerange&#39;</span>][1])</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;<span class="keywordflow">if</span> options.ye_max: kwargs[<span class="stringliteral">&#39;yerange&#39;</span>] = (kwargs[<span class="stringliteral">&#39;yerange&#39;</span>][0], float(options.ye_max))</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;<span class="keywordflow">if</span> options.amainout_min: kwargs[<span class="stringliteral">&#39;amainoutrange&#39;</span>] = (float(options.amainout_min), kwargs[<span class="stringliteral">&#39;amainoutrange&#39;</span>][1])</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;<span class="keywordflow">if</span> options.amainout_max: kwargs[<span class="stringliteral">&#39;amainoutrange&#39;</span>] = (kwargs[<span class="stringliteral">&#39;amainoutrange&#39;</span>][0], float(options.amainout_max))</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;<span class="keywordflow">if</span> options.indicate_r_path: kwargs[<span class="stringliteral">&#39;indicate_r_path&#39;</span>] = <span class="keyword">True</span></div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160; </div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160; </div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160; </div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;<span class="comment"># Sanity checks</span></div>
+<div class="line"><a name="l00177"></a><span class="lineno"><a class="line" href="namespacewinnet__movie.html#af69d276240710c4ba8b840c97403c11c">  177</a></span>&#160;w = <a class="code" href="classsrc__files_1_1wreader_1_1wreader.html">wreader</a>(run_path)</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160; </div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;<span class="comment"># Check if the run has snapshots</span></div>
+<div class="line"><a name="l00180"></a><span class="lineno"><a class="line" href="namespacewinnet__movie.html#ad8d61f7a281514881a9edd8e39a23017">  180</a></span>&#160;value = w.check_existence(<span class="stringliteral">&#39;snapshot&#39;</span>)</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;<span class="keywordflow">if</span> value == 0:</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;    <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&#39;No snapshots found. Please enable snapshots in the parameter file.&#39;</span>)</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160; </div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;<span class="comment"># Sanity for timescales and so on, disable if not found</span></div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;<span class="keywordflow">if</span> options.additional_plot:</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;    <span class="keywordflow">if</span> options.additional_plot == <span class="stringliteral">&#39;timescales&#39;</span>:</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;        value = w.check_existence(<span class="stringliteral">&#39;timescales&#39;</span>)</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;        <span class="keywordflow">if</span> value == 0:</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;            print(<span class="stringliteral">&#39;No timescales found. Disabling timescales. Remove --additional_plot to disable this message.&#39;</span>)</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;            kwargs[<span class="stringliteral">&#39;additional_plot&#39;</span>] = <span class="stringliteral">&#39;none&#39;</span></div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;    <span class="keywordflow">elif</span> options.additional_plot == <span class="stringliteral">&#39;energy&#39;</span>:</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;        value = w.check_existence(<span class="stringliteral">&#39;energy&#39;</span>)</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;        <span class="keywordflow">if</span> value == 0:</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;            print(<span class="stringliteral">&#39;No energy found. Disabling energy. Remove --additional_plot to disable this message.&#39;</span>)</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;            kwargs[<span class="stringliteral">&#39;additional_plot&#39;</span>] = <span class="stringliteral">&#39;none&#39;</span></div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;    <span class="keywordflow">elif</span> options.additional_plot == <span class="stringliteral">&#39;tracked&#39;</span>:</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;        value = w.check_existence(<span class="stringliteral">&#39;tracked_nuclei&#39;</span>)</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;        <span class="keywordflow">if</span> value == 0:</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;            print(<span class="stringliteral">&#39;No tracked nuclei found. Disabling tracked nuclei. Remove --additional_plot to disable this message.&#39;</span>)</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;            kwargs[<span class="stringliteral">&#39;additional_plot&#39;</span>] = <span class="stringliteral">&#39;none&#39;</span></div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;    <span class="keywordflow">elif</span> options.additional_plot == <span class="stringliteral">&#39;mainout&#39;</span>:</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;        value = w.check_existence(<span class="stringliteral">&#39;mainout&#39;</span>)</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;        <span class="keywordflow">if</span> value == 0:</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;            print(<span class="stringliteral">&#39;No mainout found. Disabling mainout. Remove --additional_plot to disable this message.&#39;</span>)</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;            kwargs[<span class="stringliteral">&#39;additional_plot&#39;</span>] = <span class="stringliteral">&#39;none&#39;</span></div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;<span class="keywordflow">if</span> options.indicate_r_path:</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;    value = w.check_existence(<span class="stringliteral">&#39;mainout&#39;</span>)</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;    <span class="keywordflow">if</span> value == 0:</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;        print(<span class="stringliteral">&#39;No mainout found. Disabling r-process path. Remove --indicate_r_path to disable this message.&#39;</span>)</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;        kwargs[<span class="stringliteral">&#39;indicate_r_path&#39;</span>] = <span class="keyword">False</span></div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;<span class="keywordflow">if</span> options.indicate_r_path <span class="keywordflow">or</span> options.interactive:</div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;    <span class="comment"># Check if the winvn.dat file is present</span></div>
+<div class="line"><a name="l00213"></a><span class="lineno"><a class="line" href="namespacewinnet__movie.html#ae9d92c0257c76364f92fafc4afea1268">  213</a></span>&#160;    winvn_path = w.template[<span class="stringliteral">&#39;isotopes_file&#39;</span>]</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;    <span class="keywordflow">if</span> <span class="keywordflow">not</span> os.path.exists(os.path.join(run_path, winvn_path)):</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;        print(<span class="stringliteral">&#39;No winvn.dat found. Falling back to default winvn path.&#39;</span>)</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;        <span class="comment"># relative to the file here</span></div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;        winvn_path = os.path.join(script_path, <span class="stringliteral">&#39;../../data/winvne_v2.0.dat&#39;</span>)</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;    kwargs[<span class="stringliteral">&#39;winvn_path&#39;</span>] = winvn_path</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;<span class="keywordflow">if</span> options.interactive:</div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;    kwargs[<span class="stringliteral">&#39;additional_plot&#39;</span>] = <span class="stringliteral">&#39;none&#39;</span></div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;<span class="keywordflow">if</span> <span class="keywordflow">not</span> options.disable_mainout:</div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;    value = w.check_existence(<span class="stringliteral">&#39;mainout&#39;</span>)</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;    <span class="keywordflow">if</span> value == 0:</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;        print(<span class="stringliteral">&#39;No mainout found. Disabling mainout. Set --disable_mainout to disable this message.&#39;</span>)</div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;        kwargs[<span class="stringliteral">&#39;plot_mainout&#39;</span>] = <span class="keyword">False</span></div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;<span class="keywordflow">if</span> <span class="keywordflow">not</span> options.plot_flow:</div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;    value = w.check_existence(<span class="stringliteral">&#39;flows&#39;</span>)</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;    <span class="keywordflow">if</span> value == 0:</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;        print(<span class="stringliteral">&#39;No flow found. Disabling flow. Set --disable_flow to disable this message.&#39;</span>)</div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;        kwargs[<span class="stringliteral">&#39;plot_flow&#39;</span>] = <span class="keyword">False</span></div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160; </div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160; </div>
+<div class="line"><a name="l00233"></a><span class="lineno"><a class="line" href="namespacewinnet__movie.html#a2668a3a47dfd7c66573dc84f7d776f2e">  233</a></span>&#160;<span class="keywordflow">if</span> options.frame_min: frame_min = int(options.frame_min)</div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;<span class="keywordflow">else</span>: frame_min = 1</div>
+<div class="line"><a name="l00235"></a><span class="lineno"><a class="line" href="namespacewinnet__movie.html#a61b7b4785327b85dcea8d86f7fb44245">  235</a></span>&#160;<span class="keywordflow">if</span> options.frame_max: frame_max = int(options.frame_max)</div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;<span class="keywordflow">else</span>: frame_max = w.nr_of_snaps</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160; </div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;<span class="comment"># Ensure that not both is chosen</span></div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;<span class="keywordflow">if</span> options.save_frames <span class="keywordflow">and</span> options.save:</div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;    <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&#39;Cannot save frames and movie at the same time. Please choose one of them.&#39;</span>)</div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160; </div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;<span class="comment"># Check if frames should be saved into a folder</span></div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;<span class="keywordflow">if</span> options.save_frames:</div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;    <span class="comment"># Create the output folder if it doesnt exist yet</span></div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;    <span class="keywordflow">if</span> options.output_name:</div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;        os.mkdir(options.output_name)</div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160; </div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;    <span class="keywordflow">if</span> <span class="keywordflow">not</span> options.parallel_save:</div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;        <span class="comment"># Create figure</span></div>
+<div class="line"><a name="l00250"></a><span class="lineno"><a class="line" href="namespacewinnet__movie.html#a632f0c80686427552ec8970e5e30938e">  250</a></span>&#160;        fig = plt.figure(figsize=(15, 8))</div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;        <span class="keywordflow">if</span> options.output_name:</div>
+<div class="line"><a name="l00252"></a><span class="lineno"><a class="line" href="namespacewinnet__movie.html#a47524b9515c6c36864dd9a31d8bfd4c6">  252</a></span>&#160;            anim = <a class="code" href="classsrc__files_1_1FlowAnimation_1_1FlowAnimation.html">FlowAnimation</a>(run_path, fig, frame_dir=options.output_name, **kwargs)</div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;        <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;            anim = <a class="code" href="classsrc__files_1_1FlowAnimation_1_1FlowAnimation.html">FlowAnimation</a>(run_path, fig, **kwargs)</div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160; </div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;        <span class="comment"># Save the frames</span></div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;        <span class="keywordflow">for</span> i <span class="keywordflow">in</span> tqdm(range(frame_min, frame_max)):</div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;            anim.save_frame(i)</div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;    <span class="keywordflow">else</span>: <span class="comment"># parallel saving</span></div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;        <span class="comment"># Sanity check, does mpi4py exist?</span></div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;        <span class="keywordflow">try</span>:</div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;            <span class="keyword">from</span> mpi4py <span class="keyword">import</span> MPI</div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;        <span class="keywordflow">except</span> ImportError:</div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;            <span class="keywordflow">raise</span> ImportError(<span class="stringliteral">&#39;mpi4py not found. Please install it to use parallel saving.&#39;</span>)</div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160; </div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;        <span class="comment"># Next check, is ffmpeg installed?</span></div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;        <span class="keywordflow">if</span> os.system(<span class="stringliteral">&#39;ffmpeg -version &gt; /dev/null&#39;</span>) != 0:</div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;            <span class="keywordflow">raise</span> ImportError(<span class="stringliteral">&#39;ffmpeg not found. Please install it to use parallel saving.&#39;</span>)</div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160; </div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;        <span class="comment"># Get folder location of this script</span></div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;        script_path = os.path.dirname(os.path.realpath(__file__))</div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;        <span class="comment"># The options have to be passed to the parallel_save.py script</span></div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;        <span class="comment"># Therefore save them</span></div>
+<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;        <span class="comment"># try to import pickle</span></div>
+<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;        <span class="keywordflow">try</span>:</div>
+<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;            <span class="keyword">import</span> pickle</div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;        <span class="keywordflow">except</span> ImportError:</div>
+<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;            <span class="keywordflow">raise</span> ImportError(<span class="stringliteral">&#39;pickle not found. Please install it to use parallel saving.&#39;</span>)</div>
+<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160; </div>
+<div class="line"><a name="l00280"></a><span class="lineno"><a class="line" href="namespacewinnet__movie.html#afd6f3717077be370995b002f6b513384">  280</a></span>&#160;        option_dict_path = os.path.join(script_path, <span class="stringliteral">&#39;src_files/data/options.pkl&#39;</span>)</div>
+<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;        <span class="keyword">with</span> open(option_dict_path, <span class="stringliteral">&#39;wb&#39;</span>) <span class="keyword">as</span> f:</div>
+<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;            pickle.dump(kwargs, f)</div>
+<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160; </div>
+<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;        <span class="comment"># Get the path to the parallel_save.py script</span></div>
+<div class="line"><a name="l00285"></a><span class="lineno"><a class="line" href="namespacewinnet__movie.html#a4bbc1fd9b0d9b5aeb5ccb6cc37bdffea">  285</a></span>&#160;        parallel_save_path = os.path.join(script_path, <span class="stringliteral">&#39;src_files&#39;</span>, <span class="stringliteral">&#39;parallel_save.py&#39;</span>)</div>
 <div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160; </div>
-<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;        <span class="comment"># Animate the flows</span></div>
-<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;        anim = <a class="code" href="classsrc__files_1_1FlowAnimation_1_1FlowAnimation.html">FlowAnimation</a>(run_path, fig, **kwargs)</div>
-<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160; </div>
-<div class="line"><a name="l00290"></a><span class="lineno"><a class="line" href="namespacewinnet__movie.html#a9ce7c7724d63bac5179843de7de8af9a">  290</a></span>&#160;        ani = anim.get_funcanimation(frames=range(frame_min, frame_max))</div>
-<div class="line"><a name="l00291"></a><span class="lineno"><a class="line" href="namespacewinnet__movie.html#a04ea3cf6d2c79c02d5ac0a6d336e19f1">  291</a></span>&#160;        ani.save(options.output_name, fps=int(options.interval))</div>
-<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;    <span class="keywordflow">else</span>: <span class="comment"># Parallel saving</span></div>
-<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;        <span class="comment"># Sanity check, does mpi4py exist?</span></div>
-<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;        <span class="keywordflow">try</span>:</div>
-<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;            <span class="keyword">from</span> mpi4py <span class="keyword">import</span> MPI</div>
-<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;        <span class="keywordflow">except</span> ImportError:</div>
-<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;            <span class="keywordflow">raise</span> ImportError(<span class="stringliteral">&#39;mpi4py not found. Please install it to use parallel saving.&#39;</span>)</div>
-<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160; </div>
-<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;        <span class="comment"># Next check, is ffmpeg installed?</span></div>
-<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;        <span class="keywordflow">if</span> os.system(<span class="stringliteral">&#39;ffmpeg -version &gt; /dev/null&#39;</span>) != 0:</div>
-<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;            <span class="keywordflow">raise</span> ImportError(<span class="stringliteral">&#39;ffmpeg not found. Please install it to use parallel saving.&#39;</span>)</div>
-<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160; </div>
-<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;        <span class="comment"># Get folder location of this script</span></div>
-<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;        script_path = os.path.dirname(os.path.realpath(__file__))</div>
-<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;        <span class="comment"># The options have to be passed to the parallel_save.py script</span></div>
-<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;        <span class="comment"># Therefore save them</span></div>
-<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;        <span class="comment"># try to import pickle</span></div>
-<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;        <span class="keywordflow">try</span>:</div>
-<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;            <span class="keyword">import</span> pickle</div>
-<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;        <span class="keywordflow">except</span> ImportError:</div>
-<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;            <span class="keywordflow">raise</span> ImportError(<span class="stringliteral">&#39;pickle not found. Please install it to use parallel saving.&#39;</span>)</div>
-<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160; </div>
-<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;        option_dict_path = os.path.join(script_path, <span class="stringliteral">&#39;src_files/data/options.pkl&#39;</span>)</div>
-<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;        <span class="keyword">with</span> open(option_dict_path, <span class="stringliteral">&#39;wb&#39;</span>) <span class="keyword">as</span> f:</div>
-<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;            pickle.dump(kwargs, f)</div>
-<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160; </div>
-<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;        <span class="comment"># Get the path to the parallel_save.py script</span></div>
-<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;        parallel_save_path = os.path.join(script_path, <span class="stringliteral">&#39;src_files&#39;</span>, <span class="stringliteral">&#39;parallel_save.py&#39;</span>)</div>
-<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160; </div>
-<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;        <span class="comment"># Check if the mpirun path is given</span></div>
-<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;        <span class="keywordflow">if</span> <span class="keywordflow">not</span> options.mpirun_path:</div>
-<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;            <span class="comment"># Get the correct mpirun</span></div>
-<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;            mpirun = os.popen(<span class="stringliteral">&#39;whereis mpirun&#39;</span>).read().strip().split()</div>
-<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;            <span class="comment"># Get the mpirun that has oneapi in the path</span></div>
-<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;            mpirun = [m <span class="keywordflow">for</span> m <span class="keywordflow">in</span> mpirun <span class="keywordflow">if</span> <span class="stringliteral">&#39;oneapi&#39;</span> <span class="keywordflow">in</span> m]</div>
-<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;            <span class="keywordflow">if</span> <span class="keywordflow">not</span> mpirun:</div>
-<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;                <span class="keywordflow">raise</span> ImportError(<span class="stringliteral">&#39;No mpirun with oneapi found. Please install it to use parallel saving.&#39;</span>)</div>
-<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;            mpirun = mpirun[0]</div>
-<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;        <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;            <span class="comment"># Take the given mpirun path</span></div>
-<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;            mpirun = options.mpirun_path</div>
-<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160; </div>
-<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;        <span class="comment"># Test if the mpirun path is correct</span></div>
-<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;        <span class="keywordflow">if</span> os.system(f<span class="stringliteral">&#39;{mpirun} -version &gt; /dev/null&#39;</span>) != 0:</div>
-<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;            <span class="keywordflow">raise</span> ImportError(<span class="stringliteral">&#39;mpirun not found or wrong path. Please install it to use parallel saving.&#39;</span>)</div>
-<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160; </div>
-<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;        <span class="comment"># Run the parallel saving</span></div>
-<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;        os.system(f<span class="stringliteral">&#39;{mpirun} -n {options.parallel_cpus} python {parallel_save_path} {run_path} {frame_min} {frame_max} {options.interval}&#39;</span>)</div>
-<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160; </div>
-<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;        <span class="comment"># Remove the options file</span></div>
-<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;        os.remove(option_dict_path)</div>
-<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160; </div>
-<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;    print(<span class="stringliteral">&#39;Finished saving movie!&#39;</span>)</div>
-<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;<span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;    <span class="comment"># Funcanimation</span></div>
-<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;    fig = plt.figure(figsize=(15, 8))</div>
+<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;        <span class="comment"># Check if the mpirun path is given</span></div>
+<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;        <span class="keywordflow">if</span> <span class="keywordflow">not</span> options.mpirun_path:</div>
+<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;            <span class="comment"># Get the correct mpirun</span></div>
+<div class="line"><a name="l00290"></a><span class="lineno"><a class="line" href="namespacewinnet__movie.html#a5d500a0d87a5daa386c099ab1761452e">  290</a></span>&#160;            mpirun = os.popen(<span class="stringliteral">&#39;whereis mpirun&#39;</span>).read().strip().split()</div>
+<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;            <span class="comment"># Get the mpirun that has oneapi in the path</span></div>
+<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;            mpirun = [m <span class="keywordflow">for</span> m <span class="keywordflow">in</span> mpirun <span class="keywordflow">if</span> <span class="stringliteral">&#39;oneapi&#39;</span> <span class="keywordflow">in</span> m]</div>
+<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;            <span class="keywordflow">if</span> <span class="keywordflow">not</span> mpirun:</div>
+<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;                <span class="keywordflow">raise</span> ImportError(<span class="stringliteral">&#39;No mpirun with oneapi found. Please install it to use parallel saving.&#39;</span>)</div>
+<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;            mpirun = mpirun[0]</div>
+<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;        <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;            <span class="comment"># Take the given mpirun path</span></div>
+<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;            mpirun = options.mpirun_path</div>
+<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160; </div>
+<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;        <span class="comment"># Test if the mpirun path is correct</span></div>
+<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;        <span class="keywordflow">if</span> os.system(f<span class="stringliteral">&#39;{mpirun} -version &gt; /dev/null&#39;</span>) != 0:</div>
+<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;            <span class="keywordflow">raise</span> ImportError(<span class="stringliteral">&#39;mpirun not found or wrong path. Please install it to use parallel saving.&#39;</span>)</div>
+<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160; </div>
+<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;        <span class="comment"># Run the parallel saving</span></div>
+<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;        os.system(f<span class="stringliteral">&#39;{mpirun} -n {options.parallel_cpus} python {parallel_save_path} {run_path} {frame_min} {frame_max} {options.interval} TRUE&#39;</span>)</div>
+<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160; </div>
+<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;        <span class="comment"># Remove the options file</span></div>
+<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;        os.remove(option_dict_path)</div>
+<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160; </div>
+<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;        <span class="comment"># Move to the output destination</span></div>
+<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;        <span class="keywordflow">if</span> options.output_name:</div>
+<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;            os.system(f<span class="stringliteral">&#39;mv {run_path}/frames/* {options.output_name}&#39;</span>)</div>
+<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160; </div>
+<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;    print(<span class="stringliteral">&#39;Finished saving frames!&#39;</span>)</div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160; </div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;<span class="comment"># Check if things should be saved or shown</span></div>
+<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;<span class="keywordflow">elif</span> options.save:</div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;    <span class="keywordflow">if</span> <span class="keywordflow">not</span> options.parallel_save:</div>
+<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;        <span class="comment"># Funcanimation</span></div>
+<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;        fig = plt.figure(figsize=(15, 8))</div>
+<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160; </div>
+<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;        <span class="comment"># Animate the flows</span></div>
+<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;        anim = <a class="code" href="classsrc__files_1_1FlowAnimation_1_1FlowAnimation.html">FlowAnimation</a>(run_path, fig, **kwargs)</div>
+<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160; </div>
+<div class="line"><a name="l00325"></a><span class="lineno"><a class="line" href="namespacewinnet__movie.html#a9ce7c7724d63bac5179843de7de8af9a">  325</a></span>&#160;        ani = anim.get_funcanimation(frames=range(frame_min, frame_max))</div>
+<div class="line"><a name="l00326"></a><span class="lineno"><a class="line" href="namespacewinnet__movie.html#a04ea3cf6d2c79c02d5ac0a6d336e19f1">  326</a></span>&#160;        ani.save(options.output_name, fps=int(options.interval))</div>
+<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;    <span class="keywordflow">else</span>: <span class="comment"># Parallel saving</span></div>
+<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;        <span class="comment"># Sanity check, does mpi4py exist?</span></div>
+<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;        <span class="keywordflow">try</span>:</div>
+<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;            <span class="keyword">from</span> mpi4py <span class="keyword">import</span> MPI</div>
+<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;        <span class="keywordflow">except</span> ImportError:</div>
+<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;            <span class="keywordflow">raise</span> ImportError(<span class="stringliteral">&#39;mpi4py not found. Please install it to use parallel saving.&#39;</span>)</div>
+<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160; </div>
+<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;        <span class="comment"># Next check, is ffmpeg installed?</span></div>
+<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;        <span class="keywordflow">if</span> os.system(<span class="stringliteral">&#39;ffmpeg -version &gt; /dev/null&#39;</span>) != 0:</div>
+<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;            <span class="keywordflow">raise</span> ImportError(<span class="stringliteral">&#39;ffmpeg not found. Please install it to use parallel saving.&#39;</span>)</div>
+<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160; </div>
+<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;        <span class="comment"># Get folder location of this script</span></div>
+<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;        script_path = os.path.dirname(os.path.realpath(__file__))</div>
+<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;        <span class="comment"># The options have to be passed to the parallel_save.py script</span></div>
+<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;        <span class="comment"># Therefore save them</span></div>
+<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;        <span class="comment"># try to import pickle</span></div>
+<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;        <span class="keywordflow">try</span>:</div>
+<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;            <span class="keyword">import</span> pickle</div>
+<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;        <span class="keywordflow">except</span> ImportError:</div>
+<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;            <span class="keywordflow">raise</span> ImportError(<span class="stringliteral">&#39;pickle not found. Please install it to use parallel saving.&#39;</span>)</div>
 <div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160; </div>
-<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;    <span class="comment"># Animate the flows</span></div>
-<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;    anim = <a class="code" href="classsrc__files_1_1FlowAnimation_1_1FlowAnimation.html">FlowAnimation</a>(run_path, fig, **kwargs)</div>
-<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;    ani = anim.get_funcanimation(interval=int(options.interval), frames=range(frame_min, frame_max))</div>
-<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;    plt.show()</div>
+<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;        option_dict_path = os.path.join(script_path, <span class="stringliteral">&#39;src_files/data/options.pkl&#39;</span>)</div>
+<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;        <span class="keyword">with</span> open(option_dict_path, <span class="stringliteral">&#39;wb&#39;</span>) <span class="keyword">as</span> f:</div>
+<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;            pickle.dump(kwargs, f)</div>
+<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160; </div>
+<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;        <span class="comment"># Get the path to the parallel_save.py script</span></div>
+<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;        parallel_save_path = os.path.join(script_path, <span class="stringliteral">&#39;src_files&#39;</span>, <span class="stringliteral">&#39;parallel_save.py&#39;</span>)</div>
+<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160; </div>
+<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;        <span class="comment"># Check if the mpirun path is given</span></div>
+<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;        <span class="keywordflow">if</span> <span class="keywordflow">not</span> options.mpirun_path:</div>
+<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;            <span class="comment"># Get the correct mpirun</span></div>
+<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;            mpirun = os.popen(<span class="stringliteral">&#39;whereis mpirun&#39;</span>).read().strip().split()</div>
+<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;            <span class="comment"># Get the mpirun that has oneapi in the path</span></div>
+<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;            mpirun = [m <span class="keywordflow">for</span> m <span class="keywordflow">in</span> mpirun <span class="keywordflow">if</span> <span class="stringliteral">&#39;oneapi&#39;</span> <span class="keywordflow">in</span> m]</div>
+<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;            <span class="keywordflow">if</span> <span class="keywordflow">not</span> mpirun:</div>
+<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;                <span class="keywordflow">raise</span> ImportError(<span class="stringliteral">&#39;No mpirun with oneapi found. Please install it to use parallel saving.&#39;</span>)</div>
+<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;            mpirun = mpirun[0]</div>
+<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;        <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;            <span class="comment"># Take the given mpirun path</span></div>
+<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;            mpirun = options.mpirun_path</div>
+<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160; </div>
+<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;        <span class="comment"># Test if the mpirun path is correct</span></div>
+<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;        <span class="keywordflow">if</span> os.system(f<span class="stringliteral">&#39;{mpirun} -version &gt; /dev/null&#39;</span>) != 0:</div>
+<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;            <span class="keywordflow">raise</span> ImportError(<span class="stringliteral">&#39;mpirun not found or wrong path. Please install it to use parallel saving.&#39;</span>)</div>
+<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160; </div>
+<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;        <span class="comment"># Run the parallel saving</span></div>
+<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;        os.system(f<span class="stringliteral">&#39;{mpirun} -n {options.parallel_cpus} python {parallel_save_path} {run_path} {frame_min} {frame_max} {options.interval}&#39;</span>)</div>
+<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160; </div>
+<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;        <span class="comment"># Remove the options file</span></div>
+<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;        os.remove(option_dict_path)</div>
+<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160; </div>
+<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;    print(<span class="stringliteral">&#39;Finished saving movie!&#39;</span>)</div>
+<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;<span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;    <span class="comment"># Funcanimation</span></div>
+<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;    fig = plt.figure(figsize=(15, 8))</div>
+<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160; </div>
+<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;    <span class="comment"># Animate the flows</span></div>
+<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;    anim = <a class="code" href="classsrc__files_1_1FlowAnimation_1_1FlowAnimation.html">FlowAnimation</a>(run_path, fig, **kwargs)</div>
+<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;    ani = anim.get_funcanimation(interval=int(options.interval), frames=range(frame_min, frame_max))</div>
+<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;    plt.show()</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="anamespacesrc__files_1_1wreader_html"><div class="ttname"><a href="namespacesrc__files_1_1wreader.html">src_files.wreader</a></div><div class="ttdef"><b>Definition:</b> <a href="movie__script_2src__files_2wreader_8py_source.html#l00001">wreader.py:1</a></div></div>
 <div class="ttc" id="anamespacesrc__files_1_1FlowAnimation_html"><div class="ttname"><a href="namespacesrc__files_1_1FlowAnimation.html">src_files.FlowAnimation</a></div><div class="ttdef"><b>Definition:</b> <a href="FlowAnimation_8py_source.html#l00001">FlowAnimation.py:1</a></div></div>
-<div class="ttc" id="aclasssrc__files_1_1wreader_1_1wreader_html"><div class="ttname"><a href="classsrc__files_1_1wreader_1_1wreader.html">src_files.wreader.wreader</a></div><div class="ttdef"><b>Definition:</b> <a href="movie__script_2src__files_2wreader_8py_source.html#l00011">wreader.py:11</a></div></div>
-<div class="ttc" id="aclasssrc__files_1_1FlowAnimation_1_1FlowAnimation_html"><div class="ttname"><a href="classsrc__files_1_1FlowAnimation_1_1FlowAnimation.html">src_files.FlowAnimation.FlowAnimation</a></div><div class="ttdef"><b>Definition:</b> <a href="FlowAnimation_8py_source.html#l00022">FlowAnimation.py:22</a></div></div>
+<div class="ttc" id="aclasssrc__files_1_1wreader_1_1wreader_html"><div class="ttname"><a href="classsrc__files_1_1wreader_1_1wreader.html">src_files.wreader.wreader</a></div><div class="ttdef"><b>Definition:</b> <a href="movie__script_2src__files_2wreader_8py_source.html#l00012">wreader.py:12</a></div></div>
+<div class="ttc" id="aclasssrc__files_1_1FlowAnimation_1_1FlowAnimation_html"><div class="ttname"><a href="classsrc__files_1_1FlowAnimation_1_1FlowAnimation.html">src_files.FlowAnimation.FlowAnimation</a></div><div class="ttdef"><b>Definition:</b> <a href="FlowAnimation_8py_source.html#l00025">FlowAnimation.py:25</a></div></div>
 <!-- HTML footer for doxygen 1.8.17-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

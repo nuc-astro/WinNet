@@ -5,6 +5,7 @@ var jacobian__class_8f90 =
     [ "jacobi_init", "jacobian__class_8f90.html#a6e0f79f200a99f37a2597186e29310c0", null ],
     [ "skip_rate", "jacobian__class_8f90.html#a95f6f4d14e95a44eb3589020bd1509f7", null ],
     [ "freeze_rate_indicator", "jacobian__class_8f90.html#a5b672e9a815777f314dce638dd385f98", null ],
+    [ "nu_shutoff_indicator", "jacobian__class_8f90.html#af10eb6dec718576d38acec58fcfa2d2a", null ],
     [ "old_dens", "jacobian__class_8f90.html#a8df93b948b6e920c5249b32858a04dff", null ],
     [ "old_rad", "jacobian__class_8f90.html#ab9e751b7b60b6855333e9e3c72a76fcb", null ],
     [ "old_temp", "jacobian__class_8f90.html#a34e9c5815288782cc43ed8cca7a677b8", null ],

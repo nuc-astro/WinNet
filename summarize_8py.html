@@ -142,10 +142,18 @@ Variables</h2></td></tr>
 <tr class="separator:a937a2f430fe3d64341e7732ce1edbf8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4b2db18df544dcbd84a139cf5ce61857"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesummarize.html#a4b2db18df544dcbd84a139cf5ce61857">summarize.propagate</a></td></tr>
 <tr class="separator:a4b2db18df544dcbd84a139cf5ce61857"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa6306ab72c18775755272120dc3ddb25"><td class="memItemLeft" align="right" valign="top">list&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesummarize.html#aa6306ab72c18775755272120dc3ddb25">summarize.folders</a> = [f for f in os.listdir(run_path) if os.path.isdir(os.path.join(run_path, f))]</td></tr>
+<tr class="separator:aa6306ab72c18775755272120dc3ddb25"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a41727621d16a906d63106267d01d483a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesummarize.html#a41727621d16a906d63106267d01d483a">summarize.fold</a> = options.outdir.replace(&quot;.hdf5&quot;,&quot;&quot;)</td></tr>
+<tr class="separator:a41727621d16a906d63106267d01d483a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a515a9a23ee37280d990c9e4f181001e6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesummarize.html#a515a9a23ee37280d990c9e4f181001e6">summarize.basepath</a> = run_path</td></tr>
+<tr class="separator:a515a9a23ee37280d990c9e4f181001e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a72b8bd654fa439f5fdede2f285bd25a8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesummarize.html#a72b8bd654fa439f5fdede2f285bd25a8">summarize.looping</a> = True</td></tr>
+<tr class="separator:a72b8bd654fa439f5fdede2f285bd25a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ffd78a3c623fcacb5466f2d7a3a21ad"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesummarize.html#a2ffd78a3c623fcacb5466f2d7a3a21ad">summarize.output_file</a> = os.path.join(fold, folders[0]+&quot;.hdf5&quot;)</td></tr>
+<tr class="separator:a2ffd78a3c623fcacb5466f2d7a3a21ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a223fb099ab6a2a8ae3b50e19654fc4c8"><td class="memItemLeft" align="right" valign="top">list&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesummarize.html#a223fb099ab6a2a8ae3b50e19654fc4c8">summarize.dirs</a> = [d for d in os.listdir(run_path) if os.path.isdir(os.path.join(run_path, d)) and d != &quot;network_data&quot;]</td></tr>
 <tr class="separator:a223fb099ab6a2a8ae3b50e19654fc4c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2ffd78a3c623fcacb5466f2d7a3a21ad"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesummarize.html#a2ffd78a3c623fcacb5466f2d7a3a21ad">summarize.output_file</a> = options.outdir</td></tr>
-<tr class="separator:a2ffd78a3c623fcacb5466f2d7a3a21ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1ed3df7e570132c941e31ae792339ba8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesummarize.html#a1ed3df7e570132c941e31ae792339ba8">summarize.f_hdf</a> = h5py.File(output_file, 'w')</td></tr>
 <tr class="separator:a1ed3df7e570132c941e31ae792339ba8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4c7374e87c355674080f8ff5cf11dc23"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesummarize.html#a4c7374e87c355674080f8ff5cf11dc23">summarize.found</a> = False</td></tr>
@@ -220,12 +228,11 @@ Variables</h2></td></tr>
 <tr class="separator:a287141bb585ecec67dd27bd0ea2c8ab6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a068c88fe6a8b985ef37af4005740ebff"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesummarize.html#a068c88fe6a8b985ef37af4005740ebff">summarize.indices_nuclei</a> = nuclei_sorted_idx[matching_idx]</td></tr>
 <tr class="separator:a068c88fe6a8b985ef37af4005740ebff"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa8a155ff0a3e5c1aaf5113b286d8a4aa"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesummarize.html#aa8a155ff0a3e5c1aaf5113b286d8a4aa">summarize.left</a></td></tr>
-<tr class="separator:aa8a155ff0a3e5c1aaf5113b286d8a4aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1570f7e65077a8c3eea39c8d481add04"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesummarize.html#a1570f7e65077a8c3eea39c8d481add04">summarize.nan</a></td></tr>
-<tr class="separator:a1570f7e65077a8c3eea39c8d481add04"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a27712c92b8fa5ce01456f20dd42f7e82"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesummarize.html#a27712c92b8fa5ce01456f20dd42f7e82">summarize.right</a></td></tr>
-<tr class="separator:a27712c92b8fa5ce01456f20dd42f7e82"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a92c1033f9fdaa8272d5ad9ebc5dab7a9"><td class="memItemLeft" align="right" valign="top">dictionary&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesummarize.html#a92c1033f9fdaa8272d5ad9ebc5dab7a9">summarize.dim</a> = entry_dict[entry][key].ndim</td></tr>
+<tr class="memdesc:a92c1033f9fdaa8272d5ad9ebc5dab7a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Other entries ####.  <a href="namespacesummarize.html#a92c1033f9fdaa8272d5ad9ebc5dab7a9">More...</a><br /></td></tr>
+<tr class="separator:a92c1033f9fdaa8272d5ad9ebc5dab7a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a073f8b2235294cb90b2b3c976d02a548"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesummarize.html#a073f8b2235294cb90b2b3c976d02a548">summarize.value</a></td></tr>
+<tr class="separator:a073f8b2235294cb90b2b3c976d02a548"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->

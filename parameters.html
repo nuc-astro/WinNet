@@ -190,6 +190,7 @@ $(document).ready(function(){initNavTree('parameters.html',''); initResizable();
 <li class="level1"><a href="#nuchannel_file">nuchannel_file</a></li>
 <li class="level1"><a href="#nuflag">nuflag</a></li>
 <li class="level1"><a href="#nu_loss_every">nu_loss_every</a></li>
+<li class="level1"><a href="#nu_max_time">nu_max_time</a></li>
 <li class="level1"><a href="#nunucleo_rates_file">nunucleo_rates_file</a></li>
 <li class="level1"><a href="#nurates_file">nurates_file</a></li>
 <li class="level1"><a href="#out_every">out_every</a></li>
@@ -1114,6 +1115,11 @@ nu_loss_every</h1>
         1.64334E-04           1.00000E+01           7.05312E+07           3.02337E+02          -2.77996E+01 ...
     ...</pre><dl class="section user"><dt>Example template line:</dt><dd><code>nu_loss_every= 1</code> </dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="namespaceparameter__class.html#adf16710e7a1b3fef9ae8fb2a56a45400" title="Output neutrino loss and gain.">parameter_class::nu_loss_every</a>, <a class="el" href="parameters.html#heating_mode">heating_mode</a>, <a class="el" href="parameters.html#use_thermal_nu_loss">use_thermal_nu_loss</a>, <a class="el" href="parameters.html#h_nu_loss_every">h_nu_loss_every</a></dd></dl>
+<h1><a class="anchor" id="nu_max_time"></a>
+nu_max_time</h1>
+<p>Specifies the time limit in seconds for neutrino reactions. Neutrino interactions will be disabled after this duration. A value of -1 keeps neutrino reactions active indefinitely (default). Note that this can be necessary as WinNet keeps the neutrino quantities constant after the trajectory has ended.</p>
+<dl class="section user"><dt>Example template line:</dt><dd><code>nu_max_time= 10.0</code></dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespaceparameter__class.html#a8d68bb54c2ad41fcd7359cc3ef90b297" title="Maximum time for neutrino reactions to react.">parameter_class::nu_max_time</a>, <a class="el" href="parameters.html#nuflag">nuflag</a>, <a href="https://ui.adsabs.harvard.edu/abs/2017hsn..book.1605R/abstract">Roberts &amp; Reddy 2017</a></dd></dl>
 <h1><a class="anchor" id="nunucleo_rates_file"></a>
 nunucleo_rates_file</h1>
 <p>Path to a file, containing neutrino capture rates on protons and neutrons. The file contains tabulated values of the rates, using a neutrino temperature grid of \(2.8, 3.5, 4.0, 5.0, 6.4, 8.0, 10.0 \,\mathrm{MeV}\). An example of this file is given by (located in <em>data/neunucleons.dat</em>): </p><pre style="border:1px dashed grey; display: inline-block; background: #e8e8e8">
