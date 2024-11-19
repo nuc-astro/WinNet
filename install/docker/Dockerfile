@@ -68,6 +68,7 @@ RUN cd /home/winnet/WinNet/install && pip install -r requirements.txt
 
 # Install everything for the movie
 RUN pip install mpi4py
+RUN pip install numba
 ENV PATH="/home/winnet/WinNet/bin/movie_script:$PATH"
 
 
