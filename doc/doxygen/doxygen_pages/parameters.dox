@@ -1467,6 +1467,25 @@ An example file looks like:
    @see parameter_class::nu_max_time, \ref nuflag, [Roberts \& Reddy 2017](https://ui.adsabs.harvard.edu/abs/2017hsn..book.1605R/abstract)
 
 
+   \section nu_min_L        nu_min_L
+   Specifies the minimum neutrino luminosity in erg/g/s required to consider neutrino reactions. Neutrino interactions will only be included if the luminosity exceeds this threshold. 
+   A value of 1 erg/g/s is used by default. 
+
+   @par Example template line:
+   `` nu_min_L= 1e30 ``
+
+   @see parameter_class::nu_min_L, \ref nuflag
+   
+   
+   \section nu_min_T        nu_min_T
+   Specifies the minimum neutrino temperature in MeV required to consider neutrino reactions. Neutrino interactions will only be included if the temperature exceeds this threshold. 
+   A value of 1 MeV is used by default. 
+
+   @par Example template line:
+   `` nu_min_T= 1.0 ``
+
+   @see parameter_class::nu_min_T, \ref nuflag
+
 
    \section nunucleo_rates_file        nunucleo_rates_file
    Path to a file, containing neutrino capture rates on protons and neutrons. 
