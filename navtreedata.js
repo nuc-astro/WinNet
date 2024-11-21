@@ -154,6 +154,8 @@ var NAVTREE =
       [ "nuflag", "parameters.html#nuflag", null ],
       [ "nu_loss_every", "parameters.html#nu_loss_every", null ],
       [ "nu_max_time", "parameters.html#nu_max_time", null ],
+      [ "nu_min_L", "parameters.html#nu_min_L", null ],
+      [ "nu_min_T", "parameters.html#nu_min_T", null ],
       [ "nunucleo_rates_file", "parameters.html#nunucleo_rates_file", null ],
       [ "nurates_file", "parameters.html#nurates_file", null ],
       [ "out_every", "parameters.html#out_every", null ],
@@ -260,10 +262,10 @@ var NAVTREEINDEX =
 "input_files.html#winvn",
 "namespacemembers_func_n.html",
 "nuflux__class_8f90.html#a942e806c29dc3de1b422af93e9cb85af",
-"parameters.html#gear_escale",
-"read__trajectory_8py.html",
-"structtw__rate__module_1_1weakrate__type.html#a8698ce08c21f628f3752832bd35f4585",
-"winnet__monitor__failed_8py.html#aa51d60520ee720656c75dfd5797774f9"
+"parameters.html#gear_cFactor",
+"read__seeds_8py.html#a8a31af2f172f3da61aa54de1607970e1",
+"structtw__rate__module_1_1weakrate__type.html#a6ac3b42e94a356bd0a5c646d3f31573e",
+"winnet__monitor__failed_8py.html#a6e0975a24d2c76dae868c7c9df99138f"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

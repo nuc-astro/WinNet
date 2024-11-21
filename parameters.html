@@ -191,6 +191,8 @@ $(document).ready(function(){initNavTree('parameters.html',''); initResizable();
 <li class="level1"><a href="#nuflag">nuflag</a></li>
 <li class="level1"><a href="#nu_loss_every">nu_loss_every</a></li>
 <li class="level1"><a href="#nu_max_time">nu_max_time</a></li>
+<li class="level1"><a href="#nu_min_L">nu_min_L</a></li>
+<li class="level1"><a href="#nu_min_T">nu_min_T</a></li>
 <li class="level1"><a href="#nunucleo_rates_file">nunucleo_rates_file</a></li>
 <li class="level1"><a href="#nurates_file">nurates_file</a></li>
 <li class="level1"><a href="#out_every">out_every</a></li>
@@ -1120,6 +1122,16 @@ nu_max_time</h1>
 <p>Specifies the time limit in seconds for neutrino reactions. Neutrino interactions will be disabled after this duration. A value of -1 keeps neutrino reactions active indefinitely (default). Note that this can be necessary as WinNet keeps the neutrino quantities constant after the trajectory has ended.</p>
 <dl class="section user"><dt>Example template line:</dt><dd><code>nu_max_time= 10.0</code></dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="namespaceparameter__class.html#a8d68bb54c2ad41fcd7359cc3ef90b297" title="Maximum time for neutrino reactions to react.">parameter_class::nu_max_time</a>, <a class="el" href="parameters.html#nuflag">nuflag</a>, <a href="https://ui.adsabs.harvard.edu/abs/2017hsn..book.1605R/abstract">Roberts &amp; Reddy 2017</a></dd></dl>
+<h1><a class="anchor" id="nu_min_L"></a>
+nu_min_L</h1>
+<p>Specifies the minimum neutrino luminosity in erg/g/s required to consider neutrino reactions. Neutrino interactions will only be included if the luminosity exceeds this threshold. A value of 1 erg/g/s is used by default.</p>
+<dl class="section user"><dt>Example template line:</dt><dd><code>nu_min_L= 1e30</code></dd></dl>
+<dl class="section see"><dt>See also</dt><dd>parameter_class::nu_min_L, <a class="el" href="parameters.html#nuflag">nuflag</a></dd></dl>
+<h1><a class="anchor" id="nu_min_T"></a>
+nu_min_T</h1>
+<p>Specifies the minimum neutrino temperature in MeV required to consider neutrino reactions. Neutrino interactions will only be included if the temperature exceeds this threshold. A value of 1 MeV is used by default.</p>
+<dl class="section user"><dt>Example template line:</dt><dd><code>nu_min_T= 1.0</code></dd></dl>
+<dl class="section see"><dt>See also</dt><dd>parameter_class::nu_min_T, <a class="el" href="parameters.html#nuflag">nuflag</a></dd></dl>
 <h1><a class="anchor" id="nunucleo_rates_file"></a>
 nunucleo_rates_file</h1>
 <p>Path to a file, containing neutrino capture rates on protons and neutrons. The file contains tabulated values of the rates, using a neutrino temperature grid of \(2.8, 3.5, 4.0, 5.0, 6.4, 8.0, 10.0 \,\mathrm{MeV}\). An example of this file is given by (located in <em>data/neunucleons.dat</em>): </p><pre style="border:1px dashed grey; display: inline-block; background: #e8e8e8">

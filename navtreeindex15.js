@@ -1,5 +1,9 @@
 var NAVTREEINDEX15 =
 {
+"winnet__monitor__failed_8py.html#a6e0975a24d2c76dae868c7c9df99138f":[15,0,0,2,0,4],
+"winnet__monitor__failed_8py.html#a7d3176a3401fa256c65794d3882751d7":[15,0,0,2,0,11],
+"winnet__monitor__failed_8py.html#a822c7529546c5015934aef8740c0b122":[15,0,0,2,0,19],
+"winnet__monitor__failed_8py.html#a8cef45f4f494b477981748b4c6033d44":[15,0,0,2,0,12],
 "winnet__monitor__failed_8py.html#aa51d60520ee720656c75dfd5797774f9":[15,0,0,2,0,20],
 "winnet__monitor__failed_8py.html#aaee6533ff5268e46c0d39495f6b66b32":[15,0,0,2,0,21],
 "winnet__monitor__failed_8py.html#aaf1e8219be85f22590f5c742f8f483b0":[15,0,0,2,0,23],
