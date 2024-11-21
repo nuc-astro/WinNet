@@ -1157,7 +1157,7 @@ subroutine read_channels(channel_file_path)
         nu_channels(i)%n_p  = amount_p ! Released protons
         nu_channels(i)%n_a  = amount_a ! Released alphas
         ! Difference of protons and mass number in the products
-        nu_channels(i)%Zdiff  = amount_p+dec_p
+        nu_channels(i)%Zdiff  = amount_p+dec_p+amount_a*2
         nu_channels(i)%Adiff  = amount_n+amount_p+amount_a*4
     end do
 
