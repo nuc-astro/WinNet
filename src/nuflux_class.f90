@@ -262,15 +262,15 @@ subroutine nuflux(time, rkm)
         nlum(4)=dexp(nlum(4))
       end if
 
-     if (nlum(1).le.nu_min_L) nlum(1)=0.d0
-     if (nlum(2).le.nu_min_L) nlum(2)=0.d0
-     if (include_nc_reactions) then
-        if (nlum(3).le.nu_min_L) nlum(3)=0.d0
-        if (nlum(4).le.nu_min_L) nlum(4)=0.d0
-     end if
-
-
   end select
+
+  ! Safety checks
+  if (nlum(1).le.nu_min_L) nlum(1)=0.d0
+  if (nlum(2).le.nu_min_L) nlum(2)=0.d0
+  if (include_nc_reactions) then
+     if (nlum(3).le.nu_min_L) nlum(3)=0.d0
+     if (nlum(4).le.nu_min_L) nlum(4)=0.d0
+  end if
 
   ! Calculate number luminosities
   ! Avoid neutrino reactions with very small energies
