@@ -174,7 +174,7 @@ end subroutine init_nuflux
 !!         - MR 18.12.20
 !! .
 subroutine nuflux(time, rkm)
-  use parameter_class, only: unit
+  use parameter_class, only: unit, nu_min_L, nu_min_T
   use inter_module
   implicit none
 
@@ -262,20 +262,20 @@ subroutine nuflux(time, rkm)
         nlum(4)=dexp(nlum(4))
       end if
 
-     if (nlum(1).lt.1e-20) nlum(1)=0.d0
-     if (nlum(2).lt.1e-20) nlum(2)=0.d0
-     if (include_nc_reactions) then
-        if (nlum(3).lt.1e-20) nlum(3)=0.d0
-        if (nlum(4).lt.1e-20) nlum(4)=0.d0
-     end if
-
-
   end select
+
+  ! Safety checks
+  if (nlum(1).le.nu_min_L) nlum(1)=0.d0
+  if (nlum(2).le.nu_min_L) nlum(2)=0.d0
+  if (include_nc_reactions) then
+     if (nlum(3).le.nu_min_L) nlum(3)=0.d0
+     if (nlum(4).le.nu_min_L) nlum(4)=0.d0
+  end if
 
   ! Calculate number luminosities
   ! Avoid neutrino reactions with very small energies
   do inuf=1,2
-    if (tempnu(inuf) .le. 1e-20) then
+    if (tempnu(inuf) .le. nu_min_T) then
         nlum(inuf) = 0.d0
     else
         nlum(inuf) = nlum(inuf)*unit%ergtomev/(tempnu(inuf)*3.151374374)
@@ -284,7 +284,7 @@ subroutine nuflux(time, rkm)
 
   if (include_nc_reactions) then
     do inuf=3,4
-      if (tempnu(inuf) .le. 1e-20) then
+      if (tempnu(inuf) .le. nu_min_T) then
           nlum(inuf) = 0.d0
       else
           nlum(inuf) = nlum(inuf)*unit%ergtomev/(tempnu(inuf)*3.151374374)
@@ -1157,7 +1157,7 @@ subroutine read_channels(channel_file_path)
         nu_channels(i)%n_p  = amount_p ! Released protons
         nu_channels(i)%n_a  = amount_a ! Released alphas
         ! Difference of protons and mass number in the products
-        nu_channels(i)%Zdiff  = amount_p+dec_p
+        nu_channels(i)%Zdiff  = amount_p+dec_p+amount_a*2
         nu_channels(i)%Adiff  = amount_n+amount_p+amount_a*4
     end do
 

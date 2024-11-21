@@ -266,8 +266,16 @@ nurates_file =
 neutrino_mode =
 
 # Maximum time (in s) for neutrino reactions to occure.
-# The default is 100s. Set -1 to never turn off neutrino reactions.
+# The default is -1 which will never turn off neutrino reactions.
 nu_max_time =
+
+# Minimum neutrino temperature (MeV) to consider neutrino reactions.
+# The default value is 1MeV.
+nu_min_T = 
+
+# Minimum neutrino Luminosity (erg/g/s) to consider neutrino reactions.
+# The default value is 1 erg/g/s
+nu_min_L = 
 
 
 ### Case: neutrino_mode = 'analytic' ###

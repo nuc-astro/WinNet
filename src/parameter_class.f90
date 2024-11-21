@@ -196,6 +196,8 @@ module parameter_class
   character(max_fname_len):: Enux                           !< average Muon and Tauon neutrino energies [MeV]
   character(max_fname_len):: Enuxbar                        !< average Muon and Tauon antineutrino energies [MeV]
   real(r_kind)            :: nu_max_time                    !< Maximum time for neutrino reactions to react
+  real(r_kind)            :: nu_min_T                       !< Neutrino temperature cutoff for neutrino reactions [MeV]
+  real(r_kind)            :: nu_min_L                       !< Neutrino luminosity cutoff for neutrino reactions [erg/g/s]
   character(max_fname_len):: prepared_network_path          !< Prepared network folder
 
 !>-- Newton-Raphson iterative loop parameters
@@ -406,6 +408,8 @@ subroutine set_param(param_name,param_value)
       ":final_dens" // &
       ":initial_stepsize"// &
       ":nu_max_time"// &
+      ":nu_min_T"// &
+      ":nu_min_L"// &
       ":freeze_rate_temp"// &
       ":nse_nr_tol"// &
       ":nse_delt_t9min" // &
@@ -657,6 +661,10 @@ subroutine set_param(param_name,param_value)
      freeze_rate_temp= read_float_param(str_value,param_name)
    elseif(param_name.eq."nu_max_time") then
      nu_max_time= read_float_param(str_value,param_name)
+   elseif(param_name.eq."nu_min_T") then
+     nu_min_T= read_float_param(str_value,param_name)
+   elseif(param_name.eq."nu_min_L") then
+     nu_min_L= read_float_param(str_value,param_name)
 !--- logical type parameters
    elseif(param_name.eq."read_initial_composition") then
      read_initial_composition= lparam_value
@@ -978,6 +986,8 @@ subroutine set_default_param
    nsetemp_cold                = 7.e0
    nuflag                      = 0
    nu_max_time                 = -1d0 ! For CCSN 1d2 may be good e.g. Roberts & Reddy 2017 (https://ui.adsabs.harvard.edu/abs/2017hsn..book.1605R/abstract)
+   nu_min_L                    =  1d0
+   nu_min_T                    =  1d0
    neutrino_mode               = 'analytic'
    nuchannel_file              = trim(adjustl(win_path))//"nu_channels"
    nu_loss_every               = 0
@@ -1155,6 +1165,8 @@ subroutine output_param
            write(ofile,'(3A)') 'nuchannel_file              = "', trim(nuchannel_file),'"'
          write(ofile,'(A,I5)') 'nu_loss_every               = ' , nu_loss_every
      write(ofile,'(A,es14.7)') 'nu_max_time                 = ' , nu_max_time
+     write(ofile,'(A,es14.7)') 'nu_min_L                    = ' , nu_min_L
+     write(ofile,'(A,es14.7)') 'nu_min_T                    = ' , nu_min_T
            write(ofile,'(3A)') 'nunucleo_rates_file         = "', trim(nunucleo_rates_file),'"'
            write(ofile,'(3A)') 'nurates_file                = "', trim(nurates_file),'"'
          write(ofile,'(A,I5)') 'out_every                   = ' , out_every
